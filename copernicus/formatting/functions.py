@@ -21,14 +21,19 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
     """
     Joins a list of string to a comma-separated sentence in a more english fashion than the builtin `.join()`.
 
-    Args:
-        - iterable (Iterable) : the sequence holding the strings to join
-        - sep (str) : the separator used when there is more than two items in `interable`
-        - couple_sep (str) : the separator to use if there is only two items in `iterable`
-        - last_sep (str) : the separator to use for the last two items of `iterable`
+    Examples:
+        ```
+        from copernicus.formatting import oxford_join
+        ```
+
+    Params:
+        - `iterable (Iterable)` the sequence holding the strings to join
+        - `sep (str)` the separator used when there is more than two items in `interable`
+        - `couple_sep (str)` the separator to use if there is only two items in `iterable`
+        - `last_sep (str)` the separator to use for the last two items of `iterable`
 
     Returns:
-        - str : the joined strings
+        - `str` the joined strings
     """
     if len(iterable) == 0:
         return ''
@@ -53,12 +58,17 @@ def transliterate(text, keep_case=True):
     """
     Replaces unicode characters with their ASCII equivalent using unidecode (https://pypi.org/project/Unidecode/).
 
-    Args:
-        - text (str) : the text to transform from unicode to ASCII
-        - keep_case (bool) : whether or not to keep the input case
+    Examples:
+        ```
+        from copernicus.formatting import transliterate
+        ```
+
+    Params:
+        - `text (str)` the text to transform from unicode to ASCII
+        - `keep_case (bool)` whether or not to keep the input case
 
     Returns:
-        - str : the text using only ASCII characters
+        - `str` the text using only ASCII characters
     """
     text = str(text)
     text = unidecode(text)
@@ -71,16 +81,19 @@ def transliterate(text, keep_case=True):
 
 def camelize(text, acronyms=None):
     """
-    Transforms a any-cased text to CamelCase.
+    Transforms a any-cased text to CamelCase. Any character following a matched acronym will be capitalized.
 
-    Any character following a matched acronym will be capitalized.
+    Examples:
+        ```
+        from copernicus.formatting import camelize
+        ```
 
-    Args:
-        - text (str) : the text to transform into CamelCase
-        - acronyms (Iterable) : a list of correctly cased acronyms to retain and case correctly
+    Params:
+        - `text (str)` the text to transform into CamelCase
+        - `acronyms (Iterable)` a list of correctly cased acronyms to retain and case correctly
 
     Returns:
-        - str : the camel cased text
+        - `str` the camel cased text
     """
     text = str(text)
 
@@ -110,12 +123,16 @@ def snakeize(text, acronyms=None):
     """
     Transforms an any-cased text to snake_case.
 
-    Args:
-        - text (str) : the text to transform into snake_case
-        - acronyms (Iterable) : a list of acronyms to treat as non-delimited single lowercase words
+    Examples:
+        ```
+        ```
+
+    Params:
+        - `text (str)` the text to transform into snake_case
+        - `acronyms (Iterable)` a list of acronyms to treat as non-delimited single lowercase words
 
     Returns:
-        - str : the snake cased text
+        - `str` the snake cased text
     """
     text = str(text)
 
@@ -142,13 +159,17 @@ def parameterize(text, sep='-', keep_case=False):
 
     Uses `copernicus.formatting.functions.transliterate` to replace unicode characters by their ASCII equivalent.
 
-    Args:
-        - text (str) : the text to transform
-        - sep (str) : the separator to use as replacement
-        - keep_case (bool) : whether or not to keep the input case
+    Examples:
+        ```
+        ```
+
+    Params:
+        - `text (str)` the text to transform
+        - `sep (str)` the separator to use as replacement
+        - `keep_case (bool)` whether or not to keep the input case
 
     Returns:
-        - str : the parameterized text
+        - `str` the parameterized text
     """
     text = transliterate(text)
 
@@ -175,11 +196,15 @@ def ordinalize(number):
     Transforms a number to its ordinal representation.
     Since this method should be mostly used in logging messages, only English is supported.
 
-    Args:
-        - number (int) : the number to transform to an ordinal number
+    Examples:
+        ```
+        ```
+
+    Params:
+        - `number (int)` the number to transform to an ordinal number
 
     Returns:
-        - str : the number with the correct ordinal suffix
+        - `str` the number with the correct ordinal suffix
     """
     number = int(number)
 
@@ -214,11 +239,15 @@ def adverbize(number):
 
     For reference about numeral adverbs, see: http://tiny.cc/m4bkez
 
-    Args:
-        - number (int) : the number for transform to a numeral adverb
+    Examples:
+        ```
+        ```
+
+    Params:
+        - `number (int)` the number for transform to a numeral adverb
 
     Returns:
-        - str : the numeral adverb
+        - `str` the numeral adverb
     """
     number = int(number)
 
@@ -237,12 +266,16 @@ def singularize(word, language='en'):
     """
     Returns the singular form of the given word.
 
-    Args:
-        - word (str) : the word to inflect in the singular
-        - language (str) : the language to singularize the word in
+    Examples:
+        ```
+        ```
+
+    Params:
+        - `word (str)` the word to singularize
+        - `language (str)` the language to singularize the word in
 
     Returns:
-        - str : the singularized word
+        - `str` the singularized word
     """
     locale = Locale.load(language, path='.locales')
 
@@ -267,12 +300,16 @@ def pluralize(word, language='en'):
     """
     Returns the plural form of the given word.
 
-    Args:
-        - word (str) : the word to inflect in the plural
-        - language (str) : the language to pluralize the word in
+    Examples:
+        ```
+        ```
+
+    Params:
+        - `word (str)` the word to pluralize
+        - `language (str)` the language to pluralize the word in
 
     Returns:
-        - str : the pluralized word
+        - `str` the pluralized word
     """
     locale = Locale.load(language, path='.locales')
 
