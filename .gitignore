@@ -1,0 +1,35 @@
+# Default
+cache
+log/*.log
+VM/*.log
+tmp/**/*
+public/system/**
+public/uploads/
+
+# Test-generated
+coverage/
+.coverage*
+
+# Language-generated
+**/*.pyc
+
+# Documentation
+docs/**
+
+# Build-generated
+build/*
+dist/*
+copernicus.egg-info/*
+
+# OS-generated
+.DS_Store
+
+# IDE-generated
+.idea/
+*~
+
+# Dependency-generated
+dump.rdb
+
+# Misc
+.python-version
