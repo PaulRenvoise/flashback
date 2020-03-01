@@ -5,6 +5,8 @@ from .functions import snakeize
 from .functions import parameterize
 from .functions import ordinalize
 from .functions import adverbize
+from .functions import singularize
+from .functions import pluralize
 
 __all__ = (
   'oxford_join',
@@ -13,5 +15,7 @@ __all__ = (
   'snakeize',
   'parameterize',
   'ordinalize',
-  'adverbize'
+  'adverbize',
+  'singularize',
+  'pluralize',
 )

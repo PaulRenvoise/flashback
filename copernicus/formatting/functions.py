@@ -2,6 +2,8 @@ import regex
 
 from unidecode import unidecode
 
+from ..i16g import Locale
+
 
 CRE_CAMELIZE_FIRST_CHAR = regex.compile(r"(?:^|_)(.)", flags=regex.I)
 
@@ -11,6 +13,8 @@ CRE_SNAKEIZE_MULTI_UNDERSCORES = regex.compile(r"_{2,}")
 CRE_SNAKEIZE_STRIP_UNDERSCORES = regex.compile(r"^_|_$")
 
 CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)
+
+CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
 
 
 def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quotes=False):
@@ -228,3 +232,93 @@ def adverbize(number):
         numeral = f"{number} times"
 
     return numeral
+
+def singularize(word, language='en'):
+    """
+    Returns the singular form of the given word.
+
+    Args:
+        - word (str) : the word to inflect in the singular
+        - language (str) : the language to singularize the word in
+
+    Returns:
+        - str : the singularized word
+    """
+    locale = Locale.load(language, path='.locales')
+
+    # TODO: find a way to put that in _inflect
+    if language == 'en':
+        if word.endswith(("'", "'s")):
+            sub_word = word.rstrip("s")
+            sub_word = sub_word.rstrip("'")
+            sub_word = singularize(sub_word)
+
+            if sub_word.endswith('s'):
+                return f"{sub_word}'"
+
+            return f"{sub_word}'s"
+
+    base_case = str.lower if language != 'de' else str.capitalize
+
+    return _inflect(word, locale.SINGULAR_RULES, locale.SINGULAR_CATEGORIES, locale.PREPOSITIONS, base_case=base_case)
+
+
+def pluralize(word, language='en'):
+    """
+    Returns the plural form of the given word.
+
+    Args:
+        - word (str) : the word to inflect in the plural
+        - language (str) : the language to pluralize the word in
+
+    Returns:
+        - str : the pluralized word
+    """
+    locale = Locale.load(language, path='.locales')
+
+    # TODO: find a way to put that in _inflect
+    if language == 'en':
+        if word.endswith(("'", "'s")):
+            sub_word = word.rstrip("s")
+            sub_word = sub_word.rstrip("'")
+            sub_word = pluralize(sub_word)
+
+            if sub_word.endswith('s'):
+                return f"{sub_word}'"
+
+            return f"{sub_word}'s"
+
+    base_case = str.lower if language != 'de' else str.capitalize
+
+    return _inflect(word, locale.PLURAL_RULES, locale.PLURAL_CATEGORIES, locale.PREPOSITIONS, base_case=base_case)
+
+
+def _inflect(word, rules, categories, prepositions, base_case=str.lower):
+    word = base_case(str(word))
+
+    if CRE_INFLECT_ONLY_PUNCT_SYM_NUM.search(word):
+        return word
+
+    # Recurse compound words like mothers-in-law, eco-friendly, post-nap
+    tokens = word.replace('-', ' ').split(' ')
+    if len(tokens) > 1:
+        if tokens[1] in prepositions:
+            return word.replace(tokens[0], _inflect(tokens[0], rules, categories, prepositions))
+
+        return word.replace(tokens[-1], _inflect(tokens[-1], rules, categories, prepositions))
+
+    # Apply rules
+    for rule in rules:
+        for suffix, inflection, category in rule:
+            # A general rule
+            if category is None:
+                if suffix.search(word) is not None:
+                    return suffix.sub(inflection, word)
+
+            # A rule pertaining to a specific category of words
+            if category is not None:
+                if word in categories[category]:
+                    return suffix.sub(inflection, word)
+
+    # Should never be reached, but just in case
+    return word
