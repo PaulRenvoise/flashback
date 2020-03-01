@@ -1,0 +1,8 @@
+from .configurations import DEFAULT_CONSOLE_CONFIGURATION
+from .configurations import RAILS_CONSOLE_CONFIGURATION
+
+
+__all__ = (
+    'DEFAULT_CONSOLE_CONFIGURATION',
+    'RAILS_CONSOLE_CONFIGURATION'
+)
