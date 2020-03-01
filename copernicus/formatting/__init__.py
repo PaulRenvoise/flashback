@@ -9,13 +9,13 @@ from .functions import singularize
 from .functions import pluralize
 
 __all__ = (
-  'oxford_join',
-  'transliterate',
-  'camelize',
-  'snakeize',
-  'parameterize',
-  'ordinalize',
-  'adverbize',
-  'singularize',
-  'pluralize',
+    'oxford_join',
+    'transliterate',
+    'camelize',
+    'snakeize',
+    'parameterize',
+    'ordinalize',
+    'adverbize',
+    'singularize',
+    'pluralize'
 )
