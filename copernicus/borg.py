@@ -44,21 +44,37 @@ class Borg:
     def assign_attribute(self, attribute, value, *args, **kwargs):
         """
         Assigns an attribute to the Borg if it's not already defined.
+
         `value` is checked for being a callable, and if so, is instantiated with the provided args and kwargs.
 
         Examples:
             ```
-            self.assign_attribute('attr', 0)
-            #=> assigns '0' to 'attr'
+            from copernicus import Borg
 
-            self.assign_attribute('attr', dict, {'foo': 'bar'})
-            #=> assigns 'dict({'foo': 'bar'})' to 'attr'
+            class Borged(Borg):
+                pass
 
-            self.assign_attribute('attr', func('foo'))
-            #=> calls 'func('foo')' and assigns its return to 'attr'
+            borg = Borged()
 
-            self.assign_attribute('attr', func, 'foo')
-            #=> calls 'func('foo')' if attr is not set and assigns its return to 'attr'
+            borg.assign_attribute('attr_1', 0)
+            borg.attr_1
+            #=> 0
+
+            borg.assign_attribute('attr_1', 1)
+            borg.attr_1
+            #=> 0
+
+            borg.assign_attribute('attr_2', dict, {'foo': 'bar'})
+            borg.attr_2
+            #=> {'foo': 'bar'}
+
+            borg.assign_attribute('attr_3', str(1))
+            borg.attr_3
+            #=> '1'  # calls 'str(1)', then assigns its return to 'attr_3' if 'attr_3' is not set
+
+            borg.assign_attribute('attr_4', str, 2)
+            borg.attr_4
+            #=> '2'  # calls 'str(2)' if 'attr_4' is not set, then assigns its return to 'attr_3' if needed
             ```
 
         Params:
@@ -88,26 +104,32 @@ class Borg:
 
         Examples:
             ```
-            self.assign_attributes(attr=0)
-            #=> assigns '0' to 'attr'
+            from copernicus import Borg
 
-            self.assign_attributes(attr=(dict({'foo': 'bar'}),))
-            #=> calls 'dict({'foo': 'bar'})' and assigns its return to 'attr'
+            class Borged(Borg):
+                pass
 
-            self.assign_attributes(attr=(dict, {'foo': 'bar'}))
-            #=> calls 'dict({'foo': 'bar'})' if 'attr' is not set and assigns its return to 'attr'
+            borg = Borged()
 
-            self.assign_attributes(attr=('foo', 0))
-            #=> assigns '('foo', 0)' to 'attr'
+            borg.assign_attributes(attr_1=0)
+            borg.attr_1
+            #=> 0
 
-            self.assign_attributes(attr=(func, 0, 1)
-            #=> calls 'func(0, 1)' if 'attr' is not set and assigns its return to 'attr'
+            borg.assign_attributes(attr_2=(dict({'foo': 'bar'}),))
+            borg.attr_2
+            #=> {'foo': 'bar'}  # calls 'dict({'foo': 'bar'})', then assigns its return to 'attr_2' if 'attr_2' is not set
 
-            self.assign_attributes(attr=(func, {'foo': 'bar'}))
-            #=> calls 'func(foo='bar')' if 'attr' is not set and assigns its return to 'attr'
+            borg.assign_attributes(attr_3=(dict, {'foo': 'bar'}))
+            borg.attr_3
+            #=> {'foo': 'bar'}  # calls 'dict({'foo': 'bar'})' if 'attr_3' is not set, then assigns its return to 'attr_3' if needed
 
-            self.assign_attributes(attr=(func, 'foo', {'bar': 0})
-            #=> calls 'func('foo', bar=0)' if 'attr' is not set and assigns its return to 'attr'
+            borg.assign_attributes(attr_4=('foo', 0))
+            borg.attr_4
+            #=> ('foo', 0)
+
+            borg.assign_attributes(attr_5=(str, 0)
+            borg.attr_5
+            #=> '0'  # calls 'str(0)' if 'attr' is not set, then assigns its return to 'attr_5' if needed
             ```
 
         Params:

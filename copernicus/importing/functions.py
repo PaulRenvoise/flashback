@@ -7,9 +7,9 @@ from ..formatting import camelize
 
 def import_class_from_path(name, path):
     """
-    Imports a class from a relative or absolute `path`.
+    Imports a class from a relative or absolute `path`, and returns it.
 
-    Simulates `from module import Class`.
+    Similar to `from module import Class` if this statement returned the imported class.
 
     Examples:
         ```
@@ -52,7 +52,7 @@ def import_class_from_path(name, path):
 
 def import_module_from_path(name, path):
     """
-    Imports the contents of a module from a relative or absolute `path`.
+    Imports the contents of a module from a relative or absolute `path` and makes its content available for usage.
 
     Simulates `from module import *`.
 

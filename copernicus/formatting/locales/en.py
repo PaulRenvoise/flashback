@@ -9,7 +9,7 @@ PREPOSITIONS = set((
     "after", "beneath", "from", "onto", "until",
     "among", "beside", "in", "out", "unto",
     "around", "besides", "into", "over", "upon",
-    "at", "between", "near", "since", "with", "without",
+    "as", "at", "between", "near", "since", "with", "without",
     "athwart", "betwixt",
     "beyond",
     "but",

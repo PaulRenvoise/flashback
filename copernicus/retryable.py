@@ -9,13 +9,37 @@ from .formatting.functions import ordinalize
 
 def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=()):
     """
-    Retries to call a function when a given connection exception is raised.
+    Retries to call a function when a given exception is raised.
 
     The back-off implemented starts at 0s and ends up a 60s after 10 retries, like so:
         0.15, 0.70, 1.65, 3.30, 6.15, 11.09, 19.63, 34.41, 60.0
 
     Examples:
         ```
+        from copernicus import retryable
+
+        @retryable(exceptions=(TypeError, AttributeError))
+        def will_be_retried(parameter):
+            if type(parameter) == str:
+                raise RuntimeError
+            els
+                raise TypeError
+
+        will_be_retried(0)
+        #=> RuntimeError
+
+        will_be_retried('str')
+        #=> Caught TypeError
+        #=> Retrying for the 1st time in 0.15s
+        #=> Caught TypeError
+        #=> Retrying for the 2nd time in 0.70s
+        #=> Caught TypeError
+        #=> Retrying for the 3rd time in 1.65s
+        #=> Caught TypeError
+        #=> Retrying for the 4th time in 3.30s
+        #=> Caught TypeError
+        #=> Retrying for the 5th time in 6.15s
+        #=> ...
         ```
 
     Params:
@@ -45,7 +69,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
                 try:
                     return func(*args, **kwargs)
                 except exceptions as caught_exception:
-                    logger.warning("Caught %s", caught_exception)
+                    logger.warning("Caught %s", caught_exception.__class__.__name__)
 
                     if time_waited > reset_after:
                         current_try = 1

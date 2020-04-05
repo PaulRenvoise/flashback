@@ -24,10 +24,19 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
     Examples:
         ```
         from copernicus.formatting import oxford_join
+
+        oxford_join('A', 'B')
+        #=> "A and B"
+
+        oxford_join('A', 'B', 'C')
+        #=> "A, B, and C"
+
+        oxford_join('A', 'B', 'C', last_sep=', or ')
+        #=> "A, B, or C"
         ```
 
     Params:
-        - `iterable (Iterable)` the sequence holding the strings to join
+        - `iterable (Iterable<Any>)` the sequence holding the items to join
         - `sep (str)` the separator used when there is more than two items in `interable`
         - `couple_sep (str)` the separator to use if there is only two items in `iterable`
         - `last_sep (str)` the separator to use for the last two items of `iterable`
@@ -61,6 +70,15 @@ def transliterate(text, keep_case=True):
     Examples:
         ```
         from copernicus.formatting import transliterate
+
+        transliterate('réseau')
+        #=> "reseau"
+
+        transliterate('omrežje')
+        #=> omrezje
+
+        transliterate('Omrežje', keep_case=True)
+        #=> Omrezje
         ```
 
     Params:
@@ -86,6 +104,15 @@ def camelize(text, acronyms=None):
     Examples:
         ```
         from copernicus.formatting import camelize
+
+        camelize('host')
+        #=> "Host"
+
+        camelize('http_host')
+        #=> "HttpHost"
+
+        camelize('http_host', acronyms=['HTTP'])
+        #=> HTTPHost
         ```
 
     Params:
@@ -125,6 +152,16 @@ def snakeize(text, acronyms=None):
 
     Examples:
         ```
+        from copernicus.formatting import snakeize
+
+        snakeize('host')
+        #=> "host"
+
+        snakeize('HTTPHost')
+        #=> "httph_ost"
+
+        snakeize('HTTPHost', acronyms=['HTTP'])
+        #=> 'http_host'
         ```
 
     Params:
@@ -157,10 +194,23 @@ def parameterize(text, sep='-', keep_case=False):
     """
     Replaces special characters in a text so that it may be used as part of an URL.
 
-    Uses `copernicus.formatting.functions.transliterate` to replace unicode characters by their ASCII equivalent.
+    Internally, uses `copernicus.formatting.functions.transliterate` to replace unicode characters by their ASCII equivalent.
 
     Examples:
         ```
+        from copernicus.formatting import parameterize
+
+        parameterize('Host')
+        #=> "host"
+
+        parameterize('HTTPHost')
+        #=> "httphost"
+
+        parameterize('HTTP Host')
+        #=> "http-host"
+
+        parameterize('Redis Server', sep='/')
+        #=> "redis/server"
         ```
 
     Params:
@@ -198,6 +248,16 @@ def ordinalize(number):
 
     Examples:
         ```
+        from copernicus.formatting import ordinalize
+
+        ordinalize(1)
+        #=>  "1st"
+
+        ordinalize(3)
+        #=> "3rd"
+
+        ordinalize(144)
+        #=> "144th"
         ```
 
     Params:
@@ -241,6 +301,16 @@ def adverbize(number):
 
     Examples:
         ```
+        from copernicus.formatting import adverbize
+
+        adverbize(1)
+        #=> "once"
+
+        adverbize(3)
+        #=> "thrice"
+
+        adverbize(144)
+        #=> "144 times"
         ```
 
     Params:
@@ -268,6 +338,16 @@ def singularize(word, language='en'):
 
     Examples:
         ```
+        from copernicus.formatting import singularize
+
+        pluralize('networks')
+        #=> "network"
+
+        pluralize('databases-as-a-service')
+        #=> "database-as-a-service"
+
+        pluralize('réseaux', language='fr')
+        #=> "réseau"
         ```
 
     Params:
@@ -302,6 +382,16 @@ def pluralize(word, language='en'):
 
     Examples:
         ```
+        from copernicus.formatting import pluralize
+
+        pluralize('network')
+        #=> "networks"
+
+        pluralize('database-as-a-service')
+        #=> "databases-as-a-service"
+
+        pluralize('réseau', language='fr')
+        #=> "réseaux"
         ```
 
     Params:

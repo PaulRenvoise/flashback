@@ -26,7 +26,7 @@ class Locale():
                 )
                 (?:
                     [\.:]
-                    (?P<encoding>
+                    (?P<codeset>
                         .+
                     )?
                     (?:
@@ -53,6 +53,20 @@ class Locale():
         The code is very similar to `copernicus.importing.functions.import_module_from_path` with the following tweaks:
             - We have several candidates that can be imported
             - We cache the imported module
+
+        Examples:
+            ```
+            from copernicus.i16g import Locale
+
+            Locale.load('fr_FR', '.languages')
+            #=> Whatever defined in fr_FR
+
+            Locale.load('fr_FR.UTF-8@latin', 'config.locales')
+            #=> Whatever defined in fr_FR
+
+            Locale.load('not-implemented', 'conf.production')
+            #=> NotImplementedError
+            ```
 
         Params:
             - `locale (str)` the given locale
@@ -104,6 +118,23 @@ class Locale():
         or `LANGUAGE` (e.g. 'EN' to 'en') if the territory was not specified in the given locale.
 
         If normalization fails, the original name is returned unchanged.
+
+        Examples:
+            ```
+            from copernicus.i16g import Locale
+
+            Locale.simplify('uz_UZ.UTF-8@cyrillic')
+            #=> uz_UZ
+
+            Locale.simplify('en@latin-1')
+            #=> 'en'
+
+            Locale.simplify('fr.ISO-8859-1@latin')
+            #=> 'fr'
+
+            Locale.simplify('not-a-locale')
+            #=> 'not-a-locale'
+            ```
 
         Params:
             - `locale (str)` the non-normalized locale string
