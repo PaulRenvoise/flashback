@@ -117,11 +117,11 @@ class Borg:
 
             borg.assign_attributes(attr_2=(dict({'foo': 'bar'}),))
             borg.attr_2
-            #=> {'foo': 'bar'}  # calls 'dict({'foo': 'bar'})', then assigns its return to 'attr_2' if 'attr_2' is not set
+            #=> {'foo': 'bar'}  # calls 'dict({'foo': 'bar'})', then assigns its return if 'attr_2' is not set
 
-            borg.assign_attributes(attr_3=(dict, {'foo': 'bar'}))
+            borg.assign_attributes(attr_3=(dict, {'foo': 1}))
             borg.attr_3
-            #=> {'foo': 'bar'}  # calls 'dict({'foo': 'bar'})' if 'attr_3' is not set, then assigns its return to 'attr_3' if needed
+            #=> {'foo': 'bar'}  # calls 'dict({'foo': 1})' if 'attr_3' is not set, then assigns its return if needed
 
             borg.assign_attributes(attr_4=('foo', 0))
             borg.attr_4

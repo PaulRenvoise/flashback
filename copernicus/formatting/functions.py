@@ -194,7 +194,8 @@ def parameterize(text, sep='-', keep_case=False):
     """
     Replaces special characters in a text so that it may be used as part of an URL.
 
-    Internally, uses `copernicus.formatting.functions.transliterate` to replace unicode characters by their ASCII equivalent.
+    Internally, uses `copernicus.formatting.functions.transliterate` to replace any unicode character found
+    by its ASCII equivalent.
 
     Examples:
         ```
