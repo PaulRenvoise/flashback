@@ -8,3 +8,4 @@ pymongo==3.10.1
 # Utils
 regex==2020.2.20
 Unidecode==1.1.1
+pygments==2.5.2
