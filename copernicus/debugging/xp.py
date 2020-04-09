@@ -1,0 +1,88 @@
+import sys
+
+from .parser import Parser
+from .formatter import Formatter
+
+
+PARSER = Parser()
+FORMATTER = Formatter()
+
+
+def xp(*arguments, o=sys.stderr, f=True, w=120, s='jellybeans'):  # pylint: disable=invalid-name
+    """
+    Provides a simple and concise way of printing for debugging purposes.
+
+    Returns the arguments received as parameters, to allow chaining of calls, and inline debugging statements.
+
+    Consumes generators to print them (be careful with infinite ones!).
+
+    `xp` uses the name of this function internally to print debug information about the argument printed,
+    thus it is advised to not alias `xp` when importing it (via the as keyword) to prevent the loss of information.
+
+    Examples:
+        ```
+        from copernicus.debugging import xp
+
+        # Simple as that
+        xp(1)
+        #=> xp.py:22
+        #=>     1 (int)
+
+        # Can print several arguments at once
+        a = 'This is a short sentence'
+        b = dict(string='value', int=1)
+        c = ('l', 'i', 's', 't')
+        d = {1, 2, 3, 4}
+
+        xp(a, b, c, d)
+        #=> xp.py:33
+        #=>   a:
+        #=>     'This is a short sentence' (str)
+        #=>   b:
+        #=>     {
+        #=>         'string': 'value',
+        #=>         'int': 1,
+        #=>     } (dict)
+        #=>   c:
+        #=>     ('l', 'i', 's', 't') (tuple)
+        #=>   d:
+        #=>     {1, 2, 3, 4} (set)
+
+        # Also print more complex objects
+        # And returns their values
+        def dummy_func(a, b):
+            return a + b
+
+        result = xp(dummy_func(1, 1))
+        #=> xp.py:51
+        #=>   dummy_func(1, 1)
+        #=>     2 (int)
+
+        assert result == 2
+        #=> True
+        ```
+
+    Params:
+        - `arguments (tuple<Any>)` every positional arguments
+        - `o (TextIO)` the target output of print (default: sys.stderr)
+        - `f (bool)` whether of not the output is flushed (default: True)
+        - `w (int)` the maximum width before wrapping the output (default: 120)
+        - `s (str)` the style to use when formatting code (default: 'jellybeans', available: 'jellybeans', 'solarized')
+
+    Returns:
+        - `Any`
+    """
+    filename, lineno, parsed_arguments, warning = PARSER.parse(*arguments)
+    output = FORMATTER.format(filename, lineno, parsed_arguments, warning, style=s, width=w)
+
+    print(output, file=o, flush=f)
+
+    # Forward the arguments received to the (possible) next operation
+    if len(arguments) == 0:
+        result = None
+    elif len(arguments) == 1:
+        result = arguments[0]
+    else:
+        result = arguments
+
+    return result
