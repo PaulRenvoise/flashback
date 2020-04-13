@@ -1,3 +1,4 @@
+from functools import lru_cache
 from io import StringIO
 import inspect
 from textwrap import wrap
@@ -8,6 +9,9 @@ from pygments.formatters import Terminal256Formatter  # pylint: disable=no-name-
 
 from ..formatting import snakeize
 from ..importing import import_class_from_path
+
+
+Terminal256Formatter = lru_cache(Terminal256Formatter)
 
 
 class Formatter:
@@ -42,7 +46,6 @@ class Formatter:
 
         self._buffer = None
 
-        self._style_cache = {}
         self._code_lexer = Python3Lexer(ensurenl=False)
 
     def format(self, filename, lineno, arguments, warning, style='jellybeans', width=120):
@@ -63,7 +66,7 @@ class Formatter:
         self._width = width
 
         style_class = import_class_from_path(style, '.styles')
-        code_formatter = self._style_cache.setdefault(style, Terminal256Formatter(style=style_class))
+        code_formatter = Terminal256Formatter(style=style_class)
 
         # We need to use ANSI color coding because pygments can only highlight code
         content = f"\033[2m{filename}:{lineno}"
