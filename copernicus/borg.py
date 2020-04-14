@@ -45,7 +45,7 @@ class Borg:
         """
         Assigns an attribute to the Borg if it's not already defined.
 
-        `value` is checked for being a callable, and if so, is instantiated with the provided args and kwargs.
+        The value is checked for being a callable, and if so, is instantiated with the provided args and kwargs.
 
         Examples:
             ```

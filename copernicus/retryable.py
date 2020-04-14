@@ -9,7 +9,7 @@ from .formatting.functions import ordinalize
 
 def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=()):
     """
-    Retries to call a function when a given exception is raised.
+    Retries to call a callable when a given exception is raised.
 
     The back-off implemented starts at 0s and ends up a 60s after 10 retries, like so:
         0.15, 0.70, 1.65, 3.30, 6.15, 11.09, 19.63, 34.41, 60.0
@@ -49,7 +49,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
         - `exceptions (tuple<Exception>)` the exceptions to trigger a retry on
 
     Returns :
-        - `callable` a wrapper used to decorate a method/function
+        - `Callable` a wrapper used to decorate a callable
     """
     def wrapper(func):
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we decorate
