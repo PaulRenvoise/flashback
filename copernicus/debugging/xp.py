@@ -16,8 +16,8 @@ def xp(*arguments, o=sys.stderr, f=True, w=120, s='jellybeans'):  # pylint: disa
 
     Consumes generators to print them (be careful with infinite ones!).
 
-    `xp` uses the name of this function internally to print debug information about the argument printed,
-    thus it is advised to not alias `xp` when importing it (via the as keyword) to prevent the loss of information.
+    Uses its own name internally to print debug information about the argument printed, thus it is advised
+    to not alias this function when importing it to prevent the loss of information.
 
     Examples:
         ```
@@ -64,10 +64,10 @@ def xp(*arguments, o=sys.stderr, f=True, w=120, s='jellybeans'):  # pylint: disa
 
     Params:
         - `arguments (tuple<Any>)` every positional arguments
-        - `o (TextIO)` the target output of print (default: sys.stderr)
-        - `f (bool)` whether of not the output is flushed (default: True)
-        - `w (int)` the maximum width before wrapping the output (default: 120)
-        - `s (str)` the style to use when formatting code (default: 'jellybeans', available: 'jellybeans', 'solarized')
+        - `o (TextIO)` the target output of print
+        - `f (bool)` whether of not the output is flushed
+        - `w (int)` the maximum width before wrapping the output
+        - `s (str)` the style to use when formatting code (available: 'jellybeans', 'solarized')
 
     Returns:
         - `Any`

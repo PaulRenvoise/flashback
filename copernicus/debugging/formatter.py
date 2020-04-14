@@ -57,8 +57,8 @@ class Formatter:
             - `lineno (int)` the line number from where `copernicus.debugging.xp` has been called
             - `arguments (list<tuple>)` the arguments to format, as name-value couples
             - `warning (str)` the error encountered when parsing the code that called `copernicus.debugging.xp` or None
-            - `style (str)` the style to use when formatting code (default: 'jellybeans')
-            - `width (int)` the maximum width before wrapping the output (default: 120)
+            - `style (str)` the style to use when formatting code (available: 'jellybeans', 'solarized')
+            - `width (int)` the maximum width before wrapping the output
 
         Returns:
             -   `str` the location of the call to `copernicus.debugging.xp` and the formatted arguments

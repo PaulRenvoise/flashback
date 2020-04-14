@@ -42,22 +42,23 @@ class Parser:
 
     def parse(self, *arguments):
         """
-        Parses the `arguments` received from the code context in which `xp` has been called,
+        Parses the arguments received from the code context in which `copernicus.debugging.xp` has been called,
         enriches the arguments values with their names (or representation).
 
-        We must accept `*arguments` to emulate the behavior of `xp`, as we call directly this method when testing.
+        We must accept all arguments in a greedy way to emulate the behavior of `copernicus.debugging.xp`,
+        as we call directly this method when testing.
 
         Params:
             - `arguments (tuple<Any>)` every positional arguments
 
         Returns:
-            - `str` the filename from where `xp` has been called
-            - `int` the line number from where `xp` has been called
+            - `str` the filename from where `copernicus.debugging.xp` has been called
+            - `int` the line number from where `copernicus.debugging.xp` has been called
             - `list<tuple>` the arguments parsed, as name-value couples
-            - `str` the error encountered when parsing the code that called `xp` or None
+            - `str` the error encountered when parsing the code that called `copernicus.debugging.xp` or None
         """
         try:
-            # We access [2] because an end-user call to `xp()` calls this code (thus, two layers of calls)
+            # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)
             # If this code would have been called directly by the end-user, we would need to access [1]
             calling_frame = inspect.stack(context=1)[self._offset]
 
