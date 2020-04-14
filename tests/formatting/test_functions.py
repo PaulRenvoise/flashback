@@ -25,7 +25,7 @@ class TestOxfordJoin():
         assert oxford_join(['one', 'two', 'three'], sep='; ', last_sep='; plus ') == 'one; two; plus three'
 
     def test_two_items_and_quotes(self):
-        assert oxford_join(['one', 'two'], quotes=True) == "'one' and 'two'"
+        assert oxford_join(['one', 'two'], quotes=True) == "\"one\" and \"two\""
 
 
 class TestTransliterate():
