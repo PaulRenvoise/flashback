@@ -4,7 +4,7 @@ import warnings
 
 def deprecated(since=None, until=None, reason=None):
     """
-    Warns that a deprecated method/function is used.
+    Warns when a deprecated callable is used.
 
     Examples:
         ```
@@ -26,12 +26,12 @@ def deprecated(since=None, until=None, reason=None):
         ```
 
     Params:
-        - `since (str)` the version at which the function was deprecated
-        - `until (str)` the version at which the function will be removed
+        - `since (str)` the version at which the callable was deprecated
+        - `until (str)` the version at which the callable will be removed
         - `reason (str)` the reason of the deprecation, must complete the phrase "because [...]" without final dot
 
     Returns:
-        - `callable` a wrapper used to decorate a method/function
+        - `Callable` a wrapper used to decorate a callable
     """
     def wrapper(func):
         message = f"{func.__name__} is deprecated"

@@ -37,9 +37,10 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
 
     Params:
         - `iterable (Iterable<Any>)` the sequence holding the items to join
-        - `sep (str)` the separator used when there is more than two items in `interable`
-        - `couple_sep (str)` the separator to use if there is only two items in `iterable`
-        - `last_sep (str)` the separator to use for the last two items of `iterable`
+        - `sep (str)` the separator used when there is more than two items in the iterable
+        - `couple_sep (str)` the separator to use if there is only two items in the iterable
+        - `last_sep (str)` the separator to use for the last two items of the iterable
+        - `quotes (bool)` whether or not to add quotes around each item of the iterable
 
     Returns:
         - `str` the joined strings
@@ -48,7 +49,7 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
         return ''
 
     if quotes:
-        iterable = [f"'{item}'" for item in iterable]
+        iterable = [f"\"{item}\"" for item in iterable]
     else:
         iterable = [str(item) for item in iterable]
 
@@ -298,7 +299,7 @@ def adverbize(number):
     Transforms a number to its numeral adverb representation.
     Since this method should be mostly used in logging messages, only English is supported.
 
-    For reference about numeral adverbs, see: http://tiny.cc/m4bkez
+    For reference about numeral adverbs, see: http://tiny.cc/m4bkez.
 
     Examples:
         ```
@@ -341,19 +342,19 @@ def singularize(word, language='en'):
         ```
         from copernicus.formatting import singularize
 
-        pluralize('networks')
+        singularize('networks')
         #=> "network"
 
-        pluralize('databases-as-a-service')
+        singularize('databases-as-a-service')
         #=> "database-as-a-service"
 
-        pluralize('réseaux', language='fr')
+        singularize('réseaux', language='fr')
         #=> "réseau"
         ```
 
     Params:
         - `word (str)` the word to singularize
-        - `language (str)` the language to singularize the word in
+        - `language (str)` the language to use to singularize the word (ISO 639-1)
 
     Returns:
         - `str` the singularized word
@@ -397,7 +398,7 @@ def pluralize(word, language='en'):
 
     Params:
         - `word (str)` the word to pluralize
-        - `language (str)` the language to pluralize the word in
+        - `language (str)` the language to use to pluralize the word (ISO 639-1)
 
     Returns:
         - `str` the pluralized word

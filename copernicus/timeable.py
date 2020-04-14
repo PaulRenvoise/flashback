@@ -23,10 +23,10 @@ def timeable(func):
         ```
 
     Params:
-        - `func (callable)` the function to time
+        - `func (Callable)` the callable to time
 
     Returns:
-        - `callable` a wrapper used to decorate a method/function
+        - `Callable` a wrapper used to decorate a callable
     """
     # `.getmodule().__name__` returns the same value as `__name__` called from the module we decorate
     # Each time we call `getLogger()` with the same name, we receive the same logger since `logging` is a singleton
