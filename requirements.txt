@@ -1,3 +1,7 @@
+# Caching
+redis==3.4.1
+git+git://github.com/PaulRenvoise/pymemcache.git@fix/mock_memcache_client  # change to pymemcache 3.1.1 when https://github.com/pinterest/pymemcache/pull/279 is accepted
+
 # Utils
 regex==2020.2.20
 Unidecode==1.1.1

@@ -47,7 +47,7 @@ requirements_dev = read_requirements_file('requirements-dev.txt')
 readme = open(os.path.join(root, 'README.md'), 'r').read()
 
 setup(
-    version='0.0.1',
+    version='0.0.2',
 
     name='copernicus',
     author='Paul Renvoisé',
