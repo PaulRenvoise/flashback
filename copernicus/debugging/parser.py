@@ -120,6 +120,8 @@ class Parser:
             return None, None, calling_lineno, f"error parsing code, found {calling_node.__class__} not ast.Call"
 
         code_lines = [line for line in code.split('\n') if line]
+        if sys.version < '3.8':
+            code_lines[-1] = code_lines[-1][:-1]
 
         return calling_node, code_lines, calling_lineno, None
 
@@ -128,8 +130,6 @@ class Parser:
 
         arguments_positions = self._get_arguments_positions(calling_node, code_lines)
         for i, argument in enumerate(arguments):
-            print(argument)
-            print(arguments_positions[i])
             try:
                 arg_node = calling_node.args[i]
             except IndexError:
@@ -152,6 +152,7 @@ class Parser:
 
                 argument_name = ' '.join(name_lines)
                 argument_name = self.CRE_CLOSING_BRACKET.sub(r"\1", self.CRE_OPENING_BRACKET.sub(r"\1", argument_name))
+                argument_name = argument_name.strip()
 
                 parsed_arguments.append((argument_name, argument))
             else:
@@ -177,17 +178,16 @@ class Parser:
             for i, arg_node in enumerate(calling_node.args):
                 positions = {
                     'start_line': arg_node.lineno - 1,
-                    'start_col' : arg_node.col_offset - 1, # maybe arg_node.col_offset?
+                    'start_col' : arg_node.col_offset, # maybe arg_node.col_offset?
                     'end_line': len(code_lines) - 1, # FIXME: not optimized
                     'end_col': None
                 }
-                # horrible hack for http://bugs.python.org/issue31241
                 if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
                     positions['start_col'] -= 1
 
                 if i > 0:
                     arguments_positions[-1]['end_line'] = positions['start_line']
-                    arguments_positions[-1]['end_col'] = positions['start_col']
+                    arguments_positions[-1]['end_col'] = positions['start_col'] - 2
 
                 arguments_positions.append(positions)
 
