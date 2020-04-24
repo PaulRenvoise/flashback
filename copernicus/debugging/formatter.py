@@ -214,7 +214,6 @@ class Formatter:
 
             self._buffer.write(start)
             for line in lines:
-                print(prefix + repr(line) + suffix)
                 self._buffer.write(prefix + repr(line) + suffix)
             self._buffer.write(current_indent * self._indent_str + end)
 
