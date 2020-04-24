@@ -139,6 +139,8 @@ class Parser:
                 start_line = arg_node.lineno - 1
                 end_line = arg_node.end_lineno - 1
                 start_col = arg_node.col_offset
+                if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
+                    start_col -= 1
                 end_col = arg_node.end_col_offset
 
                 name_lines = []
