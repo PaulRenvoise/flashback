@@ -1,5 +1,7 @@
 # pylint: disable=no-self-use,redefined-outer-name,invalid-name
 
+import sys
+
 import pytest
 from mock import patch
 
@@ -21,7 +23,7 @@ class TestParser():
         filename, lineno, parsed_arguments, warning = xp(None)
 
         assert filename == 'tests/debugging/test_parser.py'
-        assert lineno == 21
+        assert lineno == 23
         assert parsed_arguments == [(None, None)]
         assert warning is None
 
@@ -31,9 +33,9 @@ class TestParser():
         filename, lineno, parsed_arguments, warning = ap(None)
 
         assert filename == 'tests/debugging/test_parser.py'
-        assert lineno == 31
+        assert lineno == 33
         assert parsed_arguments == [(None, None)]
-        assert warning == 'error parsing code, function call not found at line 31'
+        assert warning == 'error parsing code, xp call not found at line 33'
 
     def test_parse_no_context(self, parser):
         xp = parser.parse  # pylint: disable=unused-variable
@@ -138,15 +140,19 @@ class TestParser():
                 2
             )
         )
-        assert warning is None
-        assert parsed_arguments == [
-            ('mock_function(1, 2)', 3)
-        ]
+        if sys.version >= '3.8':
+            assert parsed_arguments == [
+                ('mock_function(1, 2)', 3)
+            ]
+            assert warning is None
+        else:
+            assert parsed_arguments is None
+            assert warning is 'error parsing code, xp call not found at line 137'
 
     def test_parse_nested_newlines(self, parser):
         xp = parser.parse
 
-        _, _, parsed_arguments, _ = xp(
+        _, _, parsed_arguments, warning = xp(
             mock_function(
                 mock_function(
                     mock_function(
@@ -161,6 +167,11 @@ class TestParser():
                 5
             )
         )
-        assert parsed_arguments == [
-            ('mock_function(mock_function(mock_function(mock_function(1, 2), 3), 4), 5)', 15)
-        ]
+        if sys.version >= '3.8':
+            assert parsed_arguments == [
+                ('mock_function(mock_function(mock_function(mock_function(1, 2), 3), 4), 5)', 15)
+            ]
+            assert warning is None
+        else:
+            assert parsed_arguments is None
+            assert warning is 'error parsing code, xp call not found at line 137'
