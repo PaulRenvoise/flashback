@@ -138,6 +138,9 @@ class Parser:
                 parsed_arguments.append((arg_node.id, argument))
             elif isinstance(arg_node, self.COMPLEX_NODES):
                 position = arguments_positions[i]
+                print(arg_node)
+                print(code_lines)
+                print(position)
 
                 name_lines = []
                 # We do end_line + 1 to have the range contain the actual end_line defined above

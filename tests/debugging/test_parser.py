@@ -141,6 +141,7 @@ class TestParser():
         assert parsed_arguments == [
             ('mock_function(1, 2)', 3)
         ]
+        qweqwe
 
     def test_parse_nested_newlines(self, parser):
         xp = parser.parse
