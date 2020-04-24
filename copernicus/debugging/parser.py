@@ -128,6 +128,8 @@ class Parser:
 
         arguments_positions = self._get_arguments_positions(calling_node, code_lines)
         for i, argument in enumerate(arguments):
+            print(argument)
+            print(arguments_positions[i])
             try:
                 arg_node = calling_node.args[i]
             except IndexError:
@@ -175,7 +177,7 @@ class Parser:
             for i, arg_node in enumerate(calling_node.args):
                 positions = {
                     'start_line': arg_node.lineno - 1,
-                    'start_col' : arg_node.col_offset, # maybe col_offset - 1?
+                    'start_col' : arg_node.col_offset - 1, # maybe arg_node.col_offset?
                     'end_line': len(code_lines) - 1, # FIXME: not optimized
                     'end_col': None
                 }
