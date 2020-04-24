@@ -1,6 +1,7 @@
 import ast
 import inspect
 import os
+import sys
 from textwrap import dedent
 
 import regex
@@ -125,6 +126,7 @@ class Parser:
     def _parse_arguments(self, calling_node, code_lines, arguments):  # pylint: disable=too-many-locals
         parsed_arguments = []
 
+        arguments_positions = self._get_arguments_positions(calling_node, code_lines)
         for i, argument in enumerate(arguments):
             try:
                 arg_node = calling_node.args[i]
@@ -136,18 +138,13 @@ class Parser:
             if isinstance(arg_node, ast.Name):
                 parsed_arguments.append((arg_node.id, argument))
             elif isinstance(arg_node, self.COMPLEX_NODES):
-                start_line = arg_node.lineno - 1
-                end_line = arg_node.end_lineno - 1
-                start_col = arg_node.col_offset
-                if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
-                    start_col -= 1
-                end_col = arg_node.end_col_offset
+                position = arguments_positions[i]
 
                 name_lines = []
                 # We do end_line + 1 to have the range contain the actual end_line defined above
-                for current_line in range(start_line, end_line + 1):
-                    start = start_col if current_line == start_line else None
-                    end = end_col if current_line == end_line else None
+                for current_line in range(position['start_line'], position['end_line'] + 1):
+                    start = position['start_col'] if current_line == position['start_line'] else None
+                    end = position['end_col'] if current_line == position['end_line'] else None
 
                     name_lines.append(code_lines[current_line][start:end].strip(' '))
 
@@ -159,6 +156,40 @@ class Parser:
                 parsed_arguments.append((None, argument))
 
         return parsed_arguments
+
+    @staticmethod
+    def _get_arguments_positions(calling_node, code_lines):
+        argument_offsets = []
+
+        if sys.version >= '3.8':
+            for arg_node in calling_node.args:
+                offsets = {
+                    'start_line': arg_node.lineno - 1,
+                    'start_col': arg_node.col_offset,
+                    'end_line': arg_node.end_lineno - 1,
+                    'end_col': arg_node.end_col_offset
+                }
+
+                argument_offsets.append(offsets)
+        else:
+            for i, arg_node in enumerate(calling_node.args):
+                offsets = {
+                    'start_line': arg_node.lineno - 1,
+                    'start_col' : arg_node.col_offset, # maybe col_offset - 1?
+                    'end_line': len(code_lines) - 1, # FIXME: not optimized
+                    'end_col': None
+                }
+                # horrible hack for http://bugs.python.org/issue31241
+                if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
+                    offsets['start_col'] -= 1
+
+                if i > 0:
+                    argument_offsets[-1]['end_line'] = offsets['start_line']
+                    argument_offsets[-1]['end_col'] = offsets['start_col']
+
+                arguments_offsets.append(offsets)
+
+        return argument_offsets
 
     @staticmethod
     def _default_arguments_parsing(arguments):
