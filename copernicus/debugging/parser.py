@@ -184,10 +184,10 @@ class Parser:
                     positions['start_col'] -= 1
 
                 if i > 0:
-                    argument_offsets[-1]['end_line'] = positions['start_line']
-                    argument_offsets[-1]['end_col'] = positions['start_col']
+                    arguments_positions[-1]['end_line'] = positions['start_line']
+                    arguments_positions[-1]['end_col'] = positions['start_col']
 
-                arguments_positions.append(offsets)
+                arguments_positions.append(positions)
 
         return arguments_positions
 
