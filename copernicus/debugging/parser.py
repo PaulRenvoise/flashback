@@ -90,6 +90,9 @@ class Parser:
         calling_lineno = calling_frame.lineno
         calling_index = calling_lineno - 1
         calling_line = calling_source[calling_index]
+        print(calling_frame)
+        print(calling_source)
+        print(calling_line)
 
         if not self.CRE_XP.search(calling_line):
             return None, None, calling_lineno, f"error parsing code, function call not found at line {calling_lineno}"
