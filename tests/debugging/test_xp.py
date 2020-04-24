@@ -79,3 +79,20 @@ class TestXp():
             "    3 (int)\n"
         )
         assert result == (1, 2, 3)
+
+    def test_xp_no_space(self, output):
+        xp(None,o=output)
+
+        assert CRE_ANSI.sub('', output.getvalue()) == (
+            "tests/debugging/test_xp.py:84\n"
+            "    None (NoneType)\n"
+        )
+
+    def test_xp_starred_kwargs(self, output):
+        kwargs = {'o': output, 'w': 256}
+        xp(None, **kwargs)
+
+        assert CRE_ANSI.sub('', output.getvalue()) == (
+            "tests/debugging/test_xp.py:93\n"
+            "    None (NoneType)\n"
+        )

@@ -120,8 +120,6 @@ class Parser:
             return None, None, calling_lineno, f"error parsing code, found {calling_node.__class__} not ast.Call"
 
         code_lines = [line for line in code.split('\n') if line]
-        if sys.version < '3.8':
-            code_lines[-1] = code_lines[-1][:-1]
 
         return calling_node, code_lines, calling_lineno, None
 
@@ -162,34 +160,56 @@ class Parser:
 
     @staticmethod
     def _get_arguments_positions(calling_node, code_lines):
+        # This whole method exist only because before python 3.8.0, the
+        # end_lineno and end_col_offset attribute are not given for all ast nodes (https://bugs.python.org/issue33416),
+        # so finding the position of a given argument is dependent on the following ones.
+        # Since 3.8.0, it's as simple as:
+        #     start_line = arg_node.lineno - 1
+        #     start_col = arg_node.col_offset
+        #     end_line = arg_node.end_lineno - 1
+        #     end_col = arg_node.end_col_offset
+
         arguments_positions = []
 
-        if sys.version >= '3.8':
-            for arg_node in calling_node.args:
-                positions = {
-                    'start_line': arg_node.lineno - 1,
-                    'start_col': arg_node.col_offset,
-                    'end_line': arg_node.end_lineno - 1,
-                    'end_col': arg_node.end_col_offset
-                }
+        default_end_line = len(code_lines) - 1
+        default_end_col = -1
+        for i, arg_node in enumerate(calling_node.args):
+            positions = {
+                'start_line': arg_node.lineno - 1,
+                'start_col' : arg_node.col_offset,
+                'end_line': default_end_line,
+                'end_col': default_end_col
+            }
+            if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
+                positions['start_col'] -= 1
 
-                arguments_positions.append(positions)
-        else:
-            for i, arg_node in enumerate(calling_node.args):
-                positions = {
-                    'start_line': arg_node.lineno - 1,
-                    'start_col' : arg_node.col_offset, # maybe arg_node.col_offset?
-                    'end_line': len(code_lines) - 1, # FIXME: not optimized
-                    'end_col': None
-                }
-                if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
-                    positions['start_col'] -= 1
+            if i > 0:
+                arguments_positions[-1]['end_line'] = positions['start_line']
 
-                if i > 0:
-                    arguments_positions[-1]['end_line'] = positions['start_line']
-                    arguments_positions[-1]['end_col'] = positions['start_col'] - 2
+                # Handles cases where there is no space after the comma
+                try:
+                    comma_index = code_lines[positions['start_line']][:positions['start_col']].rindex(',')
+                    separator_len = positions['start_col'] - comma_index
+                except ValueError:
+                    separator_len = 2  # No comma found on this line, meaning we're multiline: ',\r'
 
-                arguments_positions.append(positions)
+                arguments_positions[-1]['end_col'] = positions['start_col'] - separator_len
+
+            arguments_positions.append(positions)
+
+        if arguments_positions and calling_node.keywords:
+            kwarg_node = calling_node.keywords[0]
+
+            arguments_positions[-1]['end_line'] = kwarg_node.value.lineno - 1
+
+            # Handles cases where there is no space after the comma
+            try:
+                comma_index = code_lines[kwarg_node.value.lineno - 1][:kwarg_node.value.col_offset].rindex(',')
+                separator_len = kwarg_node.value.col_offset - comma_index
+            except ValueError:
+                separator_len = kwarg_node.value.col_offset - 2  # No comma found on this line, meaning we're multiline: ',\r'
+
+            arguments_positions[-1]['end_col'] = kwarg_node.value.col_offset - separator_len
 
         return arguments_positions
 

@@ -103,6 +103,22 @@ class TestParser():
             ('1 != 0', True)
         ]
 
+    def test_parse_no_space(self, parser):
+        xp = parser.parse
+
+        a = 1
+        b = [1, 2, 3]
+        c = {'a': 1, 'b': 2, 'c': 3}
+
+        _, _, parsed_arguments, _ = xp(a,b,c)
+
+        assert parsed_arguments == [
+            ('a', 1),
+            ('b', [1, 2, 3]),
+            ('c', {'a': 1, 'b': 2, 'c': 3})
+        ]
+
+
     def test_parse_newline(self, parser):
         xp = parser.parse
 
