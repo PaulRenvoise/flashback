@@ -80,6 +80,9 @@ class Parser:
             parsed_arguments = self._default_arguments_parsing(arguments)
             warning = f"error parsing code, {e} ({e.__class__.__name__})"
 
+            # TODO
+            raise e
+
         return filename, lineno, parsed_arguments, warning
 
     def _parse_code(self, calling_frame, filename):

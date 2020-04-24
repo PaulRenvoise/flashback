@@ -132,7 +132,7 @@ class TestParser():
     def test_parse_newlines(self, parser):
         xp = parser.parse
 
-        _, _, parsed_arguments, _ = xp(
+        _, _, parsed_arguments, warning = xp(
             mock_function(
                 1,
                 2
@@ -141,6 +141,7 @@ class TestParser():
         assert parsed_arguments == [
             ('mock_function(1, 2)', 3)
         ]
+        assert warning is None
         qweqwe
 
     def test_parse_nested_newlines(self, parser):
