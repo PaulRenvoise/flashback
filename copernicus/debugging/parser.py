@@ -1,6 +1,7 @@
 import ast
 import inspect
 import os
+import sys
 from textwrap import dedent
 
 import regex
@@ -65,6 +66,8 @@ class Parser:
             curframe = inspect.currentframe()
             frames = inspect.getouterframes(curframe, context=50)
             calling_frame = frames[self._offset]
+            print(calling_frame)
+            calling_frame = sys._getframe(self._offset)
             print(calling_frame)
 
             filename = os.path.relpath(calling_frame.filename)
