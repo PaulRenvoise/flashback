@@ -1,7 +1,6 @@
 import ast
 import inspect
 import os
-import sys
 from textwrap import dedent
 
 import regex

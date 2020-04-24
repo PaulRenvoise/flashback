@@ -147,7 +147,7 @@ class TestParser():
             assert warning is None
         else:
             assert parsed_arguments is None
-            assert warning is 'error parsing code, xp call not found at line 137'
+            assert warning == 'error parsing code, xp call not found at line 137'
 
     def test_parse_nested_newlines(self, parser):
         xp = parser.parse
@@ -174,4 +174,4 @@ class TestParser():
             assert warning is None
         else:
             assert parsed_arguments is None
-            assert warning is 'error parsing code, xp call not found at line 137'
+            assert warning == 'error parsing code, xp call not found at line 137'
