@@ -134,6 +134,8 @@ class Parser:
 
                 continue
 
+            print(arg_node)
+            print(type(arg_node))
             if isinstance(arg_node, ast.Name):
                 parsed_arguments.append((arg_node.id, argument))
             elif isinstance(arg_node, self.COMPLEX_NODES):
