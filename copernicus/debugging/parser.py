@@ -62,13 +62,6 @@ class Parser:
             # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)
             # If this code would have been called directly by the end-user, we would need to access [1]
             calling_frame = inspect.stack()[self._offset]
-            print(calling_frame)
-            curframe = inspect.currentframe()
-            frames = inspect.getouterframes(curframe, context=50)
-            calling_frame = frames[self._offset]
-            print(calling_frame)
-            calling_frame = sys._getframe(self._offset)
-            print(calling_frame)
 
             filename = os.path.relpath(calling_frame.filename)
 
@@ -88,9 +81,6 @@ class Parser:
             parsed_arguments = self._default_arguments_parsing(arguments)
             warning = f"error parsing code, {e} ({e.__class__.__name__})"
 
-            # TODO
-            raise e
-
         return filename, lineno, parsed_arguments, warning
 
     def _parse_code(self, calling_frame, filename):
@@ -98,7 +88,7 @@ class Parser:
         calling_lineno = calling_frame.lineno
 
         # Prior to python 3.8, the calling_frame.lineno is sometimes wrong (lower than it actually is),
-        # especially with nested function calls calls having newlines
+        # especially with nested function calls having newlines
         # We go backward in the file until we reach an arbitrary maximum
         calling_line = None
         for index in range(calling_lineno, 0, -1):
@@ -154,15 +144,10 @@ class Parser:
 
                 continue
 
-            print(arg_node)
-            print(type(arg_node))
             if isinstance(arg_node, ast.Name):
                 parsed_arguments.append((arg_node.id, argument))
             elif isinstance(arg_node, self.COMPLEX_NODES):
                 position = arguments_positions[i]
-                print(arg_node)
-                print(code_lines)
-                print(position)
 
                 name_lines = []
                 # We do end_line + 1 to have the range contain the actual end_line defined above
