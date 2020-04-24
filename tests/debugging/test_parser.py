@@ -110,7 +110,7 @@ class TestParser():
         b = [1, 2, 3]
         c = {'a': 1, 'b': 2, 'c': 3}
 
-        _, _, parsed_arguments, _ = xp(a,b,c)
+        _, _, parsed_arguments, _ = xp(a,b,c)  # pylint: disable=bad-whitespace
 
         assert parsed_arguments == [
             ('a', 1),

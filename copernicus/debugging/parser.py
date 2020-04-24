@@ -1,7 +1,6 @@
 import ast
 import inspect
 import os
-import sys
 from textwrap import dedent
 
 import regex
@@ -191,7 +190,8 @@ class Parser:
                     comma_index = code_lines[positions['start_line']][:positions['start_col']].rindex(',')
                     separator_len = positions['start_col'] - comma_index
                 except ValueError:
-                    separator_len = 2  # No comma found on this line, meaning we're multiline: ',\r'
+                    # No comma found on this line, meaning we're multiline: ',\r'
+                    separator_len = 2
 
                 arguments_positions[-1]['end_col'] = positions['start_col'] - separator_len
 
@@ -207,7 +207,8 @@ class Parser:
                 comma_index = code_lines[kwarg_node.value.lineno - 1][:kwarg_node.value.col_offset].rindex(',')
                 separator_len = kwarg_node.value.col_offset - comma_index
             except ValueError:
-                separator_len = kwarg_node.value.col_offset - 2  # No comma found on this line, meaning we're multiline: ',\r'
+                # No comma found on this line, meaning we're multiline: ',\r'
+                separator_len = kwarg_node.value.col_offset - 2
 
             arguments_positions[-1]['end_col'] = kwarg_node.value.col_offset - separator_len
 

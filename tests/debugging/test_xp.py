@@ -81,7 +81,7 @@ class TestXp():
         assert result == (1, 2, 3)
 
     def test_xp_no_space(self, output):
-        xp(None,o=output)
+        xp(None,o=output)  # pylint: disable=bad-whitespace
 
         assert CRE_ANSI.sub('', output.getvalue()) == (
             "tests/debugging/test_xp.py:84\n"
