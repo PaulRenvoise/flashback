@@ -138,10 +138,10 @@ class TestParser():
                 2
             )
         )
+        assert warning is None
         assert parsed_arguments == [
             ('mock_function(1, 2)', 3)
         ]
-        assert warning is None
         qweqwe
 
     def test_parse_nested_newlines(self, parser):
