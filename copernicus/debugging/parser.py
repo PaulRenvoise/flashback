@@ -60,7 +60,12 @@ class Parser:
         try:
             # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)
             # If this code would have been called directly by the end-user, we would need to access [1]
-            calling_frame = inspect.stack(context=1)[self._offset]
+            calling_frame = inspect.stack()[self._offset]
+            print(calling_frame)
+            curframe = inspect.currentframe()
+            frames = inspect.getouterframes(curframe, context=50)
+            calling_frame = frames[self._offset]
+            print(calling_frame)
 
             filename = os.path.relpath(calling_frame.filename)
 
@@ -90,7 +95,6 @@ class Parser:
         calling_lineno = calling_frame.lineno
         calling_index = calling_lineno - 1
         calling_line = calling_source[calling_index]
-        print(calling_frame)
         print(calling_source)
         print(calling_line)
 
