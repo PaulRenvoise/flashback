@@ -5,3 +5,4 @@ git+git://github.com/pinterest/pymemcache.git@master  # change to pymemcache 3.1
 # Utils
 regex==2020.2.20
 Unidecode==1.1.1
+pygments==2.5.2
