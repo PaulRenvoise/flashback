@@ -159,21 +159,21 @@ class Parser:
 
     @staticmethod
     def _get_arguments_positions(calling_node, code_lines):
-        argument_offsets = []
+        arguments_positions = []
 
         if sys.version >= '3.8':
             for arg_node in calling_node.args:
-                offsets = {
+                positions = {
                     'start_line': arg_node.lineno - 1,
                     'start_col': arg_node.col_offset,
                     'end_line': arg_node.end_lineno - 1,
                     'end_col': arg_node.end_col_offset
                 }
 
-                argument_offsets.append(offsets)
+                arguments_positions.append(positions)
         else:
             for i, arg_node in enumerate(calling_node.args):
-                offsets = {
+                positions = {
                     'start_line': arg_node.lineno - 1,
                     'start_col' : arg_node.col_offset, # maybe col_offset - 1?
                     'end_line': len(code_lines) - 1, # FIXME: not optimized
@@ -181,15 +181,15 @@ class Parser:
                 }
                 # horrible hack for http://bugs.python.org/issue31241
                 if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
-                    offsets['start_col'] -= 1
+                    positions['start_col'] -= 1
 
                 if i > 0:
-                    argument_offsets[-1]['end_line'] = offsets['start_line']
-                    argument_offsets[-1]['end_col'] = offsets['start_col']
+                    argument_offsets[-1]['end_line'] = positions['start_line']
+                    argument_offsets[-1]['end_col'] = positions['start_col']
 
-                arguments_offsets.append(offsets)
+                arguments_positions.append(offsets)
 
-        return argument_offsets
+        return arguments_positions
 
     @staticmethod
     def _default_arguments_parsing(arguments):
