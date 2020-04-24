@@ -96,12 +96,19 @@ class Parser:
     def _parse_code(self, calling_frame, filename):
         calling_source, _ = inspect.findsource(calling_frame.frame)
         calling_lineno = calling_frame.lineno
-        calling_index = calling_lineno - 1
-        calling_line = calling_source[calling_index]
-        print(calling_source)
-        print(calling_line)
 
-        if not self.CRE_XP.search(calling_line):
+        # Prior to python 3.8, the calling_frame.lineno is sometimes wrong (lower than it actually is),
+        # especially with nested function calls calls having newlines
+        # We go backward in the file until we reach an arbitrary maximum
+        calling_line = None
+        for index in range(calling_lineno, 0, -1):
+            line = calling_source[index]
+            if self.CRE_XP.search(line):
+                calling_line = line
+                calling_index = index
+                calling_lineno = index + 1
+
+        if calling_line is None:
             return None, None, calling_lineno, f"error parsing code, function call not found at line {calling_lineno}"
 
         code = dedent(calling_line)
