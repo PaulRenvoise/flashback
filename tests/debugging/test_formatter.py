@@ -83,17 +83,6 @@ class TestFormatter():
             "    None (NoneType)"
         )
 
-    def test_format_style(self, formatter):
-        arguments = [
-            (None, None)
-        ]
-        content = formatter.format('<filename>', '<lineno>', arguments, None, style='solarized')
-
-        assert content == (
-            "\x1b[2m<filename>:<lineno>\x1b[0m\n"
-            "\x1b[38;5;242m    \x1b[39m\x1b[38;5;100;01mNone\x1b[39;00m \x1b[2m(NoneType)\x1b[0m"
-        )
-
     def test_int(self, formatter):
         arguments = [
             (None, 1)

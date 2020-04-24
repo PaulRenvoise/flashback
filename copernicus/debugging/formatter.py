@@ -1,4 +1,3 @@
-from functools import lru_cache
 from io import StringIO
 import inspect
 from textwrap import wrap
@@ -7,11 +6,8 @@ import pygments
 from pygments.lexers import Python3Lexer  # pylint: disable=no-name-in-module
 from pygments.formatters import Terminal256Formatter  # pylint: disable=no-name-in-module
 
+from .styles import Jellybeans
 from ..formatting import snakeize
-from ..importing import import_class_from_path
-
-
-Terminal256Formatter = lru_cache(Terminal256Formatter)
 
 
 class Formatter:
@@ -38,6 +34,8 @@ class Formatter:
         'deque': ('[\n', ']')
     }
 
+    DEFAULT_STYLE = 'jellybeans'
+
     def __init__(self, indent_str='    '):
         self._indent_str = indent_str
         self._indent_str_len = len(indent_str)
@@ -47,8 +45,9 @@ class Formatter:
         self._buffer = None
 
         self._code_lexer = Python3Lexer(ensurenl=False)
+        self._code_formatter = Terminal256Formatter(style=Jellybeans)
 
-    def format(self, filename, lineno, arguments, warning, style='jellybeans', width=120):
+    def format(self, filename, lineno, arguments, warning, width=120):
         """
         Formats the output of `copernicus.debugging.Parser.parse` following the given style and width.
 
@@ -57,16 +56,12 @@ class Formatter:
             - `lineno (int)` the line number from where `copernicus.debugging.xp` has been called
             - `arguments (list<tuple>)` the arguments to format, as name-value couples
             - `warning (str)` the error encountered when parsing the code that called `copernicus.debugging.xp` or None
-            - `style (str)` the style to use when formatting code (available: 'jellybeans', 'solarized')
             - `width (int)` the maximum width before wrapping the output
 
         Returns:
             -   `str` the location of the call to `copernicus.debugging.xp` and the formatted arguments
         """
         self._width = width
-
-        style_class = import_class_from_path(style, '.styles')
-        code_formatter = Terminal256Formatter(style=style_class)
 
         # We need to use ANSI color coding because pygments can only highlight code
         content = f"\033[2m{filename}:{lineno}"
@@ -87,8 +82,8 @@ class Formatter:
 
             self._format(value)
 
-            buffered_content = self._buffer.getvalue()
-            argument_content += pygments.highlight(buffered_content, lexer=self._code_lexer, formatter=code_formatter)
+            buffer = self._buffer.getvalue()
+            argument_content += pygments.highlight(buffer, lexer=self._code_lexer, formatter=self._code_formatter)
 
             argument_content += f" \033[2m({value.__class__.__name__})\033[0m"
 

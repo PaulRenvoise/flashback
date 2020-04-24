@@ -51,19 +51,11 @@ class TestXp():
             "    ) (str)\n"
         )
 
-    def test_xp_style(self, output):
-        xp(None, o=output, s='solarized')
-
-        assert output.getvalue() == (
-            "\x1b[2mtests/debugging/test_xp.py:55\x1b[0m\n"
-            "\x1b[38;5;242m    \x1b[39m\x1b[38;5;100;01mNone\x1b[39;00m \x1b[2m(NoneType)\x1b[0m\n"
-        )
-
     def test_xp_return(self, output):
         result = xp(1 + 1, o=output)
 
         assert CRE_ANSI.sub('', output.getvalue()) == (
-            "tests/debugging/test_xp.py:63\n"
+            "tests/debugging/test_xp.py:55\n"
             "  1 + 1:\n"
             "    2 (int)\n"
         )
@@ -73,7 +65,7 @@ class TestXp():
         result = xp(o=output)
 
         assert CRE_ANSI.sub('', output.getvalue()) == (
-            "tests/debugging/test_xp.py:73\n"
+            "tests/debugging/test_xp.py:65\n"
         )
         assert result is None
 
@@ -81,7 +73,7 @@ class TestXp():
         result = xp(1, 2, 3, o=output)
 
         assert CRE_ANSI.sub('', output.getvalue()) == (
-            "tests/debugging/test_xp.py:81\n"
+            "tests/debugging/test_xp.py:73\n"
             "    1 (int)\n"
             "    2 (int)\n"
             "    3 (int)\n"
