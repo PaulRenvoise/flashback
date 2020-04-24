@@ -9,7 +9,10 @@ class Cache:
     """
     Defines a generic caching client, that can be used with several adapters.
 
-    All lone numeric values (meaning values being exlusively an int/float, not int/floats in dict, sets, lists, etc.) are converted to unicode strings (redis is the only service that does this conversion natively, but this ensure a homogeneous behaviour across adapters).
+    All lone numeric values (the ones being exlusively an int/float, not int/floats in dict, sets, lists, etc.)
+    are converted to unicode strings (redis is the only service that does this conversion natively,
+    but this ensure a homogeneous behaviour across adapters).
+
     All values are serialized using JSON before being forwarded to the adapter and stored.
     """
 
@@ -214,7 +217,7 @@ class Cache:
     @staticmethod
     def _convert_numeric(value):
         # We do not check is `isinstance` since `bool` is a subclass of `int`
-        if type(value) in {int, float, complex}:
+        if type(value) in {int, float, complex}:  # pylint: disable=unidiomatic-typecheck
             value = repr(value)
 
         return value

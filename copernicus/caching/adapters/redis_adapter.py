@@ -1,5 +1,5 @@
 from redis import Redis
-from redis.exceptions import *    # pylint: disable=wildcard-import,redefined-builtin
+from redis.exceptions import *  # pylint: disable=wildcard-import,unused-wildcard-import,redefined-builtin
 from redis.exceptions import ConnectionError as RedisConnectionError
 from redis.exceptions import TimeoutError as RedisTimeoutError
 

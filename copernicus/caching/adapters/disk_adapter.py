@@ -1,6 +1,5 @@
 from contextlib import contextmanager
 from fcntl import flock, LOCK_SH, LOCK_EX, LOCK_UN
-import json
 import shelve
 import tempfile
 import uuid
@@ -26,7 +25,7 @@ class DiskAdapter(BaseAdapter):
 
     def batch_set(self, keys, values):
         with self._open_locked_store(LOCK_EX) as store:
-            store.update(dict(zip(keys, [value for value in values])))
+            store.update(dict(zip(keys, values)))
 
         return True
 

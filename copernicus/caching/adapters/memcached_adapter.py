@@ -1,5 +1,3 @@
-import json
-
 from pymemcache.client.base import Client
 from pymemcache.exceptions import * # pylint: disable=wildcard-import,unused-wildcard-import
 

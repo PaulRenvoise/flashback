@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,redefined-outer-name
+# pylint: disable=no-self-use,redefined-outer-name,too-many-public-methods
 
 import pytest
 
@@ -92,7 +92,7 @@ class TestCache():
 
         item = cache.get('a')
 
-        assert item == True
+        assert item is True
 
     def test_get_list(self, cache):
         cache.set('a', ['a', 1, False])
@@ -165,10 +165,3 @@ class TestCache():
 
     def test_ping(self, cache):
         assert cache.ping()
-
-    def test__convert_numeric(self, cache):
-        assert cache._convert_numeric(1) == '1'
-        assert cache._convert_numeric(1.0) == '1.0'
-        assert cache._convert_numeric(complex(1)) == '(1+0j)'
-        assert cache._convert_numeric(True) is True
-        assert cache._convert_numeric({'a': 1}) == {'a': 1}

@@ -1,5 +1,3 @@
-import json
-
 from .base import BaseAdapter
 
 
@@ -19,7 +17,7 @@ class MemoryAdapter(BaseAdapter):
         return True
 
     def batch_set(self, keys, values):
-        self.store.update(dict(zip(keys, [value for value in values])))
+        self.store.update(dict(zip(keys, values)))
 
         return True
 
