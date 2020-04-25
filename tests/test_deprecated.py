@@ -5,7 +5,7 @@ import warnings
 import pytest
 from mock import Mock
 
-from copernicus import deprecated
+from flashback import deprecated
 
 
 def dummy_func(spy):

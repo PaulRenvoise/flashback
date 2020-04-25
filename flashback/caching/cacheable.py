@@ -13,7 +13,7 @@ def cacheable(adapter='memory', **kwargs):
 
     Examples:
         ```python
-        from copernicus.caching import cacheable
+        from flashback.caching import cacheable
 
         @cacheable()
         def func(a, b):

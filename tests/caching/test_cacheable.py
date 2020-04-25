@@ -3,7 +3,7 @@
 from mock import patch
 from mockredis import mock_redis_client
 
-from copernicus.caching import cacheable
+from flashback.caching import cacheable
 
 
 def dummy_func(left, right):
@@ -11,13 +11,13 @@ def dummy_func(left, right):
 
 
 class TestCacheable:
-    @patch('copernicus.caching.adapters.redis_adapter.Redis', mock_redis_client)
+    @patch('flashback.caching.adapters.redis_adapter.Redis', mock_redis_client)
     def test_execution(self):
         assert callable(cacheable())
         assert callable(cacheable(adapter='redis'))
 
-    @patch('copernicus.caching.Cache.set')
-    @patch('copernicus.caching.Cache.get')
+    @patch('flashback.caching.Cache.set')
+    @patch('flashback.caching.Cache.get')
     def test_cache_miss(self, mocked_cache_get, mocked_cache_set):
         mocked_cache_get.side_effect = [None]
         mocked_cache_set.side_effect = [True]
@@ -30,8 +30,8 @@ class TestCacheable:
         assert mocked_cache_get.called
         assert mocked_cache_set.called
 
-    @patch('copernicus.caching.Cache.set')
-    @patch('copernicus.caching.Cache.get')
+    @patch('flashback.caching.Cache.set')
+    @patch('flashback.caching.Cache.get')
     def test_cache_miss_with_type(self, mocked_cache_get, mocked_cache_set):
         mocked_cache_get.side_effect = [None, None, None]
         mocked_cache_set.side_effect = [True, True, True]
@@ -54,8 +54,8 @@ class TestCacheable:
         assert mocked_cache_get.called
         assert mocked_cache_set.called
 
-    @patch('copernicus.caching.Cache.set')
-    @patch('copernicus.caching.Cache.get')
+    @patch('flashback.caching.Cache.set')
+    @patch('flashback.caching.Cache.get')
     def test_cache_miss_with_order(self, mocked_cache_get, mocked_cache_set):
         mocked_cache_get.side_effect = [None, None]
         mocked_cache_set.side_effect = [True, True]
@@ -73,8 +73,8 @@ class TestCacheable:
         assert mocked_cache_get.called
         assert mocked_cache_set.called
 
-    @patch('copernicus.caching.Cache.set')
-    @patch('copernicus.caching.Cache.get')
+    @patch('flashback.caching.Cache.set')
+    @patch('flashback.caching.Cache.get')
     def test_cache_hit(self, mocked_cache_get, mocked_cache_set):
         mocked_cache_get.side_effect = [None, 3]
         mocked_cache_set.side_effect = [True]

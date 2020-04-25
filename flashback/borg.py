@@ -9,7 +9,7 @@ class Borg:
 
     Examples:
         ```python
-        from copernicus import Borg
+        from flashback import Borg
 
         class Borged(Borg):
             pass
@@ -49,7 +49,7 @@ class Borg:
 
         Examples:
             ```python
-            from copernicus import Borg
+            from flashback import Borg
 
             class Borged(Borg):
                 pass
@@ -104,7 +104,7 @@ class Borg:
 
         Examples:
             ```python
-            from copernicus import Borg
+            from flashback import Borg
 
             class Borged(Borg):
                 pass

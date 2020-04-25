@@ -51,13 +51,13 @@ class Locale:
 
         The cache uses the complete localization file's path to avoid conflicts and overrides.
 
-        The code is very similar to `copernicus.importing.functions.import_module_from_path` with the following tweaks:
+        The code is very similar to `flashback.importing.functions.import_module_from_path` with the following tweaks:
             - We have several candidates that can be imported
             - We cache the imported module
 
         Examples:
             ```python
-            from copernicus.i16g import Locale
+            from flashback.i16g import Locale
 
             Locale.load('fr_FR', '.languages')
             #=> Whatever defined in fr_FR
@@ -122,7 +122,7 @@ class Locale:
 
         Examples:
             ```python
-            from copernicus.i16g import Locale
+            from flashback.i16g import Locale
 
             Locale.simplify('uz_UZ.UTF-8@cyrillic')
             #=> uz_UZ

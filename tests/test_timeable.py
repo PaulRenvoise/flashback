@@ -4,7 +4,7 @@ import time
 
 from mock import Mock
 
-from copernicus import timeable
+from flashback import timeable
 
 
 def dummy_func(spy):

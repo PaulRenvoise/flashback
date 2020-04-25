@@ -13,9 +13,9 @@ def import_class_from_path(name, path):
 
     Examples:
         ```python
-        from copernicus.importing import import_class_from_path
+        from flashback.importing import import_class_from_path
 
-        borg_class = import_class_from_path('borg', 'copernicus')
+        borg_class = import_class_from_path('borg', 'flashback')
 
         borg_class()
         ```
@@ -58,9 +58,9 @@ def import_module_from_path(name, path):
 
     Examples:
         ```python
-        from copernicus.importing import import_module_from_path
+        from flashback.importing import import_module_from_path
 
-        import_module_from_path('logging', 'copernicus')
+        import_module_from_path('logging', 'flashback')
 
         print(DEFAULT_CONSOLE_CONFIGURATION)
         ```

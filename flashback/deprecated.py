@@ -8,7 +8,7 @@ def deprecated(since=None, until=None, reason=None):
 
     Examples:
         ```python
-        from copernicus import deprecated
+        from flashback import deprecated
 
         @deprecated
         def func():

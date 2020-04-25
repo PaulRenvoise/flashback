@@ -5,7 +5,7 @@ import sys
 import pytest
 from mock import patch
 
-from copernicus.debugging.parser import Parser
+from flashback.debugging.parser import Parser
 
 from .fixtures import mock_function
 

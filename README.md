@@ -1,18 +1,18 @@
-# Copernicus
+# Flashback
 
-[Site]() | [Documentation](https://copernicus.readthedocs.io/en/latest/index.html) | [Contributing]() | [License](#license)
+[Site]() | [Documentation](https://flashback.readthedocs.io/en/latest/index.html) | [Contributing]() | [License](#license)
 
 ## Installing
 
 Install:
 ```bash
-pip install copernicus
+pip install flashback
 ```
 
 Build:
 ```bash
-git clone git://github.com:PaulRenvoise/copernicus.git
-cd copernicus
+git clone git://github.com:PaulRenvoise/flashback.git
+cd flashback
 python setup.py install
 ```
 
@@ -25,4 +25,4 @@ python setup.py install
 
 ## License
 
-Copernicus is released under the [MIT License](https://tldrlegal.com/license/mit-license#summary).
+Flashback is released under the [MIT License](https://tldrlegal.com/license/mit-license#summary).

@@ -10,9 +10,9 @@ import inspect
 # from corpernicus.logging import DEFAULT_CONSOLE_CONFIGURATION
 # ```
 try:
-    IMPORTER = inspect.getmodule(inspect.stack()[12][0]).__package__ or 'copernicus'
+    IMPORTER = inspect.getmodule(inspect.stack()[12][0]).__package__ or 'flashback'
 except (IndexError, AttributeError):
-    IMPORTER = 'copernicus'
+    IMPORTER = 'flashback'
 
 
 DEFAULT_CONSOLE_CONFIGURATION = {

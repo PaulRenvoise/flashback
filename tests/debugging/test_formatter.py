@@ -5,7 +5,7 @@ import collections
 import pytest
 import regex
 
-from copernicus.debugging.formatter import Formatter
+from flashback.debugging.formatter import Formatter
 
 from .fixtures import MockClass, mock_function, MockABC
 

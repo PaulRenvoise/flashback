@@ -231,7 +231,7 @@ class Cache:
             - `bool` always True
 
         Raises:
-            - `copernicus.caching.adapters.base.BaseAdapter.connection_exceptions` if no connection with the storage
+            - `flashback.caching.adapters.base.BaseAdapter.connection_exceptions` if no connection with the storage
         """
         return self.adapter.flush()
 
@@ -251,7 +251,7 @@ class Cache:
             - `bool` always True
 
         Raises:
-            - `copernicus.caching.adapters.base.BaseAdapter.connection_exceptions` if no connection with the storage
+            - `flashback.caching.adapters.base.BaseAdapter.connection_exceptions` if no connection with the storage
         """
         return self.adapter.ping()
 

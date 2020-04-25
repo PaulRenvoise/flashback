@@ -2,7 +2,7 @@
 
 import pytest
 
-from copernicus import Borg
+from flashback import Borg
 
 
 def dummy_func(value, **kwargs):
