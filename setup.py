@@ -4,12 +4,14 @@ import os
 from setuptools import setup
 from setuptools import find_packages
 
+import flashback
 
-root = os.path.dirname(__file__)
+
+ROOT = os.path.dirname(__file__)
 
 
 def read_requirements_file(path):
-    path = os.path.join(root, path)
+    path = os.path.join(ROOT, path)
 
     requirements = []
 
@@ -44,16 +46,16 @@ classifiers = [
 requirements = read_requirements_file('requirements.txt')
 requirements_test = read_requirements_file('requirements-test.txt')
 requirements_dev = read_requirements_file('requirements-dev.txt')
-readme = open(os.path.join(root, 'README.md'), 'r').read()
+readme = open(os.path.join(ROOT, 'README.md'), 'r').read()
 
 setup(
-    version='0.0.2',
+    version=flashback.__version__,
 
     name='flashback',
     author='Paul Renvoisé',
     author_email='renvoisepaul@gmail.com',
     url='https://github.com/PaulRenvoise/flashback',
-    description='A collection of python helpers'
+    description='An utility library for python',
     long_description=readme,
     classifiers=classifiers,
 
@@ -63,7 +65,6 @@ setup(
     tests_require=requirements_test,
     python_requires='>=3.6.*',
     setup_requires=['pytest-runner'],
-    extras_require=[],
 
     test_suite='tests',
 

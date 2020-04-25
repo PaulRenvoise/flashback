@@ -11,3 +11,5 @@ __all__ = (
     'retryable',
     'timeable'
 )
+
+__version__ = '1.0.0'

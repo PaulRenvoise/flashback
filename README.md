@@ -4,11 +4,6 @@
 
 ## Installing
 
-Install:
-```bash
-pip install flashback
-```
-
 Build:
 ```bash
 git clone git://github.com:PaulRenvoise/flashback.git
