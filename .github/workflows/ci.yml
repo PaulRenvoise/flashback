@@ -43,7 +43,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Cache pip
       if: matrix.os == 'ubuntu-latest'
-      id: cache-pip
+      id: cache-pip-ubuntu-latest
       uses: actions/cache@v1
       with:
         python-version: ${{ matrix.python-version }}
@@ -54,7 +54,7 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Cache pip
       if: matrix.os == 'macos-latest'
-      id: cache-pip
+      id: cache-pip-macos-latest
       uses: actions/cache@v1
       with:
         python-version: ${{ matrix.python-version }}
@@ -64,7 +64,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
     - name: Install dependencies
-      if: steps.cache-pip.outputs.cache-hit != 'true'
+      if: steps.cache-pip-${{ matrix.os }}.outputs.cache-hit != 'true'
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-test.txt
