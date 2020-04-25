@@ -12,7 +12,7 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
     """
     Provides a simple and concise way of printing for debugging purposes.
 
-    Returns the arguments received as parameters, to allow chaining of calls, and inline debugging statements.
+    Returns the arguments received, to allow chaining of calls, and inline debugging statements.
 
     Consumes generators to print them (be careful with infinite ones!).
 
@@ -20,7 +20,7 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
     to not alias this function when importing it to prevent the loss of information.
 
     Examples:
-        ```
+        ```python
         from copernicus.debugging import xp
 
         # Simple as that

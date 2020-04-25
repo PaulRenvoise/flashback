@@ -15,7 +15,7 @@ class BaseAdapter(ABC):
             - `kwargs (dict)` every given keyword arguments
 
         Returns:
-            - `copernicus.caching.adapters.base.BaseAdapter` an instance of the caching adapter
+            - `None`
         """
 
     @abstractmethod

@@ -12,7 +12,7 @@ def cacheable(adapter='memory', **kwargs):
     Relies on the key building mechanism from `functools._make_key`.
 
     Examples:
-        ```
+        ```python
         from copernicus.caching import cacheable
 
         @cacheable()

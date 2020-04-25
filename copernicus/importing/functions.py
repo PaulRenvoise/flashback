@@ -12,7 +12,7 @@ def import_class_from_path(name, path):
     Similar to `from module import Class` if this statement returned the imported class.
 
     Examples:
-        ```
+        ```python
         from copernicus.importing import import_class_from_path
 
         borg_class = import_class_from_path('borg', 'copernicus')
@@ -57,7 +57,7 @@ def import_module_from_path(name, path):
     Simulates `from module import *`.
 
     Examples:
-        ```
+        ```python
         from copernicus.importing import import_module_from_path
 
         import_module_from_path('logging', 'copernicus')

@@ -14,6 +14,11 @@ class Cache:
     but this ensure a homogeneous behaviour across adapters).
 
     All values are serialized using JSON before being forwarded to the adapter and stored.
+
+    Examples:
+        ```python
+        TODO
+        ```
     """
 
     def __init__(self, adapter='memory', flush=False, **kwargs):
@@ -26,7 +31,7 @@ class Cache:
             - `kwargs (dict)` every additional keyword arguments, forwarded to the adapter
 
         Returns:
-            - `copernicus.caching.Cache` an instance of the cache
+            - `None`
         """
         super().__init__()
 
@@ -45,6 +50,11 @@ class Cache:
     def set(self, key, value):
         """
         Sets `key` to `value`.
+
+        Examples:
+            ```python
+            TODO
+            ```
 
         Params:
             - `key (str)` the key to set
@@ -65,6 +75,11 @@ class Cache:
     def batch_set(self, keys, values):
         """
         Sets a batch of `keys` to their respective `values`.
+
+        Examples:
+            ```python
+            TODO
+            ```
 
         Params:
             - `keys (Iterable<str>)` the list of keys to set
@@ -92,6 +107,11 @@ class Cache:
         """
         Fetches the value stored under `key`.
 
+        Examples:
+            ```python
+            TODO
+            ```
+
         Params:
             - `key (str)` the key to fetch the value from
 
@@ -109,6 +129,11 @@ class Cache:
     def batch_get(self, keys):
         """
         Fetches the values stored under `keys`.
+
+        Examples:
+            ```python
+            TODO
+            ```
 
         Params:
             - `keys (Iterable<str>)` the keys to fetch the values from
@@ -128,6 +153,11 @@ class Cache:
         """
         Deletes the given `key` from the cache storage.
 
+        Examples:
+            ```python
+            TODO
+            ```
+
         Params:
             - `key (str)` the key to remove
 
@@ -144,6 +174,11 @@ class Cache:
     def batch_delete(self, keys):
         """
         Deletes the given `keys` from the cache storage, ignoring non-existing keys.
+
+        Examples:
+            ```python
+            TODO
+            ```
 
         Params:
             - `keys (Iterable<str>)` the keys to remove from the cache
@@ -162,6 +197,11 @@ class Cache:
         """
         Checks whether or not the given `key` exists in the cache storage.
 
+        Examples:
+            ```python
+            TODO
+            ```
+
         Params:
             - `key (str)` the key to check the existence of
 
@@ -179,6 +219,11 @@ class Cache:
         """
         Flushes all keys from the cache storage.
 
+        Examples:
+            ```python
+            TODO
+            ```
+
         Params:
             - `None`
 
@@ -193,6 +238,11 @@ class Cache:
     def ping(self):
         """
         Checks if a valid connection exists with the caching storage.
+
+        Examples:
+            ```python
+            TODO
+            ```
 
         Params:
             - `None`

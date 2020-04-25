@@ -65,10 +65,6 @@ class DiskAdapter(BaseAdapter):
     def connection_exceptions(self):
         return ()
 
-    @property
-    def store(self):
-        return shelve.open(self._store_path)
-
     @contextmanager
     def _open_locked_store(self, mode):
         with open(f"{self._store_path}.lock", 'w') as lock:

@@ -20,7 +20,8 @@ class MemcachedAdapter(BaseAdapter):
         return self.store.set(key, value)
 
     def batch_set(self, keys, values):
-        # pymemcache returns a list of the keys that failed to be inserted, we convert that to True
+        # pymemcache returns a list of the keys that failed to be inserted,
+        # we convert that to a boolean
         return not bool(self.store.set_multi(dict(zip(keys, values))))
 
     def get(self, key):
@@ -38,11 +39,11 @@ class MemcachedAdapter(BaseAdapter):
         return self.store.delete(key, noreply=False)
 
     def batch_delete(self, keys):
-        # We do not use `pymemcache`'s `delete_multi` since it always return True.
+        # We do not use `pymemcache`'s `delete_multi` since it always return True
         return False not in [self.store.delete(key, noreply=False) for key in keys]
 
     def exists(self, key):
-        # Can't just coerce to bool since we can store falsey values
+        # Can't just cast to bool since we can store falsey values
         return self.store.get(key) is not None
 
     def flush(self):

@@ -9,7 +9,7 @@ def timeable(func):
     Logs the start and end of a function call, and records the time spent executing it.
 
     Examples:
-        ```
+        ```python
         from copernicus import timeable
 
         @timeable

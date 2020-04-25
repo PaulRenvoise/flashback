@@ -11,12 +11,16 @@ class Parser:
     Implements a parser to extract the code context from which `copernicus.debugging.xp` is called.
 
     First, goes back in the call stack to locate the call made to `copernicus.debugging.xp`
-    with the regex `copernicus.debugging.Parser.CRE_XP`,
+    with the regex `CRE_XP`,
     then extracts the complete statement (handling multi-lines calls),
     and finds out the name and representation of the given arguments based on the identified snippet.
 
     If needed, flattens the multi-line parameters to use them as argument names, using
-    `copernicus.debugging.Parser.CRE_OPENING_BRACKET` and `copernicus.debugging.Parser.CRE_CLOSING_BRACKET`.
+    `CRE_OPENING_BRACKET` and `CRE_CLOSING_BRACKET`.
+
+    Inspired by:
+        - python-devtools: https://github.com/samuelcolvin/python-devtools
+        - icecream: https://github.com/gruns/icecream
     """
     COMPLEX_NODES = (
         ast.Attribute,
