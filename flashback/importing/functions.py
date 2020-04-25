@@ -85,7 +85,6 @@ def import_module_from_path(name, path):
         module_path = path
 
     imported_module = import_module(module_path + '.' + name)
-    print(imported_module)
     if hasattr(imported_module, '__all__'):
         to_globalize = {name: getattr(imported_module, name) for name in imported_module.__all__}
     else:
