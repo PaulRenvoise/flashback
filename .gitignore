@@ -19,7 +19,7 @@ docs/**
 # Build-generated
 build/*
 dist/*
-copernicus.egg-info/*
+flashback.egg-info/*
 
 # OS-generated
 .DS_Store
