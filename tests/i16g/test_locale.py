@@ -7,7 +7,7 @@ from mock import patch
 from copernicus.i16g import Locale
 
 
-class TestLocale():
+class TestLocale:
     def test_valid_locale(self):
         locale = Locale.load('en', path='.dummy_locales')
 

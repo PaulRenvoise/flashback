@@ -15,7 +15,7 @@ def output():
     return StringIO()
 
 
-class TestXp():
+class TestXp:
     def test_xp(self, output):
         xp(None, o=output)
 

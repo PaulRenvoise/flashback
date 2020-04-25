@@ -10,7 +10,7 @@ from mock import Mock
 from copernicus import retryable
 
 
-class TestRetryable():
+class TestRetryable:
     def test_without_exception(self):
         mock_without_exception = Mock()
 

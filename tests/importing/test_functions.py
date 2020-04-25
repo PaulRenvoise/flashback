@@ -7,7 +7,7 @@ import pytest
 from copernicus.importing import *
 
 
-class TestImportClassFromPath():
+class TestImportClassFromPath:
     def test_valid_class_valid_relative_path(self):
         cls = import_class_from_path('dummy_class', path='.dummy_package')
 
@@ -36,7 +36,7 @@ class TestImportClassFromPath():
             import_class_from_path('mismatching_dummy_class', path='.dummy_package')
 
 
-class TestImportModuleFromPath():
+class TestImportModuleFromPath:
     def test_valid_module_valid_relative_path(self):
         import_module_from_path('dummy_module', path='.dummy_package')
 

@@ -1,5 +1,5 @@
 # coding: utf-8
 
-class DummyClass():
+class DummyClass:
     def __init__(self):
         pass

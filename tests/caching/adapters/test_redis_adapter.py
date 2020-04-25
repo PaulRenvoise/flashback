@@ -14,7 +14,7 @@ def adapter():
     return RedisAdapter()
 
 
-class TestRedisAdapter():
+class TestRedisAdapter:
     def test_set(self, adapter):
         assert adapter.set('a', 1)
 

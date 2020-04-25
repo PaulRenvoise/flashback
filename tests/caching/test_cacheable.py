@@ -10,7 +10,7 @@ def dummy_func(left, right):
     return left + right
 
 
-class TestCacheable():
+class TestCacheable:
     @patch('copernicus.caching.adapters.redis_adapter.Redis', mock_redis_client)
     def test_execution(self):
         assert callable(cacheable())

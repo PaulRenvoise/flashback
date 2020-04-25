@@ -15,7 +15,7 @@ def parser():
     return Parser(_offset=1)
 
 
-class TestParser():
+class TestParser:
     def test_parse(self, parser):
         # We need to alias to xp to trick the Parser into finding the line (see CRE_XP in Parser)
         xp = parser.parse

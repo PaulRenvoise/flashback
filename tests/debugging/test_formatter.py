@@ -18,7 +18,7 @@ def formatter():
     return Formatter()
 
 
-class TestFormatter():
+class TestFormatter:
     def test_format(self, formatter):
         arguments = [
             (None, None)

@@ -12,7 +12,7 @@ def dummy_func(spy):
     time.sleep(1)
 
 
-class TestTimeable():
+class TestTimeable:
     def test_execution(self):
         spy_func = Mock()
 
