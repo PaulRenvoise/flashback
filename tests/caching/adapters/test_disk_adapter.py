@@ -10,7 +10,7 @@ def adapter():
     return DiskAdapter()
 
 
-class TestDiskAdapter():
+class TestDiskAdapter:
     def test_set(self, adapter):
         assert adapter.set('a', 1)
 

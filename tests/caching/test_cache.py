@@ -14,7 +14,7 @@ def cache():
     return Cache()
 
 
-class TestCache():
+class TestCache:
     @patch('copernicus.caching.adapters.redis_adapter.Redis', mock_redis_client)
     @patch('copernicus.caching.adapters.memcached_adapter.Client', MockMemcacheClient)
     def test_init(self):

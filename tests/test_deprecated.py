@@ -17,7 +17,7 @@ def clean_up_dummy_func_doc():
     dummy_func.__doc__ = None
 
 
-class TestDeprecated():
+class TestDeprecated:
     def test_execution(self):
         spy_func = Mock()
 

@@ -10,7 +10,7 @@ def adapter():
     return MemoryAdapter()
 
 
-class TestMemoryAdapter():
+class TestMemoryAdapter:
     def test_set(self, adapter):
         assert adapter.set('a', 1)
 

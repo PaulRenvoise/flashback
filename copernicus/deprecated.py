@@ -7,7 +7,7 @@ def deprecated(since=None, until=None, reason=None):
     Warns when a deprecated callable is used.
 
     Examples:
-        ```
+        ```python
         from copernicus import deprecated
 
         @deprecated

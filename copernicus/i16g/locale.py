@@ -5,12 +5,13 @@ from importlib import util, import_module
 import regex
 
 
-class Locale():
+class Locale:
     """
     Defines a generic loader that finds, imports, caches, and returns constants used for internationalization.
 
     Examples:
-        ```
+        ```python
+        TODO
         ```
     """
     __cache = {}
@@ -55,7 +56,7 @@ class Locale():
             - We cache the imported module
 
         Examples:
-            ```
+            ```python
             from copernicus.i16g import Locale
 
             Locale.load('fr_FR', '.languages')
@@ -120,7 +121,7 @@ class Locale():
         If normalization fails, the original name is returned unchanged.
 
         Examples:
-            ```
+            ```python
             from copernicus.i16g import Locale
 
             Locale.simplify('uz_UZ.UTF-8@cyrillic')

@@ -6,7 +6,7 @@ from copernicus.logging import DEFAULT_CONSOLE_CONFIGURATION
 from copernicus.logging import RAILS_CONSOLE_CONFIGURATION
 
 
-class TestConfigurations():
+class TestConfigurations:
     def test_default_console_configuration(self):
         handler_class = DEFAULT_CONSOLE_CONFIGURATION['handlers']['console']['class']
         formatter_format = DEFAULT_CONSOLE_CONFIGURATION['formatters']['default']['format']

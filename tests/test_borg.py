@@ -19,7 +19,7 @@ def clean_up_shared_state():
     Borg._shared_state = {}
 
 
-class TestBorg():
+class TestBorg:
     def test_borg_functionnal(self):
         borg_1 = Borg()
         borg_2 = Borg()

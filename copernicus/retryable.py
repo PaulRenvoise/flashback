@@ -15,7 +15,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
         0.15, 0.70, 1.65, 3.30, 6.15, 11.09, 19.63, 34.41, 60.0
 
     Examples:
-        ```
+        ```python
         from copernicus import retryable
 
         @retryable(exceptions=(TypeError, AttributeError))

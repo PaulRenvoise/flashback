@@ -5,7 +5,7 @@ import pytest
 from copernicus.formatting import *
 
 
-class TestOxfordJoin():
+class TestOxfordJoin:
     def test_zero_items(self):
         assert oxford_join([]) == ''
 
@@ -28,7 +28,7 @@ class TestOxfordJoin():
         assert oxford_join(['one', 'two'], quotes=True) == "\"one\" and \"two\""
 
 
-class TestTransliterate():
+class TestTransliterate:
     def test_unicode_only_chars(self):
         origin = '\u2124\U0001d552\U0001d55c\U0001d552\U0001d55b \U0001d526\U0001d52a\U0001d51e \U0001d4e4\U0001d4f7\U0001d4f2\U0001d4ec\U0001d4f8\U0001d4ed\U0001d4ee \U0001d4c8\U0001d4c5\u212f\U0001d4b8\U0001d4be\U0001d4bb\U0001d4be\U0001d4c0\U0001d4b6\U0001d4b8\U0001d4be\U0001d4bf\u212f \U0001d59f\U0001d586 \U0001d631\U0001d62a\U0001d634\U0001d622\U0001d637\U0001d626?!'    # pylint: disable=line-too-long
         target = 'Zakaj ima Unicode specifikacije za pisave?!'
@@ -54,7 +54,7 @@ class TestTransliterate():
         assert transliterate(origin, keep_case=False) == target
 
 
-class TestCamelize():
+class TestCamelize:
     def test_lowercase(self):
         assert camelize('party') == 'Party'
 
@@ -91,7 +91,7 @@ class TestCamelize():
         assert camelize(snakeize('HTMLTidyGenerator', acronyms=acronyms), acronyms=acronyms) == 'HTMLTidyGenerator'
 
 
-class TestSnakeize():
+class TestSnakeize:
     def test_lowercase(self):
         assert snakeize('party') == 'party'
 
@@ -128,7 +128,7 @@ class TestSnakeize():
         assert snakeize(camelize('html_tidy_generator', acronyms=acronyms), acronyms=acronyms) == 'html_tidy_generator'
 
 
-class TestParameterize():
+class TestParameterize:
     def test_one_word(self):
         assert parameterize('Guy') == 'guy'
 
@@ -157,7 +157,7 @@ class TestParameterize():
         assert parameterize('Donald E. Knuth', sep='') == 'donaldeknuth'
 
 
-class TestOrdinalize():
+class TestOrdinalize:
     def test_st(self):
         assert ordinalize(1) == '1st'
 
@@ -186,7 +186,7 @@ class TestOrdinalize():
         assert ordinalize(-1) == '-1st'
 
 
-class TestAdverbize():
+class TestAdverbize:
     def test_once(self):
         assert adverbize(1) == 'once'
 
@@ -324,7 +324,7 @@ def possessive_words():
 
     return items
 
-class TestSingularize():
+class TestSingularize:
     def test_languages(self):
         assert singularize('nights', language='en') == 'night'
         assert singularize('nuits', language='fr') == 'nuit'
@@ -348,7 +348,7 @@ class TestSingularize():
     def test_mixed_punctuation_symbol_number(self):
         assert singularize('!.:123$%') == '!.:123$%'
 
-    class TestEnglish():
+    class TestEnglish:
         def test_all_words(self, all_words):
             for singular, plural in all_words:
                 assert singularize(plural, language='en') == singular
@@ -362,7 +362,7 @@ class TestSingularize():
                 assert singularize(plural, language='en') == singular
 
 
-class TestPluralize():
+class TestPluralize:
     def test_languages(self):
         assert pluralize('night', language='en') == 'nights'
         assert pluralize('nuit', language='fr') == 'nuits'
@@ -383,7 +383,7 @@ class TestPluralize():
     def test_mixed_punctuation_symbol_number(self):
         assert pluralize('!.:123$%') == '!.:123$%'
 
-    class TestEnglish():
+    class TestEnglish:
         def test_all_words(self, all_words):
             for singular, plural in all_words:
                 assert pluralize(singular, language='en') == plural

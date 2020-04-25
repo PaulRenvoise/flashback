@@ -1,4 +1,4 @@
-class MockClass():
+class MockClass:
     def mock_method(self):
         pass
 

@@ -13,7 +13,7 @@ from ..formatting import snakeize
 class Formatter:
     """
     Implements a formatter to prettify arguments received by `copernicus.debugging.xp`
-    and parsed by `copernicus.debugging.Parser.parse`.
+    and parsed by `Parser.parse`.
 
     Currently has special formatting for the following types:
         - str / bytes
@@ -34,8 +34,6 @@ class Formatter:
         'deque': ('[\n', ']')
     }
 
-    DEFAULT_STYLE = 'jellybeans'
-
     def __init__(self, indent_str='    '):
         self._indent_str = indent_str
         self._indent_str_len = len(indent_str)
@@ -49,7 +47,7 @@ class Formatter:
 
     def format(self, filename, lineno, arguments, warning, width=120):
         """
-        Formats the output of `copernicus.debugging.Parser.parse` following the given style and width.
+        Formats the output of `Parser.parse` following the given style and width.
 
         Params:
             - `filename (str)` the filename from where `copernicus.debugging.xp` has been called
@@ -82,8 +80,8 @@ class Formatter:
 
             self._format(value)
 
-            buffer = self._buffer.getvalue()
-            argument_content += pygments.highlight(buffer, lexer=self._code_lexer, formatter=self._code_formatter)
+            buf = self._buffer.getvalue()
+            argument_content += pygments.highlight(buf, lexer=self._code_lexer, formatter=self._code_formatter)
 
             argument_content += f" \033[2m({value.__class__.__name__})\033[0m"
 

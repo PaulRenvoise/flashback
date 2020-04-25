@@ -1,5 +1,5 @@
 # coding: utf-8
 
-class MismatchedDummyClass():
+class MismatchedDummyClass:
     def __init__(self):
         pass

@@ -4,11 +4,11 @@ class Borg:
     """
     Implements a Borg pattern that is used to implement singleton behavior across multiple instances of a class.
 
-    In the Borg design pattern, the focus is on sharing state instead of sharing instance identity.
-    See: Python Cookbook, 5.22: <https://books.google.fr/books?id=yhfdQgq8JF4C&ots=-8okzwnM03&pg=PA208>
+    In the Borg design pattern, the focus is on sharing state instead of sharing instance identity,
+    see https://books.google.fr/books?id=yhfdQgq8JF4C&ots=-8okzwnM03&pg=PA208.
 
     Examples:
-        ```
+        ```python
         from copernicus import Borg
 
         class Borged(Borg):
@@ -48,7 +48,7 @@ class Borg:
         The value is checked for being a callable, and if so, is instantiated with the provided args and kwargs.
 
         Examples:
-            ```
+            ```python
             from copernicus import Borg
 
             class Borged(Borg):
@@ -96,14 +96,14 @@ class Borg:
 
     def assign_attributes(self, **kwargs):
         """
-        Assigns multiple attributes to the Borg if they'rem not already defined.
+        Assigns multiple attributes to the Borg if they're not already defined.
 
         Only accepts keywords arguments, with the following structures: ATTRIBUTE_NAME=VALUE
         or ATTRIBUTE_NAME=(CALLABLE, ARGUMENTS) where the keywords arguments to forward to CALLABLE
         must be given as a dict as the last item of the tuple.
 
         Examples:
-            ```
+            ```python
             from copernicus import Borg
 
             class Borged(Borg):

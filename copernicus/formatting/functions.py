@@ -22,7 +22,7 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
     Joins a list of string to a comma-separated sentence in a more english fashion than the builtin `.join()`.
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import oxford_join
 
         oxford_join('A', 'B')
@@ -69,7 +69,7 @@ def transliterate(text, keep_case=True):
     Replaces unicode characters with their ASCII equivalent using unidecode (https://pypi.org/project/Unidecode/).
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import transliterate
 
         transliterate('réseau')
@@ -103,7 +103,7 @@ def camelize(text, acronyms=None):
     Transforms a any-cased text to CamelCase. Any character following a matched acronym will be capitalized.
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import camelize
 
         camelize('host')
@@ -152,7 +152,7 @@ def snakeize(text, acronyms=None):
     Transforms an any-cased text to snake_case.
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import snakeize
 
         snakeize('host')
@@ -199,7 +199,7 @@ def parameterize(text, sep='-', keep_case=False):
     by its ASCII equivalent.
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import parameterize
 
         parameterize('Host')
@@ -249,7 +249,7 @@ def ordinalize(number):
     Since this method should be mostly used in logging messages, only English is supported.
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import ordinalize
 
         ordinalize(1)
@@ -302,7 +302,7 @@ def adverbize(number):
     For reference about numeral adverbs, see: http://tiny.cc/m4bkez.
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import adverbize
 
         adverbize(1)
@@ -339,7 +339,7 @@ def singularize(word, language='en'):
     Returns the singular form of the given word.
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import singularize
 
         singularize('networks')
@@ -383,7 +383,7 @@ def pluralize(word, language='en'):
     Returns the plural form of the given word.
 
     Examples:
-        ```
+        ```python
         from copernicus.formatting import pluralize
 
         pluralize('network')

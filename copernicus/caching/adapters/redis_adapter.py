@@ -31,8 +31,6 @@ class RedisAdapter(BaseAdapter):
     def get(self, key):
         value = self.store.get(key)
 
-        # Redis converts int and float to unicode,
-        # Let's revert that back
         return value.decode(self._encoding) if value is not None else None
 
     def batch_get(self, keys):
