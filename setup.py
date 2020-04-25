@@ -49,10 +49,10 @@ readme = open(os.path.join(root, 'README.md'), 'r').read()
 setup(
     version='0.0.2',
 
-    name='copernicus',
+    name='flashback',
     author='Paul Renvoisé',
     author_email='renvoisepaul@gmail.com',
-    url='https://github.com/PaulRenvoise/copernicus',
+    url='https://github.com/PaulRenvoise/flashback',
     description='A collection of python helpers'
     long_description=readme,
     classifiers=classifiers,

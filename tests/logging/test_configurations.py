@@ -2,8 +2,8 @@
 
 import logging.config
 
-from copernicus.logging import DEFAULT_CONSOLE_CONFIGURATION
-from copernicus.logging import RAILS_CONSOLE_CONFIGURATION
+from flashback.logging import DEFAULT_CONSOLE_CONFIGURATION
+from flashback.logging import RAILS_CONSOLE_CONFIGURATION
 
 
 class TestConfigurations:

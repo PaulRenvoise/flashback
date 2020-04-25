@@ -5,7 +5,7 @@ from io import StringIO
 import pytest
 import regex
 
-from copernicus.debugging import xp
+from flashback.debugging import xp
 
 CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.I)
 

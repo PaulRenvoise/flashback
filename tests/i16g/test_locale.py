@@ -4,7 +4,7 @@
 import pytest
 from mock import patch
 
-from copernicus.i16g import Locale
+from flashback.i16g import Locale
 
 
 class TestLocale:
@@ -35,7 +35,7 @@ class TestLocale:
             Locale.load('en', path='.')
 
     def test_cached_locale(self):
-        with patch('copernicus.i16g.locale.import_module') as mock:
+        with patch('flashback.i16g.locale.import_module') as mock:
             mock.return_value = True
 
             Locale.load('es', path='.dummy_locales')
@@ -43,7 +43,7 @@ class TestLocale:
             # We expect to load the module the first time
             assert mock.called
 
-        with patch('copernicus.i16g.locale.import_module') as mock:
+        with patch('flashback.i16g.locale.import_module') as mock:
             mock.return_value = True
 
             Locale.load('es', path='.dummy_locales')

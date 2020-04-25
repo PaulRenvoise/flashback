@@ -6,7 +6,7 @@ from mock import patch
 from mockredis import mock_redis_client
 from pymemcache.test.utils import MockMemcacheClient
 
-from copernicus.caching import Cache
+from flashback.caching import Cache
 
 
 @pytest.fixture
@@ -15,8 +15,8 @@ def cache():
 
 
 class TestCache:
-    @patch('copernicus.caching.adapters.redis_adapter.Redis', mock_redis_client)
-    @patch('copernicus.caching.adapters.memcached_adapter.Client', MockMemcacheClient)
+    @patch('flashback.caching.adapters.redis_adapter.Redis', mock_redis_client)
+    @patch('flashback.caching.adapters.memcached_adapter.Client', MockMemcacheClient)
     def test_init(self):
         cache = Cache()
 

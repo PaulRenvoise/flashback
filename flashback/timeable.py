@@ -10,7 +10,7 @@ def timeable(func):
 
     Examples:
         ```python
-        from copernicus import timeable
+        from flashback import timeable
 
         @timeable
         def printer():

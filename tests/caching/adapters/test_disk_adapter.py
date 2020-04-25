@@ -2,7 +2,7 @@
 
 import pytest
 
-from copernicus.caching.adapters import DiskAdapter
+from flashback.caching.adapters import DiskAdapter
 
 
 @pytest.fixture

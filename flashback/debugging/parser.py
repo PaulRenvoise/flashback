@@ -8,9 +8,9 @@ import regex
 
 class Parser:
     """
-    Implements a parser to extract the code context from which `copernicus.debugging.xp` is called.
+    Implements a parser to extract the code context from which `flashback.debugging.xp` is called.
 
-    First, goes back in the call stack to locate the call made to `copernicus.debugging.xp`
+    First, goes back in the call stack to locate the call made to `flashback.debugging.xp`
     with the regex `CRE_XP`,
     then extracts the complete statement (handling multi-lines calls),
     and finds out the name and representation of the given arguments based on the identified snippet.
@@ -46,20 +46,20 @@ class Parser:
 
     def parse(self, *arguments):
         """
-        Parses the arguments received from the code context in which `copernicus.debugging.xp` has been called,
+        Parses the arguments received from the code context in which `flashback.debugging.xp` has been called,
         enriches the arguments values with their names (or representation).
 
-        We must accept all arguments in a greedy way to emulate the behavior of `copernicus.debugging.xp`,
+        We must accept all arguments in a greedy way to emulate the behavior of `flashback.debugging.xp`,
         as we call directly this method when testing.
 
         Params:
             - `arguments (tuple<Any>)` every positional arguments
 
         Returns:
-            - `str` the filename from where `copernicus.debugging.xp` has been called
-            - `int` the line number from where `copernicus.debugging.xp` has been called
+            - `str` the filename from where `flashback.debugging.xp` has been called
+            - `int` the line number from where `flashback.debugging.xp` has been called
             - `list<tuple>` the arguments parsed, as name-value couples
-            - `str` the error encountered when parsing the code that called `copernicus.debugging.xp` or None
+            - `str` the error encountered when parsing the code that called `flashback.debugging.xp` or None
         """
         try:
             # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)

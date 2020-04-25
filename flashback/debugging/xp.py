@@ -21,7 +21,7 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
 
     Examples:
         ```python
-        from copernicus.debugging import xp
+        from flashback.debugging import xp
 
         # Simple as that
         xp(1)

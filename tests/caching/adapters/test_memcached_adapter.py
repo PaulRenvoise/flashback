@@ -5,11 +5,11 @@ import pytest
 from mock import patch
 from pymemcache.test.utils import MockMemcacheClient
 
-from copernicus.caching.adapters import MemcachedAdapter
+from flashback.caching.adapters import MemcachedAdapter
 
 
 @pytest.fixture
-@patch('copernicus.caching.adapters.memcached_adapter.Client', MockMemcacheClient)
+@patch('flashback.caching.adapters.memcached_adapter.Client', MockMemcacheClient)
 def adapter():
     return MemcachedAdapter()
 
@@ -96,4 +96,4 @@ class TestMemcachedAdapter:
         assert adapter.ping()
 
     def test_exposed_exceptions(self):
-        from copernicus.caching.adapters.memcached_adapter import MemcacheError    # pylint: disable=unused-import,import-outside-toplevel
+        from flashback.caching.adapters.memcached_adapter import MemcacheError    # pylint: disable=unused-import,import-outside-toplevel

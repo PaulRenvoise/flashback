@@ -5,11 +5,11 @@ import pytest
 from mock import patch
 from mockredis import mock_redis_client
 
-from copernicus.caching.adapters import RedisAdapter
+from flashback.caching.adapters import RedisAdapter
 
 
 @pytest.fixture
-@patch('copernicus.caching.adapters.redis_adapter.Redis', mock_redis_client)
+@patch('flashback.caching.adapters.redis_adapter.Redis', mock_redis_client)
 def adapter():
     return RedisAdapter()
 
@@ -96,4 +96,4 @@ class TestRedisAdapter:
         assert adapter.ping()
 
     def test_exposed_exceptions(self):
-        from copernicus.caching.adapters.redis_adapter import RedisError    # pylint: disable=unused-import,import-outside-toplevel
+        from flashback.caching.adapters.redis_adapter import RedisError    # pylint: disable=unused-import,import-outside-toplevel

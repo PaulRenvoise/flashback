@@ -23,7 +23,7 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
 
     Examples:
         ```python
-        from copernicus.formatting import oxford_join
+        from flashback.formatting import oxford_join
 
         oxford_join('A', 'B')
         #=> "A and B"
@@ -70,7 +70,7 @@ def transliterate(text, keep_case=True):
 
     Examples:
         ```python
-        from copernicus.formatting import transliterate
+        from flashback.formatting import transliterate
 
         transliterate('réseau')
         #=> "reseau"
@@ -104,7 +104,7 @@ def camelize(text, acronyms=None):
 
     Examples:
         ```python
-        from copernicus.formatting import camelize
+        from flashback.formatting import camelize
 
         camelize('host')
         #=> "Host"
@@ -153,7 +153,7 @@ def snakeize(text, acronyms=None):
 
     Examples:
         ```python
-        from copernicus.formatting import snakeize
+        from flashback.formatting import snakeize
 
         snakeize('host')
         #=> "host"
@@ -195,12 +195,12 @@ def parameterize(text, sep='-', keep_case=False):
     """
     Replaces special characters in a text so that it may be used as part of an URL.
 
-    Internally, uses `copernicus.formatting.functions.transliterate` to replace any unicode character found
+    Internally, uses `flashback.formatting.functions.transliterate` to replace any unicode character found
     by its ASCII equivalent.
 
     Examples:
         ```python
-        from copernicus.formatting import parameterize
+        from flashback.formatting import parameterize
 
         parameterize('Host')
         #=> "host"
@@ -250,7 +250,7 @@ def ordinalize(number):
 
     Examples:
         ```python
-        from copernicus.formatting import ordinalize
+        from flashback.formatting import ordinalize
 
         ordinalize(1)
         #=>  "1st"
@@ -303,7 +303,7 @@ def adverbize(number):
 
     Examples:
         ```python
-        from copernicus.formatting import adverbize
+        from flashback.formatting import adverbize
 
         adverbize(1)
         #=> "once"
@@ -340,7 +340,7 @@ def singularize(word, language='en'):
 
     Examples:
         ```python
-        from copernicus.formatting import singularize
+        from flashback.formatting import singularize
 
         singularize('networks')
         #=> "network"
@@ -384,7 +384,7 @@ def pluralize(word, language='en'):
 
     Examples:
         ```python
-        from copernicus.formatting import pluralize
+        from flashback.formatting import pluralize
 
         pluralize('network')
         #=> "networks"

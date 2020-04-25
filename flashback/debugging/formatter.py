@@ -12,7 +12,7 @@ from ..formatting import snakeize
 
 class Formatter:
     """
-    Implements a formatter to prettify arguments received by `copernicus.debugging.xp`
+    Implements a formatter to prettify arguments received by `flashback.debugging.xp`
     and parsed by `Parser.parse`.
 
     Currently has special formatting for the following types:
@@ -50,14 +50,14 @@ class Formatter:
         Formats the output of `Parser.parse` following the given style and width.
 
         Params:
-            - `filename (str)` the filename from where `copernicus.debugging.xp` has been called
-            - `lineno (int)` the line number from where `copernicus.debugging.xp` has been called
+            - `filename (str)` the filename from where `flashback.debugging.xp` has been called
+            - `lineno (int)` the line number from where `flashback.debugging.xp` has been called
             - `arguments (list<tuple>)` the arguments to format, as name-value couples
-            - `warning (str)` the error encountered when parsing the code that called `copernicus.debugging.xp` or None
+            - `warning (str)` the error encountered when parsing the code that called `flashback.debugging.xp` or None
             - `width (int)` the maximum width before wrapping the output
 
         Returns:
-            -   `str` the location of the call to `copernicus.debugging.xp` and the formatted arguments
+            -   `str` the location of the call to `flashback.debugging.xp` and the formatted arguments
         """
         self._width = width
 

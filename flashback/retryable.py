@@ -16,7 +16,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
 
     Examples:
         ```python
-        from copernicus import retryable
+        from flashback import retryable
 
         @retryable(exceptions=(TypeError, AttributeError))
         def will_be_retried(parameter):

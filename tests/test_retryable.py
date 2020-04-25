@@ -7,7 +7,7 @@ import time
 import pytest
 from mock import Mock
 
-from copernicus import retryable
+from flashback import retryable
 
 
 class TestRetryable:

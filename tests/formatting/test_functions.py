@@ -2,7 +2,7 @@
 
 import pytest
 
-from copernicus.formatting import *
+from flashback.formatting import *
 
 
 class TestOxfordJoin:

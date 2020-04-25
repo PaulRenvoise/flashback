@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from copernicus.importing import *
+from flashback.importing import *
 
 
 class TestImportClassFromPath:
