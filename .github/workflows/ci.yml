@@ -20,9 +20,6 @@ jobs:
         path: ~/.cache/pip
         # Look to see if there is a cache hit for the corresponding requirements file
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements-test.txt') }}-3.8
-        restore-keys: |
-          ${{ runner.os }}-pip-
-          ${{ runner.os }}-
     - name: Install dependencies
       if: steps.pip-cache.outputs.cache-hit != 'true'
       run: |
@@ -55,8 +52,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
         path: ${{ steps.pip-cache-location.outputs.dir }}
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements-test.txt') }}-${{ matrix.python-version }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
     - name: Install dependencies
       if: steps.pip-cache.outputs.cache-hit != 'true'
       run: |
