@@ -13,13 +13,16 @@ jobs:
       with:
         python-version: 3.8
     - name: Cache pip
-      id: pip-cache
       uses: actions/cache@v1
       with:
         python-version: 3.8
         path: ~/.cache/pip
         # Look to see if there is a cache hit for the corresponding requirements file
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements-test.txt') }}-3.8
+        key: ${{ runner.os }}-pip-3.8-${{ hashFiles('requirements-test.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-3.8-
+          ${{ runner.os }}-pip-
+          ${{ runner.os }}-
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -41,16 +44,19 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Get cache location
-      id: pip-cache-location
+      id: cache-location
       run: |
         python -c "from pip._internal.locations import USER_CACHE_DIR; print('::set-output name=dir::' + USER_CACHE_DIR)"
-    - name: Cache pip
-      id: pip-cache
+    - name: Cache dependencies
       uses: actions/cache@v1
       with:
         python-version: ${{ matrix.python-version }}
-        path: ${{ steps.pip-cache-location.outputs.dir }}
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements-test.txt') }}-${{ matrix.python-version }}
+        path: ${{ steps.cache-location.outputs.dir }}
+        key: ${{ runner.os }}-pip-${{ matrix.python-version}}-${{ hashFiles('requirements-test.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.python-version}}-
+          ${{ runner.os }}-pip-
+          ${{ runner.os }}-
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
