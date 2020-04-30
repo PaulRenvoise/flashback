@@ -7,7 +7,6 @@ from pygments.lexers import Python3Lexer  # pylint: disable=no-name-in-module
 from pygments.formatters import Terminal256Formatter  # pylint: disable=no-name-in-module
 
 from .styles import Jellybeans
-from ..formatting import snakeize
 
 
 class Formatter:
@@ -99,15 +98,14 @@ class Formatter:
 
         try:
             # Converts classes such as OrderedDict, Counter, etc.
-            # Converts ABCMeta types to abc_meta
-            class_name = snakeize(value.__class__.__name__, acronyms=['ABC'])
+            class_name = value.__class__.__name__
 
             method = getattr(self, f"_format_{class_name}")
             method(value, current_indent, next_indent)
         except AttributeError:
             self._format_raw(value, current_indent, next_indent)
 
-    def _format_abc_meta(self, meta, _current_indent, _next_indent):
+    def _format_ABCMeta(self, meta, _current_indent, _next_indent):  # pylint: disable=invalid-name
         self._format_type(meta, _current_indent, _next_indent)
 
     def _format_type(self, cls, _current_indent, _next_indent):
@@ -136,13 +134,13 @@ class Formatter:
         self._buffer.write(function.__qualname__)
         self._buffer.write(str(inspect.signature(function)))
 
-    def _format_counter(self, counter, current_indent, next_indent):
+    def _format_Counter(self, counter, current_indent, next_indent):  # pylint: disable=invalid-name
         self._format_dict(counter, current_indent, next_indent)
 
     def _format_defaultdict(self, default_dict, current_indent, next_indent):
         self._format_dict(default_dict, current_indent, next_indent)
 
-    def _format_ordered_dict(self, ordered_dict, current_indent, next_indent):
+    def _format_OrderedDict(self, ordered_dict, current_indent, next_indent):  # pylint: disable=invalid-name
         self._format_dict(ordered_dict, current_indent, next_indent)
 
     def _format_dict(self, dictionary, current_indent, next_indent):
