@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,no-member,protected-access
+# pylint: disable=no-self-use,no-member,protected-access,no-self-argument
 
 import pytest
 
@@ -67,7 +67,5 @@ class TestClassProperty:
         assert ReadOnly.attribute == 0
 
     def test_readonly_set_via_class(self):
-        read_only = ReadOnly()
-
         with pytest.raises(AttributeError):
             ReadOnly.attribute = 1
