@@ -5,6 +5,7 @@ from .functions import snakeize
 from .functions import parameterize
 from .functions import ordinalize
 from .functions import adverbize
+from .functions import truncate
 from .functions import singularize
 from .functions import pluralize
 
@@ -16,6 +17,7 @@ __all__ = (
     'parameterize',
     'ordinalize',
     'adverbize',
+    'truncate',
     'singularize',
     'pluralize'
 )
