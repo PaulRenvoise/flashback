@@ -375,9 +375,9 @@ def truncate(text, limit=120, suffix='...'):
         ```
 
     Params:
-        - `text (str)`
-        - `limit (int)`
-        - `suffix(str)`
+        - `text (str)` the text to truncate
+        - `limit (int)` the maximum length of the text
+        - `suffix (str)` the suffix to append at the truncated text
 
     Returns
         - `str` the truncated text
