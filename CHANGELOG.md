@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+- Added `@classproperty`, to combine @classmethod and @property
+
 ## 1.0.0
 
 - Added the `caching/` module, containing caching helpers:
