@@ -35,3 +35,4 @@
     - constant: Limits, or not, all calls received
     - probabilistic: Limits the number of calls to a ratio of accepted/refused calls
     - ratelimiting: Limits the number of calls to a fixed rate per second
+- Added `@timeoutable`, stopping the execution of a callable if its run time is too long
