@@ -1,15 +1,6 @@
 # Changelog
 
-## 1.1.0 (TBD)
-
-- Added `@classproperty`, to combine @classmethod and @property
-- Added `formatting/truncate()`, to truncate long sentences at a given limit and append a suffix if needed
-- Added `@sampled`, implementing 3 sampling strategies to filter calls made to a callable:
-    - constant: Limits, or not, all calls received
-    - probabilistic: Limits the number of calls to a ratio of accepted/refused calls
-    - ratelimiting: Limits the number of calls to a fixed rate per second
-
-## 1.0.0 (01/05/2020)
+## 1.0.0 (TBD)
 
 - Added the `caching/` module, containing caching helpers:
     - A wrapper supporting several cache stores: in-memory, disk, Redis, and Memcached
@@ -24,6 +15,7 @@
     - `parameterize()` formats a given string to be used in URLs
     - `ordinalize()` represents numbers in their ordinal representations
     - `adverbize()` represents numbers in their numeral adverb representations
+    - `truncate()` truncates long sentences at a given limit and append a suffix if needed
     - `singularize()` returns the singular form of a given word
     - `pluralize()` returns the plural form of a given word
 - Added the `i16g/` module, to help with locale management:
@@ -35,6 +27,11 @@
     - `DEFAULT_CONSOLE_CONFIGURATION` uses the default formatting to log in the console
     - `RAILS_CONSOLE_CONFIGURATION` formats logs in a RoR-way before routing them to the console
 - Added `Borg`, a design pattern to produce a singleton behaviour across multiple instances of a class
+- Added `@classproperty`, to combine @classmethod and @property
 - Added `@deprecated`, to flag deprecated callables with a explicit message
 - Added `@retryable`, to retry failing executing of a callable
 - Added `@timeable`, to measure the execution time of a callable
+- Added `@sampled`, implementing 3 sampling strategies to filter calls made to a callable:
+    - constant: Limits, or not, all calls received
+    - probabilistic: Limits the number of calls to a ratio of accepted/refused calls
+    - ratelimiting: Limits the number of calls to a fixed rate per second
