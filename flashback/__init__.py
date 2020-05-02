@@ -3,6 +3,7 @@ from .borg import Borg
 from .classproperty import classproperty
 from .deprecated import deprecated
 from .retryable import retryable
+from .sampled import sampled
 from .timeable import timeable
 
 
@@ -11,6 +12,7 @@ __all__ = (
     'classproperty',
     'deprecated',
     'retryable',
+    'sampled',
     'timeable'
 )
 

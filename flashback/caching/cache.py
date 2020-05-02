@@ -39,7 +39,7 @@ class Cache:
             adapter_class = import_class_from_path(f"{adapter}_adapter", '.adapters')
             self.adapter = adapter_class(**kwargs)
         except (ImportError, AttributeError):
-            raise NotImplementedError(f"Adapter '{adapter}' is not yet supported.")
+            raise NotImplementedError(f"Adapter {adapter!r} is not yet supported.")
 
         if flush:
             self.flush()
@@ -92,7 +92,7 @@ class Cache:
             - `ValueError` if the lengths of the keys and values differ
         """
         if len(keys) != len(values):
-            raise ValueError("Invalid arguments, length of 'keys' and 'values' must be equal")
+            raise ValueError("Invalid arguments, length of 'keys' and 'values' must be equal.")
 
         json_values = [json.dumps(self._convert_numeric(value)) for value in values]
 

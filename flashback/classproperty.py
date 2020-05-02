@@ -73,7 +73,7 @@ class classproperty:  # pylint: disable=invalid-name
 
     def __set__(self, obj, value):
         if not self.func_set:
-            raise AttributeError("can't set attribute")
+            raise AttributeError("can't set attribute.")
         if not isinstance(obj, ClassPropertyMetaclass):
             cls = type(obj)
         else:

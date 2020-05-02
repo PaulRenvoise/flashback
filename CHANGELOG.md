@@ -1,10 +1,15 @@
 # Changelog
 
-## 1.1.0
+## 1.1.0 (TBD)
 
 - Added `@classproperty`, to combine @classmethod and @property
+- Added `formatting/truncate()`, to truncate long sentences at a given limit and append a suffix if needed
+- Added `@sampled`, implementing 3 sampling strategies to filter calls made to a callable:
+    - constant: Limits, or not, all calls received
+    - probabilistic: Limits the number of calls to a ratio of accepted/refused calls
+    - ratelimiting: Limits the number of calls to a fixed rate per second
 
-## 1.0.0
+## 1.0.0 (01/05/2020)
 
 - Added the `caching/` module, containing caching helpers:
     - A wrapper supporting several cache stores: in-memory, disk, Redis, and Memcached
