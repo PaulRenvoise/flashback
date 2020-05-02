@@ -72,7 +72,7 @@ class sampled:  # pylint: disable=invalid-name
             if rate is None:
                 rate = 1
             elif rate not in {0, 1}:
-                raise ValueError(f"Invalid rate {rate!r}, expecting an integer of 0 or 1.")
+                raise ValueError(f"invalid rate {rate!r}, expecting an integer of 0 or 1")
 
             self._rate = rate
 
@@ -81,7 +81,7 @@ class sampled:  # pylint: disable=invalid-name
             if rate is None:
                 rate = 0.5
             elif not 0 < rate < 1:
-                raise ValueError(f"Invalid rate {rate!r}, expecting a float between 0 and 1.")
+                raise ValueError(f"invalid rate {rate!r}, expecting a float between 0 and 1")
 
             self._rate = rate
 
@@ -90,7 +90,7 @@ class sampled:  # pylint: disable=invalid-name
             if rate is None:
                 rate = 10
             elif rate < 0:
-                raise ValueError(f"Invalid rate {rate!r}, expecting a positive integer.")
+                raise ValueError(f"invalid rate {rate!r}, expecting a positive integer")
 
             self._rate = rate
             self._queue = Queue(maxsize=0)
@@ -98,7 +98,7 @@ class sampled:  # pylint: disable=invalid-name
             self.should_sample = self._sample_ratelimiting
         else:
             strategies_choices = oxford_join(self.STRATEGIES, last_sep=', or ')
-            raise ValueError(f"Invalid strategy {strategy!r}, expecting {strategies_choices}.")
+            raise ValueError(f"invalid strategy {strategy!r}, expecting {strategies_choices}")
 
     def __call__(self, func):
         @functools.wraps(func)
