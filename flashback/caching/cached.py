@@ -5,7 +5,7 @@ import logging
 from .cache import Cache
 
 
-def cacheable(adapter='memory', **kwargs):
+def cached(adapter='memory', **kwargs):
     """
     Caches the return of a callable under a type-aware key built with its arguments.
 
@@ -13,9 +13,9 @@ def cacheable(adapter='memory', **kwargs):
 
     Examples:
         ```python
-        from flashback.caching import cacheable
+        from flashback.caching import cached
 
-        @cacheable()
+        @cached()
         def func(a, b):
             return a + b
 

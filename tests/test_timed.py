@@ -4,7 +4,7 @@ import time
 
 from mock import Mock
 
-from flashback import timeable
+from flashback import timed
 
 
 def dummy_func(spy):
@@ -16,7 +16,7 @@ class TestTimeable:
     def test_execution(self):
         spy_func = Mock()
 
-        decorated_func = timeable(dummy_func)
+        decorated_func = timed(dummy_func)
         decorated_func(spy_func)
 
         assert spy_func.called

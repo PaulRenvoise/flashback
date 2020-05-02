@@ -3,18 +3,18 @@
 from mock import patch
 from mockredis import mock_redis_client
 
-from flashback.caching import cacheable
+from flashback.caching import cached
 
 
 def dummy_func(left, right):
     return left + right
 
 
-class TestCacheable:
+class TestCached:
     @patch('flashback.caching.adapters.redis_adapter.Redis', mock_redis_client)
     def test_execution(self):
-        assert callable(cacheable())
-        assert callable(cacheable(adapter='redis'))
+        assert callable(cached())
+        assert callable(cached(adapter='redis'))
 
     @patch('flashback.caching.Cache.set')
     @patch('flashback.caching.Cache.get')
@@ -22,7 +22,7 @@ class TestCacheable:
         mocked_cache_get.side_effect = [None]
         mocked_cache_set.side_effect = [True]
 
-        make_cacheable = cacheable()
+        make_cacheable = cached()
         decorated_function = make_cacheable(dummy_func)
 
         decorated_function(1, 2)
@@ -36,7 +36,7 @@ class TestCacheable:
         mocked_cache_get.side_effect = [None, None, None]
         mocked_cache_set.side_effect = [True, True, True]
 
-        make_cacheable = cacheable()
+        make_cacheable = cached()
         decorated_function = make_cacheable(dummy_func)
 
         decorated_function(1, 2)
@@ -60,7 +60,7 @@ class TestCacheable:
         mocked_cache_get.side_effect = [None, None]
         mocked_cache_set.side_effect = [True, True]
 
-        make_cacheable = cacheable()
+        make_cacheable = cached()
         decorated_function = make_cacheable(dummy_func)
 
         decorated_function(1, 2)
@@ -79,7 +79,7 @@ class TestCacheable:
         mocked_cache_get.side_effect = [None, 3]
         mocked_cache_set.side_effect = [True]
 
-        make_cacheable = cacheable()
+        make_cacheable = cached()
         decorated_function = make_cacheable(dummy_func)
 
         decorated_function(1, 2)
