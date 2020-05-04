@@ -23,9 +23,10 @@
 - Added the `importing/` module, a collection of helpers for dynamic importing:
     - `import_class_from_path()` fetches a class from a package path and returns it
     - `import_module_from_path()` exposes the contents of a module as globals from a package path
-- Added the `logging/` module, containing drop-in configuration for the logging module:
+- Added the `logging/` module, containing drop-in configurations and custom handlers for the logging module:
     - `DEFAULT_CONSOLE_CONFIGURATION` uses the default formatting to log in the console
     - `RAILS_CONSOLE_CONFIGURATION` formats logs in a RoR-way before routing them to the console
+    - `AffixedStreamHandler` allows custom prefix/suffix to customize the way log records are emitted
 - Added `Borg`, a design pattern to produce a singleton behaviour across multiple instances of a class
 - Added `@classproperty`, to combine @classmethod and @property
 - Added `@deprecated`, to flag deprecated callables with a explicit message
