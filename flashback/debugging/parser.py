@@ -183,7 +183,7 @@ class Parser:
         for i, arg_node in enumerate(calling_node.args):
             positions = {
                 'start_line': arg_node.lineno - 1,
-                'start_col' : arg_node.col_offset,
+                'start_col': arg_node.col_offset,
                 'end_line': default_end_line,
                 'end_col': default_end_col
             }

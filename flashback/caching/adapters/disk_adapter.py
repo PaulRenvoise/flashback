@@ -46,7 +46,7 @@ class DiskAdapter(BaseAdapter):
             res = [bool(store.pop(key, False)) for key in keys]
 
         # If we have one False, we need to return False
-        return not False in res
+        return False not in res
 
     def exists(self, key):
         with self._open_locked_store(LOCK_SH) as store:
