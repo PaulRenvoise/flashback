@@ -1,7 +1,7 @@
 from .cache import Cache
-from .cacheable import cacheable
+from .cached import cached
 
 __all__ = (
     'Cache',
-    'cacheable'
+    'cached'
 )

@@ -1,5 +1,5 @@
 from pymemcache.client.base import Client
-from pymemcache.exceptions import * # pylint: disable=wildcard-import,unused-wildcard-import
+from pymemcache.exceptions import *  # pylint: disable=wildcard-import,unused-wildcard-import
 
 from .base import BaseAdapter
 

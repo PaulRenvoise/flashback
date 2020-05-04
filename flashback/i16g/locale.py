@@ -108,7 +108,7 @@ class Locale:
             except ImportError:
                 pass
 
-        raise NotImplementedError(f"Locale {locale!r} is not implemented in {module_path}.")
+        raise NotImplementedError(f"locale {locale!r} is not implemented in {module_path}")
 
     @classmethod
     def simplify(cls, locale):

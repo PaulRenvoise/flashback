@@ -4,15 +4,15 @@ import logging
 import time
 
 
-def timeable(func):
+def timed(func):
     """
     Logs the start and end of a function call, and records the time spent executing it.
 
     Examples:
         ```python
-        from flashback import timeable
+        from flashback import timed
 
-        @timeable
+        @timed
         def printer():
             print('Executing')
 

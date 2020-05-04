@@ -278,7 +278,7 @@ def ordinalize(number):
         suffix = 'nd'
     elif number == 3:
         suffix = 'rd'
-    elif number in [4, 5, 6, 7, 8, 9, 10, 11, 12, 13]:
+    elif number in {4, 5, 6, 7, 8, 9, 10, 11, 12, 13}:
         suffix = 'th'
     else:
         modulo = abs(number) % 100
@@ -336,6 +336,7 @@ def adverbize(number):
         numeral = f"{number} times"
 
     return numeral
+
 
 def truncate(text, limit=120, suffix='...'):
     """

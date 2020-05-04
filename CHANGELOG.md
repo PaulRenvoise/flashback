@@ -4,7 +4,7 @@
 
 - Added the `caching/` module, containing caching helpers:
     - A wrapper supporting several cache stores: in-memory, disk, Redis, and Memcached
-    - A decorator `@cacheable`, that caches a callable's return value based on its arguments
+    - A decorator `@cached`, that caches a callable's return value based on its arguments
 - Added the `debugging/` module:
     - A helper function `xp`, to print debugging statements
 - Added the `formatting/` module, a collection of helper functions:
@@ -30,7 +30,7 @@
 - Added `@classproperty`, to combine @classmethod and @property
 - Added `@deprecated`, to flag deprecated callables with a explicit message
 - Added `@retryable`, to retry failing executing of a callable
-- Added `@timeable`, to measure the execution time of a callable
+- Added `@timed`, to measure the execution time of a callable
 - Added `@sampled`, implementing 3 sampling strategies to filter calls made to a callable:
     - constant: Limits, or not, all calls received
     - probabilistic: Limits the number of calls to a ratio of accepted/refused calls
