@@ -1,4 +1,5 @@
 from .borg import Borg
+from .sentinel import Sentinel
 from .singleton import Singleton
 
 from .classproperty import classproperty
@@ -11,6 +12,7 @@ from .timeoutable import timeoutable
 
 __all__ = (
     'Borg',
+    'Sentinel',
     'Singleton',
     'classproperty',
     'deprecated',

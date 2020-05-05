@@ -31,6 +31,7 @@
     - `AffixedStreamHandler` allows custom prefix/suffix to customize the way log records are emitted
 - Added `Singleton`, a metaclass useful to implement the Singleton design pattern
 - Added `Borg`, a class useful to produce a singleton behaviour across multiple instances of a class
+- Added `Sentinel`, a class that can be used to implement the Sentinel design pattern
 - Added `@classproperty`, to combine @classmethod and @property
 - Added `@deprecated`, to flag deprecated callables with a explicit message
 - Added `@retryable`, to retry failing executing of a callable
