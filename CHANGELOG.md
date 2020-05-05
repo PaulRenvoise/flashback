@@ -19,7 +19,8 @@
     - `singularize()` returns the singular form of a given word
     - `pluralize()` returns the plural form of a given word
 - Added the `iterating/` module, containing several helpers for iterables:
-    - `renumerate()`, a reverse enumerate implementation
+    - `renumerate()` enumerates an iterable starting from its end
+    - `chunks()` splits an iterable into smalled chunks, padding them if requested
 - Added the `i16g/` module, to help with locale management:
     - A helper class to dynamically load localization files from a package path
 - Added the `importing/` module, a collection of helpers for dynamic importing:
