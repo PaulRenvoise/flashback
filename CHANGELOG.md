@@ -29,7 +29,8 @@
     - `DEFAULT_CONSOLE_CONFIGURATION` uses the default formatting to log in the console
     - `RAILS_CONSOLE_CONFIGURATION` formats logs in a RoR-way before routing them to the console
     - `AffixedStreamHandler` allows custom prefix/suffix to customize the way log records are emitted
-- Added `Borg`, a design pattern to produce a singleton behaviour across multiple instances of a class
+- Added `Singleton`, a metaclass useful to implement the Singleton design pattern
+- Added `Borg`, a class useful to produce a singleton behaviour across multiple instances of a class
 - Added `@classproperty`, to combine @classmethod and @property
 - Added `@deprecated`, to flag deprecated callables with a explicit message
 - Added `@retryable`, to retry failing executing of a callable
