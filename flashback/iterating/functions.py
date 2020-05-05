@@ -1,6 +1,6 @@
 def renumerate(iterable):
     """
-    Like enumerate but in the other direction
+    Enumerates an `iterable` starting from the end.
 
     Examples:
         ```python
@@ -23,6 +23,6 @@ def renumerate(iterable):
         - `iterable (Iterable)` the list to reverse and enumerate
 
     Returns:
-        - `zip` the reversed enumerate
+        - `zip` the reversed enumeration
     """
     return zip(range(len(iterable) - 1, -1, -1), reversed(iterable))
