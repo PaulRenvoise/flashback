@@ -56,7 +56,7 @@ class TestSampled:
         for _ in range(100):
             decorated_func(spy_func)
 
-        assert 40 < spy_func.call_count < 60
+        assert 40 <= spy_func.call_count <= 60
 
     def test_sampled_probabilistic_valid_rate(self, spy_func):
         make_sampled = sampled(strategy='probabilistic', rate=0.3)
@@ -65,7 +65,7 @@ class TestSampled:
         for _ in range(100):
             decorated_func(spy_func)
 
-        assert 20 < spy_func.call_count < 40
+        assert 20 <= spy_func.call_count <= 40
 
     def test_sampled_probabilistic_invalid_rate(self):
         with pytest.raises(ValueError):
