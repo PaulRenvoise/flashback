@@ -1,5 +1,5 @@
 # Lint
-pylint==2.4.4  # Wait for 2.5.1 to be out
+pylint==2.5.2
 
 # Test, coverage, and mocking
 pytest==5.4.1
