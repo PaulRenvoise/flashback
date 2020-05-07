@@ -1,23 +1,33 @@
+"""
+Defines several logging configuration.
+
+Upon import, it dynamically extracts the package name from the module importing this file,
+and sets the package name as top-level logger. This avoids the behavior where ALL libraries
+would have the defined logging level if we use the 'root' key.
+If the import is not done within a package (e.g. within a simple python script that is then executed),
+we fallback to 'None', thus applying the configuration to the 'root' logger.
+
+The con of this method is that the indices used to access the stack are hardcoded,
+meaning that the importing line must look like the following, else we won't have a package:
+```python
+from flashback.logging import DEFAULT_CONSOLE_CONFIGURATION
+```
+
+'disable_existing_loggers' is set to false because it breaks the loggers
+created after using the configuration (see: https://gist.github.com/alanbriolat/d5ffe608b56c948533c6).
+"""
 import inspect
 
 
-# Dynamically sets the top-level logger configuration by extrating the package name from the module importing this file.
-# This avoids the behavior where ALL libraries would have the defined logging level if we use the 'root' key.
-#
-# The con of this method is that the indices used to access the stack are hardcoded,
-# meaning that the importing line must look like the following, else we won't have a package:
-# ```
-# from corpernicus.logging import DEFAULT_CONSOLE_CONFIGURATION
-# ```
 try:
-    IMPORTER = inspect.getmodule(inspect.stack()[12][0]).__package__ or 'flashback'
+    IMPORTER = inspect.getmodule(inspect.stack()[12][0]).__package__ or None
 except (IndexError, AttributeError):
-    IMPORTER = 'flashback'
+    IMPORTER = None
 
 
 DEFAULT_CONSOLE_CONFIGURATION = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'incremental': False,
     'formatters': {
         'default': {
@@ -43,7 +53,7 @@ DEFAULT_CONSOLE_CONFIGURATION = {
 
 RAILS_CONSOLE_CONFIGURATION = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'incremental': False,
     'formatters': {
         'default': {
