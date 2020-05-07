@@ -20,18 +20,6 @@ def muted(loggers=None):
         how_logger = logging.getLogger('how')
         bye_logger = logging.getLogger('bye')
 
-        def loud_greetings():
-            logging.info('Hi')
-            how_logger.info('How are you?')
-            bye_logger.info('Bye')
-
-        loud_greetings()
-        #=> 'Hi'
-        #=> 'How are you?'
-        #=> 'Bye'
-
-        # You can mute specific loggers with their names
-        @muted(loggers=['how'])
         def noisy_greetings():
             logging.info('Hi')
             how_logger.info('How are you?')
@@ -39,18 +27,18 @@ def muted(loggers=None):
 
         noisy_greetings()
         #=> 'Hi'
+        #=> 'How are you?'
         #=> 'Bye'
 
-        # Or by passing the instance of the logger
-        # Or 'None' for the root logger
-        @muted(loggers=[None, bye_logger])
+        # You can mute specific loggers with their names,
+        # their instance, or 'None' for the root logger
+        @muted(loggers=['how', bye_logger, None])
         def quiet_greetings():
             logging.info('Hi')
             how_logger.info('How are you?')
             bye_logger.info('Bye')
 
         quiet_greetings()
-        #=> 'How are you?'
 
         # Or mute all (including root) loggers
         @muted()
