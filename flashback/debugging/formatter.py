@@ -25,12 +25,16 @@ class Formatter:
 
     Formats all other types via their __repr__ method.
     """
-    LIST_TYPE_TO_SYMBOLS = {
+    TYPE_TO_SYMBOLS = {
+        'deque': ('deque([\n', '])'),
+        'frozenset': ('frozenset({\n', '})'),
         'list': ('[\n', ']'),
         'set': ('{\n', '}'),
-        'frozenset': ('{\n', '}'),
         'tuple': ('(\n', ')'),
-        'deque': ('[\n', ']')
+        'Counter': ('Counter({\n', '})'),
+        'defaultdict': ('defaultdict(_TYPE_, {\n', '})'),
+        'dict': ('{\n', '}'),
+        'OrderedDict': ('OrderedDict({\n', '})'),
     }
 
     def __init__(self, indent_str='    '):
@@ -135,23 +139,29 @@ class Formatter:
         self._buffer.write(str(inspect.signature(function)))
 
     def _format_Counter(self, counter, current_indent, next_indent):  # pylint: disable=invalid-name
-        self._format_dict(counter, current_indent, next_indent)
+        self._format_mapping(counter, current_indent, next_indent)
 
     def _format_defaultdict(self, default_dict, current_indent, next_indent):
-        self._format_dict(default_dict, current_indent, next_indent)
+        self._format_mapping(default_dict, current_indent, next_indent)
 
     def _format_OrderedDict(self, ordered_dict, current_indent, next_indent):  # pylint: disable=invalid-name
-        self._format_dict(ordered_dict, current_indent, next_indent)
+        self._format_mapping(ordered_dict, current_indent, next_indent)
 
     def _format_dict(self, dictionary, current_indent, next_indent):
-        start = '{\n'
+        self._format_mapping(dictionary, current_indent, next_indent)
+
+    def _format_mapping(self, mapping, current_indent, next_indent):
         prefix = next_indent * self._indent_str
         separator = ': '
         suffix = ',\n'
-        end = '}'
+        start, end = self.TYPE_TO_SYMBOLS[mapping.__class__.__name__]
+
+        # We're be processing a defaultdict
+        if '_TYPE_' in start:
+            start = start.replace('_TYPE_', repr(mapping.default_factory))
 
         self._buffer.write(start)
-        for key, value in dictionary.items():
+        for key, value in mapping.items():
             self._buffer.write(prefix)
             self._format(key, next_indent, False)
             self._buffer.write(separator)
@@ -176,7 +186,7 @@ class Formatter:
 
     def _format_iterables(self, iterable, current_indent, next_indent):
         suffix = ',\n'
-        start, end = self.LIST_TYPE_TO_SYMBOLS[iterable.__class__.__name__]
+        start, end = self.TYPE_TO_SYMBOLS[iterable.__class__.__name__]
 
         self._buffer.write(start)
         for value in iterable:

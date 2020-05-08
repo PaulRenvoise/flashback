@@ -180,11 +180,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    {\n"
+            "    frozenset({\n"
             "        1,\n"
             "        2,\n"
             "        3,\n"
-            "    } (frozenset)"
+            "    }) (frozenset)"
         )
 
     def test_deque(self, formatter):
@@ -195,11 +195,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    [\n"
+            "    deque([\n"
             "        1,\n"
             "        2,\n"
             "        3,\n"
-            "    ] (deque)"
+            "    ]) (deque)"
         )
 
     def test_dict(self, formatter):
@@ -225,11 +225,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    {\n"
+            "    OrderedDict({\n"
             "        'a': 1,\n"
             "        'b': 2,\n"
             "        'c': 3,\n"
-            "    } (OrderedDict)"
+            "    }) (OrderedDict)"
         )
 
     def test_defaultdict(self, formatter):
@@ -240,11 +240,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    {\n"
+            "    defaultdict(<class 'int'>, {\n"
             "        'a': 1,\n"
             "        'b': 2,\n"
             "        'c': 3,\n"
-            "    } (defaultdict)"
+            "    }) (defaultdict)"
         )
 
     def test_counter(self, formatter):
@@ -255,11 +255,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    {\n"
+            "    Counter({\n"
             "        'a': 1,\n"
             "        'b': 2,\n"
             "        'c': 3,\n"
-            "    } (Counter)"
+            "    }) (Counter)"
         )
 
     def test_generator(self, formatter):
