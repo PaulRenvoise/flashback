@@ -33,7 +33,7 @@ class TestChunks:
 
     def test_multiple_items_without_pad(self):
         chunked = list(chunks([1, 2, 3]))
-        assert chunked == [(1, 2), (3)]
+        assert chunked == [(1, 2), (3,)]
 
     def test_multiple_items_with_pad(self):
         chunked = list(chunks([1, 2, 3], pad=None))
