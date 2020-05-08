@@ -18,6 +18,7 @@ class TestRenumerate:
 
     def test_iterator(self):
         iterator = renumerate(['a', 'b'])
+
         assert next(iterator) == (1, 'b')
 
 
@@ -28,19 +29,19 @@ class TestChunks:
 
     def test_multiple_items(self):
         chunked = list(chunks([1, 2, 3, 4]))
-        assert chunked == [[1, 2], [3, 4]]
+        assert chunked == [(1, 2), (3, 4)]
 
     def test_multiple_items_without_pad(self):
         chunked = list(chunks([1, 2, 3]))
-        assert chunked == [[1, 2], [3]]
+        assert chunked == [(1, 2), (3)]
 
     def test_multiple_items_with_pad(self):
         chunked = list(chunks([1, 2, 3], pad=None))
-        assert chunked == [[1, 2], [3, None]]
+        assert chunked == [(1, 2), (3, None)]
 
     def test_multiple_pad_items_with_pad(self):
         chunked = list(chunks([None, None, None], pad=None))
-        assert chunked == [[None, None], [None, None]]
+        assert chunked == [(None, None), (None, None)]
 
 
 class TestPartition:
@@ -53,17 +54,17 @@ class TestPartition:
     def test_multiple_items_bool(self):
         evens, odds = partition(lambda x: x % 2 == 0, [1, 2, 3, 4, 5])
 
-        assert evens == [2, 4]
-        assert odds == [1, 3, 5]
+        assert evens == (2, 4)
+        assert odds == (1, 3, 5)
 
     def test_multiple_items_str(self):
         trues, falses = partition(lambda x: x if 'a' in x else None, ['a', 'b', 'c', 'd', 'aa'])
 
-        assert trues == ['a', 'aa']
-        assert falses == ['b', 'c', 'd']
+        assert trues == ('a', 'aa')
+        assert falses == ('b', 'c', 'd')
 
     def test_multiple_items_list(self):
         trues, falses = partition(lambda x: x, [['a'], [], [1], ['b'], [2], []])
 
-        assert trues == [['a'], [1], ['b'], [2]]
-        assert falses == [[], []]
+        assert trues == (['a'], [1], ['b'], [2])
+        assert falses == ([], [])
