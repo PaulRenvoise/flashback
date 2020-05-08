@@ -1,4 +1,7 @@
+from itertools import islice
+
 from ..sentinel import Sentinel
+
 
 def renumerate(iterable):
     """
@@ -34,14 +37,27 @@ def chunks(iterable, size=2, pad=Sentinel):
     """
     Iterates over an `iterable` by chunks of `size`.
 
+    Handles in
+
     Examples:
         ```python
+        from itertools import count
         from flashback.iterating import chunks
 
-        for chunk in chunks([1, 2, 3, 4], size=2):
+        # Handles iterables
+        for chunk in chunks([1, 2, 3, 4]):
             print(sum(chunk))
         #=> 3
         #=> 7
+
+        # And infinite ones as well
+        for chunk in chunks(counter(), size=5):
+            print(sum(chunk))
+        #=> 15
+        #=> 40
+        #=> 65
+        #=> 90
+        #=> ...
         ```
 
     Params:
@@ -51,7 +67,8 @@ def chunks(iterable, size=2, pad=Sentinel):
     Returns:
         - `generator` the generator containing the chunks
     """
-    chunk_generator = (iterable[index:index + size] for index in range(0, len(iterable), size))
+    iterable = iter(iterable)
+    chunk_generator = iter(lambda: tuple(islice(iterable, size)), ())
     if pad is Sentinel:
         yield from chunk_generator
     else:
