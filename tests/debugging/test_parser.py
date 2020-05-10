@@ -47,18 +47,18 @@ class TestParser:
         assert parsed_arguments == [(None, None)]
         assert warning == 'error parsing code, no code context found'
 
-    @patch('inspect.stack')
-    def test_parse_exception(self, mocked_inspect_stack, parser):
+    @patch('flashback.debugging.parser.get_frame')
+    def test_parse_exception(self, mocked_get_frame, parser):
         xp = parser.parse
 
-        mocked_inspect_stack.side_effect = TypeError('object is not a frame or traceback object')
+        mocked_get_frame.side_effect = ValueError('call stack is not deep enough')
 
         filename, lineno, parsed_arguments, warning = xp(None)
 
         assert filename == '<unknown>'
         assert lineno == 0
         assert parsed_arguments == [(None, None)]
-        assert warning == 'error parsing code, object is not a frame or traceback object (TypeError)'
+        assert warning == 'error parsing code, call stack is not deep enough (ValueError)'
 
     def test_parse_simple(self, parser):
         xp = parser.parse

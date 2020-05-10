@@ -5,6 +5,8 @@ from textwrap import dedent
 
 import regex
 
+from .get_frame import get_frame
+
 
 class Parser:
     """
@@ -64,7 +66,7 @@ class Parser:
         try:
             # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)
             # If this code would have been called directly by the end-user, we would need to access [1]
-            calling_frame = inspect.stack()[self._offset]
+            calling_frame = get_frame(self._offset)
 
             filename = os.path.relpath(calling_frame.filename)
 

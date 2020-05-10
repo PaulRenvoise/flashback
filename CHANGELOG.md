@@ -6,8 +6,9 @@
     - A wrapper supporting several cache stores: in-memory, disk, Redis, and Memcached
     - A decorator `@cached`, that caches a callable's return value based on its arguments
 - Added the `debugging/` module:
-    - A helper function `xp`, to print debugging statements
+    - A helper function `xp()`, to print debugging statements
     - A decorator `@profiled`, to collect and dumps profiling stats over a callable's execution
+    - A helper `get_frame()`, which implements a faster `inspect.stack()[x]`
 - Added the `formatting/` module, a collection of helper functions:
     - `oxford_join()` joins strings in a human-readable way
     - `transliterate()` represents unicode text in ASCII (using [Unidecode](https://github.com/avian2/unidecode))
