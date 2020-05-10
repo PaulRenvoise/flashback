@@ -13,4 +13,4 @@ Link all related issues/PRs/discussions.
 - [ ] Code is linted
 - [ ] Documentation is up to date
 - [ ] Dependencies are up to date
-- [ ] CHANGELOG.md has been updated
+- [ ] CHANGELOG.md is up to date

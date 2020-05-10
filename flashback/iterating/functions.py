@@ -1,4 +1,7 @@
+from itertools import islice
+
 from ..sentinel import Sentinel
+
 
 def renumerate(iterable):
     """
@@ -22,10 +25,10 @@ def renumerate(iterable):
         ```
 
     Params:
-        - `iterable (Iterable)` the list to reverse and enumerate
+        - `iterable (Iterable<Any>)` the list to reverse and enumerate
 
     Returns:
-        - `zip` the generator containing the reversed enumeration
+        - `Iterator` the iterator containing the reversed enumeration
     """
     return zip(range(len(iterable) - 1, -1, -1), reversed(iterable))
 
@@ -34,24 +37,38 @@ def chunks(iterable, size=2, pad=Sentinel):
     """
     Iterates over an `iterable` by chunks of `size`.
 
+    Handles in
+
     Examples:
         ```python
+        from itertools import count
         from flashback.iterating import chunks
 
-        for chunk in chunks([1, 2, 3, 4], size=2):
+        # Handles iterables
+        for chunk in chunks([1, 2, 3, 4]):
             print(sum(chunk))
         #=> 3
         #=> 7
+
+        # And infinite ones as well
+        for chunk in chunks(counter(), size=5):
+            print(sum(chunk))
+        #=> 15
+        #=> 40
+        #=> 65
+        #=> 90
+        #=> ...
         ```
 
     Params:
-        - `iterable (Iterable)` the iterable to chunk
+        - `iterable (Iterable<Any>)` the iterable to chunk
         - `size (int)` the size of the chunks to produce
 
-    Returns:
-        - `generator` the generator containing the chunks
+    Yields:
+        - `tuple<Any>` the extracted chunk
     """
-    chunk_generator = (iterable[index:index + size] for index in range(0, len(iterable), size))
+    iterable = iter(iterable)
+    chunk_generator = iter(lambda: tuple(islice(iterable, size)), ())
     if pad is Sentinel:
         yield from chunk_generator
     else:
@@ -61,6 +78,7 @@ def chunks(iterable, size=2, pad=Sentinel):
                 chunk += (pad,) * len_diff
 
             yield chunk
+
 
 def partition(predicate, iterable):
     """
@@ -80,10 +98,10 @@ def partition(predicate, iterable):
 
     Params:
         - `predicate (lambda)` the lambda to apply on each item of `iterable`
-        - `iterable (Iterable)` the iterable to partition
+        - `iterable (Iterable<Any>)` the iterable to partition
 
     Returns:
-        - `tuple<list>` the iterable's items separated depending on `predicate`
+        - `tuple<tuple<Any>>` the iterable's items separated depending on `predicate`
     """
     trues = []
     falses = []
@@ -94,4 +112,4 @@ def partition(predicate, iterable):
         else:
             falses.append(item)
 
-    return (trues, falses)
+    return (tuple(trues), tuple(falses))
