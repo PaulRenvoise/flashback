@@ -29,7 +29,7 @@ class TestXp:
 
         assert output.getvalue() == (
             "\x1b[2mtests/debugging/test_xp.py:28\x1b[0m\n"
-            "\x1b[38;5;7m    \x1b[39m\x1b[38;5;103mNone\x1b[39m \x1b[2m(NoneType)\x1b[0m\n"
+            "\x1b[38;5;7m    \x1b[39m\x1b[38;5;167mNone\x1b[39m \x1b[2m(NoneType)\x1b[0m\n"
         )
 
     def test_xp_flush(self, output):

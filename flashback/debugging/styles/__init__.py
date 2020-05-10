@@ -3,5 +3,5 @@ from .solarized import Solarized
 
 __all__ = (
     'Jellybeans',
-    'Solarized'
+    'Solarized',
 )

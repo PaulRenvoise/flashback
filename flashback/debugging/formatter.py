@@ -3,9 +3,11 @@ import inspect
 from textwrap import wrap
 
 import pygments
-from pygments.lexers import Python3Lexer  # pylint: disable=no-name-in-module
-from pygments.formatters import Terminal256Formatter  # pylint: disable=no-name-in-module
+from pygments.formatters.terminal256 import Terminal256Formatter
+from pygments.lexers.python import PythonLexer
+from pygments.token import Keyword, Name
 
+from .filters import CallHighlightFilter, DecoratorOperatorFilter, NameHighlightFilter
 from .styles import Jellybeans
 
 
@@ -45,7 +47,32 @@ class Formatter:
 
         self._buffer = None
 
-        self._code_lexer = Python3Lexer(ensurenl=False)
+        self._code_lexer = PythonLexer(
+            ensurenl=False,
+            filters=[
+                CallHighlightFilter(
+                    tokentype=Name.Function
+                ),
+                DecoratorOperatorFilter(),
+                NameHighlightFilter(
+                    names=[
+                        'bool',
+                        'bytearray',
+                        'bytes',
+                        'dict',
+                        'float',
+                        'frozenset',
+                        'int',
+                        'list',
+                        'object',
+                        'set',
+                        'str',
+                        'tuple',
+                    ],
+                    tokentype=Keyword.Type,
+                ),
+            ]
+        )
         self._code_formatter = Terminal256Formatter(style=Jellybeans)
 
     def format(self, filename, lineno, arguments, warning, width=120):
@@ -84,8 +111,8 @@ class Formatter:
             self._format(value)
 
             buf = self._buffer.getvalue()
-            argument_content += pygments.highlight(buf, lexer=self._code_lexer, formatter=self._code_formatter)
 
+            argument_content += self._highlight(buf)
             argument_content += f" \033[2m({value.__class__.__name__})\033[0m"
 
             arguments_content.append(argument_content)
@@ -253,3 +280,6 @@ class Formatter:
             self._buffer.write(current_indent * self._indent_str + end)
         else:
             self._buffer.write(representation)
+
+    def _highlight(self, value):
+        return pygments.highlight(value, lexer=self._code_lexer, formatter=self._code_formatter)

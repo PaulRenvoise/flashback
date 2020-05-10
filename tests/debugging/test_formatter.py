@@ -38,7 +38,7 @@ class TestFormatter:
 
         assert content == (
             "\x1b[2m<filename>:<lineno>\x1b[0m\n"
-            "\x1b[38;5;7m    \x1b[39m\x1b[38;5;103mNone\x1b[39m \x1b[2m(NoneType)\x1b[0m"
+            "\x1b[38;5;7m    \x1b[39m\x1b[38;5;167mNone\x1b[39m \x1b[2m(NoneType)\x1b[0m"
         )
 
     def test_format_named(self, formatter):
