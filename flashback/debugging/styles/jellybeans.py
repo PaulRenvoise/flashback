@@ -1,5 +1,5 @@
 from pygments.style import Style
-from pygments.token import *
+from pygments.token import Comment, Generic, Keyword, Name, Number, Operator, Punctuation, Literal, String, Token
 
 
 class Jellybeans(Style):
