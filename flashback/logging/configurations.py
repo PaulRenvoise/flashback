@@ -24,7 +24,6 @@ try:
 except (IndexError, AttributeError):
     IMPORTER = None
 
-
 DEFAULT_CONSOLE_CONFIGURATION = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -50,6 +49,75 @@ DEFAULT_CONSOLE_CONFIGURATION = {
     }
 }
 
+DJANGO_CONSOLE_CONFIGURATION = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'incremental': False,
+    'formatters': {},
+    'filters': {},
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        IMPORTER: {
+            'level': 'DEBUG',
+            'handlers': ['console']
+        }
+    }
+}
+
+FLASK_CONSOLE_CONFIGURATION = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'incremental': False,
+    'formatters': {
+        'default': {
+            'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
+        }
+    },
+    'filters': {},
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default'
+        }
+    },
+    'loggers': {
+        IMPORTER: {
+            'level': 'DEBUG',
+            'handlers': ['console']
+        }
+    }
+}
+
+PYRAMID_CONSOLE_CONFIGURATION = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'incremental': False,
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s'
+        }
+    },
+    'filters': {},
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default'
+        }
+    },
+    'loggers': {
+        IMPORTER: {
+            'level': 'DEBUG',
+            'handlers': ['console']
+        }
+    }
+}
 
 RAILS_CONSOLE_CONFIGURATION = {
     'version': 1,
