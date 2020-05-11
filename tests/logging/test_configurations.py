@@ -12,11 +12,11 @@ from flashback.logging import RAILS_CONSOLE_CONFIGURATION
 
 
 class TestConfigurations:
-    CRE_DEFAULT_FORMAT = regex.compile("[\d- :,]{23} - tests.logging - MainProcess - INFO - message\n$")
-    CRE_DJANGO_FORMAT = regex.compile("message\n$")
-    CRE_FLASK_FORMAT = regex.compile("\[[\d- :,]{23}\] INFO in test_configurations: message\n$")
-    CRE_PYRAMID_FORMAT = regex.compile("[\d- :,]{23} INFO  \[tests.logging:\d+\]\[MainThread\] message\n$")
-    CRE_RAILS_FORMAT = regex.compile("I, \[[\d-T:\.]{23} #\d{1,4}\]     INFO -- : message\n$")
+    CRE_DEFAULT_FORMAT = regex.compile(r"[\d- :,]{23} - tests.logging - MainProcess - INFO - message\n$")
+    CRE_DJANGO_FORMAT = regex.compile(r"message\n$")
+    CRE_FLASK_FORMAT = regex.compile(r"\[[\d- :,]{23}\] INFO in test_configurations: message\n$")
+    CRE_PYRAMID_FORMAT = regex.compile(r"[\d- :,]{23} INFO  \[tests.logging:\d+\]\[MainThread\] message\n$")
+    CRE_RAILS_FORMAT = regex.compile(r"I, \[[\d-T:\.]{23} #\d{1,4}\]     INFO -- : message\n$")
 
     def test_default_console_configuration(self, capsys):
         logging.config.dictConfig(DEFAULT_CONSOLE_CONFIGURATION)
