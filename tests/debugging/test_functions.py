@@ -65,7 +65,7 @@ class TestCaller:
         captured = output.getvalue()
 
         assert caller_instance.__name__ == 'main'
-        print(len(captured.splitlines()))
+        print(captured.splitlines())
         assert len(captured.splitlines()) == 14
 
     def test_execution_with_context(self, output):
@@ -184,6 +184,7 @@ class TestGetCallContext:
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
+        print(context)
         assert len(context) == 13
         assert context_lineno == 11
         assert call_boundaries == (5, 8)
