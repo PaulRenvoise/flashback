@@ -30,8 +30,11 @@
     - `import_class_from_path()` fetches a class from a package path and returns it
     - `import_module_from_path()` exposes the contents of a module as globals from a package path
 - Added the `logging/` module, containing drop-in configurations and custom handlers for the logging module:
-    - `DEFAULT_CONSOLE_CONFIGURATION` uses the default formatting to log in the console
-    - `RAILS_CONSOLE_CONFIGURATION` formats logs in a RoR-way before routing them to the console
+    - `DEFAULT_CONSOLE_CONFIGURATION` formats logs with debugging information and output to stderr
+    - `DJANGO_CONSOLE_CONFIGURATION` formats logs like Django's logger before routing to stderr
+    - `FLASK_CONSOLE_CONFIGURATION` formats logs like Flask's logger before routing to stderr
+    - `PYRAMID_CONSOLE_CONFIGURATION` formats logs like Pyramid's logger before routing to stderr
+    - `RAILS_CONSOLE_CONFIGURATION` formats logs in a Ruby on Rails' logger before routing to stderr
     - `AffixedStreamHandler` allows custom prefix/suffix to customize the way log records are emitted
     - `@muted` to silence all (or selected) loggers during a callable's execution
 - Added `Singleton`, a metaclass useful to implement the Singleton design pattern
