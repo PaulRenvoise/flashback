@@ -8,12 +8,15 @@
 - Added the `debugging/` module:
     - A helper function `xp()`, to print debugging statements
     - A decorator `@profiled`, to collect and dumps profiling stats over a callable's execution
-    - A helper `get_frame()`, which implements a faster `inspect.stack()[x]`
+    - A helper `caller()`, allowing a developper to print debug information about a callable's caller
+    - A helper `get_callable()`, extracting a callable instance from a frame
+    - A helper `get_call_context()`, finding and returning the code context around a call made in a frame
+    - A helper `get_frameinfo()`, which implements a faster `inspect.stack()[x]`
 - Added the `formatting/` module, a collection of helper functions:
     - `oxford_join()` joins strings in a human-readable way
     - `transliterate()` represents unicode text in ASCII (using [Unidecode](https://github.com/avian2/unidecode))
-    - `camelize()` transforms any-case to CamelCase
-    - `snakeize()` transforms any-case to snake\_case
+    - `camelize()` transforms any case to CamelCase
+    - `snakeize()` transforms any case to snake\_case
     - `parameterize()` formats a given string to be used in URLs
     - `ordinalize()` represents numbers in their ordinal representations
     - `adverbize()` represents numbers in their numeral adverb representations
@@ -25,7 +28,7 @@
     - `chunks()` splits an iterable into smalled chunks, padding them if requested
     - `partition()` splits an iterable into the items that validated the given predicate and the others
 - Added the `i16g/` module, to help with locale management:
-    - A helper class to dynamically load localization files from a package path
+    - A helper class `Locale`, to dynamically load localization files from a package path
 - Added the `importing/` module, a collection of helpers for dynamic importing:
     - `import_class_from_path()` fetches a class from a package path and returns it
     - `import_module_from_path()` exposes the contents of a module as globals from a package path
