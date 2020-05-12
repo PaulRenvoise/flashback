@@ -196,7 +196,7 @@ class TestGetCallContext:
         else:
             assert len(context) == 11
             assert context_lineno == 13
-            assert call_boundaries == (5, 8)
+            assert call_boundaries == (5, 6)
 
     def test_no_context(self):
         frameinfo = eval('get_frameinfo()')  # pylint: disable=eval-used
