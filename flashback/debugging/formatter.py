@@ -38,6 +38,8 @@ class Formatter:
         'dict': ('{\n', '}'),
         'OrderedDict': ('OrderedDict({\n', '})'),
     }
+    DIM_START = '\033[2m'
+    DIM_END = '\033[0m'
 
     def __init__(self, indent_str='    '):
         self._indent_str = indent_str
@@ -120,6 +122,47 @@ class Formatter:
         content += '\n'.join(arguments_content)
 
         return content
+
+    def format_code(self, lines, start_lineno=1, highlight=None):
+        """
+        Formats code with syntax highlighting and line numbers,
+        with optional highlighting of specific range of lines.
+
+        Params:
+            - `lines (Iterable<str>)` the lines of code to render
+            - `start_lineno (int)` the line number of the code's first line
+            - `highlight (tuple<int>)` the start and end line indices of the code to highlight
+
+        Returns:
+            - `str` the formatted and highlighted code
+        """
+        linenos = list(range(start_lineno, start_lineno + len(lines) + 2))
+
+        pad_len = len(str(max(linenos)))
+        lines_with_linenos = []
+        for lineno, line in zip(linenos, lines):
+            lines_with_linenos.append(f"{lineno:{pad_len}} {line}")
+
+        if highlight is not None:
+            start = highlight[0]
+            end = highlight[1]
+
+            # Dim the context instead of highlighting the focus
+            highlighted_lines = []
+
+            highlighted_lines.append(self.DIM_START)
+            highlighted_lines.append(self._highlight(''.join(lines_with_linenos[:start])))
+            highlighted_lines.append(f"{self.DIM_END}\n")
+
+            highlighted_lines.append(self._highlight(''.join(lines_with_linenos[start:end])))
+
+            highlighted_lines.append(f"{self.DIM_START}\n")
+            highlighted_lines.append(self._highlight(''.join(lines_with_linenos[end:])))
+            highlighted_lines.append(self.DIM_END)
+
+            return ''.join(highlighted_lines)
+
+        return self._highlight(''.join(lines_with_linenos))
 
     def _format(self, value, current_indent=1, force_indent=True):
         if force_indent:

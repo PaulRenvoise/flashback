@@ -35,7 +35,6 @@ class CallHighlightFilter(Filter):
             stack = []
 
         for future_ttype, future_value in stream:
-            print(future_ttype, future_value)
             ttype, value = stack.pop()
             if ttype in Name and future_value == '(':
                 stack.append((self.tokentype, value))
