@@ -195,7 +195,7 @@ class TestGetCallContext:
             assert call_boundaries == (5, 8)
         else:
             assert len(context) == 11
-            assert context_lineno == 11
+            assert context_lineno == 13
             assert call_boundaries == (5, 8)
 
     def test_no_context(self):
