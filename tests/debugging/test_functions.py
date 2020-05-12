@@ -171,7 +171,7 @@ class TestGetCallContext:
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
         assert len(context) == 11
-        assert context_lineno == 7
+        assert context_lineno == 8
         assert call_boundaries == (5, 6)
 
     def test_one_line_call_with_size(self):
@@ -179,9 +179,9 @@ class TestGetCallContext:
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo, size=20)
 
-        assert len(context) == 32  # Reaching the top of the file
+        assert len(context) == 33  # Should be 41, but reaching the top of the file
         assert context_lineno == 1
-        assert call_boundaries == (11, 12)
+        assert call_boundaries == (12, 13)
 
     def test_multiline_call(self):
         frameinfo = dummy_function_multiline()
@@ -191,7 +191,7 @@ class TestGetCallContext:
         # Prior to python 3.8, the lineno for multiline calls is wrong
         if sys.version >= '3.8':
             assert len(context) == 13
-            assert context_lineno == 11
+            assert context_lineno == 12
             assert call_boundaries == (5, 8)
         else:
             assert len(context) == 11
@@ -213,7 +213,7 @@ class TestGetCallContext:
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
         assert len(context) == 6
-        assert context_lineno == 242
+        assert context_lineno == 253
         assert call_boundaries == (5, 6)
 
 
