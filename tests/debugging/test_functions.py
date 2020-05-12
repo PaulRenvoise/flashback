@@ -1,6 +1,7 @@
 # pylint: disable=no-self-use,redefined-outer-name
 
 from io import StringIO
+import sys
 
 import pytest
 from mock import patch
@@ -65,8 +66,11 @@ class TestCaller:
         captured = output.getvalue()
 
         assert caller_instance.__name__ == 'main'
-        print(captured.splitlines())
-        assert len(captured.splitlines()) == 14
+        # Prior to python 3.8, the lineno for multiline calls is wrong
+        if sys.version >= '3.8':
+            assert len(captured.splitlines()) == 14
+        else:
+            assert len(captured.splitlines()) == 12
 
     def test_execution_with_context(self, output):
         caller_instance = caller(context=10, output=output)
@@ -184,10 +188,15 @@ class TestGetCallContext:
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
-        print(context)
-        assert len(context) == 13
-        assert context_lineno == 11
-        assert call_boundaries == (5, 8)
+        # Prior to python 3.8, the lineno for multiline calls is wrong
+        if sys.version >= '3.8':
+            assert len(context) == 13
+            assert context_lineno == 11
+            assert call_boundaries == (5, 8)
+        else:
+            assert len(context) == 11
+            assert context_lineno == 11
+            assert call_boundaries == (5, 8)
 
     def test_no_context(self):
         frameinfo = eval('get_frameinfo()')  # pylint: disable=eval-used
