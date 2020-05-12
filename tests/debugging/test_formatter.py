@@ -544,7 +544,7 @@ class TestFormatter:
             "    frame = frame.f_back\n",
             "return framelist\n",
         ]
-        start_lineno=1489
+        start_lineno = 1489
 
         content = formatter.format_code(code, start_lineno=start_lineno)
 
