@@ -155,7 +155,6 @@ def caller(depth=2, context=5, output=sys.stderr):
     Returns:
         - `Callable|None` the callable calling
     """
-    print('test')
     try:
         frameinfo = get_frameinfo(depth)
     except ValueError:
