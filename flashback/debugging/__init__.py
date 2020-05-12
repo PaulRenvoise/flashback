@@ -1,10 +1,16 @@
-from .get_frame import get_frame
+from .functions import caller
+from .functions import get_callable
+from .functions import get_call_context
+from .functions import get_frameinfo
 from .profiled import profiled
 from .xp import xp
 
 
 __all__ = (
-    'get_frame',
+    'caller',
+    'get_callable',
+    'get_call_context',
+    'get_frameinfo',
     'profiled',
     'xp',
 )
