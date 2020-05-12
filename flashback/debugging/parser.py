@@ -86,7 +86,7 @@ class Parser:
 
         node = ast.parse(call_statement, filename=filename).body[0].value
         if not isinstance(node, ast.Call):
-            return None, None, f"error parsing code, found {node.__class__.__name__} instead of ast.Call"
+            return None, None, f"error parsing code, found ast.{node.__class__.__name__} instead of ast.Call"
 
         call_statement_lines = [line for line in call_statement.split('\n') if line]
 
