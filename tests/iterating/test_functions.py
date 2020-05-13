@@ -1,7 +1,5 @@
 # pylint: disable=no-self-use
 
-from collections import deque
-
 from flashback.iterating import *
 
 

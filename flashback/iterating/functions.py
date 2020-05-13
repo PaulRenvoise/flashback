@@ -125,14 +125,14 @@ def uniq(iterable):
     Returns:
         - `tuple<Any>` the iterable without duplicates
     """
-    uniq = []
+    unique = []
     seen = set()
 
     for item in iterable:
         if item in seen:
             continue
 
-        uniq.append(item)
+        unique.append(item)
         seen.add(item)
 
-    return tuple(uniq)
+    return tuple(unique)
