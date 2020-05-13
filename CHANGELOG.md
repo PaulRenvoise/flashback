@@ -27,6 +27,7 @@
     - `renumerate()` enumerates an iterable starting from its end
     - `chunks()` splits an iterable into smalled chunks, padding them if requested
     - `partition()` splits an iterable into the items that validated the given predicate and the others
+    - `uniq()` removes duplicates from an iterable while keeping the items' order
 - Added the `i16g/` module, to help with locale management:
     - A helper class `Locale`, to dynamically load localization files from a package path
 - Added the `importing/` module, a collection of helpers for dynamic importing:
