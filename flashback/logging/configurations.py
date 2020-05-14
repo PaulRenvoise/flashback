@@ -4,11 +4,11 @@ Defines several logging configuration.
 Upon import, it dynamically extracts the package name from the module importing this file,
 and sets the package name as top-level logger. This avoids the behavior where ALL libraries
 would have the defined logging level if we use the 'root' key.
-If the import is not done within a package (e.g. within a simple python script that is then executed),
-we fallback to 'None', thus applying the configuration to the 'root' logger.
+If the import is not done within a package (e.g. within a simple python script that is then
+executed), it falls back to 'None', thus applying the configuration to the 'root' logger.
 
 The con of this method is that the indices used to access the stack are hardcoded,
-meaning that the importing line must look like the following, else we won't have a package:
+meaning that the importing line must look like the following, else it won't find a package:
 ```python
 from flashback.logging import DEFAULT_CONSOLE_CONFIGURATION
 ```
@@ -18,9 +18,10 @@ created after using the configuration (see: https://gist.github.com/alanbriolat/
 """
 import inspect
 
+from ..debugging import get_frameinfo
 
 try:
-    IMPORTER = inspect.getmodule(inspect.stack()[12][0]).__package__ or None
+    IMPORTER = inspect.getmodule(get_frameinfo(12).frame).__package__ or None
 except (IndexError, AttributeError):
     IMPORTER = None
 

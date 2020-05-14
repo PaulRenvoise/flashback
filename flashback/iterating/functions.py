@@ -82,7 +82,8 @@ def chunks(iterable, size=2, pad=Sentinel):
 
 def partition(predicate, iterable):
     """
-    Splits an `iterable` into two lists containing items that validate or not the given `predicate`.
+    Splits an `iterable` into two lists containing items that validate or not the given
+    `predicate`.
 
     Items that validated the predicate are first in the returned tuple.
 

@@ -1,23 +1,24 @@
-from .functions import oxford_join
-from .functions import transliterate
-from .functions import camelize
-from .functions import snakeize
-from .functions import parameterize
-from .functions import ordinalize
 from .functions import adverbize
-from .functions import truncate
-from .functions import singularize
+from .functions import camelize
+from .functions import ordinalize
+from .functions import oxford_join
+from .functions import parameterize
 from .functions import pluralize
+from .functions import singularize
+from .functions import snakeize
+from .functions import transliterate
+from .functions import truncate
+
 
 __all__ = (
-    'oxford_join',
-    'transliterate',
-    'camelize',
-    'snakeize',
-    'parameterize',
-    'ordinalize',
     'adverbize',
-    'truncate',
+    'camelize',
+    'oxford_join',
+    'ordinalize',
+    'parameterize',
+    'pluralize',
     'singularize',
-    'pluralize'
+    'snakeize',
+    'transliterate',
+    'truncate',
 )

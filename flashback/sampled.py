@@ -11,13 +11,17 @@ class sampled:  # pylint: disable=invalid-name
     Implements a way of sampling requests made to a callable.
 
     Currently implements three strategies:
-        - constant: All calls are accepted (rate=0) or refused (rate=1) (default: 1)
-        - probabilistic: A percentage of the calls are accepted (ratio between 0 and 1) (default: 0.5)
-        - ratelimiting: A fixed number of requests per second are accepted (above 0) (default: 10)
+        - constant
+            - All calls are accepted (rate=0) or refused (rate=1) (default: 1)
+        - probabilistic
+            - A percentage of the calls are accepted (0 < rate < 1) (default: 0.5)
+        - ratelimiting
+            - A fixed number of requests per second are accepted (rate > 0) (default: 10)
 
-    When a callable decorated with `@sampled` is called and the call is not accepted, `None` is returned
+    A callable decorated with `@sampled` will return `None` if the call is not sampled.
 
-    Inspired from https://github.com/jaegertracing/jaeger-client-python/blob/master/jaeger_client/sampler.py
+    Inspired by:
+        - https://github.com/jaegertracing/jaeger-client-python/blob/master/jaeger_client/sampler.py
 
     Examples:
         ```python
@@ -53,22 +57,28 @@ class sampled:  # pylint: disable=invalid-name
         decorated()
         #=> Called
         ```
-
-    Params:
-        - `strategy (str)` the sampling strategy to use
-        - `param (int|float)` the parameter to fine-tune the sampling strategy
-
-    Returns:
-        - `Callable` a wrapper used to decorate a callable
     """
+    STRATEGY_CONSTANT = 'constant'
+    STRATEGY_PROBABILISTIC = 'probabilistic'
+    STRATEGY_RATELIMITING = 'ratelimiting'
     STRATEGIES = (
-        'constant',
-        'probabilistic',
-        'ratelimiting',
+        STRATEGY_CONSTANT,
+        STRATEGY_PROBABILISTIC,
+        STRATEGY_RATELIMITING,
     )
 
     def __init__(self, strategy='constant', rate=None):
-        if strategy == 'constant':
+        """
+        Initializes the decorator.
+
+        Params:
+            - `strategy (str)` the sampling strategy to use
+            - `rate (int|float)` the parameter to fine-tune the sampling strategy
+
+        Returns:
+            - `None`
+        """
+        if strategy == self.STRATEGY_CONSTANT:
             if rate is None:
                 rate = 1
             elif rate not in {0, 1}:
@@ -77,7 +87,7 @@ class sampled:  # pylint: disable=invalid-name
             self._rate = rate
 
             self.should_sample = self._sample_constant
-        elif strategy == 'probabilistic':
+        elif strategy == self.STRATEGY_PROBABILISTIC:
             if rate is None:
                 rate = 0.5
             elif not 0 < rate < 1:
@@ -86,10 +96,10 @@ class sampled:  # pylint: disable=invalid-name
             self._rate = rate
 
             self.should_sample = self._sample_probabilistic
-        elif strategy == 'ratelimiting':
+        elif strategy == self.STRATEGY_RATELIMITING:
             if rate is None:
                 rate = 10
-            elif rate < 0:
+            elif rate <= 0:
                 raise ValueError(f"invalid rate {rate!r}, expecting a positive integer")
 
             self._rate = rate

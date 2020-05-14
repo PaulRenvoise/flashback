@@ -5,8 +5,8 @@ class AffixedStreamHandler(logging.StreamHandler):
     """
     Implements a custom handler that adds customizable prefix and suffix to the formatted record.
 
-    This allows logging without trailing newlines, logs that are overwriting themselves (with
-    ANSI escape-codes), or more complex behaviours.
+    This allows logging without trailing newlines, logs that are overwriting themselves (with ANSI
+    escape-codes), or more complex behaviours.
 
     Examples:
         ```python
@@ -78,7 +78,8 @@ class AffixedStreamHandler(logging.StreamHandler):
 
     def emit(self, record):
         """
-        Writes a record to the stream after formatting it and affixing it with the configured prefix and suffix.
+        Writes a record to the stream after formatting it and affixing it with the configured
+        prefix and suffix.
 
         If exception information is present, it is formatted using traceback.print_exception
         and appended to the stream. If the stream has an 'encoding' attribute, it is used to

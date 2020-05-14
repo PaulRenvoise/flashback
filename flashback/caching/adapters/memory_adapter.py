@@ -33,7 +33,6 @@ class MemoryAdapter(BaseAdapter):
     def batch_delete(self, keys):
         res = [bool(self.store.pop(key, False)) for key in keys]
 
-        # If we have one False, we need to return False
         return False not in res
 
     def exists(self, key):

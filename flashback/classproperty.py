@@ -1,4 +1,7 @@
 class ClassPropertyMetaclass(type):
+    """
+    Defines a metaclass to ensure the property is settable, to use with `flashback.classproperty`.
+    """
     def __setattr__(cls, key, value):
         obj = cls.__dict__.get(key, None)
         if isinstance(obj, classproperty):
@@ -6,14 +9,15 @@ class ClassPropertyMetaclass(type):
 
         return super().__setattr__(key, value)
 
+
 class classproperty:  # pylint: disable=invalid-name
     """
     Combines @classmethod and @property to define getters and setters on classes attributes.
 
-    Any class that needs to use this @classproperty decorator must have classproperty.meta as metaclass
-    to prevent attribute assignation via the class when no setter is defined.
+    Any class that needs to use this @classproperty decorator must have classproperty.meta as
+    metaclass to prevent attribute assignation via the class when no setter is defined.
 
-    Adapted from https://stackoverflow.com/a/5191224
+    Adapted from https://stackoverflow.com/a/5191224.
 
     Examples:
         ```python
@@ -45,20 +49,24 @@ class classproperty:  # pylint: disable=invalid-name
         assert static_1.var == 3
         assert static_2.var == 3
         ```
-    Params:
-        - `None`
-
-    Returns:
-        - `None`
     """
     meta = ClassPropertyMetaclass
 
     def __init__(self, func_get, func_set=None):
+        """
+        Initializes the decorator.
+
+        Params:
+            - `func_get (callable)` the getter to decorate
+            - `func_set (callable)` the setter to decorate
+
+        Returns:
+            - `None`
+        """
         if not isinstance(func_get, (classmethod, staticmethod)):
             func_get = classmethod(func_get)
 
-        # Explicit check against None because we do not want to
-        # convert None to a classmethod
+        # Explicitly checks against None to avoid converting it to a classmethod
         if func_set is not None and not isinstance(func_set, (classmethod, staticmethod)):
             func_set = classmethod(func_set)
 

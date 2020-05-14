@@ -1,18 +1,24 @@
-# Flashback
-
-[Site]() | [Documentation](https://flashback.readthedocs.io/en/latest/index.html) | [Contributing]() | [License](#license)
+<p align="center">
+    <img src="https://i.imgur.com/BCRMH5z.png" alt="Flashback"></a>
+</p>
+<h3 align="center">Flashback</h3>
+<p align="center">You've probably already implemented it.</p>
 
 ## Installing
 
-Build:
+Pip:
 ```bash
-git clone git://github.com:PaulRenvoise/flashback.git
+pip install flashback
+```
+
+Build from sources:
+```bash
+git clone git@github.com:PaulRenvoise/flashback.git
 cd flashback
 python setup.py install
 ```
 
 ## Getting Started
-
 
 ## Contributing
 

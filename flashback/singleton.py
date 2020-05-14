@@ -6,11 +6,12 @@ class Singleton(type):
     Implements a Singleton metaclass.
 
     Any class using this metaclass can be made strict or not.
-    If the strict behavior is enforced, only one instance will be created for each group of arguments
-    and keyword arguments given to the class' constructor. Else, only one instance will be created.
-    By default, the strict behavior is enforced.
+    If the strict behavior is enforced, only one instance will be created for each group of
+    positional and keyword arguments given to the class' constructor. Else, only one instance will
+    be created. By default, the strict behavior is enforced.
 
-    Relies on the key building mechanism from `functools._make_key` to hash the arguments and keyword arguments.
+    Relies on the key building mechanism from `functools._make_key` to hash the positional and
+    keywords arguments.
 
     Examples:
         ```python
@@ -45,6 +46,18 @@ class Singleton(type):
         return super().__new__(cls, name, bases, namespace)
 
     def __init__(cls, name, bases, attributes, strict=True):
+        """
+        Initializes the metaclass.
+
+        Params:
+            - `name (str)` the name of the class to initialize
+            - `bases (tuple)` the bases classes of the class
+            - `attributes (dict)` the internal __dict__ of the class
+            - `strict (bool)` whether or not to enforce the strict behavior for singleton creation
+
+        Returns:
+            - `None`
+        """
         super().__init__(name, bases, attributes)
 
         cls.strict = strict

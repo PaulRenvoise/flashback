@@ -6,9 +6,8 @@ def profiled(output=None):
     """
     Profiles a call made to a callable and dump the stats to a file for further analysis.
 
-    By default, prints the stats to a file f"{func.__name__}.pstats".
-
-    The file in which the stats are dumped will be located in the folder from where it has been called.
+    By default, prints the stats to a file called f"{func.__name__}.pstats", located in the folder
+    from where it has been called.
 
     To visualize the stats collected during profiling, you can use:
         - snakeviz:

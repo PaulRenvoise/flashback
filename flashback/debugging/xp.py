@@ -7,7 +7,6 @@ from .formatter import Formatter
 PARSER = Parser()
 FORMATTER = Formatter()
 
-
 def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
     """
     Provides a simple and concise way of printing for debugging purposes.
@@ -16,8 +15,10 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
 
     Consumes generators to print them (be careful with infinite ones!).
 
-    Uses its own name internally to print debug information about the argument printed, thus it is advised
-    to not alias this function when importing it to prevent the loss of information.
+    Inspired by:
+        - https://github.com/samuelcolvin/python-devtools
+        - https://github.com/gruns/icecream
+        - https://github.com/wolever/pprintpp
 
     Examples:
         ```python
@@ -76,7 +77,7 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
 
     print(output, file=o, flush=f)
 
-    # Forward the arguments received to the (possible) next operation
+    # Forwards the arguments received to the (possible) next operation
     if len(arguments) == 0:
         result = None
     elif len(arguments) == 1:
