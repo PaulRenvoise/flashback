@@ -9,7 +9,9 @@ from .base import BaseAdapter
 
 class DiskAdapter(BaseAdapter):
     """
-    Exposes a cache store using a locked shelf (see: https://docs.python.org/3/library/shelve.html).
+    Exposes a cache store using a locked shelf.
+
+    See: https://docs.python.org/3/library/shelve.html.
     """
 
     def __init__(self, **kwargs):
@@ -45,7 +47,6 @@ class DiskAdapter(BaseAdapter):
         with self._open_locked_store(LOCK_EX) as store:
             res = [bool(store.pop(key, False)) for key in keys]
 
-        # If we have one False, we need to return False
         return False not in res
 
     def exists(self, key):

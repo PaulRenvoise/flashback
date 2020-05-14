@@ -3,45 +3,58 @@ from pygments.token import Name
 
 
 class CallHighlightFilter(Filter):
-    """Highlight a normal Name (and Name.*) token with a different token type.
-    Example::
-        filter = NameHighlightFilter(
-            names=['foo', 'bar', 'baz'],
-            tokentype=Name.Function,
-        )
-    This would highlight the names "foo", "bar" and "baz"
-    as functions. `Name.Function` is the default token type.
-    Options accepted:
-    `names` : list of strings
-      A list of names that should be given the different token type.
-      There is no default.
-    `tokentype` : TokenType or string
-      A token type or a string containing a token type name that is
-      used for highlighting the strings in `names`.  The default is
-      `Name.Function`.
+    """
+    Modifies the token type of a Name to Name.Function if its value is followed by an opening
+    parenthesis.
     """
     def __init__(self, **kwargs):
-        Filter.__init__(self, **kwargs)
+        """
+        Initializes the class.
 
-        self.tokentype = kwargs.get('tokentype')
+        Params:
+            - `kwargs (dict)` every additional keyword parameters
+
+        Returns:
+            - `None`
+        """
+        Filter.__init__(self, **kwargs)
 
     def filter(self, lexer, stream):
         """
-        TODO: explain
+        Iterates over the stream of tokens and searches for a name followed by an opening paren to
+        change its type to Name.Function.
+
+        Many colorscheme highlight calls, but pygments treats a function call as a simple Name,
+        this filter fixes that.
+
+        Because it needs to look at the next token before making a decision about the current one,
+        this filter takes the first item of the stream, stores it into a stack, and then iterates
+        over the stream (now with an offset of 1), and makes a decision of token tx-1 based on its
+        current token tx. Once the decision is made it adds back the token tx-1 and the token tx to
+        the stack, and repeats the process. Once the stream is exhausted, it yields the content of
+        the stack.
+
+        Params:
+            - `lexer (pygments.lexer.Lexer)` the lexer instance
+            - `stream (generator)` the stream of couples tokentype-value
+
+        Yields:
+            - `tuple<pygments.token._TokenType, str>` the token type and token value
         """
         try:
             stack = [next(stream)]
         except StopIteration:
             stack = []
 
-        for future_ttype, future_value in stream:
-            ttype, value = stack.pop()
-            if ttype in Name and future_value == '(':
-                stack.append((self.tokentype, value))
-            else:
-                stack.append((ttype, value))
+        for ttype, value in stream:
+            previous_ttype, previous_value = stack.pop()
 
-            stack.append((future_ttype, future_value))
+            if previous_ttype in Name and value == '(':
+                stack.append((Name.Function, previous_value))
+            else:
+                stack.append((previous_ttype, previous_value))
+
+            stack.append((ttype, value))
 
         for items in stack:
             yield items

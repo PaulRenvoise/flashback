@@ -51,7 +51,7 @@ def muted(loggers=None):
         ```
 
     Params:
-        - `loggers (Iterable<str|logging.Logger>)` the list of logger names or logger instances to mute
+        - `loggers (Iterable<str|logging.Logger>)` the list of logger names or instances to mute
 
     Returns:
         - `Callable` a wrapper used to decorate a callable
@@ -62,8 +62,7 @@ def muted(loggers=None):
 
         @functools.wraps(func)
         def inner(*args, **kwargs):
-            # We select all loggers at each call to func
-            # because loggers can be created in-between calls
+            # Selects all loggers at each call to func because loggers can be created between calls
             if loggers is None:
                 selected_loggers = [getLogger(logger) for logger in logging.root.manager.loggerDict] + [logging.root]
             else:

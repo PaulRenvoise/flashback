@@ -28,9 +28,11 @@ def timed(func):
     Returns:
         - `Callable` a wrapper used to decorate a callable
     """
-    # `.getmodule().__name__` returns the same value as `__name__` called from the module we decorate
-    # Each time we call `getLogger()` with the same name, we receive the same logger since `logging` is a singleton
-    # This "pretends" the logging was made from within the module/function we decorate
+    # `.getmodule().__name__` returns the same value as `__name__` called from the module we
+    # decorate.
+    # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
+    # name, we receive the same logger, which "hides" this decorator as if the logging was
+    # made from within the callable we decorate
     logger = logging.getLogger(inspect.getmodule(func).__name__)
 
     @functools.wraps(func)

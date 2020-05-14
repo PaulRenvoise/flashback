@@ -2,10 +2,11 @@
 
 class Borg:
     """
-    Implements a Borg pattern that is used to implement singleton behavior across multiple instances of a class.
+    Implements the Borg design pattern, used to implement singleton behavior across multiple
+    instances of a class.
 
-    In the Borg design pattern, the focus is on sharing state instead of sharing instance identity,
-    see https://books.google.fr/books?id=yhfdQgq8JF4C&ots=-8okzwnM03&pg=PA208.
+    In the Borg design pattern, the focus is on sharing instance state instead of instance
+    identity.
 
     Examples:
         ```python
@@ -24,12 +25,14 @@ class Borg:
         # But they share their attributes
         borg_1.assign_attribute('attr', 0)
 
+        assert borg_1.attr == 0
         assert borg_2.attr == 0
 
         # And their attributes are not overridable
         borg_1.assign_attribute('attr', 'foo')
 
         assert borg_1.attr == 0
+        assert borg_2.attr == 0
         ```
     """
     def __new__(cls, *_args, **_kwargs):
@@ -43,9 +46,11 @@ class Borg:
 
     def assign_attribute(self, attribute, value, *args, **kwargs):
         """
-        Assigns an attribute to the Borg if it's not already defined.
+        Assigns a `value` to the `attribute` of the Borg, if it's not already defined.
 
-        The value is checked for being a callable, and if so, is instantiated with the provided args and kwargs.
+        The `value` is checked for being a callable, and if so, is instantiated with the provided
+        `args` and `kwargs`. This allows to call `value` with `args` and `kwargs` only if
+        `attribute` is not already set, reducing useless computation.
 
         Examples:
             ```python
@@ -57,30 +62,27 @@ class Borg:
             borg = Borged()
 
             borg.assign_attribute('attr_1', 0)
-            borg.attr_1
-            #=> 0
+            assert borg.attr_1 == 0
 
             borg.assign_attribute('attr_1', 1)
-            borg.attr_1
-            #=> 0
+            assert borg.attr_1 == 0
 
             borg.assign_attribute('attr_2', dict, {'foo': 'bar'})
-            borg.attr_2
-            #=> {'foo': 'bar'}
+            assert borg.attr_2 == {'foo': 'bar'}
 
             borg.assign_attribute('attr_3', str(1))
-            borg.attr_3
-            #=> '1'  # calls 'str(1)', then assigns its return to 'attr_3' if 'attr_3' is not set
+            # calls 'str(1)', then assigns its return to 'attr_3' if it is not set
+            assert borg.attr_3 == '1'
 
             borg.assign_attribute('attr_4', str, 2)
-            borg.attr_4
-            #=> '2'  # calls 'str(2)' if 'attr_4' is not set, then assigns its return to 'attr_3' if needed
+            # calls 'str(2)' if 'attr_4' is not set, then assigns its return to 'attr_3'
+            assert borg.attr_4 == '2'
             ```
 
         Params:
             - `attribute (str)` the name of the attribute to define
             - `value (Any)` the value to assign to the attribute
-            - `args (list)` every additional positional arguments
+            - `args (tuple)` every additional positional arguments
             - `kwargs (dict)` every given keyword arguments
 
         Returns:
@@ -96,11 +98,13 @@ class Borg:
 
     def assign_attributes(self, **kwargs):
         """
-        Assigns multiple attributes to the Borg if they're not already defined.
+        Assigns multiple values to their respective attributes of the Borg if they're not already
+        defined.
 
-        Only accepts keywords arguments, with the following structures: ATTRIBUTE_NAME=VALUE
-        or ATTRIBUTE_NAME=(CALLABLE, ARGUMENTS) where the keywords arguments to forward to CALLABLE
-        must be given as a dict as the last item of the tuple.
+        Only accepts keywords arguments, with the following accepted structures:
+        ATTRIBUTE_NAME=VALUE or ATTRIBUTE_NAME=(CALLABLE, ARGUMENTS),
+        where the keywords arguments to forward to CALLABLE must be given as a dict as the last
+        item of the tuple.
 
         Examples:
             ```python
@@ -112,24 +116,22 @@ class Borg:
             borg = Borged()
 
             borg.assign_attributes(attr_1=0)
-            borg.attr_1
-            #=> 0
-
-            borg.assign_attributes(attr_2=(dict({'foo': 'bar'}),))
-            borg.attr_2
-            #=> {'foo': 'bar'}  # calls 'dict({'foo': 'bar'})', then assigns its return if 'attr_2' is not set
-
-            borg.assign_attributes(attr_3=(dict, {'foo': 1}))
-            borg.attr_3
-            #=> {'foo': 'bar'}  # calls 'dict({'foo': 1})' if 'attr_3' is not set, then assigns its return if needed
+            assert borg.attr_1 == 0
 
             borg.assign_attributes(attr_4=('foo', 0))
-            borg.attr_4
-            #=> ('foo', 0)
+            assert borg.attr_4 == ('foo', 0)
+
+            borg.assign_attributes(attr_2=(dict({'foo': 'bar'}),))
+            # calls 'dict({'foo': 'bar'})', then assigns its return to 'attr_2' if it is not set
+            assert borg.attr_2 == {'foo': 'bar'}
+
+            borg.assign_attributes(attr_3=(dict, {'foo': 'bar'}))
+            # calls 'dict({'foo': 1})' if 'attr_3' is not set, then assigns its return to 'attr_3'
+            assert borg.attr_3 == {'foo': 'bar'}
 
             borg.assign_attributes(attr_5=(str, 0)
-            borg.attr_5
-            #=> '0'  # calls 'str(0)' if 'attr' is not set, then assigns its return to 'attr_5' if needed
+            # calls 'str(0)' if 'attr_5' is not set, then assigns its return to 'attr_5'
+            assert borg.attr_5 == '0'
             ```
 
         Params:
@@ -139,9 +141,7 @@ class Borg:
             - `None`
         """
         for attribute, value in kwargs.items():
-            # Check for callable
             if isinstance(value, tuple) and callable(value[0]):
-                # Check for kwargs
                 if isinstance(value[-1], dict):
                     self.assign_attribute(attribute, value[0], *value[1:-1], **value[-1])
                 else:

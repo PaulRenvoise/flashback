@@ -9,7 +9,7 @@ class Cache:
     """
     Defines a generic caching client, that can be used with several adapters.
 
-    All lone numeric values (the ones being exlusively an int/float, not int/floats in dict, sets, lists, etc.)
+    All lone scalar (being exlusively ints/floats, not ints/floats in dict, sets, lists, etc.)
     are converted to unicode strings (redis is the only service that does this conversion natively,
     but this ensure a homogeneous behaviour across adapters).
 
@@ -17,17 +17,33 @@ class Cache:
 
     Examples:
         ```python
-        TODO
+        from flashback.caching import Cache
+
+        cache = Cache(adapter='memory')
+
+        # Has default operations for key-value stores
+        assert cache.set('key', 'val')
+        assert cache.get('key') == 'val'
+        assert cache.delete('key')
+        assert no cache.exists('key')
+
+        # Plus batch operations
+        assert cache.batch_set(['key1', 'key2', 'key3'], ['val1', 'val2', 'val3'])
+        assert cache.batch_get(['key1', 'key2', 'key3']) == ['val1', 'val2', 'val3']
+        assert cache.batch_delete(['key1', 'key2', 'key3'])
+
+        # And some more
+        assert cache.ping()
+        assert cache.flush()
         ```
     """
-
     def __init__(self, adapter='memory', flush=False, **kwargs):
         """
-        Instantiates a connection with a cache storage with the given `adapter`.
+        Initializes the cache and instantiates a connection with a storage with the given `adapter`.
 
         Params:
-            - `adapter (str)` the adapter to use for the cache storage
-            - `flush (bool)` whether or not to flush the cache storage after connecting
+            - `adapter (str)` the adapter to use for the storage
+            - `flush (bool)` whether or not to flush the storage after connecting
             - `kwargs (dict)` every additional keyword arguments, forwarded to the adapter
 
         Returns:
@@ -37,6 +53,7 @@ class Cache:
 
         try:
             adapter_class = import_class_from_path(f"{adapter}_adapter", '.adapters')
+
             self.adapter = adapter_class(**kwargs)
         except (ImportError, AttributeError):
             raise NotImplementedError(f"adapter {adapter!r} is not yet supported")
@@ -44,7 +61,7 @@ class Cache:
         if flush:
             self.flush()
 
-        # Notify that we have a new connection
+        # Notifies that we have a new connection
         self.ping()
 
     def set(self, key, value):
@@ -53,7 +70,10 @@ class Cache:
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+            assert cache.set('key', 'val')
             ```
 
         Params:
@@ -78,7 +98,10 @@ class Cache:
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+            cache.batch_set(['key1', 'key2'], ['val1', 'val2'])
             ```
 
         Params:
@@ -109,14 +132,20 @@ class Cache:
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+            cache.set('key', 'val')
+
+            assert cache.get('key') == 'val'
+            assert cache.get('yek') is None
             ```
 
         Params:
             - `key (str)` the key to fetch the value from
 
         Returns:
-            - `str|None` the value read from the cache
+            - `str|None` the value read from the storage
         """
         try:
             json_value = self.adapter.get(key)
@@ -132,14 +161,19 @@ class Cache:
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+            cache.set('key', 'val')
+
+            assert cache.batch_get(['key', 'yek']) == ['val', None]
             ```
 
         Params:
             - `keys (Iterable<str>)` the keys to fetch the values from
 
         Returns:
-            - `list<str|None>` the values read from the cache
+            - `list<str|None>` the values read from the storage
         """
         try:
             json_values = self.adapter.batch_get(keys)
@@ -151,11 +185,17 @@ class Cache:
 
     def delete(self, key):
         """
-        Deletes the given `key` from the cache storage.
+        Deletes the given `key` from the storage.
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+            cache.set('key', 'val')
+
+            assert cache.delete('key')
+            assert not cache.delete('yek')
             ```
 
         Params:
@@ -173,11 +213,16 @@ class Cache:
 
     def batch_delete(self, keys):
         """
-        Deletes the given `keys` from the cache storage, ignoring non-existing keys.
+        Deletes the given `keys` from the storage, ignoring non-existing keys.
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+            cache.batch_set(['key1', 'key2'], ['val1', 'val2'])
+
+            assert cache.batch_delete(['key1', 'key2', 'yek'])
             ```
 
         Params:
@@ -195,11 +240,17 @@ class Cache:
 
     def exists(self, key):
         """
-        Checks whether or not the given `key` exists in the cache storage.
+        Checks whether or not the given `key` exists in the storage.
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+            cache.set('key', 'val')
+
+            assert cache.exists('key')
+            assert not cache.exists('yek')
             ```
 
         Params:
@@ -217,11 +268,16 @@ class Cache:
 
     def flush(self):
         """
-        Flushes all keys from the cache storage.
+        Flushes all keys from the storage.
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+            cache.set('key', 'val')
+
+            assert cache.flush()
             ```
 
         Params:
@@ -237,11 +293,15 @@ class Cache:
 
     def ping(self):
         """
-        Checks if a valid connection exists with the caching storage.
+        Checks if a valid connection exists with the storage.
 
         Examples:
             ```python
-            TODO
+            from flashback.caching import Cache
+
+            cache = Cache()
+
+            assert cache.ping()
             ```
 
         Params:

@@ -16,7 +16,7 @@ class TestConfigurations:
     CRE_DJANGO_FORMAT = regex.compile(r"message\n$")
     CRE_FLASK_FORMAT = regex.compile(r"\[[\d- :,]{23}\] INFO in test_configurations: message\n$")
     CRE_PYRAMID_FORMAT = regex.compile(r"[\d- :,]{23} INFO  \[tests.logging:\d+\]\[MainThread\] message\n$")
-    CRE_RAILS_FORMAT = regex.compile(r"I, \[[\d-T:\.]{23} #\d{1,4}\]     INFO -- : message\n$")
+    CRE_RAILS_FORMAT = regex.compile(r"I, \[[\d-T:\.]{23} #\d+\]     INFO -- : message\n$")
 
     def test_default_console_configuration(self, capsys):
         logging.config.dictConfig(DEFAULT_CONSOLE_CONFIGURATION)
@@ -26,7 +26,6 @@ class TestConfigurations:
         logger.info('message')
 
         captured = capsys.readouterr()
-        print(captured)
         assert self.CRE_DEFAULT_FORMAT.match(captured.err)
 
         assert logger.level == 10
@@ -66,7 +65,6 @@ class TestConfigurations:
         logger.info('message')
 
         captured = capsys.readouterr()
-        print(captured)
         assert self.CRE_PYRAMID_FORMAT.match(captured.err)
 
         assert logger.level == 10

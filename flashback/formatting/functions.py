@@ -1,7 +1,6 @@
 # pylint: disable=too-many-lines
 
 import regex
-
 from unidecode import unidecode
 
 from ..i16g import Locale
@@ -18,10 +17,10 @@ CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)
 
 CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
 
-
 def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quotes=False):
     """
-    Joins a list of string to a comma-separated sentence in a more english fashion than the builtin `.join()`.
+    Joins a list of string to a comma-separated sentence in a more english fashion than the
+    builtin `.join()`.
 
     Examples:
         ```python
@@ -68,7 +67,8 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
 
 def transliterate(text, keep_case=True):
     """
-    Replaces unicode characters with their ASCII equivalent using unidecode (https://pypi.org/project/Unidecode/).
+    Replaces unicode characters with their ASCII equivalent using unidecode
+    (https://pypi.org/project/Unidecode/).
 
     Examples:
         ```python
@@ -102,24 +102,26 @@ def transliterate(text, keep_case=True):
 
 def camelize(text, acronyms=None):
     """
-    Transforms a any-cased text to CamelCase. Any character following a matched acronym will be capitalized.
+    Transforms a text in any case to camelCase.
+
+    Any character following a matched acronym will be capitalized.
 
     Examples:
         ```python
         from flashback.formatting import camelize
 
         camelize('host')
-        #=> "Host"
+        #=> "host"
 
         camelize('http_host')
-        #=> "HttpHost"
+        #=> "httpHost"
 
         camelize('http_host', acronyms=['HTTP'])
         #=> HTTPHost
         ```
 
     Params:
-        - `text (str)` the text to transform into CamelCase
+        - `text (str)` the text to transform into camelCase
         - `acronyms (Iterable)` a list of correctly cased acronyms to retain and case correctly
 
     Returns:
@@ -127,7 +129,7 @@ def camelize(text, acronyms=None):
     """
     text = str(text)
 
-    # Build the pattern to handle acronyms
+    # Builds the pattern to handle acronyms
     if acronyms is None:
         lower2upper = {}
         acronyms_pattern = r"(?=$)^"
@@ -137,11 +139,11 @@ def camelize(text, acronyms=None):
 
     acronyms_camelize_pattern = r"({})(.|$)".format(acronyms_pattern)
 
-    # Capitalize
+    # Capitalizes
     text = CRE_CAMELIZE_FIRST_CHAR.sub(lambda x: x.group(1).capitalize(), text)
 
-    # Iterate on all acronyms matches then:
-    # Use the given casing, and uppercase the following char
+    # Iterates on all acronyms matches then:
+    # Uses the given casing, and uppercases the following char
     for match in regex.finditer(acronyms_camelize_pattern, text, flags=regex.I):
         replacement = lower2upper[match.group(1).lower()] + match.group(2).capitalize()
         text = text[:match.start()] + replacement + text[match.end():]
@@ -151,7 +153,7 @@ def camelize(text, acronyms=None):
 
 def snakeize(text, acronyms=None):
     """
-    Transforms an any-cased text to snake_case.
+    Transforms a text in any case to snake_case.
 
     Examples:
         ```python
@@ -197,8 +199,8 @@ def parameterize(text, sep='-', keep_case=False):
     """
     Replaces special characters in a text so that it may be used as part of an URL.
 
-    Internally, uses `flashback.formatting.functions.transliterate` to replace any unicode character found
-    by its ASCII equivalent.
+    Internally, uses `flashback.formatting.functions.transliterate` to replace any unicode
+    character by its ASCII equivalent.
 
     Examples:
         ```python
@@ -248,6 +250,7 @@ def parameterize(text, sep='-', keep_case=False):
 def ordinalize(number):
     """
     Transforms a number to its ordinal representation.
+
     Since this method should be mostly used in logging messages, only English is supported.
 
     Examples:
@@ -300,6 +303,7 @@ def ordinalize(number):
 def adverbize(number):
     """
     Transforms a number to its numeral adverb representation.
+
     Since this method should be mostly used in logging messages, only English is supported.
 
     For reference about numeral adverbs, see: http://tiny.cc/m4bkez.
@@ -342,11 +346,9 @@ def truncate(text, limit=120, suffix='...'):
     """
     Truncates the given text up to `limit` and fill its ending with `suffix`.
 
-    Tries to find the latest space before the `limit` which is located in the
-    second half of the text. If no space is found, truncate at the limit.
-
-    Searching for a space in the second-half of the text avoids cases where
-    the word going over the limit is very long, e.g.:
+    Tries to find the latest space before the `limit` which is located in the second half of the
+    text. If no space is found, truncates at the limit. Searching for a space in the second-half
+    of the text avoids cases where the word going over the limit is very long, e.g.:
 
     Without:
     ```python
@@ -492,7 +494,7 @@ def _inflect(word, rules, categories, prepositions, base_case=str.lower):
     if CRE_INFLECT_ONLY_PUNCT_SYM_NUM.search(word):
         return word
 
-    # Recurse compound words like mothers-in-law, eco-friendly, post-nap
+    # Recurses over compound words like mothers-in-law, eco-friendly, post-nap
     tokens = word.replace('-', ' ').split(' ')
     if len(tokens) > 1:
         if tokens[1] in prepositions:
@@ -500,16 +502,14 @@ def _inflect(word, rules, categories, prepositions, base_case=str.lower):
 
         return word.replace(tokens[-1], _inflect(tokens[-1], rules, categories, prepositions))
 
-    # Apply rules
+    # Applies rules
     for rule in rules:
         for suffix, inflection, category in rule:
             # A general rule
             if category is None:
                 if suffix.search(word) is not None:
                     return suffix.sub(inflection, word)
-
-            # A rule pertaining to a specific category of words
-            if category is not None:
+            else:
                 if word in categories[category]:
                     return suffix.sub(inflection, word)
 

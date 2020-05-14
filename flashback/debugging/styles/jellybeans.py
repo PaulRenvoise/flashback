@@ -1,8 +1,15 @@
 from pygments.style import Style
-from pygments.token import Comment, Generic, Keyword, Name, Number, Operator, Punctuation, Literal, String, Token
+from pygments.token import Comment, Generic, Keyword, Name, Number, \
+                           Operator, Punctuation, Literal, String, Token
 
 
 class Jellybeans(Style):
+    """
+    Implements the jellybeans.vim colorscheme for pygments.
+
+    Inspired by:
+        - https://github.com/cstrahan/pygments-styles/blob/master/themes/jellybeans.py
+    """
     background_color = '#151515'
 
     styles = {

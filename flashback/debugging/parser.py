@@ -40,11 +40,11 @@ class Parser:
 
     def parse(self, *arguments):
         """
-        Parses the arguments received from the code context in which `flashback.debugging.xp` has been called,
-        enriches the arguments values with their names (or representation).
+        Parses the arguments received from the code context in which `flashback.debugging.xp` has
+        been called, and enriches the arguments values with their names (or representation).
 
-        We must accept all arguments in a greedy way to emulate the behavior of `flashback.debugging.xp`,
-        as we call directly this method when testing.
+        We must accept all arguments in a greedy way to emulate the behavior of
+        `flashback.debugging.xp`, as we call directly this method when testing.
 
         Params:
             - `arguments (tuple<Any>)` every positional arguments
@@ -53,7 +53,7 @@ class Parser:
             - `str` the filename from where `flashback.debugging.xp` has been called
             - `int` the line number from where `flashback.debugging.xp` has been called
             - `list<tuple>` the arguments parsed, as name-value couples
-            - `str` the error encountered when parsing the code that called `flashback.debugging.xp` or None
+            - `str` the error encountered when parsing the code or None
         """
         try:
             # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)
@@ -137,7 +137,6 @@ class Parser:
         #     start_col = arg_node.col_offset
         #     end_line = arg_node.end_lineno - 1
         #     end_col = arg_node.end_col_offset
-
         arguments_positions = []
 
         default_end_line = len(code_lines) - 1

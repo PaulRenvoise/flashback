@@ -5,16 +5,15 @@ from textwrap import wrap
 import pygments
 from pygments.formatters.terminal256 import Terminal256Formatter
 from pygments.lexers.python import PythonLexer
-from pygments.token import Keyword, Name
 
-from .filters import CallHighlightFilter, DecoratorOperatorFilter, NameHighlightFilter
+from .filters import CallHighlightFilter, DecoratorOperatorFilter, TypeHighlightFilter
 from .styles import Jellybeans
 
 
 class Formatter:
     """
-    Implements a formatter to prettify arguments received by `flashback.debugging.xp`
-    and parsed by `Parser.parse`.
+    Implements a formatter to prettify arguments received by `flashback.debugging.xp` and parsed
+    by `flashback.debugging.parser`.
 
     Currently has special formatting for the following types:
         - str / bytes
@@ -42,6 +41,15 @@ class Formatter:
     DIM_END = '\033[0m'
 
     def __init__(self, indent_str='    '):
+        """
+        Initializes the class.
+
+        Params:
+            - `indent_str (str)` the indentation string to use
+
+        Returns:
+            - `None`
+        """
         self._indent_str = indent_str
         self._indent_str_len = len(indent_str)
 
@@ -52,11 +60,9 @@ class Formatter:
         self._code_lexer = PythonLexer(
             ensurenl=False,
             filters=[
-                CallHighlightFilter(
-                    tokentype=Name.Function
-                ),
                 DecoratorOperatorFilter(),
-                NameHighlightFilter(
+                CallHighlightFilter(),
+                TypeHighlightFilter(
                     names=[
                         'bool',
                         'bytearray',
@@ -71,7 +77,6 @@ class Formatter:
                         'str',
                         'tuple',
                     ],
-                    tokentype=Keyword.Type,
                 ),
             ]
         )
@@ -85,11 +90,11 @@ class Formatter:
             - `filename (str)` the filename from where `flashback.debugging.xp` has been called
             - `lineno (int)` the line number from where `flashback.debugging.xp` has been called
             - `arguments (list<tuple>)` the arguments to format, as name-value couples
-            - `warning (str)` the error encountered when parsing the code that called `flashback.debugging.xp` or None
+            - `warning (str)` the error encountered when parsing the code or None
             - `width (int)` the maximum width before wrapping the output
 
         Returns:
-            -   `str` the location of the call to `flashback.debugging.xp` and the formatted arguments
+            - `str` the formatted arguments, and location of the call to `flashback.debugging.xp`
         """
         self._width = width
 
@@ -125,13 +130,13 @@ class Formatter:
 
     def format_code(self, lines, start_lineno=1, highlight=None):
         """
-        Formats code with syntax highlighting and line numbers,
-        with optional highlighting of specific range of lines.
+        Formats code with syntax highlighting and line numbers, with optional highlighting of
+        specific range of lines.
 
         Params:
             - `lines (Iterable<str>)` the lines of code to render
             - `start_lineno (int)` the line number of the code's first line
-            - `highlight (tuple<int>)` the start and end line indices of the code to highlight
+            - `highlight (tuple<int>)` the start and end indices of the code to highlight
 
         Returns:
             - `str` the formatted and highlighted code

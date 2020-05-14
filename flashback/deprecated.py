@@ -17,18 +17,18 @@ def deprecated(since=None, until=None, reason=None):
         func()
         #=> func is deprecated.
 
-        @deprecated(since='today', until='tomorrow', reason='it is a test')
+        @deprecated(since='v2', until='v3', reason='it has moved')
         def func():
             pass
 
         func()
-        #=> func is deprecated since today and will be removed tomorrow because it is a test.
+        #=> func is deprecated since v2 and will be removed in v3 because it has moved.
         ```
 
     Params:
-        - `since (str)` the version at which the callable was deprecated
-        - `until (str)` the version at which the callable will be removed
-        - `reason (str)` the reason of the deprecation, must complete the phrase "because [...]" without final dot
+        - `since (str)` the date/version the callable was deprecated
+        - `until (str)` the date/version the callable will be removed
+        - `reason (str)` the reason of the deprecation
 
     Returns:
         - `Callable` a wrapper used to decorate a callable

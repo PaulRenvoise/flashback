@@ -2,6 +2,7 @@ import inspect
 
 from importlib import util, import_module
 
+from ..debugging import get_frameinfo
 from ..formatting import camelize
 
 
@@ -33,7 +34,7 @@ def import_class_from_path(name, path):
         - `AttributeError` if the class is not found in the imported module
     """
     if path.startswith('.'):
-        caller_module = inspect.getmodule(inspect.stack()[1][0])
+        caller_module = inspect.getmodule(get_frameinfo(1).frame)
         caller_package = caller_module.__package__
 
         module_path = util.resolve_name(path, caller_package)
@@ -41,9 +42,10 @@ def import_class_from_path(name, path):
         module_path = path
 
     # Loads the module, will raise ImportError if module cannot be loaded
-    # The module import is called with the complete absolute class path (`import_module(absolute_path)`) rather
-    # than the relative class path for an absolute package path (`import_module(relative_path, package=absolute_path)`)
-    # because it can happen that the package is not yet loaded when we try to import.
+    # The module import is called with the complete absolute class path
+    # (`import_module(absolute_path)`) rather than the relative class path for an absolute package
+    # path (`import_module(relative_path, package=absolute_path)`) because it can happen that the
+    # package is not yet loaded when it tries to import.
     imported_module = import_module(module_path + '.' + name)
 
     # Gets the class, will raise AttributeError if class cannot be found
@@ -52,7 +54,8 @@ def import_class_from_path(name, path):
 
 def import_module_from_path(name, path):
     """
-    Imports the contents of a module from a relative or absolute path and makes its content available for usage.
+    Imports the contents of a module from a relative or absolute path and makes its content
+    available for usage.
 
     Simulates `from module import *`.
 
@@ -77,7 +80,7 @@ def import_module_from_path(name, path):
         - `ImportError` if the request module is not found
     """
     if path.startswith('.'):
-        caller_module = inspect.getmodule(inspect.stack()[1][0])
+        caller_module = inspect.getmodule(get_frameinfo(1).frame)
         caller_package = caller_module.__package__
 
         module_path = util.resolve_name(path, caller_package)

@@ -10,8 +10,9 @@ class RedisAdapter(BaseAdapter):
     """
     Exposes a cache store using Redis.
 
-    Exposes `redis`' exceptions, while renaming `redis.exceptions.ConnectionError` to `RedisConnectionError`
-    and `redis.exceptions.TimeoutError` to `RedisTimeoutError` to avoid conflicts with builtin exceptions.
+    Exposes `redis`' exceptions, while renaming `redis.exceptions.ConnectionError` to
+    `RedisConnectionError` and `redis.exceptions.TimeoutError` to `RedisTimeoutError`
+    to avoid conflicts with builtin exceptions.
     """
 
     def __init__(self, host='localhost', port=6379, db='0', encoding='utf-8', **kwargs):
