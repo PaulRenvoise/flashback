@@ -179,7 +179,7 @@ class TestGetCallContext:
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo, size=20)
 
-        assert len(context) == 33  # Reaching the top of the file
+        assert len(context) == 33  # Should be 41, but reaching the top of the file
         assert context_lineno == 1
         assert call_boundaries == (12, 13)
 
@@ -195,8 +195,8 @@ class TestGetCallContext:
             assert call_boundaries == (5, 8)
         else:
             assert len(context) == 11
-            assert context_lineno == 11
-            assert call_boundaries == (5, 8)
+            assert context_lineno == 13
+            assert call_boundaries == (5, 6)
 
     def test_no_context(self):
         frameinfo = eval('get_frameinfo()')  # pylint: disable=eval-used
