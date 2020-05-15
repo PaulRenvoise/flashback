@@ -134,10 +134,6 @@ class TestSnakeize:
     def test_kebabize_revert(self):
         assert snakeize(kebabize('var_name')) == 'var_name'
 
-    @pytest.mark.skip(reason='not implemented yet')
-    def test_pascalize_revert(self):
-        assert snakeize(pascalize('string_io', acronyms=['IO']), acronyms=['IO']) == 'var_name'
-
 
 class TestKebabize:
     def test_lowercase(self):
@@ -181,10 +177,6 @@ class TestKebabize:
 
     def test_kebabize_revert(self):
         assert kebabize(snakeize('var-name')) == 'var-name'
-
-    @pytest.mark.skip(reason='not implemented yet')
-    def test_pascalize_revert(self):
-        assert kebabize(pascalize('string-io', acronyms=['IO']), acronyms=['IO']) == 'var-name'
 
 
 class TestParameterize:
