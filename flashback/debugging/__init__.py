@@ -1,7 +1,7 @@
-from .functions import caller
-from .functions import get_callable
-from .functions import get_call_context
-from .functions import get_frameinfo
+from .caller import caller
+from .get_callable import get_callable
+from .get_call_context import get_call_context
+from .get_frameinfo import get_frameinfo
 from .profiled import profiled
 from .xp import xp
 

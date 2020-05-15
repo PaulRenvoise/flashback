@@ -4,7 +4,7 @@ import logging
 import math
 import time
 
-from .formatting.functions import ordinalize
+from .formatting import ordinalize
 
 
 def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=()):
