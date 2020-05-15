@@ -64,7 +64,7 @@ class Cache:
         # Notifies that we have a new connection
         self.ping()
 
-    def set(self, key, value):
+    def set(self, key, value, ttl=-1):
         """
         Sets `key` to `value`.
 
@@ -79,6 +79,7 @@ class Cache:
         Params:
             - `key (str)` the key to set
             - `value (str)` the value to cache
+            - `ttl (int)` the number of seconds before expiring the key
 
         Returns:
             - `bool` whether or not the operation succeeded
@@ -86,13 +87,13 @@ class Cache:
         json_value = json.dumps(self._convert_numeric(value))
 
         try:
-            res = self.adapter.set(key, json_value)
+            res = self.adapter.set(key, json_value, ttl=ttl)
         except self.adapter.connection_exceptions:
             res = False
 
         return res
 
-    def batch_set(self, keys, values):
+    def batch_set(self, keys, values, ttls=None):
         """
         Sets a batch of `keys` to their respective `values`.
 
@@ -107,6 +108,7 @@ class Cache:
         Params:
             - `keys (Iterable<str>)` the list of keys to set
             - `values (Iterable<str>)` the list of values to cache
+            - `ttls (Iterable<int>)` the number of seconds before expiring the keys
 
         Returns:
             - `bool` whether or not the operation succeeded
@@ -114,13 +116,16 @@ class Cache:
         Raises:
             - `ValueError` if the lengths of the keys and values differ
         """
-        if len(keys) != len(values):
-            raise ValueError("invalid arguments, length of 'keys' and 'values' must be equal")
+        if ttls is None:
+            ttls = [-1 for _ in range(len(keys))]
+
+        if len(set(map(len, keys, values, ttls))) > 1:
+            raise ValueError("invalid arguments, length of 'keys', 'values', and 'ttls' must be equal")
 
         json_values = [json.dumps(self._convert_numeric(value)) for value in values]
 
         try:
-            res = self.adapter.batch_set(keys, json_values)
+            res = self.adapter.batch_set(keys, json_values, ttls=ttls)
         except self.adapter.connection_exceptions:
             res = False
 
