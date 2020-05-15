@@ -15,7 +15,8 @@
 - Added the `formatting/` module, a collection of helper functions:
     - `oxford_join()` joins strings in a human-readable way
     - `transliterate()` represents unicode text in ASCII (using [Unidecode](https://github.com/avian2/unidecode))
-    - `camelize()` transforms any case to CamelCase
+    - `camelize()` transforms any case to camelCase
+    - `pascalize()` transforms any case to PascalCase
     - `snakeize()` transforms any case to snake\_case
     - `kebabize()` tranforms any case to kebab-case
     - `parameterize()` formats a given string to be used in URLs

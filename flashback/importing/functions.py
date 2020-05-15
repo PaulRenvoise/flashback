@@ -3,7 +3,7 @@ import inspect
 from importlib import util, import_module
 
 from ..debugging import get_frameinfo
-from ..formatting import camelize
+from ..formatting import pascalize
 
 
 def import_class_from_path(name, path):
@@ -49,7 +49,7 @@ def import_class_from_path(name, path):
     imported_module = import_module(module_path + '.' + name)
 
     # Gets the class, will raise AttributeError if class cannot be found
-    return getattr(imported_module, camelize(name))
+    return getattr(imported_module, pascalize(name))
 
 
 def import_module_from_path(name, path):

@@ -6,12 +6,6 @@ from unidecode import unidecode
 from ..i16g import Locale
 
 
-CRE_CAMELIZE_FIRST_CHAR = regex.compile(r"(?:^|_)(.)", flags=regex.I)
-
-CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)
-
-CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
-
 def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quotes=False):
     """
     Joins a list of string to a comma-separated sentence in a more english fashion than the
@@ -95,6 +89,8 @@ def transliterate(text, keep_case=True):
     return text.lower()
 
 
+CRE_CAMELIZE = regex.compile(r"(?<!(?:^|-|_))[\-_](?![\-_])(.)", flags=regex.I)
+
 def camelize(text, acronyms=None):
     """
     Transforms a text in any case to camelCase.
@@ -105,13 +101,11 @@ def camelize(text, acronyms=None):
         ```python
         from flashback.formatting import camelize
 
-        camelize('host')
-        #=> "host"
-
-        camelize('http_host')
-        #=> "httpHost"
-
-        camelize('http_host', acronyms=['HTTP'])
+        assert camelize('host') == 'host'
+        assert camelize('http_host') == 'httpHost'
+        assert camelize('__http_host__') == '__httpHost__'
+        assert camelize('HTTPHost') == 'httphOst'
+        assert camelize('HTTPHost', acronyms=['HTTP']) == 'HTTPHost'
         #=> HTTPHost
         ```
 
@@ -122,7 +116,7 @@ def camelize(text, acronyms=None):
     Returns:
         - `str` the camel cased text
     """
-    text = str(text)
+    text = snakeize(text, acronyms=acronyms)
 
     # Builds the pattern to handle acronyms
     if acronyms is None:
@@ -132,18 +126,56 @@ def camelize(text, acronyms=None):
         lower2upper = {acronym.lower(): acronym for acronym in acronyms}
         acronyms_pattern = '|'.join(sorted(acronyms, key=len, reverse=True))
 
-    acronyms_camelize_pattern = r"({})(.|$)".format(acronyms_pattern)
+    acronyms_camelize_pattern = fr"({acronyms_pattern})(.|$)"
 
-    # Capitalizes
-    text = CRE_CAMELIZE_FIRST_CHAR.sub(lambda x: x.group(1).capitalize(), text)
+    text = CRE_CAMELIZE.sub(lambda m: m.group()[1:].upper(), text)
 
-    # Iterates on all acronyms matches then:
-    # Uses the given casing, and uppercases the following char
-    for match in regex.finditer(acronyms_camelize_pattern, text, flags=regex.I):
-        replacement = lower2upper[match.group(1).lower()] + match.group(2).capitalize()
-        text = text[:match.start()] + replacement + text[match.end():]
+    def replace(m):
+        return lower2upper[m.group(1).lower()] + m.group(2).upper()
+
+    text = regex.sub(acronyms_camelize_pattern, replace, text, flags=regex.I)
 
     return text
+
+
+CRE_PASCALIZE = regex.compile(r"^(?:_{1,2}|)([a-z\d])(?:[a-z\d]+)")
+
+def pascalize(text, acronyms=None):
+    """
+    Transforms a text in any case to PascalCase.
+
+    Any character following a matched acronym will be capitalized.
+
+    Examples:
+        ```python
+        from flashback.formatting import pascalize
+
+        assert pascalize('host') == 'Host'
+        assert pascalize('http_host') == 'HttpHost'
+        assert pascalize('__http_host__') == '__HttpHost__'
+        assert pascalize('HTTPHost') == 'HttphOst'
+        assert pascalize('HTTPHost', acronyms=['HTTP']) == 'HTTPHost'
+        ```
+
+    Params:
+        - `text (str)` the text to transform into PascalCase
+        - `acronyms (Iterable)` a list of correctly cased acronyms to retain and case correctly
+
+    Returns:
+        - `str` the pascal cased text
+    """
+    text = camelize(text, acronyms=acronyms)
+
+    def replace(m):
+        group = m.group()
+
+        if '_' in group:
+            underscore_index = group.rindex('_') + 1
+            return group[:underscore_index] + group[underscore_index:].capitalize()
+
+        return group.capitalize()
+
+    return CRE_PASCALIZE.sub(replace, text)
 
 
 CRE_SNAKEIZE_CAPITAL_WORDS = regex.compile(r"([A-Z\d]+)([A-Z][a-z])")
@@ -234,6 +266,8 @@ def kebabize(text, acronyms=None):
     """
     return CRE_KEBABIZE_UNDERSCORES.sub('-', snakeize(text, acronyms=acronyms))
 
+
+CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)
 
 def parameterize(text, sep='-', keep_case=False):
     """
@@ -527,6 +561,8 @@ def pluralize(word, language='en'):
 
     return _inflect(word, locale.PLURAL_RULES, locale.PLURAL_CATEGORIES, locale.PREPOSITIONS, base_case=base_case)
 
+
+CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
 
 def _inflect(word, rules, categories, prepositions, base_case=str.lower):
     word = base_case(str(word))
