@@ -1,15 +1,15 @@
-from .functions import adverbize
-from .functions import camelize
-from .functions import kebabize
-from .functions import ordinalize
-from .functions import oxford_join
-from .functions import parameterize
-from .functions import pascalize
-from .functions import pluralize
-from .functions import singularize
-from .functions import snakeize
-from .functions import transliterate
-from .functions import truncate
+from .adverbize import adverbize
+from .camelize import camelize
+from .kebabize import kebabize
+from .ordinalize import ordinalize
+from .oxford_join import oxford_join
+from .parameterize import parameterize
+from .pascalize import pascalize
+from .pluralize import pluralize
+from .singularize import singularize
+from .snakeize import snakeize
+from .transliterate import transliterate
+from .truncate import truncate
 
 
 __all__ = (

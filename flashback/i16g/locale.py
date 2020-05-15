@@ -63,7 +63,7 @@ class Locale:
 
         The cache uses the complete localization file's path to avoid conflicts and overrides.
 
-        The code is very similar to `flashback.importing.functions.import_module_from_path` with
+        The code is very similar to `flashback.importing.import_module_from_path` with
         the following tweaks:
             - It handles candidate generation
             - It caches the imported module

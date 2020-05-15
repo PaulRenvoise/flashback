@@ -1,7 +1,7 @@
-from .functions import chunks
-from .functions import partition
-from .functions import renumerate
-from .functions import uniq
+from .chunks import chunks
+from .partition import partition
+from .renumerate import renumerate
+from .uniq import uniq
 
 
 __all__ = (

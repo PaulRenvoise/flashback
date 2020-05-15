@@ -4,7 +4,8 @@ from textwrap import dedent
 
 import regex
 
-from .functions import get_call_context, get_frameinfo
+from .get_call_context import get_call_context
+from .get_frameinfo import get_frameinfo
 
 
 class Parser:
