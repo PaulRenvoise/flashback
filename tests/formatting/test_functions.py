@@ -93,39 +93,90 @@ class TestCamelize:
 
 class TestSnakeize:
     def test_lowercase(self):
-        assert snakeize('party') == 'party'
+        assert snakeize('stringio') == 'stringio'
 
     def test_snakecase(self):
-        assert snakeize('special_guest') == 'special_guest'
+        assert snakeize('var_name') == 'var_name'
+
+    def test_kebabcase(self):
+        assert snakeize('long-url-path') == 'long_url_path'
 
     def test_camelcase(self):
-        assert snakeize('NotFunException') == 'not_fun_exception'
+        assert snakeize('currentThread') == 'current_thread'
+
+    def test_pascalcase(self):
+        assert snakeize('StringIO') == 'string_io'
+
+    def test_protected_name(self):
+        assert snakeize('_protectedName') == '_protected_name'
+
+    def test_dunder_name(self):
+        assert snakeize('__dunderName__') == '__dunder_name__'
 
     def test_lowercase_and_acronyms(self):
-        assert snakeize('svcclassifier', acronyms=['SVC']) == 'svc_classifier'
+        assert snakeize('stringio', acronyms=['IO']) == 'string_io'
 
     def test_snakecase_and_acronyms(self):
-        assert snakeize('svc_classifier', acronyms=['SVC']) == 'svc_classifier'
+        assert snakeize('var_name', acronyms=['VA']) == 'va_r_name'
 
-    def test_snakecase_and_weird_acronyms(self):
-        assert snakeize('application_controller', acronyms=['APP']) == 'app_lication_controller'
+    def test_kebabcase_and_acronyms(self):
+        assert snakeize('long-url-path', acronyms=['URL']) == 'long_url_path'
 
     def test_camelcase_and_acronyms(self):
-        assert snakeize('SVCClassifier', acronyms=['SVC']) == 'svc_classifier'
+        assert snakeize('currentThread', acronyms=['THREAD']) == 'current_thread'
 
-    def test_camelcase_and_weird_acronyms(self):
-        assert snakeize('HTTPS', acronyms=['HTTP']) == 'http_s'
-
-    def test_lowercase_and_missing_acronyms(self):
-        assert snakeize('https', acronyms=['BDS']) == 'https'
+    def test_pascalcase_and_acronyms(self):
+        assert snakeize('StringIO', acronyms=['IO']) == 'string_io'
 
     def test_camelize_revert(self):
         assert snakeize(camelize('special_guest')) == 'special_guest'
 
-    def test_camelize_revert_and_acronyms(self):
-        acronyms = ['HTML']
+    def test_kebabize_revert(self):
+        assert snakeize(kebabize('var_name')) == 'var_name'
 
-        assert snakeize(camelize('html_tidy_generator', acronyms=acronyms), acronyms=acronyms) == 'html_tidy_generator'
+
+class TestKebabize:
+    def test_lowercase(self):
+        assert kebabize('stringio') == 'stringio'
+
+    def test_snakecase(self):
+        assert kebabize('var_name') == 'var-name'
+
+    def test_kebabcase(self):
+        assert kebabize('long-url-path') == 'long-url-path'
+
+    def test_camelcase(self):
+        assert kebabize('currentThread') == 'current-thread'
+
+    def test_pascalcase(self):
+        assert kebabize('StringIO') == 'string-io'
+
+    def test_protected_name(self):
+        assert kebabize('_protectedName') == '_protected-name'
+
+    def test_dunder_name(self):
+        assert kebabize('__dunderName__') == '__dunder-name__'
+
+    def test_lowercase_and_acronyms(self):
+        assert kebabize('stringio', acronyms=['IO']) == 'string-io'
+
+    def test_snakecase_and_acronyms(self):
+        assert kebabize('var_name', acronyms=['VA']) == 'va-r-name'
+
+    def test_kebabcase_and_acronyms(self):
+        assert kebabize('long-url-path', acronyms=['URL']) == 'long-url-path'
+
+    def test_camelcase_and_acronyms(self):
+        assert kebabize('currentThread', acronyms=['THREAD']) == 'current-thread'
+
+    def test_pascalcase_and_acronyms(self):
+        assert kebabize('StringIO', acronyms=['IO']) == 'string-io'
+
+    def test_camelize_revert(self):
+        assert kebabize(camelize('special-guest')) == 'special-guest'
+
+    def test_kebabize_revert(self):
+        assert kebabize(snakeize('var-name')) == 'var-name'
 
 
 class TestParameterize:
