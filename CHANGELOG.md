@@ -31,6 +31,7 @@
     - `partition()` splits an iterable into the items that validated the given predicate and the others
     - `uniq()` removes duplicates from an iterable while keeping the items' order
     - `compact()` removes None values from an iterable
+    - `flatten()` unpacks nested iterable into the given iterable
 - Added the `i16g/` module, to help with locale management:
     - A helper class `Locale`, to dynamically load localization files from a package path
 - Added the `importing/` module, a collection of helpers for dynamic importing:
