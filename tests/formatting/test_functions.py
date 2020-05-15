@@ -56,39 +56,96 @@ class TestTransliterate:
 
 class TestCamelize:
     def test_lowercase(self):
-        assert camelize('party') == 'Party'
+        assert camelize('stringio') == 'stringio'
 
     def test_snakecase(self):
-        assert camelize('special_guest') == 'SpecialGuest'
+        assert camelize('var_name') == 'varName'
+
+    def test_kebabcase(self):
+        assert camelize('long-url-path') == 'longUrlPath'
 
     def test_camelcase(self):
-        assert camelize('NotFunException') == 'NotFunException'
+        assert camelize('currentThread') == 'currentThread'
+
+    def test_pascalcase(self):
+        assert camelize('StringIO') == 'stringIo'
+
+    def test_protected_name(self):
+        assert camelize('_protected_name') == '_protectedName'
+
+    def test_dunder_name(self):
+        assert camelize('__dunder_name__') == '__dunderName__'
 
     def test_lowercase_and_acronyms(self):
-        assert camelize('svcclassifier', acronyms=['SVC']) == 'SVCClassifier'
-
-    def test_lowercase_and_weird_acronyms(self):
-        assert camelize('https', acronyms=['HTTP']) == 'HTTPS'
-
-    def test_lowercase_and_single_acronyms(self):
-        assert camelize('http', acronyms=['HTTP']) == 'HTTP'
+        assert camelize('stringio', acronyms=['IO']) == 'stringIO'
 
     def test_snakecase_and_acronyms(self):
-        assert camelize('deep_custom_svc_classifier', acronyms=['DEep', 'SVC']) == 'DEepCustomSVCClassifier'
+        assert camelize('var_name', acronyms=['VA']) == 'VARName'
 
-    def test_snakecase_and_weird_acronyms(self):
-        assert camelize('application_controller', acronyms=['APP']) == 'APPLicationController'
+    def test_kebabcase_and_acronyms(self):
+        assert camelize('long-url-path', acronyms=['URL']) == 'longURLPath'
 
-    def test_lowercase_and_missing_acronyms(self):
-        assert camelize('application', acronyms=['BSD']) == 'Application'
+    def test_camelcase_and_acronyms(self):
+        assert camelize('currentThread', acronyms=['THREAD']) == 'currentTHREAD'
+
+    def test_pascalcase_and_acronyms(self):
+        assert camelize('StringIO', acronyms=['IO']) == 'stringIO'
 
     def test_snakeize_revert(self):
-        assert camelize(snakeize('SpecialGuest')) == 'SpecialGuest'
+        assert camelize(snakeize('specialGuest')) == 'specialGuest'
 
-    def test_snakeize_revert_and_acronyms(self):
-        acronyms = ['HTML']
+    def test_kebabize_revert(self):
+        assert camelize(kebabize('varName')) == 'varName'
 
-        assert camelize(snakeize('HTMLTidyGenerator', acronyms=acronyms), acronyms=acronyms) == 'HTMLTidyGenerator'
+    def test_pascalize_revert(self):
+        assert camelize(pascalize('stringIo')) == 'stringIo'
+
+
+class TestPascalize:
+    def test_lowercase(self):
+        assert pascalize('stringio') == 'Stringio'
+
+    def test_snakecase(self):
+        assert pascalize('var_name') == 'VarName'
+
+    def test_kebabcase(self):
+        assert pascalize('long-url-path') == 'LongUrlPath'
+
+    def test_camelcase(self):
+        assert pascalize('currentThread') == 'CurrentThread'
+
+    def test_pascalcase(self):
+        assert pascalize('StringIO') == 'StringIo'
+
+    def test_protected_name(self):
+        assert pascalize('_protected_name') == '_ProtectedName'
+
+    def test_dunder_name(self):
+        assert pascalize('__dunder_name__') == '__DunderName__'
+
+    def test_lowercase_and_acronyms(self):
+        assert pascalize('stringio', acronyms=['IO']) == 'StringIO'
+
+    def test_snakecase_and_acronyms(self):
+        assert pascalize('var_name', acronyms=['VA']) == 'VARName'
+
+    def test_kebabcase_and_acronyms(self):
+        assert pascalize('long-url-path', acronyms=['URL']) == 'LongURLPath'
+
+    def test_camelcase_and_acronyms(self):
+        assert pascalize('currentThread', acronyms=['THREAD']) == 'CurrentTHREAD'
+
+    def test_pascalcase_and_acronyms(self):
+        assert pascalize('StringIO', acronyms=['IO']) == 'StringIO'
+
+    def test_camelize_revert(self):
+        assert pascalize(camelize('CurrentThread')) == 'CurrentThread'
+
+    def test_kebabize_revert(self):
+        assert pascalize(kebabize('LongUrlPath')) == 'LongUrlPath'
+
+    def test_snakeize_revert(self):
+        assert pascalize(snakeize('VarName')) == 'VarName'
 
 
 class TestSnakeize:
@@ -129,10 +186,13 @@ class TestSnakeize:
         assert snakeize('StringIO', acronyms=['IO']) == 'string_io'
 
     def test_camelize_revert(self):
-        assert snakeize(camelize('special_guest')) == 'special_guest'
+        assert snakeize(camelize('current_thread')) == 'current_thread'
 
     def test_kebabize_revert(self):
-        assert snakeize(kebabize('var_name')) == 'var_name'
+        assert snakeize(kebabize('long_url_path')) == 'long_url_path'
+
+    def test_pascalize_revert(self):
+        assert snakeize(pascalize('string_io')) == 'string_io'
 
 
 class TestKebabize:
@@ -173,10 +233,13 @@ class TestKebabize:
         assert kebabize('StringIO', acronyms=['IO']) == 'string-io'
 
     def test_camelize_revert(self):
-        assert kebabize(camelize('special-guest')) == 'special-guest'
+        assert kebabize(camelize('current-thread')) == 'current-thread'
 
-    def test_kebabize_revert(self):
+    def test_snakeize_revert(self):
         assert kebabize(snakeize('var-name')) == 'var-name'
+
+    def test_pascalize_revert(self):
+        assert kebabize(pascalize('string-io')) == 'string-io'
 
 
 class TestParameterize:

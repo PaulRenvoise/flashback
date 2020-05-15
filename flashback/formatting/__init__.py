@@ -4,6 +4,7 @@ from .functions import kebabize
 from .functions import ordinalize
 from .functions import oxford_join
 from .functions import parameterize
+from .functions import pascalize
 from .functions import pluralize
 from .functions import singularize
 from .functions import snakeize
@@ -18,6 +19,7 @@ __all__ = (
     'oxford_join',
     'ordinalize',
     'parameterize',
+    'pascalize',
     'pluralize',
     'singularize',
     'snakeize',
