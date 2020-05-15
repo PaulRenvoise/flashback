@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,redefined-outer-name
+# pylint: disable=no-self-use,redefined-outer-name,too-many-lines
 
 import pytest
 
