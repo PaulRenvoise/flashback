@@ -8,11 +8,6 @@ from ..i16g import Locale
 
 CRE_CAMELIZE_FIRST_CHAR = regex.compile(r"(?:^|_)(.)", flags=regex.I)
 
-CRE_SNAKEIZE_CAPITAL_WORDS = regex.compile(r"([A-Z\d]+)([A-Z][a-z])")
-CRE_SNAKEIZE_LOWER_WORDS = regex.compile(r"([a-z\d])([A-Z])")
-CRE_SNAKEIZE_MULTI_UNDERSCORES = regex.compile(r"_{2,}")
-CRE_SNAKEIZE_STRIP_UNDERSCORES = regex.compile(r"^_|_$")
-
 CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)
 
 CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
@@ -151,22 +146,26 @@ def camelize(text, acronyms=None):
     return text
 
 
+CRE_SNAKEIZE_CAPITAL_WORDS = regex.compile(r"([A-Z\d]+)([A-Z][a-z])")
+CRE_SNAKEIZE_LOWER_WORDS = regex.compile(r"([a-z\d])([A-Z])")
+CRE_SNAKEIZE_UNDERSCORES = regex.compile(r"(?<!^)_(?=_.)")
+
 def snakeize(text, acronyms=None):
     """
     Transforms a text in any case to snake_case.
+
+    Does not mutilate protected names (names prefixed with '_') and dunder_names (names surrounded
+    by '__').
 
     Examples:
         ```python
         from flashback.formatting import snakeize
 
-        snakeize('host')
-        #=> "host"
-
-        snakeize('HTTPHost')
-        #=> "httph_ost"
-
-        snakeize('HTTPHost', acronyms=['HTTP'])
-        #=> 'http_host'
+        assert snakeize('host') == 'host'
+        assert snakeize('httpHost') == 'http_host'
+        assert snakeize('__httpHost__') == '__http_host__'
+        assert snakeize('HTTPHost') == 'httph_ost'
+        assert snakeize('HTTPHost', acronyms=['HTTP']) == 'http_host'
         ```
 
     Params:
@@ -179,20 +178,61 @@ def snakeize(text, acronyms=None):
     text = str(text)
 
     acronyms_pattern = r"(?=$)^" if acronyms is None else '|'.join(acronyms)
-    acronyms_underscorize_pattern = r"({})".format(acronyms_pattern)
+    acronyms_snakeize_pattern = r"({})".format(acronyms_pattern)
 
-    for match in regex.finditer(acronyms_underscorize_pattern, text, flags=regex.I):
-        text = '_'.join([text[:match.start()], match.group(1), text[match.end():]])
+    for match in regex.finditer(acronyms_snakeize_pattern, text, flags=regex.I):
+        parts = []
+
+        start = text[:match.start()]
+        if start:
+            parts.append(start)
+
+        parts.append(match.group(1))
+
+        end = text[match.end():]
+        if end:
+            parts.append(end)
+
+        text = '_'.join(parts)
 
     text = CRE_SNAKEIZE_CAPITAL_WORDS.sub(r"\1_\2", text)
     text = CRE_SNAKEIZE_LOWER_WORDS.sub(r"\1_\2", text)
     text = text.replace(r"-", '_')
 
     # Cleanup the unwanted underscores
-    text = CRE_SNAKEIZE_MULTI_UNDERSCORES.sub('_', text)
-    text = CRE_SNAKEIZE_STRIP_UNDERSCORES.sub('', text)
+    text = CRE_SNAKEIZE_UNDERSCORES.sub('', text)
 
     return text.lower()
+
+
+CRE_KEBABIZE_UNDERSCORES = regex.compile(r"(?<!(?:^|_))_(?!(?:_|$))")
+
+def kebabize(text, acronyms=None):
+    """
+    Transforms a text in any case to kebab-case.
+
+    Does not mutilate protected names (names prefixed with '_') and dunder_names (names surrounded
+    by '__').
+
+    Examples:
+        ```python
+        from flashback.formatting import kebabize
+
+        assert kebabize('host') == 'host'
+        assert kebabize('httpHost') == 'http-host'
+        assert kebabize('__http_host__') == '__http-host__'
+        assert kebabize('HTTPHost') == 'httph-ost'
+        assert kebabize('HTTPHost', acronyms=['HTTP']) == 'http-host'
+        ```
+
+    Params:
+        - `text (str)` the text to transform into kebab-case
+        - `acronyms (Iterable)` a list of acronyms to treat as non-delimited single lowercase words
+
+    Returns:
+        - `str` the kebab cased text
+    """
+    return CRE_KEBABIZE_UNDERSCORES.sub('-', snakeize(text, acronyms=acronyms))
 
 
 def parameterize(text, sep='-', keep_case=False):

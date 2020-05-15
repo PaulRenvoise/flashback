@@ -17,6 +17,7 @@
     - `transliterate()` represents unicode text in ASCII (using [Unidecode](https://github.com/avian2/unidecode))
     - `camelize()` transforms any case to CamelCase
     - `snakeize()` transforms any case to snake\_case
+    - `kebabize()` tranforms any case to kebab-case
     - `parameterize()` formats a given string to be used in URLs
     - `ordinalize()` represents numbers in their ordinal representations
     - `adverbize()` represents numbers in their numeral adverb representations
