@@ -9,15 +9,11 @@ omit =
     .tox/*,
     docs/*,
     setup.py,
-    whitesource_config.py,
-    lanterne/formatting/locales/*
+    flashback/formatting/locales/*
 
 [report]
 # Regexes for lines to exclude from consideration
 exclude_lines =
-    # Have to re-enable the standard pragma
-    pragma: no cover
-
     # Don't complain about missing debug-only code:
     def __repr__
     if self\.debug
@@ -36,10 +32,4 @@ exclude_lines =
 # When running a summary report, show missing lines. See Coverage summary for more information
 show_missing = True
 
-fail_under = 90
-
-[html]
-directory = reports/coverage/html
-
-[xml]
-output = reports/coverage/coverage.xml
+fail_under = 95
