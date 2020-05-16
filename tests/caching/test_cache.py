@@ -41,8 +41,11 @@ class TestCache:
         with pytest.raises(NotImplementedError):
             Cache(adapter='dummy')
 
+    def test_set_ttl(self, cache):
+        assert cache.set('a', 'a', 1)
+
     def test_set_str(self, cache):
-        assert cache.set('a', 'abc')
+        assert cache.set('a', 'a')
 
     def test_set_int(self, cache):
         assert cache.set('a', 1)
@@ -61,6 +64,9 @@ class TestCache:
 
     def test_batch_set(self, cache):
         assert cache.batch_set(['a', 'b'], [1, 2])
+
+    def test_batch_set_ttls(self, cache):
+        assert cache.batch_set(['a', 'b'], [1, 2], [1, 1])
 
     def test_batch_set_invalid(self, cache):
         with pytest.raises(ValueError):

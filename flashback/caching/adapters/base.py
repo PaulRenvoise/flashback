@@ -18,13 +18,14 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def set(self, key, value):
+    def set(self, key, value, ttl):
         """
         Caches a `value` under a given `key`.
 
         Params:
             - `key (str)` the key under which to cache the value
             - `value (str)` the value to cache
+            - `ttl (int)` the number of seconds before expiring the key
 
         Returns:
             - `bool` whether or not the operation succeeded
@@ -34,13 +35,14 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def batch_set(self, keys, values):
+    def batch_set(self, keys, values, ttls):
         """
         Caches each value from a list of `values` to its respective key in a list of `keys`.
 
         Params:
             - `keys (Iterable<str>)` the keys under which to cache the values
             - `values (Iterable<str>)` the values to cache
+            - `ttls (Iterable<int>)` the number of seconds before expiring the keys
 
         Returns:
             - `bool` whether or not the operation succeeded
