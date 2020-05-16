@@ -30,7 +30,7 @@ class MemcachedAdapter(BaseAdapter):
 
         ttls = [0 if ttl == -1 else ttl for ttl in ttls]
         for key, value, ttl in zip(keys, values, ttls):
-            ttl = self.store._check_integer(ttl, 'expire')
+            ttl = self.store._check_integer(ttl, 'expire')  # pylint: disable=protected-access
             key = self.store.check_key(key)
             value, flags = self.store.serde.serialize(key, value)
 
@@ -41,7 +41,7 @@ class MemcachedAdapter(BaseAdapter):
             command += value.encode(self.store.encoding) + b'\r\n'
             commands.append(command)
 
-        results = self.store._misc_cmd(commands, 'set', False)
+        results = self.store._misc_cmd(commands, 'set', False)  # pylint: disable=protected-access
 
         for line in results:
             if line == b'NOT_STORED':
@@ -73,7 +73,7 @@ class MemcachedAdapter(BaseAdapter):
             command = b'delete ' + key +  b'\r\n'
             commands.append(command)
 
-        results = self.store._misc_cmd(commands, 'delete', False)
+        results = self.store._misc_cmd(commands, 'delete', False)  # pylint: disable=protected-access
 
         for line in results:
             print(f"\"{line}\"")

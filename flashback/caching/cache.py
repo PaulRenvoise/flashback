@@ -119,7 +119,7 @@ class Cache:
         if ttls is None:
             ttls = [-1 for _ in range(len(keys))]
 
-        if len(set(map(len, keys, values, ttls))) > 1:
+        if len(set(map(len, [keys, values, ttls]))) > 1:
             raise ValueError("invalid arguments, length of 'keys', 'values', and 'ttls' must be equal")
 
         json_values = [json.dumps(self._convert_numeric(value)) for value in values]
