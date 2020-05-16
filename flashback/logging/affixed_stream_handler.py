@@ -17,13 +17,14 @@ class AffixedStreamHandler(logging.StreamHandler):
 
         # Usable via object configuration
         first_stream = io.StringIO()
-        handler = AffixedStreamHandler(first_stream, prefix='__PREFIX__', suffix='__SUFFIX__')
+        handler = AffixedStreamHandler(first_stream, prefix='_PREFIX_', suffix='_SUFFIX_')
         logger = logging.getLogger('first')
         logger.addHandler(handler)
 
         logger.error('error message')
 
-        assert first_stream.getvalue() == '__PREFIX__error message__SUFFIX__'
+        first_stream.getvalue()
+        #=> '_PREFIX_error message_SUFFIX_'
 
         # But also via dictConfig
         second_stream = io.StringIO()
@@ -37,8 +38,8 @@ class AffixedStreamHandler(logging.StreamHandler):
                 'stringio': {
                     '()': 'flashback.logging.AffixedStreamHandler',
                     'stream': second_stream,
-                    'prefix': '__START__',
-                    'suffix': '__END__',
+                    'prefix': '_START_',
+                    'suffix': '_END_',
                     'level': 'DEBUG'
                 }
             },
@@ -54,13 +55,12 @@ class AffixedStreamHandler(logging.StreamHandler):
 
         logger.info('info message')
 
-        assert second_stream.getvalue() == '__START__info message__END__'
+        second_stream.getvalue()
+        #=> '_START_info message_END_'
         ```
     """
     def __init__(self, stream=None, prefix='', suffix='\n'):
         """
-        Initializes the handler.
-
         If stream is not specified, sys.stderr is used.
 
         Params:
@@ -86,13 +86,13 @@ class AffixedStreamHandler(logging.StreamHandler):
         determine how to do the output to the stream.
 
         Params:
-            - `record (logging.LogRecord)`: the record to format and write
+            - `record (logging.LogRecord)` the record to format and write
 
         Returns:
             - `None`
 
         Raises:
-            - `RecursionError` if a the maximum recursion depth is reached
+            - `RecursionError` if the maximum recursion depth is reached
         """
         try:
             msg = self.format(record)

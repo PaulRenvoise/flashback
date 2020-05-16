@@ -22,25 +22,38 @@ class Cache:
         cache = Cache(adapter='memory')
 
         # Has default operations for key-value stores
-        assert cache.set('key', 'val')
-        assert cache.get('key') == 'val'
-        assert cache.delete('key')
-        assert no cache.exists('key')
+        cache.set('key', 'val')
+        #=> True
+
+        cache.get('key')
+        #=> 'val'
+
+        cache.delete('key')
+        #=> True
+
+        cache.exists('key')
+        #=> False
 
         # Plus batch operations
-        assert cache.batch_set(['key1', 'key2', 'key3'], ['val1', 'val2', 'val3'])
-        assert cache.batch_get(['key1', 'key2', 'key3']) == ['val1', 'val2', 'val3']
-        assert cache.batch_delete(['key1', 'key2', 'key3'])
+        cache.batch_set(['key1', 'key2', 'key3'], ['val1', 'val2', 'val3'])
+        #=> True
+
+        cache.batch_get(['key1', 'key2', 'key3']) == ['val1', 'val2', 'val3']
+        #=> ['val1', 'val2', 'val3']
+
+        cache.batch_delete(['key1', 'key2', 'key3'])
+        #=> True
 
         # And some more
-        assert cache.ping()
-        assert cache.flush()
+        cache.ping()
+        #=> True
+
+        cache.flush()
+        #=> True
         ```
     """
     def __init__(self, adapter='memory', flush=False, **kwargs):
         """
-        Initializes the cache and instantiates a connection with a storage with the given `adapter`.
-
         Params:
             - `adapter (str)` the adapter to use for the storage
             - `flush (bool)` whether or not to flush the storage after connecting
@@ -73,7 +86,9 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            assert cache.set('key', 'val')
+
+            cache.set('key', 'val')
+            #=> True
             ```
 
         Params:
@@ -102,7 +117,9 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
+
             cache.batch_set(['key1', 'key2'], ['val1', 'val2'])
+            #=> True
             ```
 
         Params:
@@ -142,8 +159,11 @@ class Cache:
             cache = Cache()
             cache.set('key', 'val')
 
-            assert cache.get('key') == 'val'
-            assert cache.get('yek') is None
+            cache.get('key')
+            #=> 'val'
+
+            cache.get('yek')
+            #=> None
             ```
 
         Params:
@@ -171,7 +191,8 @@ class Cache:
             cache = Cache()
             cache.set('key', 'val')
 
-            assert cache.batch_get(['key', 'yek']) == ['val', None]
+            cache.batch_get(['key', 'yek'])
+            #=> ['val', None]
             ```
 
         Params:
@@ -199,8 +220,11 @@ class Cache:
             cache = Cache()
             cache.set('key', 'val')
 
-            assert cache.delete('key')
-            assert not cache.delete('yek')
+            cache.delete('key')
+            #=> True
+
+            cache.delete('yek')
+            #=> False
             ```
 
         Params:
@@ -227,7 +251,11 @@ class Cache:
             cache = Cache()
             cache.batch_set(['key1', 'key2'], ['val1', 'val2'])
 
-            assert cache.batch_delete(['key1', 'key2', 'yek'])
+            cache.batch_delete(['key1', 'key2'])
+            #=> True
+
+            cache.batch_delete(['yek'])
+            #=> False
             ```
 
         Params:
@@ -254,8 +282,11 @@ class Cache:
             cache = Cache()
             cache.set('key', 'val')
 
-            assert cache.exists('key')
-            assert not cache.exists('yek')
+            cache.exists('key')
+            #=> True
+
+            cache.exists('yek')
+            #=> False
             ```
 
         Params:
@@ -282,7 +313,8 @@ class Cache:
             cache = Cache()
             cache.set('key', 'val')
 
-            assert cache.flush()
+            cache.flush()
+            #=> True
             ```
 
         Params:
@@ -306,7 +338,8 @@ class Cache:
 
             cache = Cache()
 
-            assert cache.ping()
+            cache.ping()
+            #=> True
             ```
 
         Params:
@@ -331,7 +364,7 @@ class Cache:
 
     @staticmethod
     def _convert_numeric(value):
-        # We do not check is `isinstance` since `bool` is a subclass of `int`
+        # We do not check if isinstance since bool is a subclass of int
         if type(value) in {int, float, complex}:  # pylint: disable=unidiomatic-typecheck
             value = repr(value)
 

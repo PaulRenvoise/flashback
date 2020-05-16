@@ -8,7 +8,8 @@ class Jellybeans(Style):
     Implements the jellybeans.vim colorscheme for pygments.
 
     Inspired by:
-        - https://github.com/cstrahan/pygments-styles/blob/master/themes/jellybeans.py
+
+    - https://github.com/cstrahan/pygments-styles/blob/master/themes/jellybeans.py
     """
     background_color = '#151515'
 

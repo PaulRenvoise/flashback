@@ -16,9 +16,10 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
     Consumes generators to print them (be careful with infinite ones!).
 
     Inspired by:
-        - https://github.com/samuelcolvin/python-devtools
-        - https://github.com/gruns/icecream
-        - https://github.com/wolever/pprintpp
+
+    - https://github.com/samuelcolvin/python-devtools
+    - https://github.com/gruns/icecream
+    - https://github.com/wolever/pprintpp
 
     Examples:
         ```python

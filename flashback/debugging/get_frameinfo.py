@@ -29,7 +29,7 @@ def get_frameinfo(depth=0, context=1):
         - `context (int)` the number of lines surrounding the frame to use in the traceback
 
     Returns:
-        - `inspect.FrameInfo`: the FrameInfo object for the frame
+        - `inspect.FrameInfo` the FrameInfo object for the frame
 
     Raises:
         - `ValueError` if `depth` is greater than the length of the call stack

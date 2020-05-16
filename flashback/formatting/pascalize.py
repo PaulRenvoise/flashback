@@ -15,11 +15,20 @@ def pascalize(text, acronyms=None):
         ```python
         from flashback.formatting import pascalize
 
-        assert pascalize('host') == 'Host'
-        assert pascalize('http_host') == 'HttpHost'
-        assert pascalize('__http_host__') == '__HttpHost__'
-        assert pascalize('HTTPHost') == 'HttphOst'
-        assert pascalize('HTTPHost', acronyms=['HTTP']) == 'HTTPHost'
+        pascalize('host')
+        #=> 'Host'
+
+        pascalize('http_host')
+        #=> 'HttpHost'
+
+        pascalize('__http_host__')
+        #=> '__HttpHost__'
+
+        pascalize('HTTPHost')
+        #=> 'HttphOst'
+
+        pascalize('HTTPHost', acronyms=['HTTP'])
+        #=> 'HTTPHost'
         ```
 
     Params:

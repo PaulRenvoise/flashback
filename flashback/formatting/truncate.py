@@ -19,7 +19,7 @@ def truncate(text, limit=120, suffix='...'):
 
     Adapted from https://github.com/reddit/reddit/blob/master/r2/r2/lib/utils/utils.py#L407.
 
-    Examples
+    Examples:
         ```python
         from flashback.formatting import truncate
 

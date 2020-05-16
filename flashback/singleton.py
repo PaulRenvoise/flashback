@@ -47,8 +47,6 @@ class Singleton(type):
 
     def __init__(cls, name, bases, attributes, strict=True):
         """
-        Initializes the metaclass.
-
         Params:
             - `name (str)` the name of the class to initialize
             - `bases (tuple)` the bases classes of the class

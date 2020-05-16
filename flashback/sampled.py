@@ -11,17 +11,19 @@ class sampled:  # pylint: disable=invalid-name
     Implements a way of sampling requests made to a callable.
 
     Currently implements three strategies:
-        - constant
-            - All calls are accepted (rate=0) or refused (rate=1) (default: 1)
-        - probabilistic
-            - A percentage of the calls are accepted (0 < rate < 1) (default: 0.5)
-        - ratelimiting
-            - A fixed number of requests per second are accepted (rate > 0) (default: 10)
+
+    - constant
+        - All calls are accepted (rate=0) or refused (rate=1) (default: 1)
+    - probabilistic
+        - A percentage of the calls are accepted (0 < rate < 1) (default: 0.5)
+    - ratelimiting
+        - A fixed number of requests per second are accepted (rate > 0) (default: 10)
 
     A callable decorated with `@sampled` will return `None` if the call is not sampled.
 
     Inspired by:
-        - https://github.com/jaegertracing/jaeger-client-python/blob/master/jaeger_client/sampler.py
+
+    - https://github.com/jaegertracing/jaeger-client-python/blob/master/jaeger_client/sampler.py
 
     Examples:
         ```python
@@ -69,8 +71,6 @@ class sampled:  # pylint: disable=invalid-name
 
     def __init__(self, strategy='constant', rate=None):
         """
-        Initializes the decorator.
-
         Params:
             - `strategy (str)` the sampling strategy to use
             - `rate (int|float)` the parameter to fine-tune the sampling strategy

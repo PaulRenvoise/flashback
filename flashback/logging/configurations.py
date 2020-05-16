@@ -1,5 +1,5 @@
 """
-Defines several logging configuration.
+Defines several logging configuration to use with `logging.config.dictConfig`.
 
 Upon import, it dynamically extracts the package name from the module importing this file,
 and sets the package name as top-level logger. This avoids the behavior where ALL libraries
@@ -13,7 +13,7 @@ meaning that the importing line must look like the following, else it won't find
 from flashback.logging import DEFAULT_CONSOLE_CONFIGURATION
 ```
 
-'disable_existing_loggers' is set to false because it breaks the loggers
+'disable_existing_loggers' is set to false for each configuration because it breaks the loggers
 created after using the configuration (see: https://gist.github.com/alanbriolat/d5ffe608b56c948533c6).
 """
 import inspect
@@ -49,6 +49,12 @@ DEFAULT_CONSOLE_CONFIGURATION = {
         }
     }
 }
+"""
+A simple logger applicable for most logging context.
+
+Logs to stderr without filtering, and formats the message with 'asctime', 'name', 'processName',
+'levelname', and 'message'.
+"""
 
 DJANGO_CONSOLE_CONFIGURATION = {
     'version': 1,
@@ -69,6 +75,11 @@ DJANGO_CONSOLE_CONFIGURATION = {
         }
     }
 }
+"""
+A Django-like logger (which basically does nothing).
+
+Logs to stderr without filtering, and formats the message with the default logging formatter.
+"""
 
 FLASK_CONSOLE_CONFIGURATION = {
     'version': 1,
@@ -94,6 +105,12 @@ FLASK_CONSOLE_CONFIGURATION = {
         }
     }
 }
+"""
+A Flask-like logger.
+
+Logs to stderr without filtering, and formats the message with 'asctime', 'levelname', 'module',
+and 'message'.
+"""
 
 PYRAMID_CONSOLE_CONFIGURATION = {
     'version': 1,
@@ -119,6 +136,12 @@ PYRAMID_CONSOLE_CONFIGURATION = {
         }
     }
 }
+"""
+A Pyramid-like logger.
+
+Logs to stderr without filtering, and formats the message with 'asctime', 'levelname', 'name',
+'lineno', 'threadName', and 'message'.
+"""
 
 RAILS_CONSOLE_CONFIGURATION = {
     'version': 1,
@@ -145,3 +168,9 @@ RAILS_CONSOLE_CONFIGURATION = {
         }
     }
 }
+"""
+A Ruby-on-Rails-like logger.
+
+Logs to stderr without filtering, and formats the message with 'asctime', 'msec', 'process',
+'levelname', and 'message'.
+"""
