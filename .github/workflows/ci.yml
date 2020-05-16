@@ -64,4 +64,4 @@ jobs:
         pip install -r requirements-test.txt
     - name: Test
       run: |
-        pytest tests/ -v --cov
+        pytest tests/
