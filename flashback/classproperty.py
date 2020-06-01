@@ -1,6 +1,6 @@
 class ClassPropertyMetaclass(type):
     """
-    Defines a metaclass to ensure the property is settable, to use with `flashback.classproperty`.
+    Defines a metaclass to ensure the property is settable, to use as `flashback.classproperty.meta`.
     """
     def __setattr__(cls, key, value):
         obj = cls.__dict__.get(key, None)
@@ -54,8 +54,6 @@ class classproperty:  # pylint: disable=invalid-name
 
     def __init__(self, func_get, func_set=None):
         """
-        Initializes the decorator.
-
         Params:
             - `func_get (callable)` the getter to decorate
             - `func_set (callable)` the setter to decorate

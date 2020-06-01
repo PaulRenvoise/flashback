@@ -1,3 +1,12 @@
+"""
+Defines the German localization file for `flashback.formatting.singularize` and
+`flashback.formatting.pluralize`.
+
+Inspired by:
+
+- https://github.com/clips/pattern/blob/master/pattern/text/de/inflect.py
+"""
+
 import regex
 
 

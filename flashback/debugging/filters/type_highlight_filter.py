@@ -8,8 +8,6 @@ class TypeHighlightFilter(Filter):
     """
     def __init__(self, names, **kwargs):
         """
-        Initializes the class.
-
         Params:
             - `names (Iterable<str>)` the list of names to change the token type
             - `kwargs (dict)` every additional keyword parameters

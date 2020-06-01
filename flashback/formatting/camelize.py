@@ -15,11 +15,19 @@ def camelize(text, acronyms=None):
         ```python
         from flashback.formatting import camelize
 
-        assert camelize('host') == 'host'
-        assert camelize('http_host') == 'httpHost'
-        assert camelize('__http_host__') == '__httpHost__'
-        assert camelize('HTTPHost') == 'httphOst'
-        assert camelize('HTTPHost', acronyms=['HTTP']) == 'HTTPHost'
+        camelize('host')
+        #=> 'host'
+
+        camelize('http_host')
+        #=> 'httpHost'
+
+        camelize('__http_host__')
+        #=> __httpHost__
+
+        camelize('HTTPHost')
+        #=> httphOst
+
+        camelize('HTTPHost', acronyms=['HTTP'])
         #=> HTTPHost
         ```
 

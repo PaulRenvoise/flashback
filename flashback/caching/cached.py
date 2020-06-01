@@ -23,12 +23,12 @@ def cached(adapter='memory', **kwargs):
         #=> Cache miss
         #=> 3
 
-        # The key is type
+        # The cache key is typed
         func('1', '2')
         #=> Cache miss
         #=> '12'
 
-        # The key takes in account the arguments' order as well
+        # The cache key takes in account the arguments' order as well
         func(2, 1)
         #=> Cache miss
         #=> 3

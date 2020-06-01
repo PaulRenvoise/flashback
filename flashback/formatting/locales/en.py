@@ -1,3 +1,12 @@
+"""
+Defines the English localization file for `flashback.formatting.singularize` and
+`flashback.formatting.pluralize`.
+
+Inspired by:
+
+- https://github.com/clips/pattern/blob/master/pattern/text/en/inflect.py
+"""
+
 import regex
 
 

@@ -9,8 +9,6 @@ class CallHighlightFilter(Filter):
     """
     def __init__(self, **kwargs):
         """
-        Initializes the class.
-
         Params:
             - `kwargs (dict)` every additional keyword parameters
 

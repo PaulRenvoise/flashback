@@ -4,8 +4,6 @@ def adverbize(number):
 
     Since this method should be mostly used in logging messages, only English is supported.
 
-    For reference about numeral adverbs, see: http://tiny.cc/m4bkez.
-
     Examples:
         ```python
         from flashback.formatting import adverbize

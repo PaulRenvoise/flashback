@@ -16,11 +16,20 @@ def kebabize(text, acronyms=None):
         ```python
         from flashback.formatting import kebabize
 
-        assert kebabize('host') == 'host'
-        assert kebabize('httpHost') == 'http-host'
-        assert kebabize('__http_host__') == '__http-host__'
-        assert kebabize('HTTPHost') == 'httph-ost'
-        assert kebabize('HTTPHost', acronyms=['HTTP']) == 'http-host'
+        kebabize('host')
+        #=> 'host'
+
+        kebabize('httpHost')
+        #=> 'http-host'
+
+        kebabize('__http_host__')
+        #=> '__http-host__'
+
+        kebabize('HTTPHost')
+        #=> 'httph-ost'
+
+        kebabize('HTTPHost', acronyms=['HTTP'])
+        #=>'http-host'
         ```
 
     Params:

@@ -7,7 +7,7 @@ def chunks(iterable, size=2, pad=Sentinel):
     """
     Iterates over an `iterable` by chunks of `size`.
 
-    Handles in
+    Handles infinite iterables.
 
     Examples:
         ```python

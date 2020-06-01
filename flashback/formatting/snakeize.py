@@ -16,11 +16,20 @@ def snakeize(text, acronyms=None):
         ```python
         from flashback.formatting import snakeize
 
-        assert snakeize('host') == 'host'
-        assert snakeize('httpHost') == 'http_host'
-        assert snakeize('__httpHost__') == '__http_host__'
-        assert snakeize('HTTPHost') == 'httph_ost'
-        assert snakeize('HTTPHost', acronyms=['HTTP']) == 'http_host'
+        snakeize('host')
+        #=> 'host'
+
+        snakeize('httpHost')
+        #=> 'http_host'
+
+        snakeize('__httpHost__')
+        #=> '__http_host__'
+
+        snakeize('HTTPHost')
+        #=> 'httph_ost'
+
+        snakeize('HTTPHost', acronyms=['HTTP'])
+        #=> 'http_host'
         ```
 
     Params:

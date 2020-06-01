@@ -42,8 +42,6 @@ class Formatter:
 
     def __init__(self, indent_str='    '):
         """
-        Initializes the class.
-
         Params:
             - `indent_str (str)` the indentation string to use
 
