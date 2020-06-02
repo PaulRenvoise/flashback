@@ -1,3 +1,12 @@
+"""
+Defines the Spanish localization file for `flashback.formatting.singularize` and
+`flashback.formatting.pluralize`.
+
+Inspired by:
+
+- https://github.com/clips/pattern/blob/master/pattern/text/es/inflect.py
+"""
+
 import regex
 
 

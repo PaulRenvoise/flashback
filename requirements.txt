@@ -1,8 +1,8 @@
 # Caching
-redis==3.4.1
-pymemcache@git+git://github.com/pinterest/pymemcache.git@master#egg=pymemcache==3.1.0  # change to pymemcache 3.1.1 when released
+redis==3.5.0
+pymemcache==3.1.1
 
 # Utils
-regex==2020.2.20
+regex==2020.4.4
 Unidecode==1.1.1
-pygments==2.5.2
+pygments==2.6.1

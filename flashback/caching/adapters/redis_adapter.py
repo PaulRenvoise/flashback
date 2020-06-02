@@ -10,8 +10,9 @@ class RedisAdapter(BaseAdapter):
     """
     Exposes a cache store using Redis.
 
-    Exposes `redis`' exceptions, while renaming `redis.exceptions.ConnectionError` to `RedisConnectionError`
-    and `redis.exceptions.TimeoutError` to `RedisTimeoutError` to avoid conflicts with builtin exceptions.
+    Exposes `redis`' exceptions, while renaming `redis.exceptions.ConnectionError` to
+    `RedisConnectionError` and `redis.exceptions.TimeoutError` to `RedisTimeoutError`
+    to avoid conflicts with builtin exceptions.
     """
 
     def __init__(self, host='localhost', port=6379, db='0', encoding='utf-8', **kwargs):
@@ -22,11 +23,23 @@ class RedisAdapter(BaseAdapter):
         self._encoding = encoding
         self.store = Redis(host=host, port=port, db=db, encoding=encoding, **kwargs)
 
-    def set(self, key, value):
-        return self.store.set(key, value)
+    def set(self, key, value, ttl):
+        if ttl == -1:
+            ttl = None
 
-    def batch_set(self, keys, values):
-        return self.store.mset(dict(zip(keys, values)))
+        return self.store.set(key, value, ex=ttl)
+
+    def batch_set(self, keys, values, ttls):
+        ttls = [None if ttl == -1 else ttl for ttl in ttls]
+
+        pipe = self.store.pipeline()
+
+        pipe.mset(dict(zip(keys, values)))
+        for key, ttl in zip(keys, ttls):
+            if ttl is not None:
+                pipe.expire(key, ttl)
+
+        return pipe.execute()
 
     def get(self, key):
         value = self.store.get(key)

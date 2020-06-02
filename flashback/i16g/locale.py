@@ -1,17 +1,27 @@
 import inspect
-
 from importlib import util, import_module
 
 import regex
 
+from ..debugging import get_frameinfo
+
 
 class Locale:
     """
-    Defines a generic loader that finds, imports, caches, and returns constants used for internationalization.
+    Defines a generic loader that finds, imports, caches, and returns constants used for
+    internationalization.
 
     Examples:
         ```python
-        TODO
+        from flashback.i16g import Locale
+
+        simple_locale = Locale.simplify('fr_FR.UTF-8@latin-1')
+
+        assert simple_locale == 'fr_FR'
+
+        locale = Locale.load(simple_locale, '.locales')
+
+        assert locale is not None
         ```
     """
     __cache = {}
@@ -43,17 +53,20 @@ class Locale:
     @classmethod
     def load(cls, locale, path):
         """
-        Loads a locale definition from a relative or absolute path and expose its contents.
-        If the path is relative, it is transformed to absolute using the call stack and the given relative path.
+        Loads a `locale` definition from a package `path` and exposes its contents.
 
-        This method generates locales candidates to use as fallback, e.g.: 'en_US.UTF-8' will yield 'en_us' and 'en'.
-        We'll then try go from the most to the least precise ('en_us', then 'en') until we import something.
+        If the `path` is relative, it is transformed to absolute using the call stack.
+
+        Generates locales candidates to use as fallback, e.g.: 'en_US.UTF-8' will yield 'en_us' and
+        'en'. Then tries to import from the most to the least precise ('en_us', then 'en') until it
+        imports something.
 
         The cache uses the complete localization file's path to avoid conflicts and overrides.
 
-        The code is very similar to `flashback.importing.functions.import_module_from_path` with the following tweaks:
-            - We have several candidates that can be imported
-            - We cache the imported module
+        The code is very similar to `flashback.importing.import_module_from_path` with
+        the following tweaks:
+            - It handles candidate generation
+            - It caches the imported module
 
         Examples:
             ```python
@@ -84,7 +97,7 @@ class Locale:
         candidate_locales = sorted({locale, locale.split('_')[0]}, key=len, reverse=True)
 
         if path.startswith('.'):
-            caller_module = inspect.getmodule(inspect.stack()[1][0])
+            caller_module = inspect.getmodule(get_frameinfo(1).frame)
             caller_package = caller_module.__package__
 
             module_path = util.resolve_name(path, caller_package)
@@ -98,7 +111,8 @@ class Locale:
                 return cls.__cache[locale_full_path]
 
             # Loads the module, will suppress ImportError if module cannot be loaded
-            # because we will raise NotImplementedError only once we've been through all locale candidates
+            # because it will raise NotImplementedError only once it has been through all locale
+            # candidates
             try:
                 imported_locale = import_module(locale_full_path)
 
@@ -108,17 +122,17 @@ class Locale:
             except ImportError:
                 pass
 
-        raise NotImplementedError(f"Locale '{locale}' is not implemented in '{module_path}'")
+        raise NotImplementedError(f"locale {locale!r} is not implemented in {module_path}")
 
     @classmethod
     def simplify(cls, locale):
         """
-        Returns a simplified locale code for the given locale name.
+        Returns a simplified locale code for the given `locale`.
 
-        The returned locale code is formatted as `LANGUAGE_TERRITORY` (e.g. 'en_US.UTF-8' to 'en_us'),
-        or `LANGUAGE` (e.g. 'EN' to 'en') if the territory was not specified in the given locale.
+        Returns the locale code formatted as LANGUAGE_TERRITORY (e.g. 'en_US.UTF-8' to 'en_us'), or
+        LANGUAGE (e.g. 'EN' to 'en') if the territory was not specified in the given locale.
 
-        If normalization fails, the original name is returned unchanged.
+        If it fails to normalize, returns the original name unchanged.
 
         Examples:
             ```python
@@ -141,13 +155,13 @@ class Locale:
             - `locale (str)` the non-normalized locale string
 
         Returns:
-            - `str` the lowercased locale containing at least the language (and if given, the territory)
+            - `str` the lowercased locale containing at least the language
         """
         match = cls.CRE_LOCALE.match(locale)
         if not match:
             return locale
 
-        # If we have a match, we necessarily have a language
+        # A language must be there, else execution would have stopped above
         simplified_locale = match.group('language').lower()
 
         territory = match.group('territory')

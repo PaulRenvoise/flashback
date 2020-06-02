@@ -34,9 +34,6 @@ persistent=yes
 # fixme: should not be an error
 # missing-docstring: no granularity (modules, classes, and methods are all flagged with this error)
 # too-few-public-methods: whaaat ?
-# len-as-condition: currently a bug in pylint TODO: remove once pylint 2.4.0 is shipped
-# import-error: avoid errors when running tests/lint without the deps installed (too expensive to install all deps everytime)
-# arguments-differ: allow addition of optional parameters to abstract methods
 disable=fixme,missing-docstring,too-few-public-methods
 
 [DESIGN]
@@ -65,7 +62,7 @@ expected-line-ending-format=LF
 [BASIC]
 
 # Good variable names which should always be accepted, separated by a comma
-good-names=x,y,i,j,k,v,e,_
+good-names=x,y,i,j,k,v,e,m,_
 
 # Bad variable names which should always be refused, separated by a comma
 bad-names=foo,bar,baz,toto,tutu,tata,data,qwe,aze

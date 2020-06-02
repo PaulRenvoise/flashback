@@ -1,32 +1,84 @@
 from pygments.style import Style
-from pygments import token
+from pygments.token import Comment, Generic, Keyword, Name, Number, \
+                           Operator, Punctuation, Literal, String, Token
 
 
 class Jellybeans(Style):
+    """
+    Implements the jellybeans.vim colorscheme for pygments.
+
+    Inspired by:
+
+    - https://github.com/cstrahan/pygments-styles/blob/master/themes/jellybeans.py
+    """
     background_color = '#151515'
 
     styles = {
-        token.Token:              'noinherit #e8e8d3',
-        token.Generic.Traceback:  'noinherit bg:#902020',
-        token.Generic.Heading:    '#70b950 bold',
-        token.Comment.Preproc:    'noinherit #8fbfdc',
-        token.Name.Constant:      'noinherit #cf6a4c',
-        token.Generic.Subheading: '#70b950 bold',
-        token.Keyword:            'noinherit #8197bf',
-        token.Name.Tag:           'noinherit #8197bf',
-        token.Generic.Inserted:   'noinherit bg:#032218',
-        token.Keyword.Type:       'noinherit #ffb964',
-        token.Name.Variable:      'noinherit #c6b6ee',
-        token.Generic.Deleted:    'noinherit #220000 bg:#220000',
-        token.Number:             'noinherit #cf6a4c',
-        token.Operator.Word:      'noinherit #e8e8d3 bg:#151515',
-        token.Name.Function:      'noinherit #fad07a',
-        token.Name.Entity:        'noinherit #799d6a',
-        token.Name.Exception:     'noinherit #ffb964',
-        token.Comment:            'noinherit #888888 italic',
-        token.Generic.Output:     'noinherit #808080 bg:#151515',
-        token.Name.Attribute:     'noinherit #fad07a',
-        token.String:             'noinherit #99ad6a',
-        token.Name.Label:         'noinherit #ffb964',
-        token.Generic.Error:      'noinherit bg:#902020',
+        Comment: '#888888',
+        Comment.Hashbang: '',
+        Comment.Multiline: '',
+        Comment.Preproc: '#8fbfdc',
+        Comment.Single: '',
+        Comment.Special: '',
+
+        Generic.Deleted: '#220000 bg:#220000',
+        Generic.Error: 'bg:#902020',
+        Generic.Heading: '#70b950 bold',
+        Generic.Inserted: 'bg:#032218',
+        Generic.Output: '#808080 bg:#151515',
+        Generic.Subheading: '#70b950 bold',
+        Generic.Traceback: 'bg:#902020',
+
+        Keyword: '#8197bf',
+        Keyword.Constant: '#cf6a4c',
+        Keyword.Namespace: '#8fbfdc',
+        Keyword.Type: '#8fbfdc',
+
+        Name.Attribute: '#fad07a',
+        Name.Builtin.Pseudo: '#c6b6ee',
+        Name.Builtin: '#fad07a',
+        Name.Class: '#fad07a',
+        Name.Constant: '#cf6a4c',
+        Name.Decorator: '#fad07a',
+        Name.Entity: '#799d6a',
+        Name.Exception: '#8fbfdc',
+        Name.Function: '#fad07a',
+        Name.Label: '#ffb964',
+        Name.Namespace: '',
+        Name.Other: '',
+        Name.Tag: '#8197bf',
+        Name.Variable: '',
+
+        Number: '#cf6a4c',
+        Number.Bin: '',
+        Number.Float: '',
+        Number.Hex: '',
+        Number.Integer.Long: '',
+        Number.Integer: '',
+        Number.Oct: '',
+
+        Operator: '#8197bf',
+        Operator.Word: '',
+
+        Punctuation: '',
+
+        Literal: '',
+        Literal.Date: '',
+
+        String: '#99ad6a',
+        String.Affix: '',
+        String.Backtick: '',
+        String.Char: '',
+        String.Delimiter: '',
+        String.Doc: '',
+        String.Double: '',
+        String.Escape: '',
+        String.Heredoc: '',
+        String.Interpol: '',
+        String.Other: '',
+        String.Regex: '',
+        String.Single: '',
+        String.Symbol: '',
+
+        Token: '#e8e8d3',
     }

@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+from threading import RLock
+
 from .base import BaseAdapter
 
 
@@ -9,34 +12,60 @@ class MemoryAdapter(BaseAdapter):
     def __init__(self, **kwargs):
         super().__init__()
 
+        self._lock = RLock()
         self.store = {}
 
-    def set(self, key, value):
-        self.store[key] = value
+    def set(self, key, value, ttl):
+        if ttl == -1:
+            expiry = None
+        else:
+            expiry = datetime.timestamp(datetime.now() + timedelta(seconds=ttl))
+
+        with self._lock:
+            self.store[key] = (value, expiry)
 
         return True
 
-    def batch_set(self, keys, values):
-        self.store.update(dict(zip(keys, values)))
+    def batch_set(self, keys, values, ttls):
+        now = datetime.now()
+        expiries = [None if ttl == -1 else datetime.timestamp(now + timedelta(seconds=ttl)) for ttl in ttls]
+
+        values = zip(values, expiries)
+
+        with self._lock:
+            self.store.update(dict(zip(keys, values)))
 
         return True
 
     def get(self, key):
-        return self.store.get(key, None)
+        self._evict()
+
+        return self.store.get(key, (None,))[0]
 
     def batch_get(self, keys):
-        return [self.store.get(key, None) for key in keys]
+        self._evict()
+
+        return [self.store.get(key, (None,))[0] for key in keys]
 
     def delete(self, key):
-        return bool(self.store.pop(key, False))
+        self._evict()
+
+        with self._lock:
+            value = self.store.pop(key, False)
+
+        return bool(value)
 
     def batch_delete(self, keys):
-        res = [bool(self.store.pop(key, False)) for key in keys]
+        self._evict()
 
-        # If we have one False, we need to return False
-        return not False in res
+        with self._lock:
+            res = [bool(self.store.pop(key, False)) for key in keys]
+
+        return False not in res
 
     def exists(self, key):
+        self._evict()
+
         return key in self.store
 
     def flush(self):
@@ -50,3 +79,16 @@ class MemoryAdapter(BaseAdapter):
     @property
     def connection_exceptions(self):
         return ()
+
+    def _evict(self):
+        now = datetime.timestamp(datetime.now())
+
+        expired_keys = set()
+
+        for key, (_, expiry) in self.store.items():
+            if expiry is not None and expiry < now:
+                expired_keys.add(key)
+
+        with self._lock:
+            for expired_key in expired_keys:
+                del self.store[expired_key]

@@ -4,31 +4,35 @@ import logging
 import math
 import time
 
-from .formatting.functions import ordinalize
+from .formatting import ordinalize
 
 
 def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=()):
     """
     Retries to call a callable when a given exception is raised.
 
-    The back-off implemented starts at 0s and ends up a 60s after 10 retries, like so:
-        0.15, 0.70, 1.65, 3.30, 6.15, 11.09, 19.63, 34.41, 60.0
+    The back-off starts at 0s and ends up at 60s after 10 retries:
+    ```python
+    0.15, 0.70, 1.65, 3.30, 6.15, 11.09, 19.63, 34.41, 60.0
+    ```
+
+    With a `max_retries` of `-1`, the decorated callable will be retried indefinitely.
 
     Examples:
         ```python
         from flashback import retryable
 
-        @retryable(exceptions=(TypeError, AttributeError))
-        def will_be_retried(parameter):
-            if type(parameter) == str:
+        @retryable(exceptions=(TypeError,))
+        def will_be_retried(arg):
+            if isinstance(arg, str):
                 raise RuntimeError
-            els
+            else:
                 raise TypeError
 
-        will_be_retried(0)
+        will_be_retried('str')
         #=> RuntimeError
 
-        will_be_retried('str')
+        will_be_retried(0)
         #=> Caught TypeError
         #=> Retrying for the 1st time in 0.15s
         #=> Caught TypeError
@@ -43,7 +47,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
         ```
 
     Params:
-        - `max_retries (int)` the maximum number of retries before raising the initial error (-1 retries indefinitely)
+        - `max_retries (int)` the max number of retries before raising the initial error
         - `plateau_after (int)` the number of retries after which to plateau the delay
         - `reset_after (int)` the number of seconds after which to reset the delay
         - `exceptions (tuple<Exception>)` the exceptions to trigger a retry on
@@ -52,9 +56,11 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
         - `Callable` a wrapper used to decorate a callable
     """
     def wrapper(func):
-        # `.getmodule().__name__` returns the same value as `__name__` called from the module we decorate
-        # Since logging is a singleton, everytime we call `.getLogger()` with the same name, we receive the same logger
-        # This let us 'hide' this decorator as if the logging was made from within the module we decorate
+        # `.getmodule().__name__` returns the same value as `__name__` called from the module we
+        # decorate.
+        # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
+        # name, we receive the same logger, which "hides" this decorator as if the logging was
+        # made from within the callable we decorate
         logger = logging.getLogger(inspect.getmodule(func).__name__)
 
         @functools.wraps(func)

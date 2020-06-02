@@ -5,7 +5,7 @@ import logging
 from .cache import Cache
 
 
-def cacheable(adapter='memory', **kwargs):
+def cached(adapter='memory', **kwargs):
     """
     Caches the return of a callable under a type-aware key built with its arguments.
 
@@ -13,9 +13,9 @@ def cacheable(adapter='memory', **kwargs):
 
     Examples:
         ```python
-        from flashback.caching import cacheable
+        from flashback.caching import cached
 
-        @cacheable()
+        @cached()
         def func(a, b):
             return a + b
 
@@ -23,12 +23,12 @@ def cacheable(adapter='memory', **kwargs):
         #=> Cache miss
         #=> 3
 
-        # The key is type
+        # The cache key is typed
         func('1', '2')
         #=> Cache miss
         #=> '12'
 
-        # The key takes in account the arguments' order as well
+        # The cache key takes in account the arguments' order as well
         func(2, 1)
         #=> Cache miss
         #=> 3
@@ -48,9 +48,11 @@ def cacheable(adapter='memory', **kwargs):
     cache = Cache(adapter, **kwargs)
 
     def wrapper(func):
-        # `.getmodule().__name__` returns the same value as `__name__` called from the module we decorate
-        # Each time we call `getLogger()` with the same name, we receive the same logger since `logging` is a singleton
-        # This "pretends" the logging was made from within the module/function we decorate
+        # `.getmodule().__name__` returns the same value as `__name__` called from the module we
+        # decorate.
+        # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
+        # name, we receive the same logger, which "hides" this decorator as if the logging was
+        # made from within the callable we decorate
         logger = logging.getLogger(inspect.getmodule(func).__name__)
 
         @functools.wraps(func)

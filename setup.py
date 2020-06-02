@@ -15,38 +15,19 @@ def read_requirements_file(path):
 
     requirements = []
 
-    with open(path, 'r') as f:
-        for line in f:
+    with open(path, 'r') as file:
+        for line in file:
             line = line.strip()
             if not line or line.startswith('# '):
                 continue
-            elif line.startswith('-r '):
+
+            if line.startswith('-r '):
                 requirements += read_requirements_file(line[3:])
             else:
                 requirements.append(line)
 
     return requirements
 
-
-classifiers = [
-    'Development Status :: 2 - Pre-Alpha',
-    'Environment :: Console',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved :: MIT License',
-    'Operating System :: Unix',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3 :: Only',
-    'Programming Language :: Python :: Implementation :: CPython',
-    'Topic :: Software Development :: Libraries :: Python Modules',
-    'Topic :: Utilities',
-]
-requirements = read_requirements_file('requirements.txt')
-requirements_test = read_requirements_file('requirements-test.txt')
-requirements_dev = read_requirements_file('requirements-dev.txt')
-readme = open(os.path.join(ROOT, 'README.md'), 'r').read()
 
 setup(
     version=flashback.__version__,
@@ -56,13 +37,27 @@ setup(
     author_email='renvoisepaul@gmail.com',
     url='https://github.com/PaulRenvoise/flashback',
     description='An utility library for python',
-    long_description=readme,
-    classifiers=classifiers,
+    long_description=open(os.path.join(ROOT, 'README.md'), 'r').read(),
+    classifiers=[
+        'Development Status :: 2 - Pre-Alpha',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: Unix',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Utilities',
+    ],
 
     packages=find_packages(exclude=('tests', 'tests.*')),
 
-    install_requires=requirements,
-    tests_require=requirements_test,
+    install_requires=read_requirements_file('requirements.txt'),
+    tests_require=read_requirements_file('requirements-test.txt'),
     python_requires='>=3.6.*',
     setup_requires=['pytest-runner'],
 

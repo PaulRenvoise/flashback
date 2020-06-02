@@ -30,6 +30,28 @@ class TestFormatter:
             "    None (NoneType)"
         )
 
+    def test_format_long(self, formatter):
+        arguments = [
+            (None, 'a' * 150)
+        ]
+        content = formatter.format('<filename>', '<lineno>', arguments, None)
+
+        assert CRE_ANSI.sub('', content) == (
+            "<filename>:<lineno>\n"
+            "    (\n"
+            "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"  # pylint: disable=line-too-long
+            "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"
+            "    ) (str)"
+        )
+
+    def test_format_empty(self, formatter):
+        arguments = []
+        content = formatter.format('<filename>', '<lineno>', arguments, None)
+
+        assert CRE_ANSI.sub('', content) == (
+            "<filename>:<lineno>"
+        )
+
     def test_format_raw(self, formatter):
         arguments = [
             (None, None)
@@ -38,7 +60,7 @@ class TestFormatter:
 
         assert content == (
             "\x1b[2m<filename>:<lineno>\x1b[0m\n"
-            "\x1b[38;5;7m    \x1b[39m\x1b[38;5;103mNone\x1b[39m \x1b[2m(NoneType)\x1b[0m"
+            "\x1b[38;5;7m    \x1b[39m\x1b[38;5;167mNone\x1b[39m \x1b[2m(NoneType)\x1b[0m"
         )
 
     def test_format_named(self, formatter):
@@ -70,7 +92,6 @@ class TestFormatter:
             "  var_3:\n"
             "    None (NoneType)"
         )
-
 
     def test_format_warning(self, formatter):
         arguments = [
@@ -180,11 +201,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    {\n"
+            "    frozenset({\n"
             "        1,\n"
             "        2,\n"
             "        3,\n"
-            "    } (frozenset)"
+            "    }) (frozenset)"
         )
 
     def test_deque(self, formatter):
@@ -195,11 +216,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    [\n"
+            "    deque([\n"
             "        1,\n"
             "        2,\n"
             "        3,\n"
-            "    ] (deque)"
+            "    ]) (deque)"
         )
 
     def test_dict(self, formatter):
@@ -225,11 +246,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    {\n"
+            "    OrderedDict({\n"
             "        'a': 1,\n"
             "        'b': 2,\n"
             "        'c': 3,\n"
-            "    } (OrderedDict)"
+            "    }) (OrderedDict)"
         )
 
     def test_defaultdict(self, formatter):
@@ -240,11 +261,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    {\n"
+            "    defaultdict(<class 'int'>, {\n"
             "        'a': 1,\n"
             "        'b': 2,\n"
             "        'c': 3,\n"
-            "    } (defaultdict)"
+            "    }) (defaultdict)"
         )
 
     def test_counter(self, formatter):
@@ -255,11 +276,11 @@ class TestFormatter:
 
         assert CRE_ANSI.sub('', content) == (
             "<filename>:<lineno>\n"
-            "    {\n"
+            "    Counter({\n"
             "        'a': 1,\n"
             "        'b': 2,\n"
             "        'c': 3,\n"
-            "    } (Counter)"
+            "    }) (Counter)"
         )
 
     def test_generator(self, formatter):
@@ -497,3 +518,76 @@ class TestFormatter:
             "        ),\n"
             "    } (dict)"
         )
+
+    def test_format_code(self, formatter):
+        code = [
+            "framelist = []\n",
+            "while frame:\n",
+            "    frameinfo = (frame,) + getframeinfo(frame, context)\n",
+            "    framelist.append(FrameInfo(*frameinfo))\n",
+            "    frame = frame.f_back\n",
+            "return framelist\n",
+        ]
+
+        content = formatter.format_code(code)
+
+        assert '\x1b[39m' in content
+        for lineno, line in enumerate(content.splitlines(), 1):
+            assert str(lineno) in line
+
+    def test_format_code_with_start_lineno(self, formatter):
+        code = [
+            "framelist = []\n",
+            "while frame:\n",
+            "    frameinfo = (frame,) + getframeinfo(frame, context)\n",
+            "    framelist.append(FrameInfo(*frameinfo))\n",
+            "    frame = frame.f_back\n",
+            "return framelist\n",
+        ]
+        start_lineno = 1489
+
+        content = formatter.format_code(code, start_lineno=start_lineno)
+
+        assert '\x1b[39m' in content
+        for lineno, line in enumerate(content.splitlines(), start_lineno):
+            assert str(lineno) in line
+
+    def test_format_code_with_highlight(self, formatter):
+        code = [
+            "framelist = []\n",
+            "while frame:\n",
+            "    frameinfo = (frame,) + getframeinfo(frame, context)\n",
+            "    framelist.append(FrameInfo(*frameinfo))\n",
+            "    frame = frame.f_back\n",
+            "return framelist\n",
+        ]
+
+        content = formatter.format_code(code, highlight=(2, 3))
+
+        content_lines = content.splitlines()
+        assert content_lines[0][:4] == '\x1b[2m'
+        assert content_lines[1][-4:] == '\x1b[0m'
+        assert content_lines[2][-4:] == '\x1b[2m'
+        assert content_lines[-1][-4:] == '\x1b[0m'
+
+    def test_format_code_with_start_lineno_and_highlight(self, formatter):
+        code = [
+            "framelist = []\n",
+            "while frame:\n",
+            "    frameinfo = (frame,) + getframeinfo(frame, context)\n",
+            "    framelist.append(FrameInfo(*frameinfo))\n",
+            "    frame = frame.f_back\n",
+            "return framelist\n",
+        ]
+        start_lineno = 1489
+
+        content = formatter.format_code(code, start_lineno=start_lineno, highlight=(2, 3))
+
+        content_lines = content.splitlines()
+        assert '\x1b[39m' in content
+        for lineno, line in enumerate(content_lines, start_lineno):
+            assert str(lineno) in line
+        assert content_lines[0][:4] == '\x1b[2m'
+        assert content_lines[1][-4:] == '\x1b[0m'
+        assert content_lines[2][-4:] == '\x1b[2m'
+        assert content_lines[-1][-4:] == '\x1b[0m'
