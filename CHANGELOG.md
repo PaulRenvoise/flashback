@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (TBD)
+## 1.0.0 (21/11/2020)
 
 - Added the `caching/` module, containing caching helpers:
     - `Cache` supports several cache stores: in-memory, disk, Redis, and Memcached

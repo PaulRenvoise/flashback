@@ -87,7 +87,7 @@ class TestParser:
         b = [1, 2, 3]
         c = {'a': 1, 'b': 2, 'c': 3}
 
-        _, _, parsed_arguments, _ = parser.parse(a,b,c)  # pylint: disable=bad-whitespace
+        _, _, parsed_arguments, _ = parser.parse(a,b,c)
 
         assert parsed_arguments == [
             ('a', 1),

@@ -40,4 +40,4 @@ class TestGetFrameInfo:
         # TODO: remove magic index
         # How to make sure that the last call to frame.f_back returns None?
         with pytest.raises(ValueError):
-            get_frameinfo(36)
+            get_frameinfo(37)
