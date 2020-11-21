@@ -68,8 +68,8 @@ class Cache:
             adapter_class = import_class_from_path(f"{adapter}_adapter", '.adapters')
 
             self.adapter = adapter_class(**kwargs)
-        except (ImportError, AttributeError):
-            raise NotImplementedError(f"adapter {adapter!r} is not yet supported")
+        except (ImportError, AttributeError) as e:
+            raise NotImplementedError(f"adapter {adapter!r} is not yet supported") from e
 
         if flush:
             self.flush()
