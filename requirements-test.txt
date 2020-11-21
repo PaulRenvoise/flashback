@@ -1,9 +1,9 @@
 # Lint
-pylint==2.5.2
+pylint==2.6.0
 
 # Test, coverage, and mocking
-pytest==5.4.1
-pytest-cov==2.8.1
+pytest==6.1.2
+pytest-cov==2.10.1
 mock==4.0.2
 mockredispy==2.9.3
 
