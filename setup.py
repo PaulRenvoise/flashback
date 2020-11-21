@@ -36,8 +36,10 @@ setup(
     author='Paul Renvoisé',
     author_email='renvoisepaul@gmail.com',
     url='https://github.com/PaulRenvoise/flashback',
+
     description='An utility library for python',
     long_description=open(os.path.join(ROOT, 'README.md'), 'r').read(),
+    long_description_content_type='text/markdown',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
