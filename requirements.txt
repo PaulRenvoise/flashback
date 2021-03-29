@@ -5,4 +5,4 @@ pymemcache==3.4.0
 # Utils
 regex==2020.11.13
 Unidecode==1.1.1
-pygments==2.7.2
+pygments==2.7.4
