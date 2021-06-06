@@ -358,9 +358,7 @@ class Cache:
         try:
             return json.loads(json_value)
         except TypeError:  # non-strings (e.g. None)
-            pass
-        except ValueError:  # invalid JSONs
-            pass
+            return json_value
 
     @staticmethod
     def _convert_numeric(value):

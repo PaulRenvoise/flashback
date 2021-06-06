@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 (TBD)
+
+- Added the `accessing/` module, containing helpers to access values in maps and iterables:
+    - `dig()` repeatedly access keys to find a nested value within a dict
+    -
+
 ## 1.0.0 (21/11/2020)
 
 - Added the `caching/` module, containing caching helpers:
