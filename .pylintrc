@@ -34,7 +34,7 @@ persistent=yes
 # fixme: should not be an error
 # missing-docstring: no granularity (modules, classes, and methods are all flagged with this error)
 # too-few-public-methods: whaaat ?
-disable=fixme,missing-docstring,too-few-public-methods
+disable=fixme,missing-docstring,too-few-public-methods,duplicate-code
 
 [DESIGN]
 
