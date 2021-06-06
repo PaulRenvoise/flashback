@@ -64,7 +64,7 @@ def muted(loggers=None):
         def inner(*args, **kwargs):
             # Selects all loggers at each call to func because loggers can be created between calls
             if loggers is None:
-                selected_loggers = [getLogger(logger) for logger in logging.root.manager.loggerDict] + [logging.root]
+                selected_loggers = [getLogger(logger) for logger in logging.root.manager.loggerDict] + [logging.root] # pylint: disable=no-member
             else:
                 selected_loggers = [logger if isinstance(logger, Logger) else getLogger(logger) for logger in loggers]
 
