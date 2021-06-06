@@ -29,6 +29,8 @@ python setup.py install
 
 Flashback's helpers are currently organised within 7 modules, and global helpers:
 
+- `accessing/`
+    - `dig()` recursively fetch keys in a nested dict
 - `caching/`
     - `Cache` supports several cache stores: in-memory, disk, Redis, and Memcached
     - `@cached` caches a callable's return value based on its arguments
