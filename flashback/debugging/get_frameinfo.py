@@ -25,14 +25,14 @@ def get_frameinfo(depth=0, context=1):
         ```
 
     Params:
-        - `depth (int)` the depth at which to find the frame
-        - `context (int)` the number of lines surrounding the frame to use in the traceback
+        depth (int): the depth at which to find the frame
+        context (int): the number of lines surrounding the frame to use in the traceback
 
     Returns:
-        - `inspect.FrameInfo` the FrameInfo object for the frame
+        inspect.FrameInfo: the FrameInfo object for the frame
 
     Raises:
-        - `ValueError` if `depth` is greater than the length of the call stack
+        ValueError: if `depth` is greater than the length of the call stack
     """
     # Could use `sys._getframe(1)` but safer to go through its wrapper
     frame = inspect.currentframe()

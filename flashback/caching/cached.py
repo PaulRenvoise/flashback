@@ -39,11 +39,11 @@ def cached(adapter='memory', **kwargs):
         ```
 
     Params:
-        - `adapter (str)` the cache storage adapter to use
-        - `kwargs (dict)` every keyword argument, forwarded to the cache adapter
+        adapter (str): the cache storage adapter to use
+        kwargs (dict): every keyword argument, forwarded to the cache adapter
 
     Returns:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     cache = Cache(adapter, **kwargs)
 

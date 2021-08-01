@@ -22,16 +22,16 @@ def import_class_from_path(name, path):
         ```
 
     Paramss:
-        - `name (str)` the name of the class to import
-        - `path (str)` the relative path in which to find the class to import
+        name (str): the name of the class to import
+        path (str): the relative path in which to find the class to import
 
     Returns:
-        - `Callable` the class from the imported module
+        Callable: the class from the imported module
 
     Raises:
-        - `ImportError` if the requested module is not found
-        - `ImportError` if a relative import beyond the top-level package is attempted
-        - `AttributeError` if the class is not found in the imported module
+        ImportError: if the requested module is not found
+        ImportError: if a relative import beyond the top-level package is attempted
+        AttributeError: if the class is not found in the imported module
     """
     if path.startswith('.'):
         caller_module = inspect.getmodule(get_frameinfo(1).frame)

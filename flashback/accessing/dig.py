@@ -14,11 +14,11 @@ def dig(dictionary, *keys):
         ```
 
     Params:
-        - `dictionary (dict)` the dict to fetch the value from
-        - `keys (tuple<str>)` the consecutive keys to access
+        dictionary (dict): the dict to fetch the value from
+        keys (tuple<str>): the consecutive keys to access
 
     Returns:
-        - `Any|None` the final value
+        Any|None: the final value
     """
     for key in keys[:-1]:
         dictionary = dictionary.get(key, {})

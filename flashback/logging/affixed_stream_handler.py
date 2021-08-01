@@ -64,12 +64,9 @@ class AffixedStreamHandler(logging.StreamHandler):
         If stream is not specified, sys.stderr is used.
 
         Params:
-            - `stream (TextIOWrapper)` the stream to write to
-            - `prefix (str)` the prefix to prepend to the record
-            - `suffix (str)` the suffix to append to the record
-
-        Returns:
-            - `None`
+            stream (TextIOWrapper): the stream to write to
+            prefix (str): the prefix to prepend to the record
+            suffix (str): the suffix to append to the record
         """
         super().__init__(stream=stream)
 
@@ -86,13 +83,10 @@ class AffixedStreamHandler(logging.StreamHandler):
         determine how to do the output to the stream.
 
         Params:
-            - `record (logging.LogRecord)` the record to format and write
-
-        Returns:
-            - `None`
+            record (logging.LogRecord): the record to format and write
 
         Raises:
-            - `RecursionError` if the maximum recursion depth is reached
+            RecursionError: if the maximum recursion depth is reached
         """
         try:
             msg = self.format(record)

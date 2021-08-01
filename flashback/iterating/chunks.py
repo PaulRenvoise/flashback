@@ -31,11 +31,11 @@ def chunks(iterable, size=2, pad=Sentinel):
         ```
 
     Params:
-        - `iterable (Iterable<Any>)` the iterable to chunk
-        - `size (int)` the size of the chunks to produce
+        iterable (Iterable<Any>): the iterable to chunk
+        size (int): the size of the chunks to produce
 
     Yields:
-        - `tuple<Any>` the extracted chunk
+        tuple<Any>: the extracted chunk
     """
     iterable = iter(iterable)
     chunk_generator = iter(lambda: tuple(islice(iterable, size)), ())

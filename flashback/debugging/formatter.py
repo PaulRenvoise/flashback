@@ -43,10 +43,7 @@ class Formatter:
     def __init__(self, indent_str='    '):
         """
         Params:
-            - `indent_str (str)` the indentation string to use
-
-        Returns:
-            - `None`
+            indent_str (str): the indentation string to use
         """
         self._indent_str = indent_str
         self._indent_str_len = len(indent_str)
@@ -85,14 +82,14 @@ class Formatter:
         Formats the output of `Parser.parse` following the given style and width.
 
         Params:
-            - `filename (str)` the filename from where `flashback.debugging.xp` has been called
-            - `lineno (int)` the line number from where `flashback.debugging.xp` has been called
-            - `arguments (list<tuple>)` the arguments to format, as name-value couples
-            - `warning (str)` the error encountered when parsing the code or None
-            - `width (int)` the maximum width before wrapping the output
+            filename (str): the filename from where `flashback.debugging.xp` has been called
+            lineno (int): the line number from where `flashback.debugging.xp` has been called
+            arguments (list<tuple>): the arguments to format, as name-value couples
+            warning (str): the error encountered when parsing the code or None
+            width (int): the maximum width before wrapping the output
 
         Returns:
-            - `str` the formatted arguments, and location of the call to `flashback.debugging.xp`
+            str: the formatted arguments, and location of the call to `flashback.debugging.xp`
         """
         self._width = width
 
@@ -132,12 +129,12 @@ class Formatter:
         specific range of lines.
 
         Params:
-            - `lines (Iterable<str>)` the lines of code to render
-            - `start_lineno (int)` the line number of the code's first line
-            - `highlight (tuple<int>)` the start and end indices of the code to highlight
+            lines (Iterable<str>): the lines of code to render
+            start_lineno (int): the line number of the code's first line
+            highlight (tuple<int>): the start and end indices of the code to highlight
 
         Returns:
-            - `str` the formatted and highlighted code
+            str: the formatted and highlighted code
         """
         linenos = list(range(start_lineno, start_lineno + len(lines) + 2))
 

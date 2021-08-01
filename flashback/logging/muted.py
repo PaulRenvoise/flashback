@@ -51,10 +51,10 @@ def muted(loggers=None):
         ```
 
     Params:
-        - `loggers (Iterable<str|logging.Logger>)` the list of logger names or instances to mute
+        loggers (Iterable<str|logging.Logger>): the list of logger names or instances to mute
 
     Returns:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     def wrapper(func):
         def _filter(_record):

@@ -32,11 +32,11 @@ def pascalize(text, acronyms=None):
         ```
 
     Params:
-        - `text (str)` the text to transform into PascalCase
-        - `acronyms (Iterable)` a list of correctly cased acronyms to retain and case correctly
+        text (str): the text to transform into PascalCase
+        acronyms (Iterable): a list of correctly cased acronyms to retain and case correctly
 
     Returns:
-        - `str` the pascal cased text
+        str: the pascal cased text
     """
     text = camelize(text, acronyms=acronyms)
 

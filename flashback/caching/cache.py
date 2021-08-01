@@ -55,12 +55,9 @@ class Cache:
     def __init__(self, adapter='memory', flush=False, **kwargs):
         """
         Params:
-            - `adapter (str)` the adapter to use for the storage
-            - `flush (bool)` whether or not to flush the storage after connecting
-            - `kwargs (dict)` every additional keyword arguments, forwarded to the adapter
-
-        Returns:
-            - `None`
+            adapter (str): the adapter to use for the storage
+            flush (bool): whether or not to flush the storage after connecting
+            kwargs (dict): every additional keyword arguments, forwarded to the adapter
         """
         super().__init__()
 
@@ -92,12 +89,12 @@ class Cache:
             ```
 
         Params:
-            - `key (str)` the key to set
-            - `value (str)` the value to cache
-            - `ttl (int)` the number of seconds before expiring the key
+            key (str): the key to set
+            value (str): the value to cache
+            ttl (int): the number of seconds before expiring the key
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
         """
         json_value = json.dumps(self._convert_numeric(value))
 
@@ -123,15 +120,15 @@ class Cache:
             ```
 
         Params:
-            - `keys (Iterable<str>)` the list of keys to set
-            - `values (Iterable<str>)` the list of values to cache
-            - `ttls (Iterable<int>)` the number of seconds before expiring the keys
+            keys (Iterable<str>): the list of keys to set
+            values (Iterable<str>): the list of values to cache
+            ttls (Iterable<int>): the number of seconds before expiring the keys
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
 
         Raises:
-            - `ValueError` if the lengths of the keys and values differ
+            ValueError: if the lengths of the keys and values differ
         """
         if ttls is None:
             ttls = [-1 for _ in range(len(keys))]
@@ -167,10 +164,10 @@ class Cache:
             ```
 
         Params:
-            - `key (str)` the key to fetch the value from
+            key (str): the key to fetch the value from
 
         Returns:
-            - `str|None` the value read from the storage
+            str|None: the value read from the storage
         """
         try:
             json_value = self.adapter.get(key)
@@ -196,10 +193,10 @@ class Cache:
             ```
 
         Params:
-            - `keys (Iterable<str>)` the keys to fetch the values from
+            keys (Iterable<str>): the keys to fetch the values from
 
         Returns:
-            - `list<str|None>` the values read from the storage
+            list<str|None>: the values read from the storage
         """
         try:
             json_values = self.adapter.batch_get(keys)
@@ -228,10 +225,10 @@ class Cache:
             ```
 
         Params:
-            - `key (str)` the key to remove
+            key (str): the key to remove
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
         """
         try:
             res = self.adapter.delete(key)
@@ -259,10 +256,10 @@ class Cache:
             ```
 
         Params:
-            - `keys (Iterable<str>)` the keys to remove from the cache
+            keys (Iterable<str>): the keys to remove from the cache
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
         """
         try:
             res = self.adapter.batch_delete(keys)
@@ -290,10 +287,10 @@ class Cache:
             ```
 
         Params:
-            - `key (str)` the key to check the existence of
+            key (str): the key to check the existence of
 
         Returns:
-            - `bool` whether or not the key exists
+            bool: whether or not the key exists
         """
         try:
             res = self.adapter.exists(key)
@@ -317,14 +314,11 @@ class Cache:
             #=> True
             ```
 
-        Params:
-            - `None`
-
         Returns:
-            - `bool` always True
+            bool: always True
 
         Raises:
-            - `flashback.caching.adapters.base.BaseAdapter.connection_exceptions` if no connection with the storage
+            flashback.caching.adapters.base.BaseAdapter.connection_exceptions: if no connection with the storage
         """
         return self.adapter.flush()
 
@@ -342,14 +336,11 @@ class Cache:
             #=> True
             ```
 
-        Params:
-            - `None`
-
         Returns:
-            - `bool` always True
+            bool: always True
 
         Raises:
-            - `flashback.caching.adapters.base.BaseAdapter.connection_exceptions` if no connection with the storage
+            flashback.caching.adapters.base.BaseAdapter.connection_exceptions: if no connection with the storage
         """
         return self.adapter.ping()
 

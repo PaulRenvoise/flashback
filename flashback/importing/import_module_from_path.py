@@ -22,15 +22,12 @@ def import_module_from_path(name, path):
         ```
 
     Params:
-        - `name (str)` the name of the module to import
-        - `path (str)` the relative path in which to find the module to import
-
-    Returns:
-        - `None`
+        name (str): the name of the module to import
+        path (str): the relative path in which to find the module to import
 
     Raises:
-        - `ImportError` if a relative import beyond the top-level package is attempted
-        - `ImportError` if the request module is not found
+        ImportError: if a relative import beyond the top-level package is attempted
+        ImportError: if the request module is not found
     """
     if path.startswith('.'):
         caller_module = inspect.getmodule(get_frameinfo(1).frame)

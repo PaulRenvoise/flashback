@@ -16,11 +16,11 @@ def partition(predicate, iterable):
         ```
 
     Params:
-        - `predicate (lambda)` the lambda to apply on each item of `iterable`
-        - `iterable (Iterable<Any>)` the iterable to partition
+        predicate (lambda): the lambda to apply on each item of `iterable`
+        iterable (Iterable<Any>): the iterable to partition
 
     Returns:
-        - `tuple<tuple<Any>>` the iterable's items separated depending on `predicate`
+        tuple<tuple<Any>>: the iterable's items separated depending on `predicate`
     """
     trues = []
     falses = []

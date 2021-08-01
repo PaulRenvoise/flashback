@@ -9,11 +9,8 @@ class TypeHighlightFilter(Filter):
     def __init__(self, names, **kwargs):
         """
         Params:
-            - `names (Iterable<str>)` the list of names to change the token type
-            - `kwargs (dict)` every additional keyword parameters
-
-        Returns:
-            - `None`
+            names (Iterable<str>): the list of names to change the token type
+            kwargs (dict): every additional keyword parameters
         """
         Filter.__init__(self, **kwargs)
 
@@ -25,11 +22,11 @@ class TypeHighlightFilter(Filter):
         list of names.
 
         Params:
-            - `lexer (pygments.lexer.Lexer)` the lexer instance
-            - `stream (generator)` the stream of couples tokentype-value
+            lexer (pygments.lexer.Lexer): the lexer instance
+            stream (generator): the stream of couples tokentype-value
 
         Yields:
-            - `tuple<pygments.token._TokenType, str>` the token type and token value
+            tuple<pygments.token._TokenType, str>: the token type and token value
         """
         for ttype, value in stream:
             if ttype in Name and value in self.names:

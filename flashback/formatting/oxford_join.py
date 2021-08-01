@@ -18,14 +18,14 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
         ```
 
     Params:
-        - `iterable (Iterable<Any>)` the sequence holding the items to join
-        - `sep (str)` the separator used when there is more than two items in the iterable
-        - `couple_sep (str)` the separator to use if there is only two items in the iterable
-        - `last_sep (str)` the separator to use for the last two items of the iterable
-        - `quotes (bool)` whether or not to add quotes around each item of the iterable
+        iterable (Iterable<Any>): the sequence holding the items to join
+        sep (str): the separator used when there is more than two items in the iterable
+        couple_sep (str): the separator to use if there is only two items in the iterable
+        last_sep (str): the separator to use for the last two items of the iterable
+        quotes (bool): whether or not to add quotes around each item of the iterable
 
     Returns:
-        - `str` the joined strings
+        str: the joined strings
     """
     if len(iterable) == 0:
         return ''

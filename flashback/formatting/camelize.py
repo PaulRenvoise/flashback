@@ -32,11 +32,11 @@ def camelize(text, acronyms=None):
         ```
 
     Params:
-        - `text (str)` the text to transform into camelCase
-        - `acronyms (Iterable)` a list of correctly cased acronyms to retain and case correctly
+        text (str): the text to transform into camelCase
+        acronyms (Iterable): a list of correctly cased acronyms to retain and case correctly
 
     Returns:
-        - `str` the camel cased text
+        str: the camel cased text
     """
     text = snakeize(text, acronyms=acronyms)
 

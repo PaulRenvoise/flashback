@@ -30,12 +30,12 @@ def parameterize(text, sep='-', keep_case=False):
         ```
 
     Params:
-        - `text (str)` the text to transform
-        - `sep (str)` the separator to use as replacement
-        - `keep_case (bool)` whether or not to keep the input case
+        text (str): the text to transform
+        sep (str): the separator to use as replacement
+        keep_case (bool): whether or not to keep the input case
 
     Returns:
-        - `str` the parameterized text
+        str: the parameterized text
     """
     text = transliterate(text)
 

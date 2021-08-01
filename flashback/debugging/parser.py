@@ -48,13 +48,13 @@ class Parser:
         `flashback.debugging.xp`, as we call directly this method when testing.
 
         Params:
-            - `arguments (tuple<Any>)` every positional arguments
+            arguments (tuple<Any>): every positional arguments
 
         Returns:
-            - `str` the filename from where `flashback.debugging.xp` has been called
-            - `int` the line number from where `flashback.debugging.xp` has been called
-            - `list<tuple>` the arguments parsed, as name-value couples
-            - `str` the error encountered when parsing the code or None
+            str: the filename from where `flashback.debugging.xp` has been called
+            int: the line number from where `flashback.debugging.xp` has been called
+            list<tuple>: the arguments parsed, as name-value couples
+            str: the error encountered when parsing the code or None
         """
         try:
             # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)

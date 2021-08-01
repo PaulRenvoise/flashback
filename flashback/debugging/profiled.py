@@ -51,10 +51,10 @@ def profiled(output=None):
         ```
 
     Params:
-        - `output (str)` the output to write the stats to
+        output (str): the output to write the stats to
 
     Returns:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     def wrapper(func):
         @functools.wraps(func)

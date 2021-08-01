@@ -11,10 +11,7 @@ class BaseAdapter(ABC):
         Instanciates the adapter, without testing the connection (ping is used for that).
 
         Params:
-            - `kwargs (dict)` every given keyword arguments
-
-        Returns:
-            - `None`
+            kwargs (dict): every given keyword arguments
         """
 
     @abstractmethod
@@ -23,15 +20,15 @@ class BaseAdapter(ABC):
         Caches a `value` under a given `key`.
 
         Params:
-            - `key (str)` the key under which to cache the value
-            - `value (str)` the value to cache
-            - `ttl (int)` the number of seconds before expiring the key
+            key (str): the key under which to cache the value
+            value (str): the value to cache
+            ttl (int): the number of seconds before expiring the key
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
@@ -40,15 +37,15 @@ class BaseAdapter(ABC):
         Caches each value from a list of `values` to its respective key in a list of `keys`.
 
         Params:
-            - `keys (Iterable<str>)` the keys under which to cache the values
-            - `values (Iterable<str>)` the values to cache
-            - `ttls (Iterable<int>)` the number of seconds before expiring the keys
+            keys (Iterable<str>): the keys under which to cache the values
+            values (Iterable<str>): the values to cache
+            ttls (Iterable<int>): the number of seconds before expiring the keys
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
@@ -57,13 +54,13 @@ class BaseAdapter(ABC):
         Fetches the value stored under `key`.
 
         Params:
-            - `key (str)` the key to retreive the value from
+            key (str): the key to retreive the value from
 
         Returns:
-            - `str|None` the value read from the cache
+            str|None: the value read from the cache
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
@@ -72,13 +69,13 @@ class BaseAdapter(ABC):
         Fetches each value stored under its respective key in a list of `keys`.
 
         Params:
-            - `keys (Iterable<str>)` the keys to retreive the values from
+            keys (Iterable<str>): the keys to retreive the values from
 
         Returns:
-            - `list<str|None>` the values read from the cache
+            list<str|None>: the values read from the cache
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
@@ -87,13 +84,13 @@ class BaseAdapter(ABC):
         Removes the given cache `key`.
 
         Params:
-            - `key (str)` the key to remove
+            key (str): the key to remove
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
@@ -102,13 +99,13 @@ class BaseAdapter(ABC):
         Removes the cache of a given list of `keys`, ignores non-existing keys.
 
         Params:
-            - `keys (Iterable<str>)` the keys to remove from the cache
+            keys (Iterable<str>): the keys to remove from the cache
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
@@ -117,13 +114,13 @@ class BaseAdapter(ABC):
         Checks the existence of a given `key` in the storage.
 
         Params:
-            - `key (str)` the key to check the existence of
+            key (str): the key to check the existence of
 
         Returns:
-            - `bool` whether or not the key exists
+            bool: whether or not the key exists
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
@@ -131,14 +128,11 @@ class BaseAdapter(ABC):
         """
         Flushes all keys and values from the adapter's storage.
 
-        Params:
-            - `None`
-
         Returns:
-            - `bool` always True
+            bool: always True
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
@@ -146,14 +140,11 @@ class BaseAdapter(ABC):
         """
         Checks if a valid connection is setup with the underlying storage.
 
-        Params:
-            - `None`
-
         Returns:
-            - `bool` always True
+            bool: always True
 
         Raises:
-            - `Base.connection_exceptions` if no connection to the underlying storage is active
+            Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @property
@@ -162,9 +153,6 @@ class BaseAdapter(ABC):
         """
         Lists the exceptions raised by the adapter when a faulty/invalid connection is detected.
 
-        Params:
-            - `None`
-
         Returns:
-            - `tuple<Exception>` the list of exceptions
+            tuple<Exception>: the list of exceptions
         """

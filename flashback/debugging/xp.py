@@ -65,13 +65,13 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
         ```
 
     Params:
-        - `arguments (tuple<Any>)` every positional arguments
-        - `o (TextIO)` the target output of print
-        - `f (bool)` whether of not the output is flushed
-        - `w (int)` the maximum width before wrapping the output
+        arguments (tuple<Any>): every positional arguments
+        o (TextIO): the target output of print
+        f (bool): whether of not the output is flushed
+        w (int): the maximum width before wrapping the output
 
     Returns:
-        - `Any`
+        Any:
     """
     filename, lineno, parsed_arguments, warning = PARSER.parse(*arguments)
     output = FORMATTER.format(filename, lineno, parsed_arguments, warning, width=w)

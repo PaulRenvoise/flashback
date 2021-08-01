@@ -21,11 +21,11 @@ def singularize(word, language='en'):
         ```
 
     Params:
-        - `word (str)` the word to singularize
-        - `language (str)` the language to use to singularize the word (ISO 639-1)
+        word (str): the word to singularize
+        language (str): the language to use to singularize the word (ISO 639-1)
 
     Returns:
-        - `str` the singularized word
+        str: the singularized word
     """
     locale = Locale.load(language, path='.locales')
 

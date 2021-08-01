@@ -6,13 +6,12 @@ def truncate(text, limit=120, suffix='...'):
     text. If no space is found, truncates at the limit. Searching for a space in the second-half
     of the text avoids cases where the word going over the limit is very long, e.g.:
 
-    Without:
     ```python
+    # Without:
     truncate("I spectrophotofluorometrically assessed this sample", limit=25)
     #=> 'I...'
-    ```
-    With:
-    ```python
+
+    # With:
     truncate("I spectrophotofluorometrically assessed this sample", limit=25)
     #=> 'I spectrophotofluorom...'
     ```
@@ -34,12 +33,12 @@ def truncate(text, limit=120, suffix='...'):
         ```
 
     Params:
-        - `text (str)` the text to truncate
-        - `limit (int)` the maximum length of the text
-        - `suffix (str)` the suffix to append at the truncated text
+        text (str): the text to truncate
+        limit (int): the maximum length of the text
+        suffix (str): the suffix to append at the truncated text
 
     Returns
-        - `str` the truncated text
+        str: the truncated text
     """
     if len(text) <= limit:
         return text

@@ -53,11 +53,11 @@ def caller(depth=2, context=5, output=sys.stderr):
         ```
 
     Params:
-        - `depth (int)` the depth to go back in the stack
-        - `context (int)` the number of context lines around the call made to the callable to take
+        depth (int): the depth to go back in the stack
+        context (int): the number of context lines around the call made to the callable to take
 
     Returns:
-        - `Callable|None` the callable calling if found
+        Callable|None: the callable calling if found
     """
     try:
         frameinfo = get_frameinfo(depth)

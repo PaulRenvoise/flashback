@@ -83,14 +83,14 @@ class Locale:
             ```
 
         Params:
-            - `locale (str)` the given locale
-            - `path (str)` the path in which to find the locale definition
+            locale (str): the given locale
+            path (str): the path in which to find the locale definition
 
         Returns:
-            - `Module` the content of the loaded locale
+            Module: the content of the loaded locale
 
         Raises:
-            - `NotImplementedError` if the given locale implementation is not found
+            NotImplementedError: if the given locale implementation is not found
         """
         locale = cls.simplify(locale)
 
@@ -152,10 +152,10 @@ class Locale:
             ```
 
         Params:
-            - `locale (str)` the non-normalized locale string
+            locale (str): the non-normalized locale string
 
         Returns:
-            - `str` the lowercased locale containing at least the language
+            str: the lowercased locale containing at least the language
         """
         match = cls.CRE_LOCALE.match(locale)
         if not match:

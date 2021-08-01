@@ -38,13 +38,13 @@ def get_call_context(frameinfo, size=5):
         ```
 
     Params:
-        - `frameinfo (inspect.FrameInfo)` the frameinfo to extract the context from
-        - `size (int)` the number of lines surrounding the call statement to take as context
+        frameinfo (inspect.FrameInfo): the frameinfo to extract the context from
+        size (int): the number of lines surrounding the call statement to take as context
 
     Returns:
-        - `list<str>` the context extracted with at most `size` context lines before and after
-        - `int|None` the line number of the context's first line
-        - `typle<int>` the start and end of the call statement, as indices of the returned context
+        list<str>: the context extracted with at most `size` context lines before and after
+        int|None: the line number of the context's first line
+        typle<int>: the start and end of the call statement, as indices of the returned context
     """
     if not frameinfo.code_context:
         return [], None, ()

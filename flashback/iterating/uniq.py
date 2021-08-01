@@ -18,9 +18,9 @@ def uniq(iterable):
         ```
 
     Params:
-        - `iterable (Iterable<Any>)` the iterable to remove duplicates from
+        iterable (Iterable<Any>): the iterable to remove duplicates from
 
     Returns:
-        - `tuple<Any>` the iterable without duplicates
+        tuple<Any>: the iterable without duplicates
     """
     return tuple(dict.fromkeys(iterable))

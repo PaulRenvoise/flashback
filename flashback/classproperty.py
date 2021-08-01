@@ -55,11 +55,8 @@ class classproperty:  # pylint: disable=invalid-name
     def __init__(self, func_get, func_set=None):
         """
         Params:
-            - `func_get (callable)` the getter to decorate
-            - `func_set (callable)` the setter to decorate
-
-        Returns:
-            - `None`
+            func_get (Callable): the getter to decorate
+            func_set (Callable): the setter to decorate
         """
         if not isinstance(func_get, (classmethod, staticmethod)):
             func_get = classmethod(func_get)

@@ -47,13 +47,13 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
         ```
 
     Params:
-        - `max_retries (int)` the max number of retries before raising the initial error
-        - `plateau_after (int)` the number of retries after which to plateau the delay
-        - `reset_after (int)` the number of seconds after which to reset the delay
-        - `exceptions (tuple<Exception>)` the exceptions to trigger a retry on
+        max_retries (int): the max number of retries before raising the initial error
+        plateau_after (int): the number of retries after which to plateau the delay
+        reset_after (int): the number of seconds after which to reset the delay
+        exceptions (tuple<Exception>): the exceptions to trigger a retry on
 
     Returns :
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     def wrapper(func):
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we

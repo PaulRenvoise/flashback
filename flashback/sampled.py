@@ -72,11 +72,8 @@ class sampled:  # pylint: disable=invalid-name
     def __init__(self, strategy='constant', rate=None):
         """
         Params:
-            - `strategy (str)` the sampling strategy to use
-            - `rate (int|float)` the parameter to fine-tune the sampling strategy
-
-        Returns:
-            - `None`
+            strategy (str): the sampling strategy to use
+            rate (int|float): the parameter to fine-tune the sampling strategy
         """
         if strategy == self.STRATEGY_CONSTANT:
             if rate is None:

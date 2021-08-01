@@ -33,11 +33,11 @@ def snakeize(text, acronyms=None):
         ```
 
     Params:
-        - `text (str)` the text to transform into snake_case
-        - `acronyms (Iterable)` a list of acronyms to treat as non-delimited single lowercase words
+        text (str): the text to transform into snake_case
+        acronyms (Iterable): a list of acronyms to treat as non-delimited single lowercase words
 
     Returns:
-        - `str` the snake cased text
+        str: the snake cased text
     """
     text = str(text)
 

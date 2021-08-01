@@ -20,9 +20,9 @@ def renumerate(iterable):
         ```
 
     Params:
-        - `iterable (Iterable<Any>)` the list to reverse and enumerate
+        iterable (Iterable<Any>): the list to reverse and enumerate
 
     Returns:
-        - `Iterator` the iterator containing the reversed enumeration
+        Iterator: the iterator containing the reversed enumeration
     """
     return zip(range(len(iterable) - 1, -1, -1), reversed(iterable))

@@ -21,10 +21,10 @@ def flatten(iterable):
         ```
 
     Params:
-        - `iterable (Iterable<Any>)` the iterable to flatten
+        iterable (Iterable<Any>): the iterable to flatten
 
     Returns:
-        - `tuple<Any>` the flattened iterable
+        tuple<Any>: the flattened iterable
     """
     items = []
     for item in iterable:

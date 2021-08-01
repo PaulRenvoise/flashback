@@ -21,11 +21,11 @@ def pluralize(word, language='en'):
         ```
 
     Params:
-        - `word (str)` the word to pluralize
-        - `language (str)` the language to use to pluralize the word (ISO 639-1)
+        word (str): the word to pluralize
+        language (str): the language to use to pluralize the word (ISO 639-1)
 
     Returns:
-        - `str` the pluralized word
+        str: the pluralized word
     """
     locale = Locale.load(language, path='.locales')
 

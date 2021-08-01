@@ -21,11 +21,11 @@ def transliterate(text, keep_case=True):
         ```
 
     Params:
-        - `text (str)` the text to transform from unicode to ASCII
-        - `keep_case (bool)` whether or not to keep the input case
+        text (str): the text to transform from unicode to ASCII
+        keep_case (bool): whether or not to keep the input case
 
     Returns:
-        - `str` the text using only ASCII characters
+        str: the text using only ASCII characters
     """
     text = str(text)
     text = unidecode(text)

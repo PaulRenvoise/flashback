@@ -10,10 +10,7 @@ class CallHighlightFilter(Filter):
     def __init__(self, **kwargs):
         """
         Params:
-            - `kwargs (dict)` every additional keyword parameters
-
-        Returns:
-            - `None`
+            kwargs (dict): every additional keyword parameters
         """
         Filter.__init__(self, **kwargs)
 
@@ -33,11 +30,11 @@ class CallHighlightFilter(Filter):
         the stack.
 
         Params:
-            - `lexer (pygments.lexer.Lexer)` the lexer instance
-            - `stream (generator)` the stream of couples tokentype-value
+            lexer (pygments.lexer.Lexer): the lexer instance
+            stream (generator): the stream of couples tokentype-value
 
         Yields:
-            - `tuple<pygments.token._TokenType, str>` the token type and token value
+            tuple<pygments.token._TokenType, str>: the token type and token value
         """
         try:
             stack = [next(stream)]

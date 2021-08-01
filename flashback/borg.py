@@ -80,13 +80,10 @@ class Borg:
             ```
 
         Params:
-            - `attribute (str)` the name of the attribute to define
-            - `value (Any)` the value to assign to the attribute
-            - `args (tuple)` every additional positional arguments
-            - `kwargs (dict)` every given keyword arguments
-
-        Returns:
-            - `None`
+            attribute (str): the name of the attribute to define
+            value (Any): the value to assign to the attribute
+            args (tuple): every additional positional arguments
+            kwargs (dict): every given keyword arguments
         """
         if hasattr(self, attribute):
             return
@@ -135,10 +132,7 @@ class Borg:
             ```
 
         Params:
-            - `kwargs (dict)` every given keyword arguments
-
-        Returns:
-            - `None`
+            kwargs (dict): every given keyword arguments
         """
         for attribute, value in kwargs.items():
             if isinstance(value, tuple) and callable(value[0]):

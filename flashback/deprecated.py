@@ -26,12 +26,12 @@ def deprecated(since=None, until=None, reason=None):
         ```
 
     Params:
-        - `since (str)` the date/version the callable was deprecated
-        - `until (str)` the date/version the callable will be removed
-        - `reason (str)` the reason of the deprecation
+        since (str): the date/version the callable was deprecated
+        until (str): the date/version the callable will be removed
+        reason (str): the reason of the deprecation
 
     Returns:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     def wrapper(func):
         message = f"{func.__name__} is deprecated"
