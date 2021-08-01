@@ -1,8 +1,8 @@
 # Caching
 redis~=3.5.3
-pymemcache~=3.4.4
+pymemcache~=3.5.0
 
 # Utils
-regex~=2021.4.4
+regex~=2021.7.6
 Unidecode~=1.2.0
 pygments~=2.9.0
