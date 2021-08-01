@@ -41,7 +41,7 @@ setup(
     long_description=open(os.path.join(ROOT, 'README.md'), 'r').read(),
     long_description_content_type='text/markdown',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
