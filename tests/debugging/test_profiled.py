@@ -33,8 +33,9 @@ class TestProfiled:
     def assert_output_valid(output_name):
         output_filename = os.path.join(os.getcwd(), output_name)
         try:
-            output = open(output_filename, 'rb').read()
+            with open(output_filename, 'rb') as infile:
+                output = infile.read()
 
-            assert output != ''
+                assert output != ''
         finally:
             os.remove(output_filename)
