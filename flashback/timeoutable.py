@@ -27,7 +27,7 @@ def timeoutable(seconds=5, message="execution timed out"):
             return True
 
         slow()
-        #=> TimeoutError: Execution of slow timed out.
+        #=> TimeoutError: Execution timed out
         ```
 
     Params:
