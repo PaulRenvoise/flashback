@@ -8,6 +8,7 @@
 - Switched pdoc3 for mkdocs
 - Migrated from single and double quotes to double quotes only
 - Added `iterating/flat_map()`, that applies a function to every item and nested item of the given iterable
+- Removed all "# coding: utf-8" headers, since they're actually useless
 
 ## 1.1.0 (06/06/2021)
 
