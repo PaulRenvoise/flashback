@@ -2,11 +2,12 @@
 
 ## 1.2.0 (TBD)
 
-- Optimized `interating/uniq()` by using `dict.fromkeys()` instead of a check-for-seen in a for loop design
+- Optimized `iterating/uniq()` by using `dict.fromkeys()` instead of a check-for-seen in a for loop design
 - Updated dependencies
 - Marked the project as "Production/Stable" on PyPI
 - Switched pdoc3 for mkdocs
 - Migrated from single and double quotes to double quotes only
+- Added `iterating/flat_map()`, that applies a function to every item and nested item of the given iterable
 
 ## 1.1.0 (06/06/2021)
 
