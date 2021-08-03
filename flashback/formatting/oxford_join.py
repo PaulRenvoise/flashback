@@ -1,4 +1,4 @@
-def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quotes=False):
+def oxford_join(iterable, sep=", ", couple_sep=" and ", last_sep=", and ", quotes=False):
     """
     Joins a list of string to a comma-separated sentence in a more english fashion than the
     builtin `.join()`.
@@ -7,13 +7,13 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
         ```python
         from flashback.formatting import oxford_join
 
-        oxford_join('A', 'B')
+        oxford_join("A", "B")
         #=> "A and B"
 
-        oxford_join('A', 'B', 'C')
+        oxford_join("A", "B", "C")
         #=> "A, B, and C"
 
-        oxford_join('A', 'B', 'C', last_sep=', or ')
+        oxford_join("A", "B", "C", last_sep=", or ")
         #=> "A, B, or C"
         ```
 
@@ -28,7 +28,7 @@ def oxford_join(iterable, sep=', ', couple_sep=' and ', last_sep=', and ', quote
         str: the joined strings
     """
     if len(iterable) == 0:
-        return ''
+        return ""
 
     if quotes:
         iterable = [f"\"{item}\"" for item in iterable]

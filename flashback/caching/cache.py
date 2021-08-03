@@ -19,29 +19,29 @@ class Cache:
         ```python
         from flashback.caching import Cache
 
-        cache = Cache(adapter='memory')
+        cache = Cache(adapter="memory")
 
         # Has default operations for key-value stores
-        cache.set('key', 'val')
+        cache.set("key", "val")
         #=> True
 
-        cache.get('key')
-        #=> 'val'
+        cache.get("key")
+        #=> "val"
 
-        cache.delete('key')
+        cache.delete("key")
         #=> True
 
-        cache.exists('key')
+        cache.exists("key")
         #=> False
 
         # Plus batch operations
-        cache.batch_set(['key1', 'key2', 'key3'], ['val1', 'val2', 'val3'])
+        cache.batch_set(["key1", "key2", "key3"], ["val1", "val2", "val3"])
         #=> True
 
-        cache.batch_get(['key1', 'key2', 'key3']) == ['val1', 'val2', 'val3']
-        #=> ['val1', 'val2', 'val3']
+        cache.batch_get(["key1", "key2", "key3"]) == ["val1", "val2", "val3"]
+        #=> ["val1", "val2", "val3"]
 
-        cache.batch_delete(['key1', 'key2', 'key3'])
+        cache.batch_delete(["key1", "key2", "key3"])
         #=> True
 
         # And some more
@@ -52,7 +52,7 @@ class Cache:
         #=> True
         ```
     """
-    def __init__(self, adapter='memory', flush=False, **kwargs):
+    def __init__(self, adapter="memory", flush=False, **kwargs):
         """
         Params:
             adapter (str): the adapter to use for the storage
@@ -62,7 +62,7 @@ class Cache:
         super().__init__()
 
         try:
-            adapter_class = import_class_from_path(f"{adapter}_adapter", '.adapters')
+            adapter_class = import_class_from_path(f"{adapter}_adapter", ".adapters")
 
             self.adapter = adapter_class(**kwargs)
         except (ImportError, AttributeError) as e:
@@ -84,7 +84,7 @@ class Cache:
 
             cache = Cache()
 
-            cache.set('key', 'val')
+            cache.set("key", "val")
             #=> True
             ```
 
@@ -115,7 +115,7 @@ class Cache:
 
             cache = Cache()
 
-            cache.batch_set(['key1', 'key2'], ['val1', 'val2'])
+            cache.batch_set(["key1", "key2"], ["val1", "val2"])
             #=> True
             ```
 
@@ -154,12 +154,12 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
-            cache.get('key')
-            #=> 'val'
+            cache.get("key")
+            #=> "val"
 
-            cache.get('yek')
+            cache.get("yek")
             #=> None
             ```
 
@@ -186,10 +186,10 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
-            cache.batch_get(['key', 'yek'])
-            #=> ['val', None]
+            cache.batch_get(["key", "yek"])
+            #=> ["val", None]
             ```
 
         Params:
@@ -215,12 +215,12 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
-            cache.delete('key')
+            cache.delete("key")
             #=> True
 
-            cache.delete('yek')
+            cache.delete("yek")
             #=> False
             ```
 
@@ -246,12 +246,12 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.batch_set(['key1', 'key2'], ['val1', 'val2'])
+            cache.batch_set(["key1", "key2"], ["val1", "val2"])
 
-            cache.batch_delete(['key1', 'key2'])
+            cache.batch_delete(["key1", "key2"])
             #=> True
 
-            cache.batch_delete(['yek'])
+            cache.batch_delete(["yek"])
             #=> False
             ```
 
@@ -277,12 +277,12 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
-            cache.exists('key')
+            cache.exists("key")
             #=> True
 
-            cache.exists('yek')
+            cache.exists("yek")
             #=> False
             ```
 
@@ -308,7 +308,7 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
             cache.flush()
             #=> True

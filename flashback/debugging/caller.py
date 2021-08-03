@@ -8,8 +8,8 @@ from .get_call_context import get_call_context
 from .get_frameinfo import get_frameinfo
 
 
-ANSI_DIM_START = '\x1b[2m'
-ANSI_DIM_END = '\x1b[0m'
+ANSI_DIM_START = "\x1b[2m"
+ANSI_DIM_END = "\x1b[0m"
 
 def caller(depth=2, context=5, output=sys.stderr):
     """

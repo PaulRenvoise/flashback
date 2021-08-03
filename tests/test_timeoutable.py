@@ -20,7 +20,7 @@ class TestTimeoutable:
 
         with pytest.raises(TimeoutError) as e:
             decorated_func(None)
-            assert e.message == 'execution timed out'
+            assert e.message == "execution timed out"
 
     def test_timeoutable_without_timeout(self):
         spy_func = Mock()
@@ -32,8 +32,8 @@ class TestTimeoutable:
         assert spy_func.called
 
     def test_timeoutable_with_message(self):
-        make_timeoutable = timeoutable(1, message='dummy_func timed out')
+        make_timeoutable = timeoutable(1, message="dummy_func timed out")
         decorated_func = make_timeoutable(dummy_func)
         with pytest.raises(TimeoutError) as e:
             decorated_func(None)
-            assert e.message == 'dummy_func timed out'
+            assert e.message == "dummy_func timed out"

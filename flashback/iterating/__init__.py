@@ -7,10 +7,10 @@ from .uniq import uniq
 
 
 __all__ = (
-    'chunks',
-    'compact',
-    'flatten',
-    'partition',
-    'renumerate',
-    'uniq',
+    "chunks",
+    "compact",
+    "flatten",
+    "partition",
+    "renumerate",
+    "uniq",
 )

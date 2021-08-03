@@ -16,7 +16,7 @@ def import_class_from_path(name, path):
         ```python
         from flashback.importing import import_class_from_path
 
-        borg_class = import_class_from_path('borg', 'flashback')
+        borg_class = import_class_from_path("borg", "flashback")
 
         borg_class()
         ```
@@ -33,7 +33,7 @@ def import_class_from_path(name, path):
         ImportError: if a relative import beyond the top-level package is attempted
         AttributeError: if the class is not found in the imported module
     """
-    if path.startswith('.'):
+    if path.startswith("."):
         caller_module = inspect.getmodule(get_frameinfo(1).frame)
         caller_package = caller_module.__package__
 
@@ -46,7 +46,7 @@ def import_class_from_path(name, path):
     # (`import_module(absolute_path)`) rather than the relative class path for an absolute package
     # path (`import_module(relative_path, package=absolute_path)`) because it can happen that the
     # package is not yet loaded when it tries to import.
-    imported_module = import_module(module_path + '.' + name)
+    imported_module = import_module(module_path + "." + name)
 
     # Gets the class, will raise AttributeError if class cannot be found
     return getattr(imported_module, pascalize(name))

@@ -15,19 +15,19 @@ def camelize(text, acronyms=None):
         ```python
         from flashback.formatting import camelize
 
-        camelize('host')
-        #=> 'host'
+        camelize("host")
+        #=> "host"
 
-        camelize('http_host')
-        #=> 'httpHost'
+        camelize("http_host")
+        #=> "httpHost"
 
-        camelize('__http_host__')
+        camelize("__http_host__")
         #=> __httpHost__
 
-        camelize('HTTPHost')
+        camelize("HTTPHost")
         #=> httphOst
 
-        camelize('HTTPHost', acronyms=['HTTP'])
+        camelize("HTTPHost", acronyms=["HTTP"])
         #=> HTTPHost
         ```
 
@@ -46,7 +46,7 @@ def camelize(text, acronyms=None):
         acronyms_pattern = r"(?=$)^"
     else:
         lower2upper = {acronym.lower(): acronym for acronym in acronyms}
-        acronyms_pattern = '|'.join(sorted(acronyms, key=len, reverse=True))
+        acronyms_pattern = "|".join(sorted(acronyms, key=len, reverse=True))
 
     acronyms_camelize_pattern = fr"({acronyms_pattern})(.|$)"
 

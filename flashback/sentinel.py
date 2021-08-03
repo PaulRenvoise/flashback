@@ -19,14 +19,14 @@ class Sentinel:
         assert sentinel is Sentinel
 
         # Quick example of usage
-        iterable = ['abc', None, 'xyz', sentinel]
+        iterable = ["abc", None, "xyz", sentinel]
         for item in iterable:
             if item is Sentinel:
                 raise StopIteration
             print(item)
-        #=> 'abc'
+        #=> "abc"
         #=> None
-        #=> 'xyz'
+        #=> "xyz"
         #=> StopIteration
         ```
     """

@@ -21,9 +21,9 @@ class TestConfigurations:
     def test_default_console_configuration(self, capsys):
         logging.config.dictConfig(DEFAULT_CONSOLE_CONFIGURATION)
 
-        logger = logging.getLogger('tests.logging')
+        logger = logging.getLogger("tests.logging")
 
-        logger.info('message')
+        logger.info("message")
 
         captured = capsys.readouterr()
         assert self.CRE_DEFAULT_FORMAT.match(captured.err)
@@ -34,9 +34,9 @@ class TestConfigurations:
     def test_django_console_configuration(self, capsys):
         logging.config.dictConfig(DJANGO_CONSOLE_CONFIGURATION)
 
-        logger = logging.getLogger('tests.logging')
+        logger = logging.getLogger("tests.logging")
 
-        logger.info('message')
+        logger.info("message")
 
         captured = capsys.readouterr()
         assert self.CRE_DJANGO_FORMAT.match(captured.err)
@@ -47,9 +47,9 @@ class TestConfigurations:
     def test_flask_console_configuration(self, capsys):
         logging.config.dictConfig(FLASK_CONSOLE_CONFIGURATION)
 
-        logger = logging.getLogger('tests.logging')
+        logger = logging.getLogger("tests.logging")
 
-        logger.info('message')
+        logger.info("message")
 
         captured = capsys.readouterr()
         assert self.CRE_FLASK_FORMAT.match(captured.err)
@@ -60,9 +60,9 @@ class TestConfigurations:
     def test_pyramid_console_configuration(self, capsys):
         logging.config.dictConfig(PYRAMID_CONSOLE_CONFIGURATION)
 
-        logger = logging.getLogger('tests.logging')
+        logger = logging.getLogger("tests.logging")
 
-        logger.info('message')
+        logger.info("message")
 
         captured = capsys.readouterr()
         assert self.CRE_PYRAMID_FORMAT.match(captured.err)
@@ -73,9 +73,9 @@ class TestConfigurations:
     def test_rails_console_configuration(self, capsys):
         logging.config.dictConfig(RAILS_CONSOLE_CONFIGURATION)
 
-        logger = logging.getLogger('tests.logging')
+        logger = logging.getLogger("tests.logging")
 
-        logger.info('message')
+        logger.info("message")
 
         captured = capsys.readouterr()
         assert self.CRE_RAILS_FORMAT.match(captured.err)

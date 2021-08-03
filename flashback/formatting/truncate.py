@@ -1,4 +1,4 @@
-def truncate(text, limit=120, suffix='...'):
+def truncate(text, limit=120, suffix="..."):
     """
     Truncates the given text up to `limit` and fill its ending with `suffix`.
 
@@ -9,11 +9,11 @@ def truncate(text, limit=120, suffix='...'):
     ```python
     # Without:
     truncate("I spectrophotofluorometrically assessed this sample", limit=25)
-    #=> 'I...'
+    #=> "I..."
 
     # With:
     truncate("I spectrophotofluorometrically assessed this sample", limit=25)
-    #=> 'I spectrophotofluorom...'
+    #=> "I spectrophotofluorom..."
     ```
 
     Adapted from https://github.com/reddit/reddit/blob/master/r2/r2/lib/utils/utils.py#L407.
@@ -22,14 +22,14 @@ def truncate(text, limit=120, suffix='...'):
         ```python
         from flashback.formatting import truncate
 
-        truncate('This helper is very useful for preview of descriptions', limit=50)
-        #=> 'This helper is very useful for preview of...'
+        truncate("This helper is very useful for preview of descriptions", limit=50)
+        #=> "This helper is very useful for preview of..."
 
-        truncate('Wonderful tool to use in any projects!', limit=35, suffix=', bla bla bla')
-        #=> 'Wonderful tool to use, bla bla bla'
+        truncate("Wonderful tool to use in any projects!", limit=35, suffix=", bla bla bla")
+        #=> "Wonderful tool to use, bla bla bla"
 
-        truncate('Hi there', limit=3, suffix='')
-        #=> 'Hi'
+        truncate("Hi there", limit=3, suffix="")
+        #=> "Hi"
         ```
 
     Params:
@@ -45,7 +45,7 @@ def truncate(text, limit=120, suffix='...'):
 
     truncated_text = text[:(limit - len(suffix))]
     try:
-        space_index = truncated_text.rindex(' ')
+        space_index = truncated_text.rindex(" ")
     except ValueError:
         space_index = -1
 

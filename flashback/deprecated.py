@@ -17,7 +17,7 @@ def deprecated(since=None, until=None, reason=None):
         func()
         #=> func is deprecated.
 
-        @deprecated(since='v2', until='v3', reason='it has moved')
+        @deprecated(since="v2", until="v3", reason="it has moved")
         def func():
             pass
 
@@ -42,7 +42,7 @@ def deprecated(since=None, until=None, reason=None):
         if reason:
             message += f" because {reason}."
         else:
-            message += '.'
+            message += "."
 
         doc = func.__doc__ or ""
         if len(doc) > 0:

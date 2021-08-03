@@ -2,7 +2,7 @@ import functools
 import signal
 
 
-def timeoutable(seconds=5, message='execution timed out'):
+def timeoutable(seconds=5, message="execution timed out"):
     """
     Times out a callable's execution if its runtime exceeds `seconds`.
 

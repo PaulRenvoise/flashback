@@ -17,49 +17,49 @@ class AffixedStreamHandler(logging.StreamHandler):
 
         # Usable via object configuration
         first_stream = io.StringIO()
-        handler = AffixedStreamHandler(first_stream, prefix='_PREFIX_', suffix='_SUFFIX_')
-        logger = logging.getLogger('first')
+        handler = AffixedStreamHandler(first_stream, prefix="_PREFIX_", suffix="_SUFFIX_")
+        logger = logging.getLogger("first")
         logger.addHandler(handler)
 
-        logger.error('error message')
+        logger.error("error message")
 
         first_stream.getvalue()
-        #=> '_PREFIX_error message_SUFFIX_'
+        #=> "_PREFIX_error message_SUFFIX_"
 
         # But also via dictConfig
         second_stream = io.StringIO()
         config = {
-            'version': 1,
-            'disable_existing_loggers': False,
-            'incremental': False,
-            'formatters': {},
-            'filters': {},
-            'handlers': {
-                'stringio': {
-                    '()': 'flashback.logging.AffixedStreamHandler',
-                    'stream': second_stream,
-                    'prefix': '_START_',
-                    'suffix': '_END_',
-                    'level': 'DEBUG'
+            "version": 1,
+            "disable_existing_loggers": False,
+            "incremental": False,
+            "formatters": {},
+            "filters": {},
+            "handlers": {
+                "stringio": {
+                    "()": "flashback.logging.AffixedStreamHandler",
+                    "stream": second_stream,
+                    "prefix": "_START_",
+                    "suffix": "_END_",
+                    "level": "DEBUG"
                 }
             },
-            'loggers': {
-                'second': {
-                    'handlers': ['stringio'],
-                    'level': 'DEBUG'
+            "loggers": {
+                "second": {
+                    "handlers": ["stringio"],
+                    "level": "DEBUG"
                 }
             }
         }
         logging.config.dictConfig(config)
-        logger = logging.getLogger('second')
+        logger = logging.getLogger("second")
 
-        logger.info('info message')
+        logger.info("info message")
 
         second_stream.getvalue()
-        #=> '_START_info message_END_'
+        #=> "_START_info message_END_"
         ```
     """
-    def __init__(self, stream=None, prefix='', suffix='\n'):
+    def __init__(self, stream=None, prefix="", suffix="\n"):
         """
         If stream is not specified, sys.stderr is used.
 
@@ -79,7 +79,7 @@ class AffixedStreamHandler(logging.StreamHandler):
         prefix and suffix.
 
         If exception information is present, it is formatted using traceback.print_exception
-        and appended to the stream. If the stream has an 'encoding' attribute, it is used to
+        and appended to the stream. If the stream has an `encoding` attribute, it is used to
         determine how to do the output to the stream.
 
         Params:

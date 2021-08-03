@@ -29,7 +29,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
             else:
                 raise TypeError
 
-        will_be_retried('str')
+        will_be_retried("str")
         #=> RuntimeError
 
         will_be_retried(0)
@@ -87,7 +87,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
 
                     retry_count += 1
                     if max_retries != -1 and retry_count > max_retries:
-                        logger.warning('Reached the maximum number of retries, raising')
+                        logger.warning("Reached the maximum number of retries, raising")
 
                         # Add a few debug info to the exception
                         caught_exception.retry_count = retry_count

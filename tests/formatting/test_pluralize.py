@@ -117,34 +117,34 @@ def possessive_words():
 
 class TestPluralize:
     def test_languages(self):
-        assert pluralize('night', language='en') == 'nights'
-        assert pluralize('nuit', language='fr') == 'nuits'
+        assert pluralize("night", language="en") == "nights"
+        assert pluralize("nuit", language="fr") == "nuits"
 
     def test_invalid_language(self):
         with pytest.raises(NotImplementedError):
-            pluralize('', language='hu')
+            pluralize("", language="hu")
 
     def test_only_punctuation(self):
-        assert pluralize('??') == '??'
+        assert pluralize("??") == "??"
 
     def test_only_symbol(self):
-        assert pluralize('@#$%') == '@#$%'
+        assert pluralize("@#$%") == "@#$%"
 
     def test_only_numbers(self):
-        assert pluralize('123') == '123'
+        assert pluralize("123") == "123"
 
     def test_mixed_punctuation_symbol_number(self):
-        assert pluralize('!.:123$%') == '!.:123$%'
+        assert pluralize("!.:123$%") == "!.:123$%"
 
     class TestEnglish:
         def test_all_words(self, all_words):
             for singular, plural in all_words:
-                assert pluralize(singular, language='en') == plural
+                assert pluralize(singular, language="en") == plural
 
         def test_compound_words(self, compound_words):
             for singular, plural in compound_words:
-                assert pluralize(singular, language='en') == plural
+                assert pluralize(singular, language="en") == plural
 
         def test_possessive_words(self, possessive_words):
             for singular, plural in possessive_words:
-                assert pluralize(singular, language='en') == plural
+                assert pluralize(singular, language="en") == plural

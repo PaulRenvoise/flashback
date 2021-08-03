@@ -5,8 +5,8 @@ from .redis_adapter import RedisAdapter
 
 
 __all__ = (
-    'DiskAdapter',
-    'MemcachedAdapter',
-    'MemoryAdapter',
-    'RedisAdapter',
+    "DiskAdapter",
+    "MemcachedAdapter",
+    "MemoryAdapter",
+    "RedisAdapter",
 )

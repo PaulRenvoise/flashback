@@ -70,7 +70,7 @@ class Parser:
             else:  # parsing failed
                 parsed_arguments = self._default_arguments_parsing(arguments)
         except Exception as e:  # pylint: disable=broad-except
-            filename = '<unknown>'
+            filename = "<unknown>"
             lineno = 0
             parsed_arguments = self._default_arguments_parsing(arguments)
             warning = f"error parsing code, {e} ({e.__class__.__name__})"
@@ -81,15 +81,15 @@ class Parser:
     def _parse_call(frameinfo, filename):
         context, _, boundaries = get_call_context(frameinfo)
         if not context:
-            return None, None, 'error parsing code, no code context found'
+            return None, None, "error parsing code, no code context found"
 
-        call_statement = dedent(''.join(context[slice(*boundaries)]))
+        call_statement = dedent("".join(context[slice(*boundaries)]))
 
         node = ast.parse(call_statement, filename=filename).body[0].value
         if not isinstance(node, ast.Call):
             return None, None, f"error parsing code, found ast.{node.__class__.__name__} instead of ast.Call"
 
-        call_statement_lines = [line for line in call_statement.split('\n') if line]
+        call_statement_lines = [line for line in call_statement.split("\n") if line]
 
         return node, call_statement_lines, None
 
@@ -112,13 +112,13 @@ class Parser:
 
                 name_lines = []
                 # We do end_line + 1 to have the range contain the actual end_line defined above
-                for current_line in range(position['start_line'], position['end_line'] + 1):
-                    start = position['start_col'] if current_line == position['start_line'] else None
-                    end = position['end_col'] if current_line == position['end_line'] else None
+                for current_line in range(position["start_line"], position["end_line"] + 1):
+                    start = position["start_col"] if current_line == position["start_line"] else None
+                    end = position["end_col"] if current_line == position["end_line"] else None
 
-                    name_lines.append(code_lines[current_line][start:end].strip(' '))
+                    name_lines.append(code_lines[current_line][start:end].strip(" "))
 
-                argument_name = ' '.join(name_lines)
+                argument_name = " ".join(name_lines)
                 argument_name = self.CRE_CLOSING_BRACKET.sub(r"\1", self.CRE_OPENING_BRACKET.sub(r"\1", argument_name))
                 argument_name = argument_name.strip()
 
@@ -144,43 +144,43 @@ class Parser:
         default_end_col = -1
         for i, arg_node in enumerate(call_node.args):
             positions = {
-                'start_line': arg_node.lineno - 1,
-                'start_col': arg_node.col_offset,
-                'end_line': default_end_line,
-                'end_col': default_end_col
+                "start_line": arg_node.lineno - 1,
+                "start_col": arg_node.col_offset,
+                "end_line": default_end_line,
+                "end_col": default_end_col
             }
             if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
-                positions['start_col'] -= 1
+                positions["start_col"] -= 1
 
             if i > 0:
-                arguments_positions[-1]['end_line'] = positions['start_line']
+                arguments_positions[-1]["end_line"] = positions["start_line"]
 
                 # Handles cases where there is no space after the comma
                 try:
-                    comma_index = code_lines[positions['start_line']][:positions['start_col']].rindex(',')
-                    separator_len = positions['start_col'] - comma_index
+                    comma_index = code_lines[positions["start_line"]][:positions["start_col"]].rindex(",")
+                    separator_len = positions["start_col"] - comma_index
                 except ValueError:
-                    # No comma found on this line, meaning we're multiline: ',\r'
+                    # No comma found on this line, meaning we're multiline: ",\r"
                     separator_len = 2
 
-                arguments_positions[-1]['end_col'] = positions['start_col'] - separator_len
+                arguments_positions[-1]["end_col"] = positions["start_col"] - separator_len
 
             arguments_positions.append(positions)
 
         if arguments_positions and call_node.keywords:
             kwarg_node = call_node.keywords[0]
 
-            arguments_positions[-1]['end_line'] = kwarg_node.value.lineno - 1
+            arguments_positions[-1]["end_line"] = kwarg_node.value.lineno - 1
 
             # Handles cases where there is no space after the comma
             try:
-                comma_index = code_lines[kwarg_node.value.lineno - 1][:kwarg_node.value.col_offset].rindex(',')
+                comma_index = code_lines[kwarg_node.value.lineno - 1][:kwarg_node.value.col_offset].rindex(",")
                 separator_len = kwarg_node.value.col_offset - comma_index
             except ValueError:
-                # No comma found on this line, meaning we're multiline: ',\r'
+                # No comma found on this line, meaning we're multiline: ",\r"
                 separator_len = kwarg_node.value.col_offset - 2
 
-            arguments_positions[-1]['end_col'] = kwarg_node.value.col_offset - separator_len
+            arguments_positions[-1]["end_col"] = kwarg_node.value.col_offset - separator_len
 
         return arguments_positions
 

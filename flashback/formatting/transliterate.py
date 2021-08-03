@@ -10,13 +10,13 @@ def transliterate(text, keep_case=True):
         ```python
         from flashback.formatting import transliterate
 
-        transliterate('réseau')
+        transliterate("réseau")
         #=> "reseau"
 
-        transliterate('omrežje')
+        transliterate("omrežje")
         #=> omrezje
 
-        transliterate('Omrežje', keep_case=True)
+        transliterate("Omrežje", keep_case=True)
         #=> Omrezje
         ```
 

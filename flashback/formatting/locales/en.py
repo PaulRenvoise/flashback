@@ -355,7 +355,7 @@ SINGULAR_RULES = [
         (r"geese$", "goose", None),
         (r"feet$", "foot", None),
         (r"zoa$", "zoon", None),
-        (r"([csx])es$", r"\1is", 'is-es')
+        (r"([csx])es$", r"\1is", "is-es")
     ),
     # Fully assimilated classical inflections
     (
@@ -414,9 +414,9 @@ SINGULAR_RULES = [[(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in SI
 
 # Suffix categories
 SINGULAR_CATEGORIES = {
-    "uninflected": PLURAL_CATEGORIES['uninflected'],
-    "uncountable": PLURAL_CATEGORIES['uncountable'],
-    "nationalities": PLURAL_CATEGORIES['nationalities'],
+    "uninflected": PLURAL_CATEGORIES["uninflected"],
+    "uncountable": PLURAL_CATEGORIES["uncountable"],
+    "nationalities": PLURAL_CATEGORIES["nationalities"],
     "s-singular": set((
         "acropolises", "caddises", "daises", "glottises", "pathoses",
         "aegises", "canvases", "digitalises", "ibises", "pelvises",

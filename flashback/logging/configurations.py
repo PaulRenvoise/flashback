@@ -13,7 +13,7 @@ meaning that the importing line must look like the following, else it won't find
 from flashback.logging import DEFAULT_CONSOLE_CONFIGURATION
 ```
 
-'disable_existing_loggers' is set to false for each configuration because it breaks the loggers
+`disable_existing_loggers` is set to false for each configuration because it breaks the loggers
 created after using the configuration (see: https://gist.github.com/alanbriolat/d5ffe608b56c948533c6).
 """
 import inspect
@@ -26,52 +26,52 @@ except (IndexError, AttributeError):
     IMPORTER = None
 
 DEFAULT_CONSOLE_CONFIGURATION = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'incremental': False,
-    'formatters': {
-        'default': {
-            'format': '%(asctime)s - %(name)s - %(processName)s - %(levelname)s - %(message)s'
+    "version": 1,
+    "disable_existing_loggers": False,
+    "incremental": False,
+    "formatters": {
+        "default": {
+            "format": "%(asctime)s - %(name)s - %(processName)s - %(levelname)s - %(message)s"
         }
     },
-    'filters': {},
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'default'
+    "filters": {},
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "default"
         }
     },
-    'loggers': {
+    "loggers": {
         IMPORTER: {
-            'level': 'DEBUG',
-            'handlers': ['console']
+            "level": "DEBUG",
+            "handlers": ["console"]
         }
     }
 }
 """
 A simple logger applicable for most logging context.
 
-Logs to stderr without filtering, and formats the message with 'asctime', 'name', 'processName',
-'levelname', and 'message'.
+Logs to stderr without filtering, and formats the message with `asctime`, `name`, `processName`,
+`levelname`, and `message`.
 """
 
 DJANGO_CONSOLE_CONFIGURATION = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'incremental': False,
-    'formatters': {},
-    'filters': {},
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "incremental": False,
+    "formatters": {},
+    "filters": {},
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
         }
     },
-    'loggers': {
+    "loggers": {
         IMPORTER: {
-            'level': 'DEBUG',
-            'handlers': ['console']
+            "level": "DEBUG",
+            "handlers": ["console"]
         }
     }
 }
@@ -82,95 +82,95 @@ Logs to stderr without filtering, and formats the message with the default loggi
 """
 
 FLASK_CONSOLE_CONFIGURATION = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'incremental': False,
-    'formatters': {
-        'default': {
-            'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
+    "version": 1,
+    "disable_existing_loggers": False,
+    "incremental": False,
+    "formatters": {
+        "default": {
+            "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"
         }
     },
-    'filters': {},
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'default'
+    "filters": {},
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "default"
         }
     },
-    'loggers': {
+    "loggers": {
         IMPORTER: {
-            'level': 'DEBUG',
-            'handlers': ['console']
+            "level": "DEBUG",
+            "handlers": ["console"]
         }
     }
 }
 """
 A Flask-like logger.
 
-Logs to stderr without filtering, and formats the message with 'asctime', 'levelname', 'module',
-and 'message'.
+Logs to stderr without filtering, and formats the message with `asctime`, `levelname`, `module`,
+and `message`.
 """
 
 PYRAMID_CONSOLE_CONFIGURATION = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'incremental': False,
-    'formatters': {
-        'default': {
-            'format': '%(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s'
+    "version": 1,
+    "disable_existing_loggers": False,
+    "incremental": False,
+    "formatters": {
+        "default": {
+            "format": "%(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s"
         }
     },
-    'filters': {},
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'default'
+    "filters": {},
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "default"
         }
     },
-    'loggers': {
+    "loggers": {
         IMPORTER: {
-            'level': 'DEBUG',
-            'handlers': ['console']
+            "level": "DEBUG",
+            "handlers": ["console"]
         }
     }
 }
 """
 A Pyramid-like logger.
 
-Logs to stderr without filtering, and formats the message with 'asctime', 'levelname', 'name',
-'lineno', 'threadName', and 'message'.
+Logs to stderr without filtering, and formats the message with `asctime`, `levelname`, `name`,
+`lineno`, `threadName`, and `message`.
 """
 
 RAILS_CONSOLE_CONFIGURATION = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'incremental': False,
-    'formatters': {
-        'default': {
-            'format': '%(levelname)1.1s, [%(asctime)s.%(msecs)03d #%(process)d] %(levelname)8s -- : %(message)s',
-            'datefmt': '%Y-%m-%dT%H:%M:%S'
+    "version": 1,
+    "disable_existing_loggers": False,
+    "incremental": False,
+    "formatters": {
+        "default": {
+            "format": "%(levelname)1.1s, [%(asctime)s.%(msecs)03d #%(process)d] %(levelname)8s -- : %(message)s",
+            "datefmt": "%Y-%m-%dT%H:%M:%S"
         }
     },
-    'filters': {},
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'default'
+    "filters": {},
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "default"
         }
     },
-    'loggers': {
+    "loggers": {
         IMPORTER: {
-            'level': 'DEBUG',
-            'handlers': ['console']
+            "level": "DEBUG",
+            "handlers": ["console"]
         }
     }
 }
 """
 A Ruby-on-Rails-like logger.
 
-Logs to stderr without filtering, and formats the message with 'asctime', 'msec', 'process',
-'levelname', and 'message'.
+Logs to stderr without filtering, and formats the message with `asctime`, `msec`, `process`,
+`levelname`, and `message`.
 """

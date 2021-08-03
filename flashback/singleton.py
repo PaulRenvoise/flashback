@@ -21,9 +21,9 @@ class Singleton(type):
             def __init__(self, name):
                 self.name = name
 
-        logger_1 = Logger('db')
-        logger_2 = Logger('auth')
-        logger_3 = Logger('db')
+        logger_1 = Logger("db")
+        logger_2 = Logger("auth")
+        logger_3 = Logger("db")
 
         assert logger_1 != logger_2
         assert logger_1 == logger_3
@@ -33,8 +33,8 @@ class Singleton(type):
             def __init__(self, name):
                 self.name = name
 
-        loose_logger_1 = LooseLogger('db')
-        loose_logger_2 = LooseLogger('auth')
+        loose_logger_1 = LooseLogger("db")
+        loose_logger_2 = LooseLogger("auth")
 
         assert loose_logger_1 == loose_logger_2
         assert loose_logger_1 is loose_logger_2

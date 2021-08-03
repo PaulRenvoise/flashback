@@ -13,16 +13,16 @@ from .truncate import truncate
 
 
 __all__ = (
-    'adverbize',
-    'camelize',
-    'kebabize',
-    'oxford_join',
-    'ordinalize',
-    'parameterize',
-    'pascalize',
-    'pluralize',
-    'singularize',
-    'snakeize',
-    'transliterate',
-    'truncate',
+    "adverbize",
+    "camelize",
+    "kebabize",
+    "oxford_join",
+    "ordinalize",
+    "parameterize",
+    "pascalize",
+    "pluralize",
+    "singularize",
+    "snakeize",
+    "transliterate",
+    "truncate",
 )

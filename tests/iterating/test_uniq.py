@@ -16,9 +16,9 @@ class TestUniq:
         assert uniquified == (1, 2, 3, 4, 5)
 
     def test_order(self):
-        iterable = ['z', 'a', 'z', 'c', 'c', 'b', 'd', 'b']
+        iterable = ["z", "a", "z", "c", "c", "b", "d", "b"]
         uniquified = uniq(iterable)
         setified = list(set(iterable))
 
-        assert uniquified == ('z', 'a', 'c', 'b', 'd')
+        assert uniquified == ("z", "a", "c", "b", "d")
         assert uniquified != setified

@@ -21,7 +21,7 @@ def get_frameinfo(depth=0, context=1):
             return get_frameinfo()
 
         frameinfo = dummy_func()
-        assert frameinfo.function == 'dummy_func'
+        assert frameinfo.function == "dummy_func"
         ```
 
     Params:
@@ -40,12 +40,12 @@ def get_frameinfo(depth=0, context=1):
     depth = depth + 1 if depth > -1 else 1
     for _ in range(depth):
         if frame is None:
-            raise ValueError('call stack is not deep enough')
+            raise ValueError("call stack is not deep enough")
 
         frame = frame.f_back
 
     if frame is None:
-        raise ValueError('call stack is not deep enough')
+        raise ValueError("call stack is not deep enough")
 
     frameinfo = (frame,) + inspect.getframeinfo(frame, context)
     return inspect.FrameInfo(*frameinfo)

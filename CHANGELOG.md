@@ -1,10 +1,17 @@
 # Changelog
 
-## 1.1.0 (TBD)
+## 1.2.0 (TBD)
+
+- Optimized `interating/uniq()` by using `dict.fromkeys()` instead of a check-for-seen in a for loop design
+- Updated dependencies
+- Marked the project as "Production/Stable" on PyPI
+- Switched pdoc3 for mkdocs
+- Migrated from single and double quotes to double quotes only
+
+## 1.1.0 (06/06/2021)
 
 - Added the `accessing/` module, containing helpers to access values in maps and iterables:
     - `dig()` repeatedly access keys to find a nested value within a dict
-    -
 
 ## 1.0.0 (21/11/2020)
 

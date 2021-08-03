@@ -17,13 +17,13 @@ class TestPartition:
         assert odds == (1, 3, 5)
 
     def test_multiple_items_str(self):
-        trues, falses = partition(lambda x: x if 'a' in x else None, ['a', 'b', 'c', 'd', 'aa'])
+        trues, falses = partition(lambda x: x if "a" in x else None, ["a", "b", "c", "d", "aa"])
 
-        assert trues == ('a', 'aa')
-        assert falses == ('b', 'c', 'd')
+        assert trues == ("a", "aa")
+        assert falses == ("b", "c", "d")
 
     def test_multiple_items_list(self):
-        trues, falses = partition(lambda x: x, [['a'], [], [1], ['b'], [2], []])
+        trues, falses = partition(lambda x: x, [["a"], [], [1], ["b"], [2], []])
 
-        assert trues == (['a'], [1], ['b'], [2])
+        assert trues == (["a"], [1], ["b"], [2])
         assert falses == ([], [])

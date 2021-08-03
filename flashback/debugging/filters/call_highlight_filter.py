@@ -44,7 +44,7 @@ class CallHighlightFilter(Filter):
         for ttype, value in stream:
             previous_ttype, previous_value = stack.pop()
 
-            if previous_ttype in Name and value == '(':
+            if previous_ttype in Name and value == "(":
                 stack.append((Name.Function, previous_value))
             else:
                 stack.append((previous_ttype, previous_value))

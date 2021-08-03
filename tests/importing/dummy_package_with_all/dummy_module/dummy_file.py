@@ -2,6 +2,6 @@
 
 import os
 
-os.environ['DUMMY_ENV_VAR'] = 'dummy_value'
+os.environ["DUMMY_ENV_VAR"] = "dummy_value"
 
 DUMMY_CONSTANT = 1

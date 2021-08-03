@@ -11,15 +11,15 @@ from .timeoutable import timeoutable
 
 
 __all__ = (
-    'Borg',
-    'Sentinel',
-    'Singleton',
-    'classproperty',
-    'deprecated',
-    'retryable',
-    'sampled',
-    'timed',
-    'timeoutable',
+    "Borg",
+    "Sentinel",
+    "Singleton",
+    "classproperty",
+    "deprecated",
+    "retryable",
+    "sampled",
+    "timed",
+    "timeoutable",
 )
 
-__version__ = '1.1.0'
+__version__ = "1.1.0"

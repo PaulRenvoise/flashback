@@ -15,7 +15,7 @@ class RedisAdapter(BaseAdapter):
     to avoid conflicts with builtin exceptions.
     """
 
-    def __init__(self, host='localhost', port=6379, db='0', encoding='utf-8', **kwargs):
+    def __init__(self, host="localhost", port=6379, db="0", encoding="utf-8", **kwargs):
         super().__init__()
 
         # We would pass `decode_responses=True` to redis to avoid decoding in `get` and `batch_get`

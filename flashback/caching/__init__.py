@@ -3,6 +3,6 @@ from .cached import cached
 
 
 __all__ = (
-    'Cache',
-    'cached',
+    "Cache",
+    "cached",
 )

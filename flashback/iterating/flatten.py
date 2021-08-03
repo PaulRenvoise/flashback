@@ -9,13 +9,13 @@ def flatten(iterable):
         ```python
         from flashback.iterating import flatten
 
-        for item in flatten(['a', ['b', ['c', 'd']], 'e']):
+        for item in flatten(["a", ["b", ["c", "d"]], "e"]):
             print(item)
-        #=> 'a'
-        #=> 'b'
-        #=> 'c'
-        #=> 'd'
-        #=> 'e'
+        #=> "a"
+        #=> "b"
+        #=> "c"
+        #=> "d"
+        #=> "e"
 
         assert flatten([1, {2, 3}, (4,), range(5, 6)]) == (1, 2, 3, 4, 5)
         ```

@@ -5,7 +5,7 @@ from .transliterate import transliterate
 
 CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)
 
-def parameterize(text, sep='-', keep_case=False):
+def parameterize(text, sep="-", keep_case=False):
     """
     Replaces special characters in a text so that it may be used as part of an URL.
 
@@ -16,16 +16,16 @@ def parameterize(text, sep='-', keep_case=False):
         ```python
         from flashback.formatting import parameterize
 
-        parameterize('Host')
+        parameterize("Host")
         #=> "host"
 
-        parameterize('HTTPHost')
+        parameterize("HTTPHost")
         #=> "httphost"
 
-        parameterize('HTTP Host')
+        parameterize("HTTP Host")
         #=> "http-host"
 
-        parameterize('Redis Server', sep='/')
+        parameterize("Redis Server", sep="/")
         #=> "redis/server"
         ```
 
@@ -49,7 +49,7 @@ def parameterize(text, sep='-', keep_case=False):
         text = regex.sub(r"{}{{2,}}".format(sep), sep, text)
 
         # Remove leading and trailing separators
-        text = regex.sub(r"^{sep}|{sep}$".format(sep=sep), '', text)
+        text = regex.sub(r"^{sep}|{sep}$".format(sep=sep), "", text)
 
     if keep_case:
         return text

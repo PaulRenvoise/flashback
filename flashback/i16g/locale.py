@@ -15,11 +15,11 @@ class Locale:
         ```python
         from flashback.i16g import Locale
 
-        simple_locale = Locale.simplify('fr_FR.UTF-8@latin-1')
+        simple_locale = Locale.simplify("fr_FR.UTF-8@latin-1")
 
-        assert simple_locale == 'fr_FR'
+        assert simple_locale == "fr_FR"
 
-        locale = Locale.load(simple_locale, '.locales')
+        locale = Locale.load(simple_locale, ".locales")
 
         assert locale is not None
         ```
@@ -72,13 +72,13 @@ class Locale:
             ```python
             from flashback.i16g import Locale
 
-            Locale.load('fr_FR', '.languages')
+            Locale.load("fr_FR", ".languages")
             #=> Whatever defined in fr_FR
 
-            Locale.load('fr_FR.UTF-8@latin', 'config.locales')
+            Locale.load("fr_FR.UTF-8@latin", "config.locales")
             #=> Whatever defined in fr_FR
 
-            Locale.load('not-implemented', 'conf.production')
+            Locale.load("not-implemented", "conf.production")
             #=> NotImplementedError
             ```
 
@@ -94,9 +94,9 @@ class Locale:
         """
         locale = cls.simplify(locale)
 
-        candidate_locales = sorted({locale, locale.split('_')[0]}, key=len, reverse=True)
+        candidate_locales = sorted({locale, locale.split("_")[0]}, key=len, reverse=True)
 
-        if path.startswith('.'):
+        if path.startswith("."):
             caller_module = inspect.getmodule(get_frameinfo(1).frame)
             caller_package = caller_module.__package__
 
@@ -105,7 +105,7 @@ class Locale:
             module_path = path
 
         for candidate_locale in candidate_locales:
-            locale_full_path = module_path + '.' + candidate_locale
+            locale_full_path = module_path + "." + candidate_locale
 
             if locale_full_path in cls.__cache:
                 return cls.__cache[locale_full_path]
@@ -138,17 +138,17 @@ class Locale:
             ```python
             from flashback.i16g import Locale
 
-            Locale.simplify('uz_UZ.UTF-8@cyrillic')
+            Locale.simplify("uz_UZ.UTF-8@cyrillic")
             #=> uz_UZ
 
-            Locale.simplify('en@latin-1')
-            #=> 'en'
+            Locale.simplify("en@latin-1")
+            #=> "en"
 
-            Locale.simplify('fr.ISO-8859-1@latin')
-            #=> 'fr'
+            Locale.simplify("fr.ISO-8859-1@latin")
+            #=> "fr"
 
-            Locale.simplify('not-a-locale')
-            #=> 'not-a-locale'
+            Locale.simplify("not-a-locale")
+            #=> "not-a-locale"
             ```
 
         Params:
@@ -162,9 +162,9 @@ class Locale:
             return locale
 
         # A language must be there, else execution would have stopped above
-        simplified_locale = match.group('language').lower()
+        simplified_locale = match.group("language").lower()
 
-        territory = match.group('territory')
+        territory = match.group("territory")
         if territory:
             simplified_locale = simplified_locale + "_" + territory.lower()
 

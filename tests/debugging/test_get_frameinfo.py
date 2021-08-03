@@ -10,7 +10,7 @@ class TestGetFrameInfo:
     def test_current(self):
         frameinfo = get_frameinfo()
 
-        assert frameinfo.function == 'test_current'
+        assert frameinfo.function == "test_current"
 
     def test_previous(self):
         def dummy_func(depth):
@@ -18,19 +18,19 @@ class TestGetFrameInfo:
 
         frameinfo = dummy_func(1)
 
-        assert frameinfo.function == 'test_previous'
+        assert frameinfo.function == "test_previous"
 
     def test_future(self):
         frameinfo = get_frameinfo(-1)
 
-        assert frameinfo.function == 'test_future'
+        assert frameinfo.function == "test_future"
 
     def test_deep(self):
         frameinfo = get_frameinfo(6)
 
-        assert frameinfo.function == 'runtest'
+        assert frameinfo.function == "runtest"
 
-    @patch('inspect.currentframe')
+    @patch("inspect.currentframe")
     def test_no_current_frame(self, mocked_currentframe):
         mocked_currentframe.side_effect = [None]
         with pytest.raises(ValueError):

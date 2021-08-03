@@ -5,7 +5,7 @@ import logging
 from .cache import Cache
 
 
-def cached(adapter='memory', **kwargs):
+def cached(adapter="memory", **kwargs):
     """
     Caches the return of a callable under a type-aware key built with its arguments.
 
@@ -24,9 +24,9 @@ def cached(adapter='memory', **kwargs):
         #=> 3
 
         # The cache key is typed
-        func('1', '2')
+        func("1", "2")
         #=> Cache miss
-        #=> '12'
+        #=> "12"
 
         # The cache key takes in account the arguments' order as well
         func(2, 1)
@@ -61,11 +61,11 @@ def cached(adapter='memory', **kwargs):
             value = cache.get(key)
 
             if value is not None:
-                logger.debug('Cache hit')
+                logger.debug("Cache hit")
 
                 return value
 
-            logger.debug('Cache miss')
+            logger.debug("Cache miss")
 
             value = func(*args, **kwargs)
             cache.set(key, value)

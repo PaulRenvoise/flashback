@@ -51,9 +51,9 @@ def get_callable(frameinfo):
 
     function_name = frame.f_code.co_name
 
-    caller_class = frame.f_locals.get('self', None)
+    caller_class = frame.f_locals.get("self", None)
     if caller_class is None:
-        caller_class = frame.f_locals.get('cls', None)
+        caller_class = frame.f_locals.get("cls", None)
 
     caller_instance = getattr(caller_class, function_name, None)
     if caller_instance is None:

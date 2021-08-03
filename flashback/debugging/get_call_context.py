@@ -23,15 +23,15 @@ def get_call_context(frameinfo, size=5):
         context, context_line, call_boundaries = get_call_context(frameinfo)
 
         assert context == [
-            'from flashback.debugging import get_frameinfo, get_call_context\n',
-            '\n',
-            'def dummy_func():\n',
-            '    return get_frameinfo()\n',
-            '\n',
-            'frameinfo = dummy_func()\n',
-            '\n',
-            'context, context_line, call_boundaries = get_call_context(frameinfo)\n',
-            '\n',
+            "from flashback.debugging import get_frameinfo, get_call_context\n",
+            "\n",
+            "def dummy_func():\n",
+            "    return get_frameinfo()\n",
+            "\n",
+            "frameinfo = dummy_func()\n",
+            "\n",
+            "context, context_line, call_boundaries = get_call_context(frameinfo)\n",
+            "\n",
         ]
         assert context_line == 1
         assert call_boundaries == (3, 4)
@@ -63,7 +63,7 @@ def get_call_context(frameinfo, size=5):
     index_start = lineno - 1
 
     for index_end in range(index_start + 1, len(source) + 1):
-        call_line = dedent(''.join(source[index_start:index_end]))
+        call_line = dedent("".join(source[index_start:index_end]))
 
         try:
             ast.parse(call_line, filename=frameinfo.filename).body[0].value  # pylint: disable=expression-not-assigned
@@ -72,7 +72,7 @@ def get_call_context(frameinfo, size=5):
         except (SyntaxError, AttributeError):
             pass
 
-    call_statement_len = call_line.count('\n')
+    call_statement_len = call_line.count("\n")
 
     context_start = max(0, lineno - (size + 1))
     context_end = min(len(source), lineno + call_statement_len + (size - 1))

@@ -10,7 +10,7 @@ def _inflect(word, rules, categories, prepositions, base_case=str.lower):
         return word
 
     # Recurses over compound words like mothers-in-law, eco-friendly, post-nap
-    tokens = word.replace('-', ' ').split(' ')
+    tokens = word.replace("-", " ").split(" ")
     if len(tokens) > 1:
         if tokens[1] in prepositions:
             return word.replace(tokens[0], _inflect(tokens[0], rules, categories, prepositions))

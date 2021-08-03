@@ -27,11 +27,11 @@ def adverbize(number):
     number = int(number)
 
     if number == 1:
-        numeral = 'once'
+        numeral = "once"
     elif number == 2:
-        numeral = 'twice'
+        numeral = "twice"
     elif number == 3:
-        numeral = 'thrice'
+        numeral = "thrice"
     else:
         numeral = f"{number} times"
 

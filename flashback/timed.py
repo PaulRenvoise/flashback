@@ -14,7 +14,7 @@ def timed(func):
 
         @timed
         def printer():
-            print('Executing')
+            print("Executing")
 
         printer()
         #=> Started execution of printer
