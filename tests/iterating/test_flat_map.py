@@ -14,6 +14,11 @@ class TestFlatMap:
 
         assert list(flat_mapped) == [2, 4, 6, 8, 10, 12, 14, 16]
 
+    def test_strings(self):
+        flat_mapped = flat_map(lambda x: x + "1", [["abc", "def"], "ghi", ["jkl"]])
+
+        assert list(flat_mapped) == ["abc1", "def1", "ghi1", "jkl1"]
+
     def test_mixed_types(self):
         flat_mapped = flat_map(lambda x: x / 2, [1, (2,), {3, 4}, range(5, 6)])
 

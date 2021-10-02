@@ -28,7 +28,7 @@ def flatten(iterable):
     """
     items = []
     for item in iterable:
-        if isinstance(item, (list, tuple, set, frozenset, range, Iterable)):
+        if isinstance(item, (list, tuple, set, frozenset, range)):
             for nested_item in flatten(item):
                 items.append(nested_item)
         else:
