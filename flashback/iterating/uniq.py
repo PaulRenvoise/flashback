@@ -23,4 +23,15 @@ def uniq(iterable):
     Returns:
         tuple<Any>: the iterable without duplicates
     """
-    return tuple(dict.fromkeys(iterable))
+    unique = []
+    seen = set()
+
+    for item in iterable:
+        repr_item = repr(item)
+        if repr_item in seen:
+            continue
+
+        unique.append(item)
+        seen.add(repr_item)
+
+    return tuple(unique)
