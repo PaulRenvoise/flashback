@@ -1,0 +1,50 @@
+site_name: Flashback
+site_description: ""
+site_url: ""
+
+repo_name: PaulRenvoise/flashback
+repo_url: https://github.com/PaulRenvoise/flashback
+edit_uri: ''
+
+theme:
+  name: material
+  logo: img/logo.png
+  favicon: img/favicon.ico
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: teal
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: "Switch to dark mode"
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: teal
+      toggle:
+        icon: material/toggle-switch
+        name: "Switch to light mode"
+
+plugins:
+  - search
+  - mkdocstrings
+  - autorefs
+  - coverage:
+    html_report_dir: build/coverage
+
+nav:
+  - Overview: index.md
+  - Features: features.md
+  - Installation: installation.md
+  - Changelog: changelog.md
+  - Reference: reference.md
+  - License: license.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/PaulRenvoise/flashback
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/paul-renvoise-886b02b0

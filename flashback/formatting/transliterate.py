@@ -10,22 +10,22 @@ def transliterate(text, keep_case=True):
         ```python
         from flashback.formatting import transliterate
 
-        transliterate('réseau')
+        transliterate("réseau")
         #=> "reseau"
 
-        transliterate('omrežje')
+        transliterate("omrežje")
         #=> omrezje
 
-        transliterate('Omrežje', keep_case=True)
+        transliterate("Omrežje", keep_case=True)
         #=> Omrezje
         ```
 
     Params:
-        - `text (str)` the text to transform from unicode to ASCII
-        - `keep_case (bool)` whether or not to keep the input case
+        text (str): the text to transform from unicode to ASCII
+        keep_case (bool): whether or not to keep the input case
 
     Returns:
-        - `str` the text using only ASCII characters
+        str: the text using only ASCII characters
     """
     text = str(text)
     text = unidecode(text)

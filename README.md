@@ -61,6 +61,7 @@ Flashback's helpers are currently organised within 7 modules, and global helpers
     - `uniq()` removes duplicates from an iterable while keeping the items' order
     - `compact()` removes None values from an iterable
     - `flatten()` unpacks nested iterable into the given iterable
+    - `flat_map()` applies a function to every item and nested item of the given iterable
 - `i16g/`
     - `Locale` dynamically loads localization files from a package path
 - `importing/`
@@ -89,12 +90,12 @@ Flashback's helpers are currently organised within 7 modules, and global helpers
 The Pull Request template has a checklist containing everything you need to submit a new PR.
 
 Run the tests with `pytest`:
-```
+```bash
 pytest tests
 ```
 
 Run the lint with `pylint`:
-```
+```bash
 pylint flashback/ tests/
 ```
 

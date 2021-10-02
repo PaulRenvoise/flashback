@@ -11,7 +11,7 @@ class MemcachedAdapter(BaseAdapter):
     Exposes `pymemcache`'s exceptions.
     """
 
-    def __init__(self, host='localhost', port=11211, **kwargs):
+    def __init__(self, host="localhost", port=11211, **kwargs):
         super().__init__()
 
         self.store = Client((host, port), **kwargs)
@@ -30,21 +30,21 @@ class MemcachedAdapter(BaseAdapter):
 
         ttls = [0 if ttl == -1 else ttl for ttl in ttls]
         for key, value, ttl in zip(keys, values, ttls):
-            ttl = self.store._check_integer(ttl, 'expire')  # pylint: disable=protected-access
+            ttl = self.store._check_integer(ttl, "expire")  # pylint: disable=protected-access
             key = self.store.check_key(key)
             value, flags = self.store.serde.serialize(key, value)
 
-            command = b'set ' + key
-            command += b' ' + str(flags).encode(self.store.encoding)
-            command += b' ' + ttl
-            command += b' ' + str(len(value)).encode(self.store.encoding) + b'\r\n'
-            command += value.encode(self.store.encoding) + b'\r\n'
+            command = b"set " + key
+            command += b" " + str(flags).encode(self.store.encoding)
+            command += b" " + ttl
+            command += b" " + str(len(value)).encode(self.store.encoding) + b"\r\n"
+            command += value.encode(self.store.encoding) + b"\r\n"
             commands.append(command)
 
-        results = self.store._misc_cmd(commands, 'set', False)  # pylint: disable=protected-access
+        results = self.store._misc_cmd(commands, "set", False)  # pylint: disable=protected-access
 
         for line in results:
-            if line == b'NOT_STORED':
+            if line == b"NOT_STORED":
                 return False
 
         return True
@@ -70,14 +70,13 @@ class MemcachedAdapter(BaseAdapter):
         for key in keys:
             key = self.store.check_key(key)
 
-            command = b'delete ' + key +  b'\r\n'
+            command = b"delete " + key +  b"\r\n"
             commands.append(command)
 
-        results = self.store._misc_cmd(commands, 'delete', False)  # pylint: disable=protected-access
+        results = self.store._misc_cmd(commands, "delete", False)  # pylint: disable=protected-access
 
         for line in results:
-            print(f"\"{line}\"")
-            if line == b'NOT_FOUND':
+            if line == b"NOT_FOUND":
                 return False
 
         return True

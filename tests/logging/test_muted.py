@@ -9,9 +9,9 @@ from flashback.logging import muted
 
 
 logging.getLogger().setLevel(logging.DEBUG)
-LOGGER_1 = logging.getLogger('logger_1')
-LOGGER_2 = logging.getLogger('logger_2')
-LOGGER_3 = logging.getLogger('logger_3')
+LOGGER_1 = logging.getLogger("logger_1")
+LOGGER_2 = logging.getLogger("logger_2")
+LOGGER_3 = logging.getLogger("logger_3")
 
 @pytest.fixture(autouse=True)
 def clean_up_loggers():
@@ -31,10 +31,10 @@ def stream():
 
 
 def dummy_func():
-    logging.info('root')
-    LOGGER_1.info('logger_1')
-    LOGGER_2.info('logger_2')
-    LOGGER_3.info('logger_3')
+    logging.info("root")
+    LOGGER_1.info("logger_1")
+    LOGGER_2.info("logger_2")
+    LOGGER_3.info("logger_3")
 
 
 class TestMuted:
@@ -44,19 +44,19 @@ class TestMuted:
 
         decorated_func()
 
-        assert stream.getvalue() == ''
+        assert stream.getvalue() == ""
 
     def test_muted_str(self, stream):
-        make_muted = muted(loggers=['logger_1'])
+        make_muted = muted(loggers=["logger_1"])
         decorated_func = make_muted(dummy_func)
 
         decorated_func()
 
         value = stream.getvalue()
-        assert 'root' in value
-        assert 'logger_1' not in value
-        assert 'logger_2' in value
-        assert 'logger_3' in value
+        assert "root" in value
+        assert "logger_1" not in value
+        assert "logger_2" in value
+        assert "logger_3" in value
 
     def test_muted_none(self, stream):
         make_muted = muted(loggers=[None])
@@ -65,10 +65,10 @@ class TestMuted:
         decorated_func()
 
         value = stream.getvalue()
-        assert 'root' not in value
-        assert 'logger_1' in value
-        assert 'logger_2' in value
-        assert 'logger_3' in value
+        assert "root" not in value
+        assert "logger_1" in value
+        assert "logger_2" in value
+        assert "logger_3" in value
 
     def test_muted_logger(self, stream):
         make_muted = muted(loggers=[LOGGER_2])
@@ -77,19 +77,19 @@ class TestMuted:
         decorated_func()
 
         value = stream.getvalue()
-        assert 'root' in value
-        assert 'logger_1' in value
-        assert 'logger_2' not in value
-        assert 'logger_3' in value
+        assert "root" in value
+        assert "logger_1" in value
+        assert "logger_2" not in value
+        assert "logger_3" in value
 
     def test_muted_mixed(self, stream):
-        make_muted = muted(loggers=[None, 'logger_1', LOGGER_2])
+        make_muted = muted(loggers=[None, "logger_1", LOGGER_2])
         decorated_func = make_muted(dummy_func)
 
         decorated_func()
 
         value = stream.getvalue()
-        assert 'root' not in value
-        assert 'logger_1' not in value
-        assert 'logger_2' not in value
-        assert 'logger_3' in value
+        assert "root" not in value
+        assert "logger_1" not in value
+        assert "logger_2" not in value
+        assert "logger_3" in value

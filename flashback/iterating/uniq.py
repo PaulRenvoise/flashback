@@ -18,19 +18,20 @@ def uniq(iterable):
         ```
 
     Params:
-        - `iterable (Iterable<Any>)` the iterable to remove duplicates from
+        iterable (Iterable<Any>): the iterable to remove duplicates from
 
     Returns:
-        - `tuple<Any>` the iterable without duplicates
+        tuple<Any>: the iterable without duplicates
     """
     unique = []
     seen = set()
 
     for item in iterable:
-        if item in seen:
+        repr_item = repr(item)
+        if repr_item in seen:
             continue
 
         unique.append(item)
-        seen.add(item)
+        seen.add(repr_item)
 
     return tuple(unique)

@@ -14,7 +14,7 @@ def timed(func):
 
         @timed
         def printer():
-            print('Executing')
+            print("Executing")
 
         printer()
         #=> Started execution of printer
@@ -23,10 +23,10 @@ def timed(func):
         ```
 
     Params:
-        - `func (Callable)` the callable to time
+        func (Callable): the callable to time
 
     Returns:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     # `.getmodule().__name__` returns the same value as `__name__` called from the module we
     # decorate.

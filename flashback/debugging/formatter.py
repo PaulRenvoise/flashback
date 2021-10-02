@@ -27,26 +27,23 @@ class Formatter:
     Formats all other types via their __repr__ method.
     """
     TYPE_TO_SYMBOLS = {
-        'deque': ('deque([\n', '])'),
-        'frozenset': ('frozenset({\n', '})'),
-        'list': ('[\n', ']'),
-        'set': ('{\n', '}'),
-        'tuple': ('(\n', ')'),
-        'Counter': ('Counter({\n', '})'),
-        'defaultdict': ('defaultdict(_TYPE_, {\n', '})'),
-        'dict': ('{\n', '}'),
-        'OrderedDict': ('OrderedDict({\n', '})'),
+        "deque": ("deque([\n", "])"),
+        "frozenset": ("frozenset({\n", "})"),
+        "list": ("[\n", "]"),
+        "set": ("{\n", "}"),
+        "tuple": ("(\n", ")"),
+        "Counter": ("Counter({\n", "})"),
+        "defaultdict": ("defaultdict(_TYPE_, {\n", "})"),
+        "dict": ("{\n", "}"),
+        "OrderedDict": ("OrderedDict({\n", "})"),
     }
-    DIM_START = '\033[2m'
-    DIM_END = '\033[0m'
+    DIM_START = "\033[2m"
+    DIM_END = "\033[0m"
 
-    def __init__(self, indent_str='    '):
+    def __init__(self, indent_str="    "):
         """
         Params:
-            - `indent_str (str)` the indentation string to use
-
-        Returns:
-            - `None`
+            indent_str (str): the indentation string to use
         """
         self._indent_str = indent_str
         self._indent_str_len = len(indent_str)
@@ -62,18 +59,18 @@ class Formatter:
                 CallHighlightFilter(),
                 TypeHighlightFilter(
                     names=[
-                        'bool',
-                        'bytearray',
-                        'bytes',
-                        'dict',
-                        'float',
-                        'frozenset',
-                        'int',
-                        'list',
-                        'object',
-                        'set',
-                        'str',
-                        'tuple',
+                        "bool",
+                        "bytearray",
+                        "bytes",
+                        "dict",
+                        "float",
+                        "frozenset",
+                        "int",
+                        "list",
+                        "object",
+                        "set",
+                        "str",
+                        "tuple",
                     ],
                 ),
             ]
@@ -85,14 +82,14 @@ class Formatter:
         Formats the output of `Parser.parse` following the given style and width.
 
         Params:
-            - `filename (str)` the filename from where `flashback.debugging.xp` has been called
-            - `lineno (int)` the line number from where `flashback.debugging.xp` has been called
-            - `arguments (list<tuple>)` the arguments to format, as name-value couples
-            - `warning (str)` the error encountered when parsing the code or None
-            - `width (int)` the maximum width before wrapping the output
+            filename (str): the filename from where `flashback.debugging.xp` has been called
+            lineno (int): the line number from where `flashback.debugging.xp` has been called
+            arguments (list<tuple>): the arguments to format, as name-value couples
+            warning (str): the error encountered when parsing the code or None
+            width (int): the maximum width before wrapping the output
 
         Returns:
-            - `str` the formatted arguments, and location of the call to `flashback.debugging.xp`
+            str: the formatted arguments, and location of the call to `flashback.debugging.xp`
         """
         self._width = width
 
@@ -107,7 +104,7 @@ class Formatter:
 
         arguments_content = []
         for (name, value) in arguments:
-            argument_content = f"  {name}:\n" if name is not None else ''
+            argument_content = f"  {name}:\n" if name is not None else ""
 
             # self._format is called recursively, so we use a stream
             # to progressively write the formatting without passing it around
@@ -122,7 +119,7 @@ class Formatter:
 
             arguments_content.append(argument_content)
 
-        content += '\n'.join(arguments_content)
+        content += "\n".join(arguments_content)
 
         return content
 
@@ -132,12 +129,12 @@ class Formatter:
         specific range of lines.
 
         Params:
-            - `lines (Iterable<str>)` the lines of code to render
-            - `start_lineno (int)` the line number of the code's first line
-            - `highlight (tuple<int>)` the start and end indices of the code to highlight
+            lines (Iterable<str>): the lines of code to render
+            start_lineno (int): the line number of the code's first line
+            highlight (tuple<int>): the start and end indices of the code to highlight
 
         Returns:
-            - `str` the formatted and highlighted code
+            str: the formatted and highlighted code
         """
         linenos = list(range(start_lineno, start_lineno + len(lines) + 2))
 
@@ -154,18 +151,18 @@ class Formatter:
             highlighted_lines = []
 
             highlighted_lines.append(self.DIM_START)
-            highlighted_lines.append(self._highlight(''.join(lines_with_linenos[:start])))
+            highlighted_lines.append(self._highlight("".join(lines_with_linenos[:start])))
             highlighted_lines.append(f"{self.DIM_END}\n")
 
-            highlighted_lines.append(self._highlight(''.join(lines_with_linenos[start:end])))
+            highlighted_lines.append(self._highlight("".join(lines_with_linenos[start:end])))
 
             highlighted_lines.append(f"{self.DIM_START}\n")
-            highlighted_lines.append(self._highlight(''.join(lines_with_linenos[end:])))
+            highlighted_lines.append(self._highlight("".join(lines_with_linenos[end:])))
             highlighted_lines.append(self.DIM_END)
 
-            return ''.join(highlighted_lines)
+            return "".join(highlighted_lines)
 
-        return self._highlight(''.join(lines_with_linenos))
+        return self._highlight("".join(lines_with_linenos))
 
     def _format(self, value, current_indent=1, force_indent=True):
         if force_indent:
@@ -186,21 +183,21 @@ class Formatter:
         self._format_type(meta, _current_indent, _next_indent)
 
     def _format_type(self, cls, _current_indent, _next_indent):
-        self._buffer.write(' < '.join([x.__qualname__ for x in cls.__mro__]))
+        self._buffer.write(" < ".join([x.__qualname__ for x in cls.__mro__]))
 
     def _format_module(self, module, current_indent, next_indent):
         prefix = current_indent * self._indent_str
         nested_prefix = next_indent * self._indent_str
-        suffix = '\n'
+        suffix = "\n"
 
-        self._buffer.write('Name:\n')
+        self._buffer.write("Name:\n")
         self._buffer.write(nested_prefix + module.__name__ + suffix)
-        self._buffer.write(prefix + 'Location:\n')
+        self._buffer.write(prefix + "Location:\n")
         self._buffer.write(nested_prefix + module.__path__[0] + suffix)
-        self._buffer.write(prefix + 'Contents:\n')
-        nested_prefix += '- '
+        self._buffer.write(prefix + "Contents:\n")
+        nested_prefix += "- "
         for key, value in module.__dict__.items():
-            if not key.startswith('_'):
+            if not key.startswith("_"):
                 content = f"{key} ({value.__class__.__name__})"
                 self._buffer.write(nested_prefix + content + suffix)
 
@@ -225,13 +222,13 @@ class Formatter:
 
     def _format_mapping(self, mapping, current_indent, next_indent):
         prefix = next_indent * self._indent_str
-        separator = ': '
-        suffix = ',\n'
+        separator = ": "
+        suffix = ",\n"
         start, end = self.TYPE_TO_SYMBOLS[mapping.__class__.__name__]
 
         # We're be processing a defaultdict
-        if '_TYPE_' in start:
-            start = start.replace('_TYPE_', repr(mapping.default_factory))
+        if "_TYPE_" in start:
+            start = start.replace("_TYPE_", repr(mapping.default_factory))
 
         self._buffer.write(start)
         for key, value in mapping.items():
@@ -258,7 +255,7 @@ class Formatter:
         self._format_iterables(iterable, current_indent, next_indent)
 
     def _format_iterables(self, iterable, current_indent, next_indent):
-        suffix = ',\n'
+        suffix = ",\n"
         start, end = self.TYPE_TO_SYMBOLS[iterable.__class__.__name__]
 
         self._buffer.write(start)
@@ -277,10 +274,10 @@ class Formatter:
         if len(string) <= width:
             self._buffer.write(repr(string))
         else:
-            start = '(\n'
+            start = "(\n"
             prefix = next_indent * self._indent_str
-            suffix = '\n'
-            end = ')'
+            suffix = "\n"
+            end = ")"
 
             # Wrap the lines to be shorter than width, keeping the newlines
             lines = []
@@ -297,9 +294,9 @@ class Formatter:
             self._buffer.write(current_indent * self._indent_str + end)
 
     def _format_generator(self, generator, current_indent, next_indent):
-        start = '(\n'
-        suffix = ',\n'
-        end = ')'
+        start = "(\n"
+        suffix = ",\n"
+        end = ")"
 
         self._buffer.write(start)
         for item in generator:
@@ -312,10 +309,10 @@ class Formatter:
         lines = representation.splitlines(True)
 
         if len(lines) > 1 or (len(representation) + (current_indent * self._indent_str_len)) >= self._width:
-            start = '(\n'
+            start = "(\n"
             prefix = next_indent * self._indent_str
-            suffix = '\n'
-            end = ')'
+            suffix = "\n"
+            end = ")"
 
             self._buffer.write(start)
             wrap_at = self._width - (next_indent * self._indent_str_len)

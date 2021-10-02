@@ -15,36 +15,36 @@ def pascalize(text, acronyms=None):
         ```python
         from flashback.formatting import pascalize
 
-        pascalize('host')
-        #=> 'Host'
+        pascalize("host")
+        #=> "Host"
 
-        pascalize('http_host')
-        #=> 'HttpHost'
+        pascalize("http_host")
+        #=> "HttpHost"
 
-        pascalize('__http_host__')
-        #=> '__HttpHost__'
+        pascalize("__http_host__")
+        #=> "__HttpHost__"
 
-        pascalize('HTTPHost')
-        #=> 'HttphOst'
+        pascalize("HTTPHost")
+        #=> "HttphOst"
 
-        pascalize('HTTPHost', acronyms=['HTTP'])
-        #=> 'HTTPHost'
+        pascalize("HTTPHost", acronyms=["HTTP"])
+        #=> "HTTPHost"
         ```
 
     Params:
-        - `text (str)` the text to transform into PascalCase
-        - `acronyms (Iterable)` a list of correctly cased acronyms to retain and case correctly
+        text (str): the text to transform into PascalCase
+        acronyms (Iterable): a list of correctly cased acronyms to retain and case correctly
 
     Returns:
-        - `str` the pascal cased text
+        str: the pascal cased text
     """
     text = camelize(text, acronyms=acronyms)
 
     def replace(m):
         group = m.group()
 
-        if '_' in group:
-            underscore_index = group.rindex('_') + 1
+        if "_" in group:
+            underscore_index = group.rindex("_") + 1
             return group[:underscore_index] + group[underscore_index:].capitalize()
 
         return group.capitalize()

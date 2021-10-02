@@ -23,20 +23,20 @@ class Borg:
         assert id(borg_1) != id(borg_2)
 
         # But they share their attributes
-        borg_1.assign_attribute('attr', 0)
+        borg_1.assign_attribute("attr", 0)
 
         assert borg_1.attr == 0
         assert borg_2.attr == 0
 
         # And their attributes are not overridable
-        borg_1.assign_attribute('attr', 'foo')
+        borg_1.assign_attribute("attr", "foo")
 
         assert borg_1.attr == 0
         assert borg_2.attr == 0
         ```
     """
     def __new__(cls, *_args, **_kwargs):
-        if '_shared_state' not in cls.__dict__:
+        if "_shared_state" not in cls.__dict__:
             cls._shared_state = {}
 
         obj = object.__new__(cls)
@@ -61,32 +61,29 @@ class Borg:
 
             borg = Borged()
 
-            borg.assign_attribute('attr_1', 0)
+            borg.assign_attribute("attr_1", 0)
             assert borg.attr_1 == 0
 
-            borg.assign_attribute('attr_1', 1)
+            borg.assign_attribute("attr_1", 1)
             assert borg.attr_1 == 0
 
-            borg.assign_attribute('attr_2', dict, {'foo': 'bar'})
-            assert borg.attr_2 == {'foo': 'bar'}
+            borg.assign_attribute("attr_2", dict, {"foo": "bar"})
+            assert borg.attr_2 == {"foo": "bar"}
 
-            borg.assign_attribute('attr_3', str(1))
+            borg.assign_attribute("attr_3", str(1))
             # calls 'str(1)', then assigns its return to 'attr_3' if it is not set
-            assert borg.attr_3 == '1'
+            assert borg.attr_3 == "1"
 
-            borg.assign_attribute('attr_4', str, 2)
+            borg.assign_attribute("attr_4", str, 2)
             # calls 'str(2)' if 'attr_4' is not set, then assigns its return to 'attr_3'
-            assert borg.attr_4 == '2'
+            assert borg.attr_4 == "2"
             ```
 
         Params:
-            - `attribute (str)` the name of the attribute to define
-            - `value (Any)` the value to assign to the attribute
-            - `args (tuple)` every additional positional arguments
-            - `kwargs (dict)` every given keyword arguments
-
-        Returns:
-            - `None`
+            attribute (str): the name of the attribute to define
+            value (Any): the value to assign to the attribute
+            args (tuple): every additional positional arguments
+            kwargs (dict): every given keyword arguments
         """
         if hasattr(self, attribute):
             return
@@ -118,27 +115,24 @@ class Borg:
             borg.assign_attributes(attr_1=0)
             assert borg.attr_1 == 0
 
-            borg.assign_attributes(attr_4=('foo', 0))
-            assert borg.attr_4 == ('foo', 0)
+            borg.assign_attributes(attr_4=("foo", 0))
+            assert borg.attr_4 == ("foo", 0)
 
-            borg.assign_attributes(attr_2=(dict({'foo': 'bar'}),))
-            # calls 'dict({'foo': 'bar'})', then assigns its return to 'attr_2' if it is not set
-            assert borg.attr_2 == {'foo': 'bar'}
+            borg.assign_attributes(attr_2=(dict({"foo": "bar"}),))
+            # calls 'dict({"foo": "bar"})', then assigns its return to 'attr_2' if it is not set
+            assert borg.attr_2 == {"foo": "bar"}
 
-            borg.assign_attributes(attr_3=(dict, {'foo': 'bar'}))
-            # calls 'dict({'foo': 1})' if 'attr_3' is not set, then assigns its return to 'attr_3'
-            assert borg.attr_3 == {'foo': 'bar'}
+            borg.assign_attributes(attr_3=(dict, {"foo": "bar"}))
+            # calls 'dict({"foo": 1})' if 'attr_3' is not set, then assigns its return to 'attr_3'
+            assert borg.attr_3 == {"foo": "bar"}
 
             borg.assign_attributes(attr_5=(str, 0)
             # calls 'str(0)' if 'attr_5' is not set, then assigns its return to 'attr_5'
-            assert borg.attr_5 == '0'
+            assert borg.attr_5 == "0"
             ```
 
         Params:
-            - `kwargs (dict)` every given keyword arguments
-
-        Returns:
-            - `None`
+            kwargs (dict): every given keyword arguments
         """
         for attribute, value in kwargs.items():
             if isinstance(value, tuple) and callable(value[0]):

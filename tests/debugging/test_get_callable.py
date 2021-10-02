@@ -42,7 +42,7 @@ class TestGetCallable:
 
         callable_instance = get_callable(frameinfo)
 
-        assert callable_instance.__name__ == 'dummy_function'
+        assert callable_instance.__name__ == "dummy_function"
 
     def test_closure(self):
         frameinfo = dummy_closure()()
@@ -71,14 +71,14 @@ class TestGetCallable:
 
         callable_instance = get_callable(frameinfo)
 
-        assert callable_instance.__name__ == 'dummy_method'
+        assert callable_instance.__name__ == "dummy_method"
 
     def test_classmethod(self):
         frameinfo = DummyClass.dummy_classmethod()
 
         callable_instance = get_callable(frameinfo)
 
-        assert callable_instance.__name__ == 'dummy_classmethod'
+        assert callable_instance.__name__ == "dummy_classmethod"
 
     def test_staticmethod(self):
         dummy_class = DummyClass()

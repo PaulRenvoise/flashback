@@ -172,7 +172,7 @@ SINGULAR_RULES = [[(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in SI
 
 # Suffix categories
 SINGULAR_CATEGORIES = {
-    "uninflected": PLURAL_CATEGORIES['uninflected'],
-    "uncountable": PLURAL_CATEGORIES['uncountable'],
-    "nationalities": PLURAL_CATEGORIES['nationalities'],
+    "uninflected": PLURAL_CATEGORIES["uninflected"],
+    "uncountable": PLURAL_CATEGORIES["uncountable"],
+    "nationalities": PLURAL_CATEGORIES["nationalities"],
 }

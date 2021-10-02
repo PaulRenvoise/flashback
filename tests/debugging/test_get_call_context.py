@@ -40,7 +40,7 @@ class TestGetCallContext:
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
         # Prior to python 3.8, the lineno for multiline calls is wrong
-        if sys.version >= '3.8':
+        if sys.version >= "3.8":
             assert len(context) == 13
             assert context_lineno == 8
             assert call_boundaries == (5, 8)
@@ -50,7 +50,7 @@ class TestGetCallContext:
             assert call_boundaries == (5, 6)
 
     def test_no_context(self):
-        frameinfo = eval('get_frameinfo()')  # pylint: disable=eval-used
+        frameinfo = eval("get_frameinfo()")  # pylint: disable=eval-used
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 

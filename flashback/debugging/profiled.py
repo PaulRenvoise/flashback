@@ -36,9 +36,9 @@ def profiled(output=None):
                 return fibonacci(n - 1) + fibonacci(n - 2)
 
         fib(10)
-        #=> Writes 'fib.pstats'
+        #=> Writes "fib.pstats"
 
-        @profiled('profiled')
+        @profiled("profiled")
         def cached_fibonacci(n, _cache={}):
             if n in _cache:
                 return _cache[n]
@@ -47,14 +47,14 @@ def profiled(output=None):
             return n
 
         fib(10)
-        #=> Writes 'profiled.pstats'
+        #=> Writes "profiled.pstats"
         ```
 
     Params:
-        - `output (str)` the output to write the stats to
+        output (str): the output to write the stats to
 
     Returns:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     def wrapper(func):
         @functools.wraps(func)

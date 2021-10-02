@@ -11,13 +11,13 @@ def dummy_func(left, right):
 
 
 class TestCached:
-    @patch('flashback.caching.adapters.redis_adapter.Redis', mock_redis_client)
+    @patch("flashback.caching.adapters.redis_adapter.Redis", mock_redis_client)
     def test_execution(self):
         assert callable(cached())
-        assert callable(cached(adapter='redis'))
+        assert callable(cached(adapter="redis"))
 
-    @patch('flashback.caching.Cache.set')
-    @patch('flashback.caching.Cache.get')
+    @patch("flashback.caching.Cache.set")
+    @patch("flashback.caching.Cache.get")
     def test_cache_miss(self, mocked_cache_get, mocked_cache_set):
         mocked_cache_get.side_effect = [None]
         mocked_cache_set.side_effect = [True]
@@ -30,8 +30,8 @@ class TestCached:
         assert mocked_cache_get.called
         assert mocked_cache_set.called
 
-    @patch('flashback.caching.Cache.set')
-    @patch('flashback.caching.Cache.get')
+    @patch("flashback.caching.Cache.set")
+    @patch("flashback.caching.Cache.get")
     def test_cache_miss_with_type(self, mocked_cache_get, mocked_cache_set):
         mocked_cache_get.side_effect = [None, None, None]
         mocked_cache_set.side_effect = [True, True, True]
@@ -49,13 +49,13 @@ class TestCached:
         assert mocked_cache_get.called
         assert mocked_cache_set.called
 
-        decorated_function('1', '2')
+        decorated_function("1", "2")
 
         assert mocked_cache_get.called
         assert mocked_cache_set.called
 
-    @patch('flashback.caching.Cache.set')
-    @patch('flashback.caching.Cache.get')
+    @patch("flashback.caching.Cache.set")
+    @patch("flashback.caching.Cache.get")
     def test_cache_miss_with_order(self, mocked_cache_get, mocked_cache_set):
         mocked_cache_get.side_effect = [None, None]
         mocked_cache_set.side_effect = [True, True]
@@ -73,8 +73,8 @@ class TestCached:
         assert mocked_cache_get.called
         assert mocked_cache_set.called
 
-    @patch('flashback.caching.Cache.set')
-    @patch('flashback.caching.Cache.get')
+    @patch("flashback.caching.Cache.set")
+    @patch("flashback.caching.Cache.get")
     def test_cache_hit(self, mocked_cache_get, mocked_cache_set):
         mocked_cache_get.side_effect = [None, 3]
         mocked_cache_set.side_effect = [True]

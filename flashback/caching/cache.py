@@ -19,29 +19,29 @@ class Cache:
         ```python
         from flashback.caching import Cache
 
-        cache = Cache(adapter='memory')
+        cache = Cache(adapter="memory")
 
         # Has default operations for key-value stores
-        cache.set('key', 'val')
+        cache.set("key", "val")
         #=> True
 
-        cache.get('key')
-        #=> 'val'
+        cache.get("key")
+        #=> "val"
 
-        cache.delete('key')
+        cache.delete("key")
         #=> True
 
-        cache.exists('key')
+        cache.exists("key")
         #=> False
 
         # Plus batch operations
-        cache.batch_set(['key1', 'key2', 'key3'], ['val1', 'val2', 'val3'])
+        cache.batch_set(["key1", "key2", "key3"], ["val1", "val2", "val3"])
         #=> True
 
-        cache.batch_get(['key1', 'key2', 'key3']) == ['val1', 'val2', 'val3']
-        #=> ['val1', 'val2', 'val3']
+        cache.batch_get(["key1", "key2", "key3"]) == ["val1", "val2", "val3"]
+        #=> ["val1", "val2", "val3"]
 
-        cache.batch_delete(['key1', 'key2', 'key3'])
+        cache.batch_delete(["key1", "key2", "key3"])
         #=> True
 
         # And some more
@@ -52,20 +52,17 @@ class Cache:
         #=> True
         ```
     """
-    def __init__(self, adapter='memory', flush=False, **kwargs):
+    def __init__(self, adapter="memory", flush=False, **kwargs):
         """
         Params:
-            - `adapter (str)` the adapter to use for the storage
-            - `flush (bool)` whether or not to flush the storage after connecting
-            - `kwargs (dict)` every additional keyword arguments, forwarded to the adapter
-
-        Returns:
-            - `None`
+            adapter (str): the adapter to use for the storage
+            flush (bool): whether or not to flush the storage after connecting
+            kwargs (dict): every additional keyword arguments, forwarded to the adapter
         """
         super().__init__()
 
         try:
-            adapter_class = import_class_from_path(f"{adapter}_adapter", '.adapters')
+            adapter_class = import_class_from_path(f"{adapter}_adapter", ".adapters")
 
             self.adapter = adapter_class(**kwargs)
         except (ImportError, AttributeError) as e:
@@ -87,17 +84,17 @@ class Cache:
 
             cache = Cache()
 
-            cache.set('key', 'val')
+            cache.set("key", "val")
             #=> True
             ```
 
         Params:
-            - `key (str)` the key to set
-            - `value (str)` the value to cache
-            - `ttl (int)` the number of seconds before expiring the key
+            key (str): the key to set
+            value (str): the value to cache
+            ttl (int): the number of seconds before expiring the key
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
         """
         json_value = json.dumps(self._convert_numeric(value))
 
@@ -118,20 +115,20 @@ class Cache:
 
             cache = Cache()
 
-            cache.batch_set(['key1', 'key2'], ['val1', 'val2'])
+            cache.batch_set(["key1", "key2"], ["val1", "val2"])
             #=> True
             ```
 
         Params:
-            - `keys (Iterable<str>)` the list of keys to set
-            - `values (Iterable<str>)` the list of values to cache
-            - `ttls (Iterable<int>)` the number of seconds before expiring the keys
+            keys (Iterable<str>): the list of keys to set
+            values (Iterable<str>): the list of values to cache
+            ttls (Iterable<int>): the number of seconds before expiring the keys
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
 
         Raises:
-            - `ValueError` if the lengths of the keys and values differ
+            ValueError: if the lengths of the keys and values differ
         """
         if ttls is None:
             ttls = [-1 for _ in range(len(keys))]
@@ -157,20 +154,20 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
-            cache.get('key')
-            #=> 'val'
+            cache.get("key")
+            #=> "val"
 
-            cache.get('yek')
+            cache.get("yek")
             #=> None
             ```
 
         Params:
-            - `key (str)` the key to fetch the value from
+            key (str): the key to fetch the value from
 
         Returns:
-            - `str|None` the value read from the storage
+            str|None: the value read from the storage
         """
         try:
             json_value = self.adapter.get(key)
@@ -189,17 +186,17 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
-            cache.batch_get(['key', 'yek'])
-            #=> ['val', None]
+            cache.batch_get(["key", "yek"])
+            #=> ["val", None]
             ```
 
         Params:
-            - `keys (Iterable<str>)` the keys to fetch the values from
+            keys (Iterable<str>): the keys to fetch the values from
 
         Returns:
-            - `list<str|None>` the values read from the storage
+            list<str|None>: the values read from the storage
         """
         try:
             json_values = self.adapter.batch_get(keys)
@@ -218,20 +215,20 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
-            cache.delete('key')
+            cache.delete("key")
             #=> True
 
-            cache.delete('yek')
+            cache.delete("yek")
             #=> False
             ```
 
         Params:
-            - `key (str)` the key to remove
+            key (str): the key to remove
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
         """
         try:
             res = self.adapter.delete(key)
@@ -249,20 +246,20 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.batch_set(['key1', 'key2'], ['val1', 'val2'])
+            cache.batch_set(["key1", "key2"], ["val1", "val2"])
 
-            cache.batch_delete(['key1', 'key2'])
+            cache.batch_delete(["key1", "key2"])
             #=> True
 
-            cache.batch_delete(['yek'])
+            cache.batch_delete(["yek"])
             #=> False
             ```
 
         Params:
-            - `keys (Iterable<str>)` the keys to remove from the cache
+            keys (Iterable<str>): the keys to remove from the cache
 
         Returns:
-            - `bool` whether or not the operation succeeded
+            bool: whether or not the operation succeeded
         """
         try:
             res = self.adapter.batch_delete(keys)
@@ -280,20 +277,20 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
-            cache.exists('key')
+            cache.exists("key")
             #=> True
 
-            cache.exists('yek')
+            cache.exists("yek")
             #=> False
             ```
 
         Params:
-            - `key (str)` the key to check the existence of
+            key (str): the key to check the existence of
 
         Returns:
-            - `bool` whether or not the key exists
+            bool: whether or not the key exists
         """
         try:
             res = self.adapter.exists(key)
@@ -311,20 +308,17 @@ class Cache:
             from flashback.caching import Cache
 
             cache = Cache()
-            cache.set('key', 'val')
+            cache.set("key", "val")
 
             cache.flush()
             #=> True
             ```
 
-        Params:
-            - `None`
-
         Returns:
-            - `bool` always True
+            bool: always True
 
         Raises:
-            - `flashback.caching.adapters.base.BaseAdapter.connection_exceptions` if no connection with the storage
+            flashback.caching.adapters.base.BaseAdapter.connection_exceptions: if no connection with the storage
         """
         return self.adapter.flush()
 
@@ -342,14 +336,11 @@ class Cache:
             #=> True
             ```
 
-        Params:
-            - `None`
-
         Returns:
-            - `bool` always True
+            bool: always True
 
         Raises:
-            - `flashback.caching.adapters.base.BaseAdapter.connection_exceptions` if no connection with the storage
+            flashback.caching.adapters.base.BaseAdapter.connection_exceptions: if no connection with the storage
         """
         return self.adapter.ping()
 

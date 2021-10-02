@@ -42,18 +42,18 @@ def get_callable(frameinfo):
         ```
 
     Params:
-        - `frameinfo (inspect.FrameInfo)` the frameinfo to extract the callable from
+        frameinfo (inspect.FrameInfo): the frameinfo to extract the callable from
 
     Returns:
-        - `Callable|None` the callable instance if found
+        Callable|None: the callable instance if found
     """
     frame = frameinfo.frame
 
     function_name = frame.f_code.co_name
 
-    caller_class = frame.f_locals.get('self', None)
+    caller_class = frame.f_locals.get("self", None)
     if caller_class is None:
-        caller_class = frame.f_locals.get('cls', None)
+        caller_class = frame.f_locals.get("cls", None)
 
     caller_instance = getattr(caller_class, function_name, None)
     if caller_instance is None:

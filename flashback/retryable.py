@@ -29,7 +29,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
             else:
                 raise TypeError
 
-        will_be_retried('str')
+        will_be_retried("str")
         #=> RuntimeError
 
         will_be_retried(0)
@@ -47,13 +47,13 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
         ```
 
     Params:
-        - `max_retries (int)` the max number of retries before raising the initial error
-        - `plateau_after (int)` the number of retries after which to plateau the delay
-        - `reset_after (int)` the number of seconds after which to reset the delay
-        - `exceptions (tuple<Exception>)` the exceptions to trigger a retry on
+        max_retries (int): the max number of retries before raising the initial error
+        plateau_after (int): the number of retries after which to plateau the delay
+        reset_after (int): the number of seconds after which to reset the delay
+        exceptions (tuple<Exception>): the exceptions to trigger a retry on
 
     Returns :
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     def wrapper(func):
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we
@@ -87,7 +87,7 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
 
                     retry_count += 1
                     if max_retries != -1 and retry_count > max_retries:
-                        logger.warning('Reached the maximum number of retries, raising')
+                        logger.warning("Reached the maximum number of retries, raising")
 
                         # Add a few debug info to the exception
                         caught_exception.retry_count = retry_count

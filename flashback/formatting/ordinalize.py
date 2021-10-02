@@ -19,33 +19,33 @@ def ordinalize(number):
         ```
 
     Params:
-        - `number (int)` the number to transform to an ordinal number
+        number (int): the number to transform to an ordinal number
 
     Returns:
-        - `str` the number with the correct ordinal suffix
+        str: the number with the correct ordinal suffix
     """
     number = int(number)
 
     if number == 1:
-        suffix = 'st'
+        suffix = "st"
     elif number == 2:
-        suffix = 'nd'
+        suffix = "nd"
     elif number == 3:
-        suffix = 'rd'
+        suffix = "rd"
     elif number in {4, 5, 6, 7, 8, 9, 10, 11, 12, 13}:
-        suffix = 'th'
+        suffix = "th"
     else:
         modulo = abs(number) % 100
         if modulo > 13:
             modulo %= 10
 
         if modulo == 1:
-            suffix = 'st'
+            suffix = "st"
         elif modulo == 2:
-            suffix = 'nd'
+            suffix = "nd"
         elif modulo == 3:
-            suffix = 'rd'
+            suffix = "rd"
         else:
-            suffix = 'th'
+            suffix = "th"
 
     return f"{number}{suffix}"

@@ -89,11 +89,11 @@ class DiskAdapter(BaseAdapter):
 
     @contextmanager
     def _open_locked_store(self, mode):
-        with open(f"{self._store_path}.lock", 'w') as lock:
+        with open(f"{self._store_path}.lock", "w", encoding="utf-8") as lock:
             flock(lock.fileno(), mode)  # blocking until lock is acquired
 
             try:
-                with shelve.open(self._store_path, 'c') as store:
+                with shelve.open(self._store_path, "c") as store:
                     yield store
             finally:
                 flock(lock.fileno(), LOCK_UN)

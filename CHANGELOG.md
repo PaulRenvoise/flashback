@@ -1,10 +1,20 @@
 # Changelog
 
-## 1.1.0 (TBD)
+## 1.2.0 (02/10/2021)
+
+- Fixed `iterating/uniq()` by using the `repr()` of each item to handle unhashable types
+- Fixed `iterating/flatten()` to handle strings
+- Updated dependencies
+- Marked the project as "Production/Stable" on PyPI
+- Switched pdoc3 for mkdocs
+- Migrated from single and double quotes to double quotes only
+- Added `iterating/flat_map()`, that applies a function to every item and nested item of the given iterable
+- Removed all "# coding: utf-8" headers, since they're actually useless
+
+## 1.1.0 (06/06/2021)
 
 - Added the `accessing/` module, containing helpers to access values in maps and iterables:
     - `dig()` repeatedly access keys to find a nested value within a dict
-    -
 
 ## 1.0.0 (21/11/2020)
 

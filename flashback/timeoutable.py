@@ -2,7 +2,7 @@ import functools
 import signal
 
 
-def timeoutable(seconds=5, message='execution timed out'):
+def timeoutable(seconds=5, message="execution timed out"):
     """
     Times out a callable's execution if its runtime exceeds `seconds`.
 
@@ -27,18 +27,18 @@ def timeoutable(seconds=5, message='execution timed out'):
             return True
 
         slow()
-        #=> TimeoutError: Execution of slow timed out.
+        #=> TimeoutError: Execution timed out
         ```
 
     Params:
-        - `seconds (int)` the number of seconds to wait before timing out
-        - `message (str)` the custom message to display when timing out
+        seconds (int): the number of seconds to wait before timing out
+        message (str): the custom message to display when timing out
 
     Return:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
 
     Raises:
-        - `TimeoutError` if the callable's execution time is longer than `seconds`
+        TimeoutError: if the callable's execution time is longer than `seconds`
     """
     def wrapper(func):
         def _sigalrm_handler(_signum, _frame):

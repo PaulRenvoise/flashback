@@ -1,4 +1,3 @@
-# coding: utf-8
 # pylint: disable=no-self-use,no-member,protected-access
 
 import math

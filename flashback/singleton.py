@@ -21,9 +21,9 @@ class Singleton(type):
             def __init__(self, name):
                 self.name = name
 
-        logger_1 = Logger('db')
-        logger_2 = Logger('auth')
-        logger_3 = Logger('db')
+        logger_1 = Logger("db")
+        logger_2 = Logger("auth")
+        logger_3 = Logger("db")
 
         assert logger_1 != logger_2
         assert logger_1 == logger_3
@@ -33,8 +33,8 @@ class Singleton(type):
             def __init__(self, name):
                 self.name = name
 
-        loose_logger_1 = LooseLogger('db')
-        loose_logger_2 = LooseLogger('auth')
+        loose_logger_1 = LooseLogger("db")
+        loose_logger_2 = LooseLogger("auth")
 
         assert loose_logger_1 == loose_logger_2
         assert loose_logger_1 is loose_logger_2
@@ -48,13 +48,10 @@ class Singleton(type):
     def __init__(cls, name, bases, attributes, strict=True):
         """
         Params:
-            - `name (str)` the name of the class to initialize
-            - `bases (tuple)` the bases classes of the class
-            - `attributes (dict)` the internal __dict__ of the class
-            - `strict (bool)` whether or not to enforce the strict behavior for singleton creation
-
-        Returns:
-            - `None`
+            name (str): the name of the class to initialize
+            bases (tuple): the bases classes of the class
+            attributes (dict): the internal __dict__ of the class
+            strict (bool): whether or not to enforce the strict behavior for singleton creation
         """
         super().__init__(name, bases, attributes)
 

@@ -17,44 +17,44 @@ def muted(loggers=None):
         from flashback.logging import muted
 
         logging.getLogger().setLevel(logging.INFO)
-        how_logger = logging.getLogger('how')
-        bye_logger = logging.getLogger('bye')
+        how_logger = logging.getLogger("how")
+        bye_logger = logging.getLogger("bye")
 
         def noisy_greetings():
-            logging.info('Hi')
-            how_logger.info('How are you?')
-            bye_logger.info('Bye')
+            logging.info("Hi")
+            how_logger.info("How are you?")
+            bye_logger.info("Bye")
 
         noisy_greetings()
-        #=> 'Hi'
-        #=> 'How are you?'
-        #=> 'Bye'
+        #=> "Hi"
+        #=> "How are you?"
+        #=> "Bye"
 
         # You can mute specific loggers with their names,
         # their instance, or 'None' for the root logger
-        @muted(loggers=['how', bye_logger, None])
+        @muted(loggers=["how", bye_logger, None])
         def quiet_greetings():
-            logging.info('Hi')
-            how_logger.info('How are you?')
-            bye_logger.info('Bye')
+            logging.info("Hi")
+            how_logger.info("How are you?")
+            bye_logger.info("Bye")
 
         quiet_greetings()
 
         # Or mute all (including root) loggers
         @muted()
         def muted_greetings():
-            logging.info('Hi')
-            how_logger.info('How are you?')
-            bye_logger.info('Bye')
+            logging.info("Hi")
+            how_logger.info("How are you?")
+            bye_logger.info("Bye")
 
         muted_greetings()
         ```
 
     Params:
-        - `loggers (Iterable<str|logging.Logger>)` the list of logger names or instances to mute
+        loggers (Iterable<str|logging.Logger>): the list of logger names or instances to mute
 
     Returns:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     def wrapper(func):
         def _filter(_record):

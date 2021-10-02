@@ -4,7 +4,7 @@ from .decorator_operator_filter import DecoratorOperatorFilter
 
 
 __all__ = (
-    'CallHighlightFilter',
-    'TypeHighlightFilter',
-    'DecoratorOperatorFilter',
+    "CallHighlightFilter",
+    "TypeHighlightFilter",
+    "DecoratorOperatorFilter",
 )

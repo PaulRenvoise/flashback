@@ -16,27 +16,27 @@ def kebabize(text, acronyms=None):
         ```python
         from flashback.formatting import kebabize
 
-        kebabize('host')
-        #=> 'host'
+        kebabize("host")
+        #=> "host"
 
-        kebabize('httpHost')
-        #=> 'http-host'
+        kebabize("httpHost")
+        #=> "http-host"
 
-        kebabize('__http_host__')
-        #=> '__http-host__'
+        kebabize("__http_host__")
+        #=> "__http-host__"
 
-        kebabize('HTTPHost')
-        #=> 'httph-ost'
+        kebabize("HTTPHost")
+        #=> "httph-ost"
 
-        kebabize('HTTPHost', acronyms=['HTTP'])
-        #=>'http-host'
+        kebabize("HTTPHost", acronyms=["HTTP"])
+        #=>"http-host"
         ```
 
     Params:
-        - `text (str)` the text to transform into kebab-case
-        - `acronyms (Iterable)` a list of acronyms to treat as non-delimited single lowercase words
+        text (str): the text to transform into kebab-case
+        acronyms (Iterable): a list of acronyms to treat as non-delimited single lowercase words
 
     Returns:
-        - `str` the kebab cased text
+        str: the kebab cased text
     """
-    return CRE_KEBABIZE_UNDERSCORES.sub('-', snakeize(text, acronyms=acronyms))
+    return CRE_KEBABIZE_UNDERSCORES.sub("-", snakeize(text, acronyms=acronyms))

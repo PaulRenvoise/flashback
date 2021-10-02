@@ -31,16 +31,16 @@ class sampled:  # pylint: disable=invalid-name
 
         # Handles constant sampling
         @sampled()
-        def decorated(strategy='constant', rate=1):
-            print('Called')
+        def decorated(strategy="constant", rate=1):
+            print("Called")
 
         decorated()
         #=> Called
 
         # Handles rate limiting per second (here 5)
-        @sampled(strategy='ratelimiting', rate=5)
+        @sampled(strategy="ratelimiting", rate=5)
         def decorated():
-            print('Called')
+            print("Called")
 
         for _ in range(10):
             decorated()
@@ -51,32 +51,29 @@ class sampled:  # pylint: disable=invalid-name
         #=> Called
 
         # Probabilistic sampling with a rate of 0.5
-        @sampled(strategy='probabilistic')
+        @sampled(strategy="probabilistic")
         def decorated():
-            print('Called')
+            print("Called")
 
         decorated()
         decorated()
         #=> Called
         ```
     """
-    STRATEGY_CONSTANT = 'constant'
-    STRATEGY_PROBABILISTIC = 'probabilistic'
-    STRATEGY_RATELIMITING = 'ratelimiting'
+    STRATEGY_CONSTANT = "constant"
+    STRATEGY_PROBABILISTIC = "probabilistic"
+    STRATEGY_RATELIMITING = "ratelimiting"
     STRATEGIES = (
         STRATEGY_CONSTANT,
         STRATEGY_PROBABILISTIC,
         STRATEGY_RATELIMITING,
     )
 
-    def __init__(self, strategy='constant', rate=None):
+    def __init__(self, strategy="constant", rate=None):
         """
         Params:
-            - `strategy (str)` the sampling strategy to use
-            - `rate (int|float)` the parameter to fine-tune the sampling strategy
-
-        Returns:
-            - `None`
+            strategy (str): the sampling strategy to use
+            rate (int|float): the parameter to fine-tune the sampling strategy
         """
         if strategy == self.STRATEGY_CONSTANT:
             if rate is None:
@@ -107,7 +104,7 @@ class sampled:  # pylint: disable=invalid-name
 
             self.should_sample = self._sample_ratelimiting
         else:
-            strategies_choices = oxford_join(self.STRATEGIES, last_sep=', or ')
+            strategies_choices = oxford_join(self.STRATEGIES, last_sep=", or ")
             raise ValueError(f"invalid strategy {strategy!r}, expecting {strategies_choices}")
 
     def __call__(self, func):

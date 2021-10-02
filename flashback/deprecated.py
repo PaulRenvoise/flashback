@@ -17,7 +17,7 @@ def deprecated(since=None, until=None, reason=None):
         func()
         #=> func is deprecated.
 
-        @deprecated(since='v2', until='v3', reason='it has moved')
+        @deprecated(since="v2", until="v3", reason="it has moved")
         def func():
             pass
 
@@ -26,12 +26,12 @@ def deprecated(since=None, until=None, reason=None):
         ```
 
     Params:
-        - `since (str)` the date/version the callable was deprecated
-        - `until (str)` the date/version the callable will be removed
-        - `reason (str)` the reason of the deprecation
+        since (str): the date/version the callable was deprecated
+        until (str): the date/version the callable will be removed
+        reason (str): the reason of the deprecation
 
     Returns:
-        - `Callable` a wrapper used to decorate a callable
+        Callable: a wrapper used to decorate a callable
     """
     def wrapper(func):
         message = f"{func.__name__} is deprecated"
@@ -42,7 +42,7 @@ def deprecated(since=None, until=None, reason=None):
         if reason:
             message += f" because {reason}."
         else:
-            message += '.'
+            message += "."
 
         doc = func.__doc__ or ""
         if len(doc) > 0:
