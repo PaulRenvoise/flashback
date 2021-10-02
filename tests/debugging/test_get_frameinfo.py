@@ -28,7 +28,7 @@ class TestGetFrameInfo:
     def test_deep(self):
         frameinfo = get_frameinfo(6)
 
-        assert frameinfo.function == "runtest"
+        assert frameinfo.function == "pytest_runtest_call"
 
     @patch("inspect.currentframe")
     def test_no_current_frame(self, mocked_currentframe):

@@ -23,7 +23,7 @@ class TestCaller:
         assert len(captured.splitlines()) == 12
 
     def test_execution_with_depth(self, output):
-        caller_instance = caller(depth=35, output=output)
+        caller_instance = caller(depth=30, output=output)
         captured = output.getvalue()
 
         assert caller_instance.__name__ == "main"
