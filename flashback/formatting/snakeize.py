@@ -42,7 +42,7 @@ def snakeize(text, acronyms=None):
     text = str(text)
 
     acronyms_pattern = r"(?=$)^" if acronyms is None else "|".join(acronyms)
-    acronyms_snakeize_pattern = r"({})".format(acronyms_pattern)
+    acronyms_snakeize_pattern = rf"({acronyms_pattern})"
 
     for match in regex.finditer(acronyms_snakeize_pattern, text, flags=regex.I):
         parts = []

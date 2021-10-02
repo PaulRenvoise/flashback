@@ -46,10 +46,10 @@ def parameterize(text, sep="-", keep_case=False):
         sep = regex.escape(sep)
 
         # No more than one separator in a row
-        text = regex.sub(r"{}{{2,}}".format(sep), sep, text)
+        text = regex.sub(rf"{sep}{{2,}}", sep, text)
 
         # Remove leading and trailing separators
-        text = regex.sub(r"^{sep}|{sep}$".format(sep=sep), "", text)
+        text = regex.sub(rf"^{sep}|{sep}$", "", text)
 
     if keep_case:
         return text
