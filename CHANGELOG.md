@@ -2,7 +2,8 @@
 
 ## 1.2.0 (TBD)
 
-- Optimized `iterating/uniq()` by using `dict.fromkeys()` instead of a check-for-seen in a for loop design
+- Fixed `iterating/uniq()` by using the `repr()` of each item to handle unhashable types
+- Fixed `iterating/flatten()` to handle strings
 - Updated dependencies
 - Marked the project as "Production/Stable" on PyPI
 - Switched pdoc3 for mkdocs
