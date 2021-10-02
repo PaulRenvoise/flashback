@@ -1,6 +1,3 @@
-from collections.abc import Iterable
-
-
 def flatten(iterable):
     """
     Unpacks nested iterables into the root `iterable`.
