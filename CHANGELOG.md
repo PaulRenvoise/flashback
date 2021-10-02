@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.0 (TBD)
+## 1.2.0 (02/10/2021)
 
 - Fixed `iterating/uniq()` by using the `repr()` of each item to handle unhashable types
 - Fixed `iterating/flatten()` to handle strings
