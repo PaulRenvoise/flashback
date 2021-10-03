@@ -9,6 +9,7 @@ public/uploads/
 # Test-generated
 coverage/
 .coverage*
+htmlcov/**
 
 # Language-generated
 **/*.pyc
