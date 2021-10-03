@@ -2,5 +2,6 @@
 mkdocs-material~=7.3.0
 mkdocstrings~=0.16.1
 mkdocs-coverage~=0.2.4
+mkdocs-minify-plugin~=0.4.1
 
 -r requirements-test.txt
