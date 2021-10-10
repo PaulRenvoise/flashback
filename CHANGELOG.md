@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1 (10/10/2021)
+
+- Fixed an error happening when trying to use `formatting/pluralize()` and/or `formatting/singularize()`:
+    - The locales where not packaged as there was no \_\_init\_\_.py file, leading to `i16g/Locale` not finding them
+
 ## 1.2.0 (02/10/2021)
 
 - Fixed `iterating/uniq()` by using the `repr()` of each item to handle unhashable types
