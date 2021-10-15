@@ -112,7 +112,7 @@ class TestParser:
             )
         )
         # Prior to python 3.8, the lineno for multiline calls is wrong
-        if sys.version >= "3.8":
+        if sys.version_info >= (3, 8):
             assert parsed_arguments == [
                 ("mock_function(1, 2)", 3)
             ]
@@ -140,7 +140,7 @@ class TestParser:
             )
         )
         # Prior to python 3.8, the lineno for multiline calls is wrong
-        if sys.version >= "3.8":
+        if sys.version_info >= (3, 8):
             assert parsed_arguments == [
                 ("mock_function(mock_function(mock_function(mock_function(1, 2), 3), 4), 5)", 15)
             ]

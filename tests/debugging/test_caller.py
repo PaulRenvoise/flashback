@@ -28,7 +28,7 @@ class TestCaller:
 
         assert caller_instance.__name__ == "main"
         # Prior to python 3.8, the lineno for multiline calls is wrong
-        if sys.version >= "3.8":
+        if sys.version_info >= (3, 8):
             assert len(captured.splitlines()) == 14
         else:
             assert len(captured.splitlines()) == 12
