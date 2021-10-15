@@ -13,7 +13,7 @@ def read_requirements_file(path):
 
     requirements = []
 
-    with open(path, "r") as file:
+    with open(path, "r", encoding="utf-8") as file:
         for line in file:
             line = line.strip()
             if not line or line.startswith("# "):
@@ -36,7 +36,7 @@ setup(
     url="https://github.com/PaulRenvoise/flashback",
 
     description="An utility library for python",
-    long_description=open(os.path.join(ROOT, "README.md"), "r").read(),
+    long_description=open(os.path.join(ROOT, "README.md"), "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -49,6 +49,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: Implementation :: CPython",
         "Topic :: Software Development :: Libraries :: Python Modules",
