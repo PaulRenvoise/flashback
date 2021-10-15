@@ -30,9 +30,10 @@ class EncryptedFile:
         # Also writes
         passwd = "i{e8m+/1sdf"
         encrypted_file.write(passwd)
-        assert encrypted_file.read() == bytes(passwd, encoding="utf-8")
+        assert encrypted_file.read() == passwd
 
         # You can pass any serializer (JSON, YAML, pickle, etc.)
+        import pickle
         value = ""
         encrypted_file.write(value, serializer=pickle.dumps)
         assert encrypted_file.read(deserializer=pickle.loads) == value
