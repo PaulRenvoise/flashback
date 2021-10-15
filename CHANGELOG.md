@@ -4,6 +4,7 @@
 
 - Added `EncryptedFile` to expose a mechanism to read and write encrypted contents to a file:
     - The contents can also be optionally serialized/deserialized
+- Updated main python version to 3.10
 
 ## 1.2.1 (10/10/2021)
 
