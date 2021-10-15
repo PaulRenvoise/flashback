@@ -75,6 +75,7 @@ Flashback's helpers are currently organised within 7 modules, and global helpers
     - `RAILS_CONSOLE_CONFIGURATION` logs to stderr with the same formatting as RoR's logger
     - `AffixedStreamHandler` allows custom affixes to log records
     - `@muted` silences all (or selected) loggers during a callable's execution
+- `EncryptedFile` exposes a mechanism to read and write encrypted contents to a file
 - `Borg` exposes a class useful to produce a singleton behaviour across multiple instances
 - `Sentinel` exposes a class that can be used to implement the Sentinel design pattern
 - `Singleton` exposes a metaclass useful to implement the Singleton design pattern
