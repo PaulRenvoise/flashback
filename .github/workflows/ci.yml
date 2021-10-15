@@ -10,10 +10,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up Python 3.9
+    - name: Set up Python 3.10
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: "3.10"
 
     - name: Get cache location
       id: cache-location
@@ -23,11 +23,10 @@ jobs:
     - name: Cache dependencies
       uses: actions/cache@v2
       with:
-        python-version: 3.9
         path: ${{ steps.cache-location.outputs.dir }}
-        key: ${{ runner.os }}-pip-3.9-${{ hashFiles('requirements-test.txt') }}
+        key: ${{ runner.os }}-pip-3.10-${{ hashFiles('requirements-test.txt') }}
         restore-keys: |
-          ${{ runner.os }}-pip-3.9-
+          ${{ runner.os }}-pip-3.10-
           ${{ runner.os }}-pip-
           ${{ runner.os }}-
 
@@ -45,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
         os: [ubuntu-latest, macos-latest]
     steps:
     - name: Checkout
@@ -64,7 +63,6 @@ jobs:
     - name: Cache dependencies
       uses: actions/cache@v2
       with:
-        python-version: ${{ matrix.python-version }}
         path: ${{ steps.cache-location.outputs.dir }}
         key: ${{ runner.os }}-pip-${{ matrix.python-version}}-${{ hashFiles('requirements-test.txt') }}
         restore-keys: |

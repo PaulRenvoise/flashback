@@ -1,4 +1,5 @@
 from .borg import Borg
+from .encrypted_file import EncryptedFile
 from .sentinel import Sentinel
 from .singleton import Singleton
 
@@ -12,6 +13,7 @@ from .timeoutable import timeoutable
 
 __all__ = (
     "Borg",
+    "EncryptedFile",
     "Sentinel",
     "Singleton",
     "classproperty",
@@ -22,4 +24,4 @@ __all__ = (
     "timeoutable",
 )
 
-__version__ = "1.2.0"
+__version__ = "1.3.1"

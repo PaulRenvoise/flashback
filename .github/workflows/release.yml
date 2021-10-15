@@ -9,10 +9,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up Python 3.9
+    - name: Set up Python 3.10
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: "3.10"
 
     - name: Install dependencies
       run: |
@@ -36,7 +36,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: "3.10"
 
       - name: Get cache location
         id: cache-location
@@ -46,7 +46,6 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          python-version: ${{ matrix.python-version }}
           path: ${{ steps.cache-location.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ matrix.python-version}}-${{ hashFiles('requirements-dev.txt') }}
           restore-keys: |
