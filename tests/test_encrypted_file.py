@@ -54,7 +54,7 @@ class TestEncryptedFile:
             FILE_PATH,
             KEY_PATH,
         )
-        _key, init_contents = encrypted_file.init()
+        _key, _init_contents = encrypted_file.init()
         write_contents = {"key": "value"}
         encrypted_file.write(write_contents, serializer=pickle.dumps)
         read_contents = encrypted_file.read(deserializer=pickle.loads)
