@@ -1,6 +1,10 @@
 # Changelog
 
-## 1.3.0 (13/10/2021)
+## 1.3.1 (15/10/2021)
+
+- Fixed github actions to use python version as strings instead of floats to handle python 3.10
+
+## 1.3.0 (15/10/2021)
 
 - Added `EncryptedFile` to expose a mechanism to read and write encrypted contents to a file:
     - The contents can also be optionally serialized/deserialized
