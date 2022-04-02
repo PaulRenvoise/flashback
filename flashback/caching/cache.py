@@ -52,14 +52,17 @@ class Cache:
         #=> True
         ```
     """
-    def __init__(self, adapter="memory", flush=False, **kwargs):
+    def __init__(self, adapter="memory", ttl=-1, flush=False, **kwargs):
         """
         Params:
             adapter (str): the adapter to use for the storage
+            ttl (int): the number of seconds before expiring the keys (default: -1 (never))
             flush (bool): whether or not to flush the storage after connecting
             kwargs (dict): every additional keyword arguments, forwarded to the adapter
         """
         super().__init__()
+
+        self.ttl = ttl
 
         try:
             adapter_class = import_class_from_path(f"{adapter}_adapter", ".adapters")
@@ -74,7 +77,7 @@ class Cache:
         # Notifies that we have a new connection
         self.ping()
 
-    def set(self, key, value, ttl=-1):
+    def set(self, key, value, ttl=None):
         """
         Sets `key` to `value`.
 
@@ -91,7 +94,7 @@ class Cache:
         Params:
             key (str): the key to set
             value (str): the value to cache
-            ttl (int): the number of seconds before expiring the key
+            ttl (int): the number of seconds before expiring the key (default: init ttl)
 
         Returns:
             bool: whether or not the operation succeeded
@@ -99,7 +102,7 @@ class Cache:
         json_value = json.dumps(self._convert_numeric(value))
 
         try:
-            res = self.adapter.set(key, json_value, ttl=ttl)
+            res = self.adapter.set(key, json_value, ttl=ttl or self.ttl)
         except self.adapter.connection_exceptions:
             res = False
 
@@ -122,7 +125,7 @@ class Cache:
         Params:
             keys (Iterable<str>): the list of keys to set
             values (Iterable<str>): the list of values to cache
-            ttls (Iterable<int>): the number of seconds before expiring the keys
+            ttls (Iterable<int>): the number of seconds before expiring the keys (default: init ttl)
 
         Returns:
             bool: whether or not the operation succeeded
@@ -131,7 +134,7 @@ class Cache:
             ValueError: if the lengths of the keys and values differ
         """
         if ttls is None:
-            ttls = [-1 for _ in range(len(keys))]
+            ttls = [self.ttl for _ in range(len(keys))]
 
         if len(set(map(len, [keys, values, ttls]))) > 1:
             raise ValueError("invalid arguments, length of 'keys', 'values', and 'ttls' must be equal")
