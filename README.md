@@ -11,7 +11,7 @@ functions, constants, etc. that you might have written a couple times already.
 
 ## Installing
 
-Flashback supports python 3.6+.
+Flashback supports python 3.7+.
 
 Pip:
 ```bash

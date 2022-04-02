@@ -5,6 +5,7 @@
 - Fixed `accessing/dig` to handle cases where the value is `None`
 - Updated dependencies
 - Updated `caching/cache` to accept a global ttl at init
+- Dropped support for Python 3.6
 
 ## 1.3.1 (15/10/2021)
 
