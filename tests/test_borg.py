@@ -32,7 +32,7 @@ class TestBorg:
     def test_borg_empty_dict(self):
         borg = Borg()
 
-        assert borg.__dict__ == {}
+        assert not borg.__dict__
 
     def test_assign_attribute(self):
         borg = Borg()

@@ -48,7 +48,7 @@ class Locale:
                     )
                 )?
             )?
-        """, regex.I + regex.X)
+        """, regex.I + regex.X)  # pylint: disable=no-member
 
     @classmethod
     def load(cls, locale, path):

@@ -27,6 +27,16 @@ def read_requirements_file(path):
     return requirements
 
 
+def read_readme():
+    path = os.path.join(ROOT, "README.md")
+
+    readme = None
+    with open(path, "r", encoding="utf-8") as file:
+        readme = file.read()
+
+    return readme
+
+
 setup(
     version=flashback.__version__,
 
@@ -36,7 +46,7 @@ setup(
     url="https://github.com/PaulRenvoise/flashback",
 
     description="An utility library for python",
-    long_description=open(os.path.join(ROOT, "README.md"), "r", encoding="utf-8").read(),
+    long_description=read_readme(),
     long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -45,7 +55,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Unix",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -60,7 +69,7 @@ setup(
 
     install_requires=read_requirements_file("requirements.txt"),
     tests_require=read_requirements_file("requirements-test.txt"),
-    python_requires=">=3.6.*",
+    python_requires=">=3.7.*",
     setup_requires=["pytest-runner"],
 
     test_suite="tests",

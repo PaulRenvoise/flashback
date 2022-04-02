@@ -7,7 +7,7 @@ class TestFlatMap:
     def test_zero_items(self):
         flat_mapped = flat_map(lambda x: x * 2, [])
 
-        assert list(flat_mapped) == []
+        assert not list(flat_mapped)
 
     def test_multiple_items(self):
         flat_mapped = flat_map(lambda x: x * 2, [[1], 2, [3, 4], [5, 6, 7], 8])

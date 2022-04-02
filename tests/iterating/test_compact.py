@@ -7,7 +7,7 @@ class TestCompact:
     def test_zero_items(self):
         compacted = compact([])
 
-        assert compacted == ()
+        assert not compacted
 
     def test_multiple_items(self):
         compacted = compact([1, None, 2, 3, None, 4, 5, None])
@@ -17,4 +17,4 @@ class TestCompact:
     def test_only_none(self):
         compacted = compact([None, None, None])
 
-        assert compacted == ()
+        assert not compacted

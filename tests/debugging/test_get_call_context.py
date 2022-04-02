@@ -56,7 +56,7 @@ class TestGetCallContext:
 
         assert len(context) == 0
         assert context_lineno is None
-        assert call_boundaries == ()
+        assert not call_boundaries
 
     def test_eof(self):
         frameinfo = dummy_function_eof()

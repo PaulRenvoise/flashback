@@ -3,7 +3,7 @@ import regex
 from .snakeize import snakeize
 
 
-CRE_CAMELIZE = regex.compile(r"(?<!(?:^|-|_))[\-_](?![\-_])(.)", flags=regex.I)
+CRE_CAMELIZE = regex.compile(r"(?<!(?:^|-|_))[\-_](?![\-_])(.)", flags=regex.I)  # pylint: disable=no-member
 
 def camelize(text, acronyms=None):
     """
@@ -55,6 +55,6 @@ def camelize(text, acronyms=None):
     def replace(m):
         return lower2upper[m.group(1).lower()] + m.group(2).upper()
 
-    text = regex.sub(acronyms_camelize_pattern, replace, text, flags=regex.I)
+    text = regex.sub(acronyms_camelize_pattern, replace, text, flags=regex.I)  # pylint: disable=no-member
 
     return text
