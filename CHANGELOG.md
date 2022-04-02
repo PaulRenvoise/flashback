@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2 (02/04/2022)
+
+- Fixed `accessing/dig` to handle cases where the value is `None`
+- Updated dependencies
+- Updated `caching/cache` to accept a global ttl at init
+
 ## 1.3.1 (15/10/2021)
 
 - Fixed github actions to use python version as strings instead of floats to handle python 3.10
