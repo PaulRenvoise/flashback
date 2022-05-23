@@ -1,5 +1,5 @@
 # Documentation
-mkdocs-material~=8.2.8
+mkdocs-material~=8.2.15
 mkdocstrings~=0.18.1
 mkdocs-coverage~=0.2.5
 
