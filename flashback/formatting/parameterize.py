@@ -3,7 +3,7 @@ import regex
 from .transliterate import transliterate
 
 
-CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)
+CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)  # pylint: disable=no-member
 
 def parameterize(text, sep="-", keep_case=False):
     """

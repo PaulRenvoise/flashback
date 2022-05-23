@@ -10,7 +10,7 @@ from flashback.debugging.formatter import Formatter
 from .fixtures import MockClass, mock_function, MockABC
 
 
-CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.I)
+CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.I)  # pylint: disable=no-member
 
 
 @pytest.fixture(scope="class")
@@ -466,7 +466,7 @@ class TestFormatter:
 
     def test_complex_dict(self, formatter):
         dictionary = {
-            "regex": regex.compile(r"abc", regex.I),
+            "regex": regex.compile(r"abc", regex.I),  # pylint: disable=no-member
             "set": {1, 2, 3},
             "list": [{"a": i, "b": (i for i in range(3))} for i in range(3)],
             "str": "This is a not-so-long yet not-so-short sentence.\n" * 3

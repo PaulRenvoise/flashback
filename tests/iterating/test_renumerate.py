@@ -5,7 +5,7 @@ from flashback.iterating import renumerate
 
 class TestRenumerate:
     def test_zero_items(self):
-        assert list(renumerate([])) == []
+        assert not list(renumerate([]))
 
     def test_one_item(self):
         assert list(renumerate(["a"])) == [(0, "a")]

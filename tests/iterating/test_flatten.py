@@ -7,7 +7,7 @@ class TestFlatten:
     def test_zero_items(self):
         flattened = flatten([])
 
-        assert flattened == ()
+        assert not flattened
 
     def test_multiple_items(self):
         flattened = flatten([[1], 2, [3, 4], [5, 6, 7], 8])

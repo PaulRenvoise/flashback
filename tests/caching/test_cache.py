@@ -37,6 +37,11 @@ class TestCache:
         assert mocked_flush.called
         assert cache.ping()
 
+    def test_init_with_ttl(self):
+        cache = Cache(ttl=10)
+
+        assert cache.ping()
+
     def test_init_invalid(self):
         with pytest.raises(NotImplementedError):
             Cache(adapter="dummy")

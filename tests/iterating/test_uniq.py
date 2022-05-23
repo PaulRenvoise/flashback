@@ -8,7 +8,7 @@ class TestUniq:
         # Yes, it exists: https://en.wiktionary.org/wiki/uniquified
         uniquified = uniq([])
 
-        assert uniquified == ()
+        assert not uniquified
 
     def test_multiple_items(self):
         uniquified = uniq([1, 2, 3, 4, 5, 2, 5, 5])

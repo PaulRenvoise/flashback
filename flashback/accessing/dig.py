@@ -21,6 +21,8 @@ def dig(dictionary, *keys):
         Any|None: the final value
     """
     for key in keys[:-1]:
-        dictionary = dictionary.get(key, {})
+        # Handles when key does not exist
+        # and when value is None
+        dictionary = dictionary.get(key, {}) or {}
 
     return dictionary.get(keys[-1])

@@ -7,8 +7,8 @@ class TestPartition:
     def test_zero_items(self):
         trues, falses = partition(lambda x: x % 2, [])
 
-        assert trues == ()
-        assert falses == ()
+        assert not trues
+        assert not falses
 
     def test_multiple_items_bool(self):
         evens, odds = partition(lambda x: x % 2 == 0, [1, 2, 3, 4, 5])

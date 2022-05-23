@@ -6,7 +6,7 @@ from flashback.iterating import chunks
 class TestChunks:
     def test_zero_items(self):
         chunked = list(chunks([]))
-        assert chunked == []
+        assert not chunked
 
     def test_multiple_items(self):
         chunked = list(chunks([1, 2, 3, 4]))

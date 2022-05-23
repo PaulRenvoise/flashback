@@ -7,7 +7,7 @@ import regex
 
 from flashback.debugging import xp
 
-CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.I)
+CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.I)  # pylint: disable=no-member
 
 
 @pytest.fixture

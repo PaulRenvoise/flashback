@@ -44,7 +44,7 @@ def snakeize(text, acronyms=None):
     acronyms_pattern = r"(?=$)^" if acronyms is None else "|".join(acronyms)
     acronyms_snakeize_pattern = rf"({acronyms_pattern})"
 
-    for match in regex.finditer(acronyms_snakeize_pattern, text, flags=regex.I):
+    for match in regex.finditer(acronyms_snakeize_pattern, text, flags=regex.I):  # pylint: disable=no-member
         parts = []
 
         start = text[:match.start()]

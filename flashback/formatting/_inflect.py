@@ -1,7 +1,7 @@
 import regex
 
 
-CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
+CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)  # pylint: disable=no-member
 
 def _inflect(word, rules, categories, prepositions, base_case=str.lower):
     word = base_case(str(word))
