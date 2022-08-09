@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0 TBD
+
+- Updated dependencies
+- Added python 3.11 in the versions flashback is tested against
+
 ## 1.3.2 (02/04/2022)
 
 - Fixed `accessing/dig` to handle cases where the value is `None`
