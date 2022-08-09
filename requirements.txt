@@ -3,7 +3,8 @@ redis~=4.3.1
 pymemcache~=3.5.2
 
 # Utils
-regex~=2022.4.24
+# Required because we use Unicode groups not supported by re
+regex~=2022.7.25
 Unidecode~=1.3.4
 pygments~=2.12.0
 cryptography~=37.0.2

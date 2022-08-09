@@ -1,5 +1,5 @@
 # Lint
-pylint~=2.13.9
+pylint~=2.14.5
 
 # Test, coverage, and mocking
 pytest~=7.1.2
