@@ -1,8 +1,11 @@
+from typing import Any, Callable, Optional, Type, Union
+
+
 class ClassPropertyMetaclass(type):
     """
     Defines a metaclass to ensure the property is settable, to use as `flashback.classproperty.meta`.
     """
-    def __setattr__(cls, key, value):
+    def __setattr__(cls, key: str, value: Any) -> None:
         obj = cls.__dict__.get(key, None)
         if isinstance(obj, classproperty):
             return obj.__set__(cls, value)
@@ -52,11 +55,11 @@ class classproperty:  # pylint: disable=invalid-name
     """
     meta = ClassPropertyMetaclass
 
-    def __init__(self, func_get, func_set=None):
+    def __init__(self, func_get: Union[classmethod, staticmethod, Callable], func_set: Union[None, classmethod, staticmethod, Callable] = None) -> None:
         """
         Params:
-            func_get (Callable): the getter to decorate
-            func_set (Callable): the setter to decorate
+            func_get: the getter to decorate
+            func_set: the setter to decorate
         """
         if not isinstance(func_get, (classmethod, staticmethod)):
             func_get = classmethod(func_get)
@@ -68,13 +71,13 @@ class classproperty:  # pylint: disable=invalid-name
         self.func_get = func_get
         self.func_set = func_set
 
-    def __get__(self, obj, cls=None):
+    def __get__(self, obj: Any, cls: Optional[Type] = None) -> Any:
         if cls is None:
             cls = type(obj)
 
         return self.func_get.__get__(obj, cls)()
 
-    def __set__(self, obj, value):
+    def __set__(self, obj: Any, value: Any) -> Any:
         if not self.func_set:
             raise AttributeError("can't set attribute")
         if not isinstance(obj, ClassPropertyMetaclass):
@@ -85,7 +88,7 @@ class classproperty:  # pylint: disable=invalid-name
 
         return self.func_set.__get__(obj, cls)(value)
 
-    def setter(self, func):
+    def setter(self, func: Union[classmethod, staticmethod, Callable]) -> "classproperty":
         if not isinstance(func, (classmethod, staticmethod)):
             func = classmethod(func)
 

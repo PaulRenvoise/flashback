@@ -1,10 +1,11 @@
+from typing import Any, Callable
 import functools
 import inspect
 import logging
 import time
 
 
-def timed(func):
+def timed(func: Callable) -> Callable:
     """
     Logs the start and end of a function call, and records the time spent executing it.
 
@@ -23,20 +24,24 @@ def timed(func):
         ```
 
     Params:
-        func (Callable): the callable to time
+        func: the callable to time
 
     Returns:
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
     # `.getmodule().__name__` returns the same value as `__name__` called from the module we
     # decorate.
     # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
     # name, we receive the same logger, which "hides" this decorator as if the logging was
     # made from within the callable we decorate
-    logger = logging.getLogger(inspect.getmodule(func).__name__)
+    module  = inspect.getmodule(func)
+    if module:
+        logger = logging.getLogger(module.__name__)
+    else:
+        logger = logging.getLogger()
 
     @functools.wraps(func)
-    def inner(*args, **kwargs):
+    def inner(*args: Any, **kwargs: Any) -> Any:
         logger.info("Started execution of %s", func.__name__)
         before = time.time()
 

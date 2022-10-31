@@ -1,5 +1,5 @@
-from pygments.style import Style
-from pygments.token import Comment, Generic, Keyword, Name, Number, Operator, Punctuation, Literal, String, Token
+from pygments.style import Style  # type: ignore
+from pygments.token import Comment, Generic, Keyword, Name, Number, Operator, Punctuation, Literal, String, Token  # type: ignore
 
 
 class Jellybeans(Style):

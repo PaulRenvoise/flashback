@@ -1,5 +1,6 @@
-import functools
 from queue import Queue
+from typing import Any, Callable, Optional, Union
+import functools
 import random
 import time
 
@@ -69,11 +70,11 @@ class sampled:  # pylint: disable=invalid-name
         STRATEGY_RATELIMITING,
     )
 
-    def __init__(self, strategy="constant", rate=None):
+    def __init__(self, strategy: str = "constant", rate: Union[int, float] = None) -> None:
         """
         Params:
-            strategy (str): the sampling strategy to use
-            rate (int|float): the parameter to fine-tune the sampling strategy
+            strategy: the sampling strategy to use
+            rate: the parameter to fine-tune the sampling strategy
         """
         if strategy == self.STRATEGY_CONSTANT:
             if rate is None:
@@ -100,27 +101,27 @@ class sampled:  # pylint: disable=invalid-name
                 raise ValueError(f"invalid rate {rate!r}, expecting a positive integer")
 
             self._rate = rate
-            self._queue = Queue(maxsize=0)
+            self._queue: Queue = Queue(maxsize=0)
 
             self.should_sample = self._sample_ratelimiting
         else:
             strategies_choices = oxford_join(self.STRATEGIES, last_sep=", or ")
             raise ValueError(f"invalid strategy {strategy!r}, expecting {strategies_choices}")
 
-    def __call__(self, func):
+    def __call__(self, func: Callable) -> Callable:
         @functools.wraps(func)
-        def inner(*args, **kwargs):
+        def inner(*args: Any, **kwargs: Any) -> Optional[Any]:
             return func(*args, **kwargs) if self.should_sample() else None
 
         return inner
 
-    def _sample_constant(self):
+    def _sample_constant(self) -> Union[int, float]:
         return self._rate
 
-    def _sample_probabilistic(self):
+    def _sample_probabilistic(self) -> float:
         return random.random() < self._rate
 
-    def _sample_ratelimiting(self):
+    def _sample_ratelimiting(self) -> bool:
         now = int(time.time())
 
         queue_size = self._queue.qsize()

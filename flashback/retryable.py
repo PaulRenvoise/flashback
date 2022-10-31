@@ -3,11 +3,12 @@ import inspect
 import logging
 import math
 import time
+from typing import Any, Callable, Tuple
 
 from .formatting import ordinalize
 
 
-def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=()):
+def retryable(max_retries: int = -1, plateau_after: int = 10, reset_after: int = 3600, exceptions: Tuple[Exception, ...] = ()) -> Callable:
     """
     Retries to call a callable when a given exception is raised.
 
@@ -47,29 +48,33 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
         ```
 
     Params:
-        max_retries (int): the max number of retries before raising the initial error
-        plateau_after (int): the number of retries after which to plateau the delay
-        reset_after (int): the number of seconds after which to reset the delay
-        exceptions (tuple<Exception>): the exceptions to trigger a retry on
+        max_retries: the max number of retries before raising the initial error
+        plateau_after: the number of retries after which to plateau the delay
+        reset_after: the number of seconds after which to reset the delay
+        exceptions: the exceptions to trigger a retry on
 
     Returns :
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
-    def wrapper(func):
+    def wrapper(func: Callable) -> Callable:
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we
         # decorate.
         # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
         # name, we receive the same logger, which "hides" this decorator as if the logging was
         # made from within the callable we decorate
-        logger = logging.getLogger(inspect.getmodule(func).__name__)
+        module = inspect.getmodule(func)
+        if module:
+            logger = logging.getLogger(module.__name__)
+        else:
+            logger = logging.getLogger()
 
         @functools.wraps(func)
-        def inner(*args, **kwargs):
+        def inner(*args: Any, **kwargs: Any) -> Any:
             retry_count = 0
             current_try = 1
 
-            retry_delay = 0
-            time_waited = 0
+            retry_delay = 0.0
+            time_waited = 0.0
 
             while True:
                 try:
