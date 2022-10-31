@@ -3,7 +3,7 @@ from collections import Counter, defaultdict, OrderedDict
 from io import StringIO
 from textwrap import wrap
 from types import ModuleType
-from typing import Any, AnyStr, Callable, Dict, Generator, List, Optional, Sequence, Tuple, Type, Union, FrozenSet, Set, List, Tuple, Deque, Iterable
+from typing import Any, AnyStr, Callable, Dict, Generator, List, Optional, Sequence, Tuple, Type, Union, FrozenSet, Set, Deque, Iterable
 import inspect
 
 import pygments  # type: ignore

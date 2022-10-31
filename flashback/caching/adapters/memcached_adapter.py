@@ -25,7 +25,7 @@ class MemcachedAdapter(BaseAdapter):
 
         return self.store.set(key, value, expire=ttl)
 
-    def batch_set(self, keys: Sequence[Hashable], values: Sequence[Any], ttls: Sequence[int]) -> bool:
+    def batch_set(self, keys: Sequence[Hashable], values: Sequence[Any], ttls: Sequence[int]) -> bool:  # pylint: disable=too-many-locals
         # There's two reasons to recode pymemcache.set_multi():
         # - It returns a list of keys that failed to be inserted, and the base expects a boolean
         # - It only allows a unique ttl for all keys
@@ -38,7 +38,6 @@ class MemcachedAdapter(BaseAdapter):
             checked_ttl = self.store._check_integer(ttl, "expire")  # pylint: disable=protected-access
             checked_key = self.store.check_key(key)
             checked_value, checked_flags = self.store.serde.serialize(key, value)
-
 
             command = b"set " + checked_key
             command += b" " + str(checked_flags).encode(encoding)

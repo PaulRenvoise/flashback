@@ -7,7 +7,6 @@ Inspired by:
 - https://github.com/clips/pattern/blob/master/pattern/text/es/inflect.py
 """
 
-import regex
 import regex  # type: ignore
 
 

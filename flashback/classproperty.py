@@ -55,7 +55,7 @@ class classproperty:  # pylint: disable=invalid-name
     """
     meta = ClassPropertyMetaclass
 
-    def __init__(self, func_get: Union[classmethod, staticmethod, Callable], func_set: Union[None, classmethod, staticmethod, Callable] = None) -> None:
+    def __init__(self, func_get: Union[classmethod, staticmethod, Callable], func_set: Union[None, classmethod, staticmethod, Callable] = None) -> None:  # pylint: disable=line-too-long
         """
         Params:
             func_get: the getter to decorate

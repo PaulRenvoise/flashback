@@ -1,4 +1,4 @@
-from typing import Any, TextIO, Tuple, Union
+from typing import TextIO, Tuple, Union
 import sys
 
 from .parser import Parser
