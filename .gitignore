@@ -31,6 +31,7 @@ flashback.egg-info/*
 
 # Dependency-generated
 dump.rdb
+.mypy_cache/
 
 # Misc
 .python-version
