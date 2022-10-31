@@ -1,13 +1,13 @@
-from typing import Iterable
+from typing import Sequence
 
-import regex
+import regex  # type: ignore
 
 
 CRE_SNAKEIZE_CAPITAL_WORDS = regex.compile(r"([A-Z\d]+)([A-Z][a-z])")
 CRE_SNAKEIZE_LOWER_WORDS = regex.compile(r"([a-z\d])([A-Z])")
 CRE_SNAKEIZE_UNDERSCORES = regex.compile(r"(?<!^)_(?=_.)")
 
-def snakeize(text: str, acronyms: Iterable[str] = None) -> str:
+def snakeize(text: str, acronyms: Sequence[str] = None) -> str:
     """
     Transforms a text in any case to snake_case.
 

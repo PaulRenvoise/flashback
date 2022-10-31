@@ -7,7 +7,7 @@ Inspired by:
 - https://github.com/clips/pattern/blob/master/pattern/text/fr/inflect.py
 """
 
-import regex
+import regex  # type: ignore
 
 
 # Prepositions are used in compound words

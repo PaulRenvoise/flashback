@@ -1,6 +1,6 @@
 from typing import Callable, Dict, List, Optional, Set, Tuple
 
-import regex
+import regex  # type: ignore
 
 
 CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)  # pylint: disable=no-member

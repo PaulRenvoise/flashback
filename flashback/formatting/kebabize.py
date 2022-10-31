@@ -1,13 +1,13 @@
-from typing import Iterable
+from typing import Sequence
 
-import regex
+import regex  # type: ignore
 
 from .snakeize import snakeize
 
 
 CRE_KEBABIZE_UNDERSCORES = regex.compile(r"(?<!(?:^|_))_(?!(?:_|$))")
 
-def kebabize(text: str, acronyms: Iterable[str] = None) -> str:
+def kebabize(text: str, acronyms: Sequence[str] = None) -> str:
     """
     Transforms a text in any case to kebab-case.
 

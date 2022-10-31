@@ -8,6 +8,7 @@ Inspired by:
 """
 
 import regex
+import regex  # type: ignore
 
 
 # Prepositions are used in compound words

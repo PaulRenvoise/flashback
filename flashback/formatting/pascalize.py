@@ -1,13 +1,13 @@
-from typing import Iterable
+from typing import Sequence
 
-import regex
+import regex  # type: ignore
 
 from .camelize import camelize
 
 
 CRE_PASCALIZE = regex.compile(r"^(?:_{1,2}|)([a-z\d])(?:[a-z\d]+)")
 
-def pascalize(text: str, acronyms: Iterable[str] = None) -> str:
+def pascalize(text: str, acronyms: Sequence[str] = None) -> str:
     """
     Transforms a text in any case to PascalCase.
 

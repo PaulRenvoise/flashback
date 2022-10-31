@@ -1,4 +1,4 @@
-import regex
+import regex  # type: ignore
 
 from .transliterate import transliterate
 

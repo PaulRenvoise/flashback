@@ -1,13 +1,13 @@
-from typing import Iterable
+from typing import Sequence
 
-import regex
+import regex  # type: ignore
 
 from .snakeize import snakeize
 
 
 CRE_CAMELIZE = regex.compile(r"(?<!(?:^|-|_))[\-_](?![\-_])(.)", flags=regex.I)  # pylint: disable=no-member
 
-def camelize(text: str, acronyms: Iterable[str] = None) -> str:
+def camelize(text: str, acronyms: Sequence[str] = None) -> str:
     """
     Transforms a text in any case to camelCase.
 
