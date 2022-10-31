@@ -1,11 +1,12 @@
-import inspect
+from typing import Any, Callable
 import functools
+import inspect
 import logging
 
 from .cache import Cache
 
 
-def cached(adapter="memory", **kwargs):
+def cached(adapter: str = "memory", **kwargs: Any):
     """
     Caches the return of a callable under a type-aware key built with its arguments.
 
@@ -47,16 +48,20 @@ def cached(adapter="memory", **kwargs):
     """
     cache = Cache(adapter, **kwargs)
 
-    def wrapper(func):
+    def wrapper(func: Callable) -> Callable:
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we
         # decorate.
         # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
         # name, we receive the same logger, which "hides" this decorator as if the logging was
         # made from within the callable we decorate
-        logger = logging.getLogger(inspect.getmodule(func).__name__)
+        module = inspect.getmodule(func)
+        if module:
+            logger = logging.getLogger(module.__name__)
+        else:
+            logger = logging.getLogger()
 
         @functools.wraps(func)
-        def inner(*args, **kwargs):
+        def inner(*args: Any, **kwargs: Any):
             key = functools._make_key(args, kwargs, True)  # pylint: disable=protected-access
             value = cache.get(key)
 

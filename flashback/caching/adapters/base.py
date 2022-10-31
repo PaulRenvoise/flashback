@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any, Hashable, Literal, Optional, Sequence, Tuple
 
 
 class BaseAdapter(ABC):
@@ -6,50 +7,50 @@ class BaseAdapter(ABC):
     Defines an abstract class that needs to be implemented to register a new adapter.
     """
     @abstractmethod
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """
         Instanciates the adapter, without testing the connection (ping is used for that).
 
         Params:
-            kwargs (dict): every given keyword arguments
+            kwargs: every given keyword arguments
         """
 
     @abstractmethod
-    def set(self, key, value, ttl):
+    def set(self, key: Hashable, value: Any, ttl: int) -> bool:
         """
         Caches a `value` under a given `key`.
 
         Params:
-            key (str): the key under which to cache the value
-            value (str): the value to cache
-            ttl (int): the number of seconds before expiring the key
+            key: the key under which to cache the value
+            value: the value to cache
+            ttl: the number of seconds before expiring the key
 
         Returns:
-            bool: whether or not the operation succeeded
+            whether or not the operation succeeded
 
         Raises:
             Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
-    def batch_set(self, keys, values, ttls):
+    def batch_set(self, keys: Sequence[Hashable], values: Sequence[Any], ttls: Sequence[int]) -> bool:
         """
         Caches each value from a list of `values` to its respective key in a list of `keys`.
 
         Params:
-            keys (Iterable<str>): the keys under which to cache the values
-            values (Iterable<str>): the values to cache
-            ttls (Iterable<int>): the number of seconds before expiring the keys
+            keys: the keys under which to cache the values
+            values: the values to cache
+            ttls: the number of seconds before expiring the keys
 
         Returns:
-            bool: whether or not the operation succeeded
+            whether or not the operation succeeded
 
         Raises:
             Base.connection_exceptions: if no connection to the underlying storage is active
         """
 
     @abstractmethod
-    def get(self, key):
+    def get(self, key: Hashable) -> Optional[Any]:
         """
         Fetches the value stored under `key`.
 
@@ -64,7 +65,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def batch_get(self, keys):
+    def batch_get(self, keys: Sequence[Hashable]) -> Sequence[Optional[Any]]:
         """
         Fetches each value stored under its respective key in a list of `keys`.
 
@@ -79,7 +80,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def delete(self, key):
+    def delete(self, key: Hashable) -> bool:
         """
         Removes the given cache `key`.
 
@@ -94,7 +95,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def batch_delete(self, keys):
+    def batch_delete(self, keys: Sequence[Hashable]) -> bool:
         """
         Removes the cache of a given list of `keys`, ignores non-existing keys.
 
@@ -109,7 +110,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def exists(self, key):
+    def exists(self, key: Hashable) -> bool:
         """
         Checks the existence of a given `key` in the storage.
 
@@ -124,7 +125,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def flush(self):
+    def flush(self) -> Literal[True]:
         """
         Flushes all keys and values from the adapter's storage.
 
@@ -136,7 +137,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def ping(self):
+    def ping(self) -> Literal[True]:
         """
         Checks if a valid connection is setup with the underlying storage.
 
@@ -149,7 +150,7 @@ class BaseAdapter(ABC):
 
     @property
     @abstractmethod
-    def connection_exceptions(self):
+    def connection_exceptions(self) -> Tuple[Exception, ...]:
         """
         Lists the exceptions raised by the adapter when a faulty/invalid connection is detected.
 
