@@ -1,7 +1,9 @@
-import inspect
 from importlib import util, import_module
+from types import ModuleType
+from typing import Dict
+import inspect
 
-import regex
+import regex  # type: ignore
 
 from ..debugging import get_frameinfo
 
@@ -24,7 +26,7 @@ class Locale:
         assert locale is not None
         ```
     """
-    __cache = {}
+    __cache: Dict[str, ModuleType] = {}
     CRE_LOCALE = regex.compile(r"""
             ^
             (?P<language>
@@ -51,7 +53,7 @@ class Locale:
         """, regex.I + regex.X)  # pylint: disable=no-member
 
     @classmethod
-    def load(cls, locale, path):
+    def load(cls, locale: str, path: str) -> ModuleType:
         """
         Loads a `locale` definition from a package `path` and exposes its contents.
 
@@ -83,11 +85,11 @@ class Locale:
             ```
 
         Params:
-            locale (str): the given locale
-            path (str): the path in which to find the locale definition
+            locale: the given locale
+            path: the path in which to find the locale definition
 
         Returns:
-            Module: the content of the loaded locale
+            the content of the loaded locale
 
         Raises:
             NotImplementedError: if the given locale implementation is not found
@@ -98,7 +100,10 @@ class Locale:
 
         if path.startswith("."):
             caller_module = inspect.getmodule(get_frameinfo(1).frame)
-            caller_package = caller_module.__package__
+            if caller_module:
+                caller_package = caller_module.__package__
+            else:
+                caller_package = '.'
 
             module_path = util.resolve_name(path, caller_package)
         else:
@@ -125,7 +130,7 @@ class Locale:
         raise NotImplementedError(f"locale {locale!r} is not implemented in {module_path}")
 
     @classmethod
-    def simplify(cls, locale):
+    def simplify(cls, locale: str) -> str:
         """
         Returns a simplified locale code for the given `locale`.
 
@@ -152,10 +157,10 @@ class Locale:
             ```
 
         Params:
-            locale (str): the non-normalized locale string
+            locale: the non-normalized locale string
 
         Returns:
-            str: the lowercased locale containing at least the language
+            the lowercased locale containing at least the language
         """
         match = cls.CRE_LOCALE.match(locale)
         if not match:
