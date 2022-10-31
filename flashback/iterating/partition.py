@@ -1,4 +1,7 @@
-def partition(predicate, iterable):
+from typing import Any, Callable, Iterable, Tuple
+
+
+def partition(predicate: Callable, iterable: Iterable[Any]) -> Tuple[Tuple[Any, ...], Tuple[Any, ...]]:
     """
     Splits an `iterable` into two lists containing items that validate or not the given
     `predicate`.
@@ -16,11 +19,11 @@ def partition(predicate, iterable):
         ```
 
     Params:
-        predicate (lambda): the lambda to apply on each item of `iterable`
-        iterable (Iterable<Any>): the iterable to partition
+        predicate: the lambda to apply on each item of `iterable`
+        iterable: the iterable to partition
 
     Returns:
-        tuple<tuple<Any>>: the iterable's items separated depending on `predicate`
+        the iterable's items separated depending on `predicate`
     """
     trues = []
     falses = []

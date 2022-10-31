@@ -1,4 +1,7 @@
-def flatten(iterable):
+from typing import Any, Iterable, Tuple
+
+
+def flatten(iterable: Iterable[Any]) -> Tuple[Any, ...]:
     """
     Unpacks nested iterables into the root `iterable`.
 

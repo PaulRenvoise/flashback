@@ -1,4 +1,7 @@
-def uniq(iterable):
+from typing import Any, Iterable, Tuple
+
+
+def uniq(iterable: Iterable[Any]) -> Tuple[Any, ...]:
     """
     Removes duplicates items from `iterable` while keeping their order.
 
@@ -18,10 +21,10 @@ def uniq(iterable):
         ```
 
     Params:
-        iterable (Iterable<Any>): the iterable to remove duplicates from
+        iterable: the iterable to remove duplicates from
 
     Returns:
-        tuple<Any>: the iterable without duplicates
+        the iterable without duplicates
     """
     unique = []
     seen = set()

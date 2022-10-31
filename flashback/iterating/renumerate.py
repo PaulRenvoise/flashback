@@ -1,6 +1,9 @@
-def renumerate(iterable):
+from typing import Any, Sequence
+
+
+def renumerate(sequence: Sequence[Any]) -> zip:
     """
-    Enumerates an `iterable` starting from the end.
+    Enumerates an `sequence` starting from the end.
 
     Examples:
         ```python
@@ -20,9 +23,9 @@ def renumerate(iterable):
         ```
 
     Params:
-        iterable (Iterable<Any>): the list to reverse and enumerate
+        sequence: the list to reverse and enumerate
 
     Returns:
-        Iterator: the iterator containing the reversed enumeration
+        the iterator containing the reversed enumeration
     """
-    return zip(range(len(iterable) - 1, -1, -1), reversed(iterable))
+    return zip(range(len(sequence) - 1, -1, -1), reversed(sequence))
