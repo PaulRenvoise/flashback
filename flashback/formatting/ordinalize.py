@@ -1,4 +1,4 @@
-def ordinalize(number):
+def ordinalize(number: int) -> str:
     """
     Transforms a number to its ordinal representation.
 
@@ -19,10 +19,10 @@ def ordinalize(number):
         ```
 
     Params:
-        number (int): the number to transform to an ordinal number
+        number: the number to transform to an ordinal number
 
     Returns:
-        str: the number with the correct ordinal suffix
+        the number with the correct ordinal suffix
     """
     number = int(number)
 

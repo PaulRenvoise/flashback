@@ -1,9 +1,11 @@
+from typing import Callable, Dict, List, Optional, Set, Tuple
+
 import regex
 
 
 CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)  # pylint: disable=no-member
 
-def _inflect(word, rules, categories, prepositions, base_case=str.lower):
+def _inflect(word: str, rules: List[Tuple[Tuple[regex.Pattern, str, Optional[str]]]], categories: Dict[str, Set[str]], prepositions: Set[str], base_case: Callable = str.lower) ->  str:
     word = base_case(str(word))
 
     if CRE_INFLECT_ONLY_PUNCT_SYM_NUM.search(word):

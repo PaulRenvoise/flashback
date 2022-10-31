@@ -1,4 +1,4 @@
-def adverbize(number):
+def adverbize(number: int) -> str:
     """
     Transforms a number to its numeral adverb representation.
 
@@ -19,10 +19,10 @@ def adverbize(number):
         ```
 
     Params:
-        number (int): the number for transform to a numeral adverb
+        number: the number for transform to a numeral adverb
 
     Returns:
-        str: the numeral adverb
+        the numeral adverb
     """
     number = int(number)
 

@@ -1,4 +1,7 @@
-def oxford_join(iterable, sep=", ", couple_sep=" and ", last_sep=", and ", quotes=False):
+from typing import Sequence
+
+
+def oxford_join(sequence: Sequence[str], sep: str = ", ", couple_sep: str = " and ", last_sep: str = ", and ", quotes: bool = False) -> str:
     """
     Joins a list of string to a comma-separated sentence in a more english fashion than the
     builtin `.join()`.
@@ -18,29 +21,29 @@ def oxford_join(iterable, sep=", ", couple_sep=" and ", last_sep=", and ", quote
         ```
 
     Params:
-        iterable (Iterable<Any>): the sequence holding the items to join
-        sep (str): the separator used when there is more than two items in the iterable
-        couple_sep (str): the separator to use if there is only two items in the iterable
-        last_sep (str): the separator to use for the last two items of the iterable
-        quotes (bool): whether or not to add quotes around each item of the iterable
+        sequence: the sequence holding the items to join
+        sep: the separator used when there is more than two items in the sequence
+        couple_sep: the separator to use if there is only two items in the sequence
+        last_sep: the separator to use for the last two items of the sequence
+        quotes: whether or not to add quotes around each item of the sequence
 
     Returns:
-        str: the joined strings
+        the joined strings
     """
-    if len(iterable) == 0:
+    if len(sequence) == 0:
         return ""
 
     if quotes:
-        iterable = [f"\"{item}\"" for item in iterable]
+        sequence = [f"\"{item}\"" for item in sequence]
     else:
-        iterable = [str(item) for item in iterable]
+        sequence = [str(item) for item in sequence]
 
-    if len(iterable) == 1:
-        return iterable[0]
+    if len(sequence) == 1:
+        return sequence[0]
 
-    if len(iterable) == 2:
-        return couple_sep.join(iterable)
+    if len(sequence) == 2:
+        return couple_sep.join(sequence)
 
-    enumeration = sep.join(iterable[:-1])
+    enumeration = sep.join(sequence[:-1])
 
-    return f"{enumeration}{last_sep}{iterable[-1]}"
+    return f"{enumeration}{last_sep}{sequence[-1]}"

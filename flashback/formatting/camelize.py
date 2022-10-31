@@ -1,3 +1,5 @@
+from typing import Iterable
+
 import regex
 
 from .snakeize import snakeize
@@ -5,7 +7,7 @@ from .snakeize import snakeize
 
 CRE_CAMELIZE = regex.compile(r"(?<!(?:^|-|_))[\-_](?![\-_])(.)", flags=regex.I)  # pylint: disable=no-member
 
-def camelize(text, acronyms=None):
+def camelize(text: str, acronyms: Iterable[str] = None) -> str:
     """
     Transforms a text in any case to camelCase.
 
@@ -32,11 +34,11 @@ def camelize(text, acronyms=None):
         ```
 
     Params:
-        text (str): the text to transform into camelCase
-        acronyms (Iterable): a list of correctly cased acronyms to retain and case correctly
+        text: the text to transform into camelCase
+        acronyms: a list of correctly cased acronyms to retain and case correctly
 
     Returns:
-        str: the camel cased text
+        the camel cased text
     """
     text = snakeize(text, acronyms=acronyms)
 

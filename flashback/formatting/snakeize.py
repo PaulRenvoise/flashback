@@ -1,3 +1,5 @@
+from typing import Iterable
+
 import regex
 
 
@@ -5,7 +7,7 @@ CRE_SNAKEIZE_CAPITAL_WORDS = regex.compile(r"([A-Z\d]+)([A-Z][a-z])")
 CRE_SNAKEIZE_LOWER_WORDS = regex.compile(r"([a-z\d])([A-Z])")
 CRE_SNAKEIZE_UNDERSCORES = regex.compile(r"(?<!^)_(?=_.)")
 
-def snakeize(text, acronyms=None):
+def snakeize(text: str, acronyms: Iterable[str] = None) -> str:
     """
     Transforms a text in any case to snake_case.
 
@@ -33,11 +35,11 @@ def snakeize(text, acronyms=None):
         ```
 
     Params:
-        text (str): the text to transform into snake_case
-        acronyms (Iterable): a list of acronyms to treat as non-delimited single lowercase words
+        text: the text to transform into snake_case
+        acronyms: a list of acronyms to treat as non-delimited single lowercase words
 
     Returns:
-        str: the snake cased text
+        the snake cased text
     """
     text = str(text)
 

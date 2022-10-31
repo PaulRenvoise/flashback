@@ -2,7 +2,7 @@ from ..i16g import Locale
 from ._inflect import _inflect
 
 
-def pluralize(word, language="en"):
+def pluralize(word: str, language: str = "en") -> str:
     """
     Returns the plural form of the given word.
 
@@ -21,11 +21,11 @@ def pluralize(word, language="en"):
         ```
 
     Params:
-        word (str): the word to pluralize
-        language (str): the language to use to pluralize the word (ISO 639-1)
+        word: the word to pluralize
+        language: the language to use to pluralize the word (ISO 639-1)
 
     Returns:
-        str: the pluralized word
+        the pluralized word
     """
     locale = Locale.load(language, path=".locales")
 

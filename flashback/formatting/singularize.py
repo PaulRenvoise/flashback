@@ -2,7 +2,7 @@ from ..i16g import Locale
 from ._inflect import _inflect
 
 
-def singularize(word, language="en"):
+def singularize(word: str, language: str = "en"):
     """
     Returns the singular form of the given word.
 
@@ -21,11 +21,11 @@ def singularize(word, language="en"):
         ```
 
     Params:
-        word (str): the word to singularize
-        language (str): the language to use to singularize the word (ISO 639-1)
+        word: the word to singularize
+        language: the language to use to singularize the word (ISO 639-1)
 
     Returns:
-        str: the singularized word
+        the singularized word
     """
     locale = Locale.load(language, path=".locales")
 
