@@ -1,8 +1,10 @@
-from redis import Redis
-from redis.exceptions import ConnectionError as RedisConnectionError
-from redis.exceptions import ResponseError
-from redis.exceptions import TimeoutError as RedisTimeoutError
 from typing import Any, Hashable, Literal, Optional, Sequence, Tuple
+
+from redis import Redis  # type: ignore
+from redis.exceptions import *  # pylint: disable=unused-wildcard-import,wildcard-import
+from redis.exceptions import ConnectionError as RedisConnectionError  # type: ignore
+from redis.exceptions import ResponseError  # type: ignore
+from redis.exceptions import TimeoutError as RedisTimeoutError  # type: ignore
 
 from .base import BaseAdapter
 

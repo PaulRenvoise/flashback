@@ -1,7 +1,8 @@
 from typing import Any, Hashable, Literal, Optional, Sequence, Tuple
 
-from pymemcache.client.base import Client
-from pymemcache.exceptions import MemcacheUnexpectedCloseError, MemcacheServerError, MemcacheUnknownError
+from pymemcache.client.base import Client  # type: ignore
+from pymemcache.exceptions import MemcacheUnexpectedCloseError, MemcacheServerError, MemcacheUnknownError  # type: ignore
+from pymemcache.exceptions import *  # pylint: disable=unused-wildcard-import,wildcard-import
 
 from .base import BaseAdapter
 
@@ -34,15 +35,16 @@ class MemcachedAdapter(BaseAdapter):
 
         ttls = [0 if ttl == -1 else ttl for ttl in ttls]
         for key, value, ttl in zip(keys, values, ttls):
-            ttl = self.store._check_integer(ttl, "expire")  # pylint: disable=protected-access
-            key = self.store.check_key(key)
-            value, flags = self.store.serde.serialize(key, value)
+            checked_ttl = self.store._check_integer(ttl, "expire")  # pylint: disable=protected-access
+            checked_key = self.store.check_key(key)
+            checked_value, checked_flags = self.store.serde.serialize(key, value)
 
-            command = b"set " + str(key).encode(encoding)
-            command += b" " + str(flags).encode(encoding)
-            command += b" " + str(ttl).encode(encoding)
-            command += b" " + str(len(value)).encode(encoding) + b"\r\n"
-            command += value.encode(encoding) + b"\r\n"
+
+            command = b"set " + checked_key
+            command += b" " + str(checked_flags).encode(encoding)
+            command += b" " + checked_ttl
+            command += b" " + str(len(checked_value)).encode(encoding) + b"\r\n"
+            command += checked_value.encode(encoding) + b"\r\n"
             commands.append(command)
 
         results = self.store._misc_cmd(commands, "set", False)  # pylint: disable=protected-access
@@ -71,12 +73,10 @@ class MemcachedAdapter(BaseAdapter):
         # Here as well, pymemcache.delete_multi() always returns True
         commands = []
 
-        encoding = self.store.encoding
-
         for key in keys:
-            key = self.store.check_key(key)
+            checked_key = self.store.check_key(key)
 
-            command = b"delete " + str(key).encode(encoding) +  b"\r\n"
+            command = b"delete " + checked_key +  b"\r\n"
             commands.append(command)
 
         results = self.store._misc_cmd(commands, "delete", False)  # pylint: disable=protected-access

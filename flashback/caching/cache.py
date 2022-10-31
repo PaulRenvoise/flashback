@@ -361,5 +361,7 @@ class Cache:
         # We do not check if isinstance since bool is a subclass of int
         if type(value) in {int, float, complex}:  # pylint: disable=unidiomatic-typecheck
             str_value = repr(value)
+        else:
+            str_value = value
 
         return str_value
