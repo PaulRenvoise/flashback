@@ -1,3 +1,4 @@
+from typing import Any, TextIO, Tuple, Union
 import sys
 
 from .parser import Parser
@@ -7,7 +8,7 @@ from .formatter import Formatter
 PARSER = Parser()
 FORMATTER = Formatter()
 
-def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
+def xp(*arguments: str, o: TextIO = sys.stderr, f: bool = True, w: int = 120) -> Union[None, str, Tuple[str, ...]]:  # pylint: disable=invalid-name
     """
     Provides a simple and concise way of printing for debugging purposes.
 
@@ -79,11 +80,11 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
     print(output, file=o, flush=f)
 
     # Forwards the arguments received to the (possible) next operation
-    if len(arguments) == 0:
-        result = None
-    elif len(arguments) == 1:
+    result: Union[None, str, Tuple[str, ...]] = None
+
+    if len(arguments) == 1:
         result = arguments[0]
-    else:
+    elif len(arguments) > 1:
         result = arguments
 
     return result

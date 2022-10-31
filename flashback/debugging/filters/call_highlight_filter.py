@@ -1,5 +1,8 @@
-from pygments.filters import Filter
-from pygments.token import Name
+from typing import Any, Generator, Tuple
+
+import pygments  # type: ignore
+from pygments.filters import Filter  # type: ignore
+from pygments.token import Name  # type: ignore
 
 
 class CallHighlightFilter(Filter):
@@ -7,14 +10,14 @@ class CallHighlightFilter(Filter):
     Modifies the token type of a Name to Name.Function if its value is followed by an opening
     parenthesis.
     """
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """
         Params:
-            kwargs (dict): every additional keyword parameters
+            kwargs: every additional keyword parameters
         """
         Filter.__init__(self, **kwargs)
 
-    def filter(self, lexer, stream):
+    def filter(self, lexer: pygments.lexer.Lexer, stream: Generator) -> Generator[Tuple[pygments.token._TokenType, str], None, None]:
         """
         Iterates over the stream of tokens and searches for a name followed by an opening paren to
         change its type to Name.Function.
@@ -30,11 +33,11 @@ class CallHighlightFilter(Filter):
         the stack.
 
         Params:
-            lexer (pygments.lexer.Lexer): the lexer instance
-            stream (generator): the stream of couples tokentype-value
+            lexer: the lexer instance
+            stream: the stream of couples tokentype-value
 
         Yields:
-            tuple<pygments.token._TokenType, str>: the token type and token value
+            the token type and token value
         """
         try:
             stack = [next(stream)]

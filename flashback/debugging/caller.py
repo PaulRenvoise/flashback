@@ -1,3 +1,4 @@
+from typing import Callable, Optional, TextIO
 import inspect
 import os
 import sys
@@ -11,7 +12,7 @@ from .get_frameinfo import get_frameinfo
 ANSI_DIM_START = "\x1b[2m"
 ANSI_DIM_END = "\x1b[0m"
 
-def caller(depth=2, context=5, output=sys.stderr):
+def caller(depth: int = 2, context: int = 5, output: TextIO = sys.stderr) -> Optional[Callable]:
     """
     Prints debug information about the caller of the current callable being executed, and returns
     the caller object if found.
@@ -53,11 +54,11 @@ def caller(depth=2, context=5, output=sys.stderr):
         ```
 
     Params:
-        depth (int): the depth to go back in the stack
-        context (int): the number of context lines around the call made to the callable to take
+        depth: the depth to go back in the stack
+        context: the number of context lines around the call made to the callable to take
 
     Returns:
-        Callable|None: the callable calling if found
+        the callable calling if found
     """
     try:
         frameinfo = get_frameinfo(depth)
@@ -85,7 +86,7 @@ def caller(depth=2, context=5, output=sys.stderr):
 
     formatter = Formatter()
     print(f"Called by '{module_name}.{function_name}' ({filename}:{lineno}):", file=output)
-    if call_context:
+    if call_context and call_context_lineno and call_boundaries:
         code = formatter.format_code(call_context, start_lineno=call_context_lineno, highlight=call_boundaries)
 
         print(code, file=output)

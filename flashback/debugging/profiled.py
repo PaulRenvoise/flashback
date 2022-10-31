@@ -1,8 +1,9 @@
+from typing import Any, Callable
 import cProfile
 import functools
 
 
-def profiled(output=None):
+def profiled(output: str = None) -> Callable:
     """
     Profiles a call made to a callable and dump the stats to a file for further analysis.
 
@@ -51,14 +52,14 @@ def profiled(output=None):
         ```
 
     Params:
-        output (str): the output to write the stats to
+        output: the output to write the stats to
 
     Returns:
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
-    def wrapper(func):
+    def wrapper(func: Callable):
         @functools.wraps(func)
-        def inner(*args, **kwargs):
+        def inner(*args: Any, **kwargs: Any):
             profiler = cProfile.Profile()
 
             result = profiler.runcall(func, *args, **kwargs)
