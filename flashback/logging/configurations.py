@@ -21,7 +21,11 @@ import inspect
 from ..debugging import get_frameinfo
 
 try:
-    IMPORTER = inspect.getmodule(get_frameinfo(12).frame).__package__ or None
+    module  = inspect.getmodule(get_frameinfo(12).frame)
+    if module:
+        IMPORTER = module.__package__ or None
+    else:
+        IMPORTER = None
 except (IndexError, AttributeError):
     IMPORTER = None
 

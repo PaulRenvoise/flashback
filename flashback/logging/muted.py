@@ -1,9 +1,10 @@
+from logging import getLogger, Logger
+from typing import Any, Callable, Iterable
 import functools
 import logging
-from logging import getLogger, Logger
 
 
-def muted(loggers=None):
+def muted(loggers: Iterable[str] = None) -> Callable:
     """
     Mutes all (or selected) loggers while executing a callable.
 
@@ -51,17 +52,17 @@ def muted(loggers=None):
         ```
 
     Params:
-        loggers (Iterable<str|logging.Logger>): the list of logger names or instances to mute
+        loggers: the list of logger names or instances to mute
 
     Returns:
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
-    def wrapper(func):
+    def wrapper(func: Callable) -> Callable:
         def _filter(_record):
             return False
 
         @functools.wraps(func)
-        def inner(*args, **kwargs):
+        def inner(*args: Any, **kwargs: Any) -> Any:
             # Selects all loggers at each call to func because loggers can be created between calls
             if loggers is None:
                 selected_loggers = [getLogger(logger) for logger in logging.root.manager.loggerDict] + [logging.root] # pylint: disable=no-member
