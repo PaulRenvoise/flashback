@@ -1,4 +1,7 @@
-def dig(dictionary, *keys):
+from typing import Any, Hashable, Optional
+
+
+def dig(dictionary: dict, *keys: Hashable) -> Optional[Any]:
     """
     Retrieves the value corresponding to each `keys` repeatedly from `dictionary`.
 
@@ -14,11 +17,11 @@ def dig(dictionary, *keys):
         ```
 
     Params:
-        dictionary (dict): the dict to fetch the value from
-        keys (tuple<str>): the consecutive keys to access
+        dictionary: the dict to fetch the value from
+        keys: the consecutive keys to access
 
     Returns:
-        Any|None: the final value
+        the final value or None
     """
     for key in keys[:-1]:
         # Handles when key does not exist
