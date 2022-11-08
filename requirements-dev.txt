@@ -1,6 +1,6 @@
 # Documentation
-mkdocs-material~=8.2.15
-mkdocstrings~=0.18.1
+mkdocs-material~=8.5.8
+mkdocstrings~=0.19.0
 mkdocs-coverage~=0.2.5
 
 -r requirements-test.txt
