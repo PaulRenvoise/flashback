@@ -3,6 +3,7 @@
 ## 1.3.3 (08/11/2022)
 
 - Updated dependencies
+- Added python 3.11 in the CI tests
 
 ## 1.3.2 (02/04/2022)
 
