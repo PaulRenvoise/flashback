@@ -1,4 +1,4 @@
-# pylint: disable=redefined-outer-name,invalid-name
+# pylint: disable=redefined-outer-name,invalid-name,disable=comparison-of-constants
 
 import sys
 
@@ -72,7 +72,7 @@ class TestParser:
         a = {"a": 1, "b": 2, "c": 3}
         b = [i + 1 for i in range(3)]
 
-        _, _, parsed_arguments, _ = parser.parse(a["a"], b, mock_function(1, 2), "a" if a else "b", 1 != 0)  # pylint: disable=comparison-of-constants
+        _, _, parsed_arguments, _ = parser.parse(a["a"], b, mock_function(1, 2), "a" if a else "b", 1 != 0)
 
         assert parsed_arguments == [
             ("a[\"a\"]", 1),
