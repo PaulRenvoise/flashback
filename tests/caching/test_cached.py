@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,no-member,protected-access
+# pylint: disable=no-member,protected-access
 
 from mock import patch
 from mockredis import mock_redis_client

@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,no-member,protected-access,redefined-outer-name
+# pylint: disable=no-member,protected-access,redefined-outer-name
 
 import time
 
@@ -9,7 +9,7 @@ from flashback import sampled
 
 
 def dummy_func(spy):
-    spy.__call__()
+    spy()
 
 
 @pytest.fixture

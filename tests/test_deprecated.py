@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,no-member,protected-access
+# pylint: disable=no-member,protected-access
 
 import warnings
 
@@ -9,7 +9,7 @@ from flashback import deprecated
 
 
 def dummy_func(spy):
-    spy.__call__()
+    spy()
 
 
 @pytest.fixture(autouse=True)

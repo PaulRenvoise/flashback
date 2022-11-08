@@ -1,5 +1,3 @@
-# pylint: disable=no-self-use
-
 import pytest
 from mock import patch
 

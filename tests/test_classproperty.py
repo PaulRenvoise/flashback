@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,no-member,protected-access,no-self-argument
+# pylint: disable=no-member,protected-access,no-self-argument
 
 import pytest
 

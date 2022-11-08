@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,redefined-outer-name
+# pylint: disable=redefined-outer-name
 
 from flashback.debugging import get_callable, get_frameinfo
 
@@ -33,7 +33,7 @@ class DummyClass():
         return get_frameinfo()
 
 
-dummy_lambda = lambda: get_frameinfo()  # pylint: disable=unnecessary-lambda
+dummy_lambda = lambda: get_frameinfo()  # pylint: disable=unnecessary-lambda,unnecessary-lambda-assignment
 
 
 class TestGetCallable:

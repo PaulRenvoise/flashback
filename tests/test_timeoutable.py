@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,no-member,protected-access
+# pylint: disable=no-member,protected-access
 
 import time
 
@@ -10,7 +10,7 @@ from flashback import timeoutable
 
 def dummy_func(spy):
     time.sleep(2)
-    spy.__call__()
+    spy()
 
 
 class TestTimeoutable:
