@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,redefined-outer-name,too-many-public-methods
+# pylint: disable=redefined-outer-name,too-many-public-methods
 
 import pytest
 

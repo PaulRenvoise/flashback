@@ -1,5 +1,3 @@
-# pylint: disable=no-self-use
-
 import io
 import logging
 import logging.config

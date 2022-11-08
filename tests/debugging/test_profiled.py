@@ -1,5 +1,3 @@
-# pylint: disable=no-self-use
-
 import os
 
 from flashback.debugging import profiled

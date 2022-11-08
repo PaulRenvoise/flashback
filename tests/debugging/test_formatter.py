@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,redefined-outer-name,too-many-public-methods,too-many-lines
+# pylint: disable=redefined-outer-name,too-many-public-methods,too-many-lines
 
 import collections
 

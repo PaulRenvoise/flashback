@@ -1,5 +1,3 @@
-# pylint: disable=no-self-use
-
 from flashback.iterating import renumerate
 
 

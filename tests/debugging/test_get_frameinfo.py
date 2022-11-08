@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,redefined-outer-name
+# pylint: disable=redefined-outer-name
 
 import pytest
 from mock import patch

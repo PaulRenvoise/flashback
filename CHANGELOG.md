@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.3 (08/11/2022)
+
+- Updated dependencies
+
 ## 1.3.2 (02/04/2022)
 
 - Fixed `accessing/dig` to handle cases where the value is `None`

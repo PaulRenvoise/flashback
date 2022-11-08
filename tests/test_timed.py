@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,no-member,protected-access
+# pylint: disable=no-member,protected-access
 
 import time
 
@@ -8,7 +8,7 @@ from flashback import timed
 
 
 def dummy_func(spy):
-    spy.__call__()
+    spy()
     time.sleep(1)
 
 
