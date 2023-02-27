@@ -1,6 +1,6 @@
 # Caching
 redis==4.5.1
-pymemcache==4.0.0
+pymemcache==3.5.2
 
 # Utils
 regex==2022.10.31
