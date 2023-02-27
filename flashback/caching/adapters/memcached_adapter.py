@@ -31,7 +31,7 @@ class MemcachedAdapter(BaseAdapter):
         ttls = [0 if ttl == -1 else ttl for ttl in ttls]
         for key, value, ttl in zip(keys, values, ttls):
             ttl = self.store._check_integer(ttl, "expire")  # pylint: disable=protected-access
-            key = self.store.check_key(key)
+            key = self.store.check_key(key, b"")
             value, flags = self.store.serde.serialize(key, value)
 
             command = b"set " + key
@@ -68,7 +68,7 @@ class MemcachedAdapter(BaseAdapter):
         commands = []
 
         for key in keys:
-            key = self.store.check_key(key)
+            key = self.store.check_key(key, b"")
 
             command = b"delete " + key +  b"\r\n"
             commands.append(command)
