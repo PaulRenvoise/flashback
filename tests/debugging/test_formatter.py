@@ -443,7 +443,7 @@ class TestFormatter:
 
     def test_nested_dict(self, formatter):
         arguments = [
-            (None, dict(a=1, b=dict(a=1, b=2, c=dict(a=1, b=2, c=3)), c=3))
+            (None, {"a": 1, "b": {"a": 1, "b": 2, "c": {"a": 1, "b": 2, "c": 3}}, "c": 3})
         ]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
