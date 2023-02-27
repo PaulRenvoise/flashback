@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.4 (27/02/2023)
+
+- Updated dependencies
+
 ## 1.3.3 (08/11/2022)
 
 - Updated dependencies

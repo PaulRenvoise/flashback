@@ -42,8 +42,8 @@ class Singleton(type):
         assert logger_1 != loose_logger_1
         ```
     """
-    def __new__(cls, name, bases, namespace, **_kwargs):
-        return super().__new__(cls, name, bases, namespace)
+    def __new__(mcs, name, bases, namespace, **_kwargs):
+        return super().__new__(mcs, name, bases, namespace)
 
     def __init__(cls, name, bases, attributes, strict=True):
         """
