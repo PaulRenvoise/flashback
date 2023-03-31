@@ -1,5 +1,5 @@
 # Caching
-redis==4.3.5
+redis==4.4.4
 pymemcache==3.5.2
 
 # Utils
