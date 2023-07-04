@@ -1,9 +1,10 @@
 # Changelog
 
-## 1.4.1 (04/07/2023)
+## 1.4.2 (04/07/2023)
 
 - Updated dependencies
 - Updated github actions
+- Updated pypi upload
 
 ## 1.3.5 (27/02/2023)
 

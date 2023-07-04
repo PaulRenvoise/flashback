@@ -69,7 +69,7 @@ setup(
 
     install_requires=read_requirements_file("requirements.txt"),
     tests_require=read_requirements_file("requirements-test.txt"),
-    python_requires=">=3.7.*",
+    python_requires=">=3.7",
     setup_requires=["pytest-runner"],
 
     test_suite="tests",
