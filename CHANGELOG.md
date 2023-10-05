@@ -1,7 +1,9 @@
 # Changelog
 
-## 1.4.3 (05/10/2023)
+## 2.0.0 (05/10/2023)
 
+- Dropped support for Python 3.7
+- Added python 3.11 in the CI tests
 - Updated dependencies
 
 ## 1.4.2 (04/07/2023)

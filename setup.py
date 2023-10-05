@@ -55,10 +55,11 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Unix",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: Implementation :: CPython",
         "Topic :: Software Development :: Libraries :: Python Modules",
@@ -69,7 +70,7 @@ setup(
 
     install_requires=read_requirements_file("requirements.txt"),
     tests_require=read_requirements_file("requirements-test.txt"),
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     setup_requires=["pytest-runner"],
 
     test_suite="tests",
