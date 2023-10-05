@@ -1,6 +1,6 @@
 # Documentation
-mkdocs-material==9.1.18
-mkdocstrings==0.22.0
-mkdocs-coverage==0.2.7
+mkdocs-material==9.4.3
+mkdocstrings==0.23.0
+mkdocs-coverage==1.0.0
 
 -r requirements-test.txt
