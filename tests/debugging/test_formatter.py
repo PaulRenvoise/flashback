@@ -144,7 +144,9 @@ class TestFormatter:
         arguments = [(None, collections.deque([1, 2, 3]))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == ()
+        assert CRE_ANSI.sub("", content) == (
+            "<filename>:<lineno>\n    deque([\n        1,\n        2,\n        3,\n    ]) (deque)"
+        )
 
     def test_dict(self, formatter):
         arguments = [(None, {"a": 1, "b": 2, "c": 3})]

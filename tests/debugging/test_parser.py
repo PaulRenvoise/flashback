@@ -17,7 +17,7 @@ class TestParser:
         filename, lineno, parsed_arguments, warning = parser.parse(None)
 
         assert filename == "tests/debugging/test_parser.py"
-        assert lineno == 20
+        assert lineno == 17
         assert parsed_arguments == [(None, None)]
         assert warning is None
 

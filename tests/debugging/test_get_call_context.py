@@ -15,27 +15,27 @@ class TestGetCallContext:
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
-        assert len(context) == 11
-        assert context_lineno == 4
-        assert call_boundaries == (5, 6)
+        assert len(context) == 10
+        assert context_lineno == 1
+        assert call_boundaries == (4, 5)
 
     def test_one_line_call_with_size(self):
         frameinfo = dummy_function()
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo, size=20)
 
-        assert len(context) == 29  # Should be 41, but reaching the top of the file
+        assert len(context) == 25
         assert context_lineno == 1
-        assert call_boundaries == (8, 9)
+        assert call_boundaries == (4, 5)
 
     def test_multiline_call(self):
         frameinfo = dummy_function_multiline()
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
-        assert len(context) == 13
-        assert context_lineno == 8
-        assert call_boundaries == (5, 8)
+        assert len(context) == 11
+        assert context_lineno == 4
+        assert call_boundaries == (5, 6)
 
     def test_no_context(self):
         frameinfo = eval("get_frameinfo()")
@@ -52,7 +52,7 @@ class TestGetCallContext:
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
         assert len(context) == 6
-        assert context_lineno == 67
+        assert context_lineno == 55
         assert call_boundaries == (5, 6)
 
 

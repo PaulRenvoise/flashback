@@ -131,42 +131,17 @@ class Parser:
 
     @staticmethod
     def _get_arguments_positions(call_node, code_lines):
-        # This whole method exist only because before python 3.8.0, the
-        # end_lineno and end_col_offset attribute are not given for all ast nodes (https://bugs.python.org/issue33416),
-        # so finding the position of a given argument is dependent on the following ones.
-        # Since 3.8.0, it's as simple as:
-        #     start_line = arg_node.lineno - 1
-        #     start_col = arg_node.col_offset
-        #     end_line = arg_node.end_lineno - 1
-        #     end_col = arg_node.end_col_offset
         arguments_positions = []
 
-        default_end_line = len(code_lines) - 1
-        default_end_col = -1
-        for i, arg_node in enumerate(call_node.args):
-            positions = {
-                "start_line": arg_node.lineno - 1,
-                "start_col": arg_node.col_offset,
-                "end_line": default_end_line,
-                "end_col": default_end_col,
-            }
-            if isinstance(arg_node, ast.ListComp | ast.GeneratorExp):
-                positions["start_col"] -= 1
-
-            if i > 0:
-                arguments_positions[-1]["end_line"] = positions["start_line"]
-
-                # Handles cases where there is no space after the comma
-                try:
-                    comma_index = code_lines[positions["start_line"]][: positions["start_col"]].rindex(",")
-                    separator_len = positions["start_col"] - comma_index
-                except ValueError:
-                    # No comma found on this line, meaning we're multiline: ",\r"
-                    separator_len = 2
-
-                arguments_positions[-1]["end_col"] = positions["start_col"] - separator_len
-
-            arguments_positions.append(positions)
+        for arg_node in call_node.args:
+            arguments_positions.append(  # noqa: PERF401
+                {
+                    "start_line": arg_node.lineno - 1,
+                    "start_col": arg_node.col_offset,
+                    "end_line": arg_node.end_lineno - 1,
+                    "end_col": arg_node.end_col_offset,
+                },
+            )
 
         if arguments_positions and call_node.keywords:
             kwarg_node = call_node.keywords[0]
