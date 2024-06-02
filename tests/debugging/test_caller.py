@@ -27,11 +27,7 @@ class TestCaller:
         captured = output.getvalue()
 
         assert caller_instance.__name__ == "console_main"
-        # Prior to python 3.8, the lineno for multiline calls is wrong
-        if sys.version_info >= (3, 8):
-            assert len(captured.splitlines()) == 14
-        else:
-            assert len(captured.splitlines()) == 12
+        assert len(captured.splitlines()) == 12
 
     def test_execution_with_context(self, output):
         caller_instance = caller(context=10, output=output)
