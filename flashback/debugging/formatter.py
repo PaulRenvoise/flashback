@@ -1,8 +1,8 @@
 from collections import Counter, defaultdict, OrderedDict, deque
-from collections.abc import Sized, Iterable, Generator, Callable
+from collections.abc import Sized, Iterable, Generator, Mapping
 from io import StringIO
 from textwrap import wrap
-from types import ModuleType
+from types import ModuleType, MethodType, FunctionType
 from typing import Any, ClassVar
 import inspect
 
@@ -213,10 +213,10 @@ class Formatter:
                 content = f"{key} ({value.__class__.__name__})"
                 self._buffer.write(nested_prefix + content + suffix)
 
-    def _format_method(self, method: Callable, _current_indent: int, _next_indent: int) -> None:
+    def _format_method(self, method: MethodType, _current_indent: int, _next_indent: int) -> None:
         self._format_function(method, _current_indent, _next_indent)
 
-    def _format_function(self, function: Callable, _current_indent: int, _next_indent: int) -> None:
+    def _format_function(self, function: MethodType | FunctionType, _current_indent: int, _next_indent: int) -> None:
         self._buffer.write(function.__qualname__)
         self._buffer.write(str(inspect.signature(function)))
 
@@ -232,7 +232,7 @@ class Formatter:
     def _format_dict(self, dictionary: dict, current_indent: int, next_indent: int) -> None:
         self._format_mapping(dictionary, current_indent, next_indent)
 
-    def _format_mapping(self, mapping, current_indent: int, next_indent: int) -> None:
+    def _format_mapping(self, mapping: Mapping, current_indent: int, next_indent: int) -> None:
         prefix = next_indent * self._indent_str
         separator = ": "
         suffix = ",\n"
@@ -276,10 +276,10 @@ class Formatter:
             self._buffer.write(suffix)
         self._buffer.write(current_indent * self._indent_str + end)
 
-    def _format_bytes(self, string: str, current_indent: int, next_indent: int) -> None:
+    def _format_bytes(self, string: bytes, current_indent: int, next_indent: int) -> None:
         self._format_str(string, current_indent, next_indent)
 
-    def _format_str(self, string: str, current_indent: int, next_indent: int) -> None:
+    def _format_str(self, string: bytes | str, current_indent: int, next_indent: int) -> None:
         # We substract 3 to take in account the quotes and the newline
         width = self._width - (next_indent * self._indent_str_len) - 3
 
