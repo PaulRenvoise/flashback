@@ -154,7 +154,7 @@ class Formatter:
 
         pad_len = len(str(max(linenos)))
         lines_with_linenos = []
-        for lineno, line in zip(linenos, lines, strict=False):
+        for lineno, line in zip(linenos, lines):
             lines_with_linenos.append(f"{lineno:{pad_len}} {line}")
 
         if highlight is not None:

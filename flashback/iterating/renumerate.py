@@ -37,4 +37,4 @@ def renumerate(iterable: SizedReversible) -> zip:
     Returns:
         the iterator containing the reversed enumeration
     """
-    return zip(range(len(iterable) - 1, -1, -1), reversed(iterable), strict=True)
+    return zip(range(len(iterable) - 1, -1, -1), reversed(iterable))

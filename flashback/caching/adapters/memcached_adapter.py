@@ -29,7 +29,7 @@ class MemcachedAdapter(BaseAdapter):
         commands = []
 
         ttls = [0 if ttl == -1 else ttl for ttl in ttls]
-        for key, value, ttl in zip(keys, values, ttls, strict=True):
+        for key, value, ttl in zip(keys, values, ttls):
             stored_ttl = self.store._check_integer(ttl, "expire")  # noqa: SLF001
             stored_key = self.store.check_key(key)
             stored_value, stored_flags = self.store.serde.serialize(key, value)

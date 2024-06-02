@@ -35,10 +35,10 @@ class DiskAdapter(BaseAdapter):
         now = datetime.now()
         expiries = [None if ttl == -1 else datetime.timestamp(now + timedelta(seconds=ttl)) for ttl in ttls]
 
-        values = zip(values, expiries, strict=True)
+        values = zip(values, expiries)
 
         with self._open_locked_store(LOCK_EX) as store:
-            store.update(dict(zip(keys, values, strict=True)))
+            store.update(dict(zip(keys, values)))
 
         return True
 

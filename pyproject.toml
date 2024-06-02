@@ -46,6 +46,7 @@ ignore = [
   "SIM108",
   "TCH003",
   "TCH002",
+  "B905",
 ]
 
 [tool.ruff.lint.pylint]

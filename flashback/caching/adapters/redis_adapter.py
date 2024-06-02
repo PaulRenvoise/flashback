@@ -34,8 +34,8 @@ class RedisAdapter(BaseAdapter):
 
         pipe = self.store.pipeline()
 
-        pipe.mset(dict(zip(keys, values, strict=True)))
-        for key, ttl in zip(keys, ttls, strict=True):
+        pipe.mset(dict(zip(keys, values)))
+        for key, ttl in zip(keys, ttls):
             if ttl is not None:
                 pipe.expire(key, ttl)
 
