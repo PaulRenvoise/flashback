@@ -42,7 +42,8 @@ class Singleton(type):
         assert logger_1 != loose_logger_1
         ```
     """
-    def __new__(mcs, name, bases, namespace, **_kwargs):
+
+    def __new__(mcs, name, bases, namespace, **_kwargs):  # noqa: N804 mcs = metaclass
         return super().__new__(mcs, name, bases, namespace)
 
     def __init__(cls, name, bases, attributes, strict=True):
@@ -60,7 +61,7 @@ class Singleton(type):
 
     def __call__(cls, *args, **kwargs):
         if cls.strict:
-            key = functools._make_key(args, kwargs, True)  # pylint: disable=protected-access
+            key = functools._make_key(args, kwargs, True)  # noqa: SLF001
         else:
             key = 0
 

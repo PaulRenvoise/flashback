@@ -1,8 +1,9 @@
+from collections.abc import Callable
 import functools
 import warnings
 
 
-def deprecated(since=None, until=None, reason=None):
+def deprecated(since: str | None = None, until: str | None = None, reason: str | None = None) -> Callable:
     """
     Warns when a deprecated callable is used.
 
@@ -26,13 +27,14 @@ def deprecated(since=None, until=None, reason=None):
         ```
 
     Params:
-        since (str): the date/version the callable was deprecated
-        until (str): the date/version the callable will be removed
-        reason (str): the reason of the deprecation
+        since: the date/version the callable was deprecated
+        until: the date/version the callable will be removed
+        reason: the reason of the deprecation
 
     Returns:
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
+
     def wrapper(func):
         message = f"{func.__name__} is deprecated"
         if since:

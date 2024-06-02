@@ -1,4 +1,5 @@
 import sys
+from typing import Any, TextIO
 
 from .parser import Parser
 from .formatter import Formatter
@@ -7,7 +8,8 @@ from .formatter import Formatter
 PARSER = Parser()
 FORMATTER = Formatter()
 
-def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
+
+def xp(*arguments: tuple[Any, ...], o: TextIO = sys.stderr, f: bool = True, w: int = 120) -> tuple[Any, ...] | None:
     """
     Provides a simple and concise way of printing for debugging purposes.
 
@@ -65,13 +67,13 @@ def xp(*arguments, o=sys.stderr, f=True, w=120):  # pylint: disable=invalid-name
         ```
 
     Params:
-        arguments (tuple<Any>): every positional arguments
-        o (TextIO): the target output of print
-        f (bool): whether of not the output is flushed
-        w (int): the maximum width before wrapping the output
+        arguments: every positional arguments
+        o: the target output of print
+        f: whether of not the output is flushed
+        w: the maximum width before wrapping the output
 
     Returns:
-        Any:
+        the arguments or their results
     """
     filename, lineno, parsed_arguments, warning = PARSER.parse(*arguments)
     output = FORMATTER.format(filename, lineno, parsed_arguments, warning, width=w)

@@ -54,7 +54,7 @@ class EncryptedFile:
 
         self.env_key_name = env_key_name
 
-        self.key = b""
+        self.key = None
 
     def init(self) -> tuple[str, str]:
         """
@@ -81,7 +81,7 @@ class EncryptedFile:
 
         return key, contents
 
-    def read(self, deserializer: Callable[[bytes], str] = lambda x: x.decode("utf-8")) -> str:
+    def read(self, deserializer: Callable[[bytes], str] | None = None) -> str:
         """
         Reads the contents (possibly deserialized with `deserializer`) of the file_path
         given at init, and decrypt them with the encryption key.
@@ -103,9 +103,12 @@ class EncryptedFile:
         with open(self.file_path, "rb") as infile:
             contents = self._decrypt(infile.read(), key)
 
+            if deserializer is None:
+                return contents.decode("utf-8")
+
             return deserializer(contents)
 
-    def write(self, contents: str, serializer: Callable[[str], bytes] = lambda x: x.encode("utf-8")) -> None:
+    def write(self, contents: str, serializer: Callable[[str], bytes] | None = None) -> None:
         """
         Writes the given `contents` (possibly serialized with `serializer`)
         after encrypting them with the encryption key to the file_path given at init.
@@ -119,10 +122,10 @@ class EncryptedFile:
         """
         key = self.get_key()
 
-        serialized_contents = serializer(contents)
-
-        if not isinstance(serialized_contents, bytes):
-            serialized_contents = bytes(serialized_contents, encoding="utf-8")
+        if serializer is None:
+            serialized_contents = contents.encode("utf-8")
+        else:
+            serialized_contents = serializer(contents)
 
         # Write on a temp file to avoid corrupting the
         # original file if an error happens

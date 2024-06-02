@@ -1,5 +1,5 @@
 from redis import Redis
-from redis.exceptions import *  # pylint: disable=wildcard-import,unused-wildcard-import,redefined-builtin
+from redis.exceptions import *  # noqa: F403
 from redis.exceptions import ConnectionError as RedisConnectionError
 from redis.exceptions import TimeoutError as RedisTimeoutError
 
@@ -34,8 +34,8 @@ class RedisAdapter(BaseAdapter):
 
         pipe = self.store.pipeline()
 
-        pipe.mset(dict(zip(keys, values)))
-        for key, ttl in zip(keys, ttls):
+        pipe.mset(dict(zip(keys, values, strict=True)))
+        for key, ttl in zip(keys, ttls, strict=True):
             if ttl is not None:
                 pipe.expire(key, ttl)
 
@@ -70,4 +70,4 @@ class RedisAdapter(BaseAdapter):
 
     @property
     def connection_exceptions(self):
-        return (RedisConnectionError, RedisTimeoutError, ResponseError)
+        return (RedisConnectionError, RedisTimeoutError, ResponseError)  # noqa: F405

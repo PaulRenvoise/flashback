@@ -31,7 +31,7 @@ def flatten(iterable: Iterable[T]) -> tuple[T, ...]:
     """
     items = []
     for item in iterable:
-        if isinstance(item, Iterable):
+        if isinstance(item, Iterable) and not isinstance(item, str):
             for nested_item in flatten(item):
                 items.append(nested_item)  # noqa: PERF402
         else:

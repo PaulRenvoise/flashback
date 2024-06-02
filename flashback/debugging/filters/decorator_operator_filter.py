@@ -7,6 +7,7 @@ class DecoratorOperatorFilter(Filter):
     Extracts the '@' from a `pygments.token.Name.Decorator` to be a standalone
     `pygments.token.Operator`.
     """
+
     def __init__(self, **kwargs):
         """
         Params:
@@ -14,7 +15,7 @@ class DecoratorOperatorFilter(Filter):
         """
         Filter.__init__(self, **kwargs)
 
-    def filter(self, lexer, stream):
+    def filter(self, _lexer, stream):
         """
         Iterates over the stream of tokens and splits a `pygments.token.Name.Decorator: into two
         components.
@@ -31,7 +32,7 @@ class DecoratorOperatorFilter(Filter):
         """
         for ttype, value in stream:
             if ttype is Name.Decorator:
-                yield Operator, '@'
+                yield Operator, "@"
                 yield Name.Decorator, value[1:]
             else:
                 yield ttype, value

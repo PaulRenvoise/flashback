@@ -6,6 +6,7 @@ class TypeHighlightFilter(Filter):
     """
     Modifies the token type of a Name token to Keyword.Type if its value appears in a list of values.
     """
+
     def __init__(self, names, **kwargs):
         """
         Params:
@@ -16,7 +17,7 @@ class TypeHighlightFilter(Filter):
 
         self.names = set(names)
 
-    def filter(self, lexer, stream):
+    def filter(self, _lexer, stream):
         """
         Iterates over the stream of tokens and modifies a token's type if its value appears in a
         list of names.

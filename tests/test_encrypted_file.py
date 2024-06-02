@@ -1,5 +1,3 @@
-# pylint: disable=no-member,protected-access
-
 import os
 import pickle
 
@@ -12,7 +10,7 @@ KEY_PATH = "/tmp/secrets.key"
 
 
 @pytest.fixture(autouse=True)
-def cleanup_test():
+def _cleanup_test():
     yield
 
     if os.path.exists(FILE_PATH):
@@ -20,8 +18,8 @@ def cleanup_test():
     if os.path.exists(KEY_PATH):
         os.remove(KEY_PATH)
 
-    if 'ENCRYPTION_KEY' in os.environ:
-        del os.environ['ENCRYPTION_KEY']
+    if "ENCRYPTION_KEY" in os.environ:
+        del os.environ["ENCRYPTION_KEY"]
 
 
 class TestEncryptedFile:
@@ -71,7 +69,7 @@ class TestEncryptedFile:
         encrypted_file.write(write_contents, serializer=None)
         read_contents = encrypted_file.read(deserializer=None)
 
-        assert write_contents.encode("utf-8") == read_contents
+        assert write_contents == read_contents
 
     def test_read_and_write_with_key_in_env(self):
         encrypted_file = EncryptedFile(

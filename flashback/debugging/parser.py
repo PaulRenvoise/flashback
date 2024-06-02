@@ -19,6 +19,7 @@ class Parser:
     If needed, flattens the multi-line parameters to use them as argument names, using
     `CRE_OPENING_BRACKET` and `CRE_CLOSING_BRACKET`.
     """
+
     COMPLEX_NODES = (
         ast.Attribute,
         ast.BoolOp,
@@ -30,12 +31,12 @@ class Parser:
         ast.IfExp,
         ast.ListComp,
         ast.Subscript,
-        ast.SetComp
+        ast.SetComp,
     )
     CRE_OPENING_BRACKET = regex.compile(r"(\{|\[|\()\s")
     CRE_CLOSING_BRACKET = regex.compile(r"\s(\}|\]|\))")
 
-    def __init__(self, _offset=2):
+    def __init__(self, _offset: int = 2) -> None:
         # This is useful for tests or direct call to `Parser.parse` (in that case use 1)
         self._offset = _offset
 
@@ -69,7 +70,7 @@ class Parser:
                 parsed_arguments = self._parse_arguments(node, code, arguments)
             else:  # parsing failed
                 parsed_arguments = self._default_arguments_parsing(arguments)
-        except Exception as e:  # pylint: disable=broad-except
+        except Exception as e:  # noqa: BLE001
             filename = "<unknown>"
             lineno = 0
             parsed_arguments = self._default_arguments_parsing(arguments)
@@ -93,7 +94,7 @@ class Parser:
 
         return node, call_statement_lines, None
 
-    def _parse_arguments(self, call_node, code_lines, arguments):  # pylint: disable=too-many-locals
+    def _parse_arguments(self, call_node, code_lines, arguments):
         parsed_arguments = []
 
         arguments_positions = self._get_arguments_positions(call_node, code_lines)
@@ -147,9 +148,9 @@ class Parser:
                 "start_line": arg_node.lineno - 1,
                 "start_col": arg_node.col_offset,
                 "end_line": default_end_line,
-                "end_col": default_end_col
+                "end_col": default_end_col,
             }
-            if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
+            if isinstance(arg_node, ast.ListComp | ast.GeneratorExp):
                 positions["start_col"] -= 1
 
             if i > 0:
@@ -157,7 +158,7 @@ class Parser:
 
                 # Handles cases where there is no space after the comma
                 try:
-                    comma_index = code_lines[positions["start_line"]][:positions["start_col"]].rindex(",")
+                    comma_index = code_lines[positions["start_line"]][: positions["start_col"]].rindex(",")
                     separator_len = positions["start_col"] - comma_index
                 except ValueError:
                     # No comma found on this line, meaning we're multiline: ",\r"
@@ -174,7 +175,7 @@ class Parser:
 
             # Handles cases where there is no space after the comma
             try:
-                comma_index = code_lines[kwarg_node.value.lineno - 1][:kwarg_node.value.col_offset].rindex(",")
+                comma_index = code_lines[kwarg_node.value.lineno - 1][: kwarg_node.value.col_offset].rindex(",")
                 separator_len = kwarg_node.value.col_offset - comma_index
             except ValueError:
                 # No comma found on this line, meaning we're multiline: ",\r"

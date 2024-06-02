@@ -7,14 +7,15 @@ class CallHighlightFilter(Filter):
     Modifies the token type of a Name to Name.Function if its value is followed by an opening
     parenthesis.
     """
-    def __init__(self, **kwargs):
+
+    def __init__(self, **kwargs) -> None:
         """
         Params:
             kwargs (dict): every additional keyword parameters
         """
         Filter.__init__(self, **kwargs)
 
-    def filter(self, lexer, stream):
+    def filter(self, _lexer, stream):
         """
         Iterates over the stream of tokens and searches for a name followed by an opening paren to
         change its type to Name.Function.

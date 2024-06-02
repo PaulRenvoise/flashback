@@ -9,7 +9,7 @@ class MemoryAdapter(BaseAdapter):
     Exposes a cache store using a in-memory dict.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **_kwargs):
         super().__init__()
 
         self._lock = RLock()
@@ -30,10 +30,10 @@ class MemoryAdapter(BaseAdapter):
         now = datetime.now()
         expiries = [None if ttl == -1 else datetime.timestamp(now + timedelta(seconds=ttl)) for ttl in ttls]
 
-        values = zip(values, expiries)
+        values = zip(values, expiries, strict=True)
 
         with self._lock:
-            self.store.update(dict(zip(keys, values)))
+            self.store.update(dict(zip(keys, values, strict=True)))
 
         return True
 

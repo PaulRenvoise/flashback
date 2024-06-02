@@ -1,7 +1,8 @@
 from importlib import util, import_module
+from types import ModuleType
+from typing import ClassVar
 import inspect
 import re
-from typing import ClassVar, ModuleType
 
 from ..debugging import get_frameinfo
 

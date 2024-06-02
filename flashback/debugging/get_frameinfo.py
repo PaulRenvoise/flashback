@@ -1,6 +1,7 @@
 import inspect
 
-def get_frameinfo(depth=0, context=1):
+
+def get_frameinfo(depth: int = 0, context: int = 1) -> inspect.FrameInfo:
     """
     Finds the frame at `depth` and builds a `inspect.FrameInfo` from it.
 
@@ -25,11 +26,11 @@ def get_frameinfo(depth=0, context=1):
         ```
 
     Params:
-        depth (int): the depth at which to find the frame
-        context (int): the number of lines surrounding the frame to use in the traceback
+        depth: the depth at which to find the frame
+        context: the number of lines surrounding the frame to use in the traceback
 
     Returns:
-        inspect.FrameInfo: the FrameInfo object for the frame
+        the FrameInfo object for the frame
 
     Raises:
         ValueError: if `depth` is greater than the length of the call stack
@@ -47,5 +48,5 @@ def get_frameinfo(depth=0, context=1):
     if frame is None:
         raise ValueError("call stack is not deep enough")
 
-    frameinfo = (frame,) + inspect.getframeinfo(frame, context)
+    frameinfo = (frame,) + inspect.getframeinfo(frame, context)  # noqa: RUF005
     return inspect.FrameInfo(*frameinfo)

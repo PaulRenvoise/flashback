@@ -1,5 +1,3 @@
-# pylint: disable=no-member
-
 import json
 
 from ..importing import import_class_from_path
@@ -52,6 +50,7 @@ class Cache:
         #=> True
         ```
     """
+
     def __init__(self, adapter="memory", ttl=-1, flush=False, **kwargs):
         """
         Params:
@@ -357,7 +356,7 @@ class Cache:
     @staticmethod
     def _convert_numeric(value):
         # We do not check if isinstance since bool is a subclass of int
-        if type(value) in {int, float, complex}:  # pylint: disable=unidiomatic-typecheck
+        if type(value) in {int, float, complex}:
             value = repr(value)
 
         return value

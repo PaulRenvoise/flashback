@@ -15,7 +15,7 @@ class DiskAdapter(BaseAdapter):
     See: https://docs.python.org/3/library/shelve.html.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **_kwargs):
         super().__init__()
 
         self._store_path = f"{tempfile.gettempdir()}/{uuid.uuid4()}"
@@ -35,10 +35,10 @@ class DiskAdapter(BaseAdapter):
         now = datetime.now()
         expiries = [None if ttl == -1 else datetime.timestamp(now + timedelta(seconds=ttl)) for ttl in ttls]
 
-        values = zip(values, expiries)
+        values = zip(values, expiries, strict=True)
 
         with self._open_locked_store(LOCK_EX) as store:
-            store.update(dict(zip(keys, values)))
+            store.update(dict(zip(keys, values, strict=True)))
 
         return True
 

@@ -1,17 +1,20 @@
+from collections.abc import Callable
+from typing import TextIO
 import inspect
 import os
 import sys
 
 from .formatter import Formatter
-from .get_callable import get_callable
 from .get_call_context import get_call_context
+from .get_callable import get_callable
 from .get_frameinfo import get_frameinfo
 
 
 ANSI_DIM_START = "\x1b[2m"
 ANSI_DIM_END = "\x1b[0m"
 
-def caller(depth=2, context=5, output=sys.stderr):
+
+def caller(depth: int = 2, context: int = 5, output: TextIO = sys.stderr) -> Callable | None:
     """
     Prints debug information about the caller of the current callable being executed, and returns
     the caller object if found.
@@ -53,11 +56,12 @@ def caller(depth=2, context=5, output=sys.stderr):
         ```
 
     Params:
-        depth (int): the depth to go back in the stack
-        context (int): the number of context lines around the call made to the callable to take
+        depth: the depth to go back in the stack
+        context: the number of context lines around the call made to the callable to take
+        output: where to write to
 
     Returns:
-        Callable|None: the callable calling if found
+        the callable calling if found
     """
     try:
         frameinfo = get_frameinfo(depth)
@@ -76,7 +80,7 @@ def caller(depth=2, context=5, output=sys.stderr):
     caller_instance = get_callable(frameinfo)
 
     module = inspect.getmodule(frameinfo.frame, _filename=filename)
-    module_name = module.__name__ if module else '__main__'
+    module_name = module.__name__ if module else "__main__"
     # From the found instance (if any), calls __qualname__. At worst, falls back to the frameinfo's
     # co_name. Having access to __qualname__ directly in the frame is in the works since 2011:
     # - https://bugs.python.org/issue12857

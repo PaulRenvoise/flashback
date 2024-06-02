@@ -57,7 +57,7 @@ def cached(adapter="memory", **kwargs):
 
         @functools.wraps(func)
         def inner(*args, **kwargs):
-            key = functools._make_key(args, kwargs, True)  # pylint: disable=protected-access
+            key = functools._make_key(args, kwargs, True)  # noqa: SLF001
             value = cache.get(key)
 
             if value is not None:

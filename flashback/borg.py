@@ -1,5 +1,3 @@
-# pylint: disable=access-member-before-definition
-
 class Borg:
     """
     Implements the Borg design pattern, used to implement singleton behavior across multiple
@@ -35,6 +33,7 @@ class Borg:
         assert borg_2.attr == 0
         ```
     """
+
     def __new__(cls, *_args, **_kwargs):
         if "_shared_state" not in cls.__dict__:
             cls._shared_state = {}
