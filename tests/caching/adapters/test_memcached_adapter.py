@@ -1,20 +1,18 @@
-# pylint: disable=redefined-outer-name
-
 import time
 from types import MethodType
+from unittest.mock import patch
 
 import pytest
-from mock import patch
 from pymemcache.client.base import Client
 from pymemcache.test.utils import MockMemcacheClient
 
 from flashback.caching.adapters import MemcachedAdapter
 
 
-@pytest.fixture
+@pytest.fixture()
 @patch("flashback.caching.adapters.memcached_adapter.Client", MockMemcacheClient)
 def adapter():
-    MockMemcacheClient._check_integer = Client._check_integer  # pylint: disable=protected-access
+    MockMemcacheClient._check_integer = Client._check_integer  # noqa: SLF001
 
     return MemcachedAdapter()
 
@@ -35,7 +33,8 @@ class TestMemcachedAdapter:
                 results.append(b"STORED")
 
             return results
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # pylint: disable=protected-access
+
+        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
 
         assert adapter.batch_set(["a", "b", "c"], ["1", "2", "3"], [-1, -1, -1])
 
@@ -67,7 +66,8 @@ class TestMemcachedAdapter:
                 results.append(b"STORED")
 
             return results
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # pylint: disable=protected-access
+
+        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
 
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, -1])
 
@@ -88,7 +88,8 @@ class TestMemcachedAdapter:
                 results.append(b"STORED")
 
             return results
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # pylint: disable=protected-access
+
+        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
 
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, 1])
 
@@ -128,7 +129,8 @@ class TestMemcachedAdapter:
                     results.append(b"DELETED" if self.delete(key, False) else b"NOT_FOUND")
 
             return results
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # pylint: disable=protected-access
+
+        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
 
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, -1])
 
@@ -151,7 +153,8 @@ class TestMemcachedAdapter:
                     results.append(b"DELETED" if self.delete(key, False) else b"NOT_FOUND")
 
             return results
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # pylint: disable=protected-access
+
+        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
 
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, 1])
 
@@ -184,4 +187,4 @@ class TestMemcachedAdapter:
         assert adapter.ping()
 
     def test_exposed_exceptions(self):
-        from flashback.caching.adapters.memcached_adapter import MemcacheError    # pylint: disable=unused-import,import-outside-toplevel
+        from flashback.caching.adapters.memcached_adapter import MemcacheError  # noqa: F401

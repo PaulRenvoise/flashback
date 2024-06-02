@@ -98,9 +98,9 @@ Run the tests with `pytest`:
 pytest tests
 ```
 
-Run the lint with `pylint`:
+Run the lint with `ruff`:
 ```bash
-pylint flashback/ tests/
+ruff check flashback tests
 ```
 
 ## License

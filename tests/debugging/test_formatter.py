@@ -1,5 +1,3 @@
-# pylint: disable=redefined-outer-name,too-many-public-methods,too-many-lines
-
 import collections
 
 import pytest
@@ -10,7 +8,7 @@ from flashback.debugging.formatter import Formatter
 from .fixtures import MockClass, mock_function, MockABC
 
 
-CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.I)  # pylint: disable=no-member
+CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.IGNORECASE)
 
 
 @pytest.fixture(scope="class")
@@ -20,42 +18,34 @@ def formatter():
 
 class TestFormatter:
     def test_format(self, formatter):
-        arguments = [
-            (None, None)
-        ]
+        arguments = [(None, None)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    None (NoneType)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    None (NoneType)")
 
     def test_format_long(self, formatter):
-        arguments = [
-            (None, "a" * 150)
-        ]
+        arguments = [(None, "a" * 150)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    (\n"
-            "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"  # pylint: disable=line-too-long
-            "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"
-            "    ) (str)"
+        assert (
+            CRE_ANSI.sub("", content)
+            == (
+                "<filename>:<lineno>\n"
+                "    (\n"
+                "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"  # noqa: E501
+                "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"
+                "    ) (str)"
+            )
         )
 
     def test_format_empty(self, formatter):
         arguments = []
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>")
 
     def test_format_raw(self, formatter):
-        arguments = [
-            (None, None)
-        ]
+        arguments = [(None, None)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert content == (
@@ -64,23 +54,13 @@ class TestFormatter:
         )
 
     def test_format_named(self, formatter):
-        arguments = [
-            ("var", None)
-        ]
+        arguments = [("var", None)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "  var:\n"
-            "    None (NoneType)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n  var:\n    None (NoneType)")
 
     def test_format_multiple(self, formatter):
-        arguments = [
-            ("var_1", None),
-            ("var_2", None),
-            ("var_3", None)
-        ]
+        arguments = [("var_1", None), ("var_2", None), ("var_3", None)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
@@ -94,109 +74,61 @@ class TestFormatter:
         )
 
     def test_format_warning(self, formatter):
-        arguments = [
-            (None, None)
-        ]
+        arguments = [(None, None)]
         content = formatter.format("<filename>", "<lineno>", arguments, "warning")
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno> (warning)\n"
-            "    None (NoneType)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno> (warning)\n    None (NoneType)")
 
     def test_int(self, formatter):
-        arguments = [
-            (None, 1)
-        ]
+        arguments = [(None, 1)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    1 (int)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    1 (int)")
 
     def test_bool(self, formatter):
-        arguments = [
-            (None, True)
-        ]
+        arguments = [(None, True)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    True (bool)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    True (bool)")
 
     def test_str(self, formatter):
-        arguments = [
-            (None, "abc")
-        ]
+        arguments = [(None, "abc")]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    'abc' (str)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    'abc' (str)")
 
     def test_bytes(self, formatter):
-        arguments = [
-            (None, b"abc")
-        ]
+        arguments = [(None, b"abc")]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    b'abc' (bytes)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    b'abc' (bytes)")
 
     def test_list(self, formatter):
-        arguments = [
-            (None, [1, 2, 3])
-        ]
+        arguments = [(None, [1, 2, 3])]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    [\n"
-            "        1,\n"
-            "        2,\n"
-            "        3,\n"
-            "    ] (list)"
+            "<filename>:<lineno>\n    [\n        1,\n        2,\n        3,\n    ] (list)"
         )
 
     def test_tuple(self, formatter):
-        arguments = [
-            (None, (1, 2, 3))
-        ]
+        arguments = [(None, (1, 2, 3))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    (\n"
-            "        1,\n"
-            "        2,\n"
-            "        3,\n"
-            "    ) (tuple)"
+            "<filename>:<lineno>\n    (\n        1,\n        2,\n        3,\n    ) (tuple)"
         )
 
     def test_set(self, formatter):
-        arguments = [
-            (None, {1, 2, 3})
-        ]
+        arguments = [(None, {1, 2, 3})]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    {\n"
-            "        1,\n"
-            "        2,\n"
-            "        3,\n"
-            "    } (set)"
+            "<filename>:<lineno>\n    {\n        1,\n        2,\n        3,\n    } (set)"
         )
 
     def test_frozenset(self, formatter):
-        arguments = [
-            (None, frozenset({1, 2, 3}))
-        ]
+        arguments = [(None, frozenset({1, 2, 3}))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
@@ -209,39 +141,21 @@ class TestFormatter:
         )
 
     def test_deque(self, formatter):
-        arguments = [
-            (None, collections.deque([1, 2, 3]))
-        ]
+        arguments = [(None, collections.deque([1, 2, 3]))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    deque([\n"
-            "        1,\n"
-            "        2,\n"
-            "        3,\n"
-            "    ]) (deque)"
-        )
+        assert CRE_ANSI.sub("", content) == ()
 
     def test_dict(self, formatter):
-        arguments = [
-            (None, {"a": 1, "b": 2, "c": 3})
-        ]
+        arguments = [(None, {"a": 1, "b": 2, "c": 3})]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    {\n"
-            "        'a': 1,\n"
-            "        'b': 2,\n"
-            "        'c': 3,\n"
-            "    } (dict)"
+            "<filename>:<lineno>\n    {\n        'a': 1,\n        'b': 2,\n        'c': 3,\n    } (dict)"
         )
 
     def test_ordereddict(self, formatter):
-        arguments = [
-            (None, collections.OrderedDict({"a": 1, "b": 2, "c": 3}))
-        ]
+        arguments = [(None, collections.OrderedDict({"a": 1, "b": 2, "c": 3}))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
@@ -254,9 +168,7 @@ class TestFormatter:
         )
 
     def test_defaultdict(self, formatter):
-        arguments = [
-            (None, collections.defaultdict(int, {"a": 1, "b": 2, "c": 3}))
-        ]
+        arguments = [(None, collections.defaultdict(int, {"a": 1, "b": 2, "c": 3}))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
@@ -269,9 +181,7 @@ class TestFormatter:
         )
 
     def test_counter(self, formatter):
-        arguments = [
-            (None, collections.Counter(["a", "b", "b", "c", "c", "c"]))
-        ]
+        arguments = [(None, collections.Counter(["a", "b", "b", "c", "c", "c"]))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
@@ -284,35 +194,21 @@ class TestFormatter:
         )
 
     def test_generator(self, formatter):
-        arguments = [
-            (None, (i for i in range(1, 4)))
-        ]
+        arguments = [(None, (i for i in range(1, 4)))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    (\n"
-            "        1,\n"
-            "        2,\n"
-            "        3,\n"
-            "    ) (generator)"
+            "<filename>:<lineno>\n    (\n        1,\n        2,\n        3,\n    ) (generator)"
         )
 
     def test_function(self, formatter):
-        arguments = [
-            (None, mock_function)
-        ]
+        arguments = [(None, mock_function)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    mock_function(a, b) (function)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    mock_function(a, b) (function)")
 
     def test_module(self, formatter):
-        arguments = [
-            (None, collections)
-        ]
+        arguments = [(None, collections)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         content = CRE_ANSI.sub("", content)
@@ -323,101 +219,70 @@ class TestFormatter:
         assert "(module)" in content
 
     def test_abc_meta(self, formatter):
-        arguments = [
-            (None, MockClass)
-        ]
+        arguments = [(None, MockClass)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    MockClass < object (type)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    MockClass < object (type)")
 
     def test_type(self, formatter):
-        arguments = [
-            (None, MockABC)
-        ]
+        arguments = [(None, MockABC)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    MockABC < ABC < object (ABCMeta)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    MockABC < ABC < object (ABCMeta)")
 
     def test_namedtuple(self, formatter):
-        MockNamedTuple = collections.namedtuple("MockNamedTuple", ["a", "b"])
-        arguments = [
-            (None, MockNamedTuple(a=1, b=2))
-        ]
+        MockNamedTuple = collections.namedtuple("MockNamedTuple", ["a", "b"])  # noqa: PYI024
+        arguments = [(None, MockNamedTuple(a=1, b=2))]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    MockNamedTuple(a=1, b=2) (MockNamedTuple)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    MockNamedTuple(a=1, b=2) (MockNamedTuple)")
 
     def test_method(self, formatter):
-        arguments = [
-            (None, MockClass().mock_method)
-        ]
+        arguments = [(None, MockClass().mock_method)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    MockClass.mock_method() (method)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    MockClass.mock_method() (method)")
 
     def test_staticmethod(self, formatter):
-        arguments = [
-            (None, MockClass().mock_staticmethod)
-        ]
+        arguments = [(None, MockClass().mock_staticmethod)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    MockClass.mock_staticmethod() (function)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    MockClass.mock_staticmethod() (function)")
 
     def test_classmethod(self, formatter):
-        arguments = [
-            (None, MockClass().mock_classmethod)
-        ]
+        arguments = [(None, MockClass().mock_classmethod)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    MockClass.mock_classmethod() (method)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    MockClass.mock_classmethod() (method)")
 
     def test_property(self, formatter):
-        arguments = [
-            (None, MockClass().mock_property)
-        ]
+        arguments = [(None, MockClass().mock_property)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    1 (int)"
-        )
+        assert CRE_ANSI.sub("", content) == ("<filename>:<lineno>\n    1 (int)")
 
     def test_long_str(self, formatter):
         arguments = [
-            (None, "This is a very long string that needs to be formatted, and since it contains more than 120 characters, it will be first wrapped, and then formatted.")  # pylint: disable=line-too-long
+            (
+                None,
+                "This is a very long string that needs to be formatted, and since it contains more than 120 characters, it will be first wrapped, and then formatted.",  # noqa: E501
+            ),
         ]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    (\n"
-            "        'This is a very long string that needs to be formatted, and since it contains more than 120 characters, it wil'\n"  # pylint: disable=line-too-long
-            "        'l be first wrapped, and then formatted.'\n"
-            "    ) (str)"
+        assert (
+            CRE_ANSI.sub("", content)
+            == (
+                "<filename>:<lineno>\n"
+                "    (\n"
+                "        'This is a very long string that needs to be formatted, and since it contains more than 120 characters, it wil'\n"  # noqa: E501
+                "        'l be first wrapped, and then formatted.'\n"
+                "    ) (str)"
+            )
         )
 
     def test_mixed_iterable(self, formatter):
-        arguments = [
-            (None, [1, "a", 1500000000, b"b", True, [1, 2, 3], {"a": 1, "b": 2, "c": 3}])
-        ]
+        arguments = [(None, [1, "a", 1500000000, b"b", True, [1, 2, 3], {"a": 1, "b": 2, "c": 3}])]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
@@ -442,9 +307,7 @@ class TestFormatter:
         )
 
     def test_nested_dict(self, formatter):
-        arguments = [
-            (None, {"a": 1, "b": {"a": 1, "b": 2, "c": {"a": 1, "b": 2, "c": 3}}, "c": 3})
-        ]
+        arguments = [(None, {"a": 1, "b": {"a": 1, "b": 2, "c": {"a": 1, "b": 2, "c": 3}}, "c": 3})]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
@@ -466,14 +329,12 @@ class TestFormatter:
 
     def test_complex_dict(self, formatter):
         dictionary = {
-            "regex": regex.compile(r"abc", regex.I),  # pylint: disable=no-member
+            "regex": regex.compile(r"abc", regex.IGNORECASE),
             "set": {1, 2, 3},
             "list": [{"a": i, "b": (i for i in range(3))} for i in range(3)],
-            "str": "This is a not-so-long yet not-so-short sentence.\n" * 3
+            "str": "This is a not-so-long yet not-so-short sentence.\n" * 3,
         }
-        arguments = [
-            (None, dictionary)
-        ]
+        arguments = [(None, dictionary)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (

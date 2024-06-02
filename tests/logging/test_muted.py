@@ -1,5 +1,3 @@
-# pylint: disable=redefined-outer-name
-
 import io
 import logging
 
@@ -13,14 +11,15 @@ LOGGER_1 = logging.getLogger("logger_1")
 LOGGER_2 = logging.getLogger("logger_2")
 LOGGER_3 = logging.getLogger("logger_3")
 
+
 @pytest.fixture(autouse=True)
-def clean_up_loggers():
+def _clean_up_loggers():
     for logger in [LOGGER_1, LOGGER_2, LOGGER_3]:
         for handler in logger.handlers:
             logger.removeHandler(handler)
 
 
-@pytest.fixture
+@pytest.fixture()
 def stream():
     stream = io.StringIO()
 

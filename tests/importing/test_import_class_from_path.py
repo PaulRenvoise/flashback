@@ -1,5 +1,3 @@
-# pylint: disable=redefined-outer-name
-
 import pytest
 
 from flashback.importing import import_class_from_path

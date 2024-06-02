@@ -1,10 +1,8 @@
-# pylint: disable=no-member,protected-access
-
 import math
 import time
 
 import pytest
-from mock import Mock
+from unittest.mock import Mock
 
 from flashback import retryable
 
@@ -63,10 +61,10 @@ class TestRetryable:
         assert math.isclose(after, 2.65, rel_tol=0.5)
 
     def test_with_max_retries(self):
-        mock_with_exception = Mock(side_effect=[Exception, Exception, None])
+        mock_with_exception = Mock(side_effect=[AttributeError, AttributeError, None])
 
-        make_retryable = retryable(max_retries=1, exceptions=(Exception,))
+        make_retryable = retryable(max_retries=1, exceptions=(AttributeError,))
         decorated_function = make_retryable(mock_with_exception)
 
-        with pytest.raises(Exception):
+        with pytest.raises(AttributeError):
             decorated_function()

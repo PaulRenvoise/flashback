@@ -1,9 +1,7 @@
-# pylint: disable=no-member,protected-access,redefined-outer-name
-
 import time
+from unittest.mock import Mock
 
 import pytest
-from mock import Mock
 
 from flashback import sampled
 
@@ -12,9 +10,10 @@ def dummy_func(spy):
     spy()
 
 
-@pytest.fixture
+@pytest.fixture()
 def spy_func():
     return Mock()
+
 
 class TestSampled:
     def test_sampled(self, spy_func):
@@ -26,7 +25,7 @@ class TestSampled:
         assert spy_func.called
 
     def test_sampled_invalid_strategy(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             sampled(strategy="invalid")
 
     def test_sampled_constant(self, spy_func):
@@ -46,7 +45,7 @@ class TestSampled:
         assert not spy_func.called
 
     def test_sampled_constant_invalid_rate(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             sampled(strategy="constant", rate=2)
 
     def test_sampled_probabilistic(self, spy_func):
@@ -68,7 +67,7 @@ class TestSampled:
         assert 10 < spy_func.call_count < 50
 
     def test_sampled_probabilistic_invalid_rate(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             sampled(strategy="probabilistic", rate=10)
 
     def test_sampled_ratelimiting(self, spy_func):
@@ -92,5 +91,5 @@ class TestSampled:
         assert 5 <= spy_func.call_count < 10
 
     def test_sampled_ratelimiting_invalid_rate(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             sampled(strategy="ratelimiting", rate=-1)

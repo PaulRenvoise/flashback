@@ -1,13 +1,11 @@
-# pylint: disable=redefined-outer-name
-
 import pytest
 
 from flashback.formatting import singularize
 
 
-@pytest.fixture
+@pytest.fixture()
 def all_words():
-    items = (
+    return (
         ("search", "searches"),
         ("switch", "switches"),
         ("fix", "fixes"),
@@ -74,7 +72,7 @@ def all_words():
         ("vertex", "vertices"),
         ("matrix", "matrices"),
         ("axe", "axes"),
-        ("taxi", "taxis"), # prevents regression
+        ("taxi", "taxis"),  # prevents regression
         ("testis", "testes"),
         ("crisis", "crises"),
         ("rice", "rice"),
@@ -87,12 +85,10 @@ def all_words():
         ("police", "police"),
     )
 
-    return items
 
-
-@pytest.fixture
+@pytest.fixture()
 def compound_words():
-    items = (
+    return (
         ("asian-american", "asian-americans"),
         ("vice-president", "vice-presidents"),
         ("dry-cleaning", "dry-cleanings"),
@@ -101,18 +97,15 @@ def compound_words():
         ("mother-in-law", "mothers-in-law"),
     )
 
-    return items
 
-
-@pytest.fixture
+@pytest.fixture()
 def possessive_words():
-    items = (
+    return (
         ("dog's", "dogs'"),
         ("sheep's", "sheep's"),
         ("class'", "classes'"),
     )
 
-    return items
 
 class TestSingularize:
     def test_languages(self):

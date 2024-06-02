@@ -1,5 +1,3 @@
-# pylint: disable=no-member,protected-access,no-self-argument
-
 import pytest
 
 from flashback import classproperty
@@ -9,23 +7,24 @@ class ReadWrite(metaclass=classproperty.meta):
     _attribute = 0
 
     @classproperty
-    def attribute(cls):
+    def attribute(cls):  # noqa: N805
         return cls._attribute
 
     @attribute.setter
-    def attribute(cls, value):
+    def attribute(cls, value):  # noqa: N805
         cls._attribute = value
+
 
 class ReadOnly(metaclass=classproperty.meta):
     _attribute = 0
 
     @classproperty
-    def attribute(cls):
+    def attribute(cls):  # noqa: N805
         return cls._attribute
 
 
 @pytest.fixture(autouse=True)
-def clean_up_class_attribute():
+def _clean_up_class_attribute():
     ReadWrite.attribute = 0
 
 

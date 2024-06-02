@@ -1,5 +1,3 @@
-# pylint: disable=redefined-outer-name
-
 import time
 
 import pytest
@@ -7,7 +5,7 @@ import pytest
 from flashback.caching.adapters import DiskAdapter
 
 
-@pytest.fixture
+@pytest.fixture()
 def adapter():
     return DiskAdapter()
 

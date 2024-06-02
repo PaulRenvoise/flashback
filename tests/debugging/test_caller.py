@@ -1,14 +1,12 @@
-# pylint: disable=redefined-outer-name
-
 from io import StringIO
 
 import pytest
-from mock import patch
+from unittest.mock import patch
 
 from flashback.debugging import caller
 
 
-@pytest.fixture
+@pytest.fixture()
 def output():
     return StringIO()
 

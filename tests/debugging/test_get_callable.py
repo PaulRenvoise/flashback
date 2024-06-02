@@ -1,10 +1,9 @@
-# pylint: disable=redefined-outer-name
-
 from flashback.debugging import get_callable, get_frameinfo
 
 
 def dummy_function():
     return get_frameinfo()
+
 
 def dummy_closure():
     def _closure():
@@ -20,7 +19,7 @@ def dummy_nested_function():
     return _nested_function()
 
 
-class DummyClass():
+class DummyClass:
     def dummy_method(self):
         return get_frameinfo()
 
@@ -33,7 +32,7 @@ class DummyClass():
         return get_frameinfo()
 
 
-dummy_lambda = lambda: get_frameinfo()  # pylint: disable=unnecessary-lambda,unnecessary-lambda-assignment
+dummy_lambda = lambda: get_frameinfo()  # noqa: E731
 
 
 class TestGetCallable:

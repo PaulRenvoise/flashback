@@ -1,6 +1,5 @@
-# pylint: disable=no-member,protected-access
+from unittest.mock import patch
 
-from mock import patch
 from mockredis import mock_redis_client
 
 from flashback.caching import cached

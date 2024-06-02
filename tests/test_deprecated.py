@@ -1,9 +1,7 @@
-# pylint: disable=no-member,protected-access
-
+from unittest.mock import Mock
 import warnings
 
 import pytest
-from mock import Mock
 
 from flashback import deprecated
 
@@ -13,7 +11,7 @@ def dummy_func(spy):
 
 
 @pytest.fixture(autouse=True)
-def clean_up_dummy_func_doc():
+def _clean_up_dummy_func_doc():
     dummy_func.__doc__ = None
 
 
@@ -57,7 +55,10 @@ class TestDeprecated:
 
             for warning in caught_warnings:
                 if warning.category == DeprecationWarning:
-                    assert str(warning.message) == "dummy_func is deprecated since 1.0 and will be removed in 2.0 because that's life."  # pylint: disable=line-too-long
+                    assert (
+                        str(warning.message)
+                        == "dummy_func is deprecated since 1.0 and will be removed in 2.0 because that's life."
+                    )
 
     def test_message_with_since_and_reason(self):
         spy_func = Mock()
@@ -87,7 +88,10 @@ class TestDeprecated:
 
             for warning in caught_warnings:
                 if warning.category == DeprecationWarning:
-                    assert str(warning.message) == "dummy_func is deprecated and will be removed in 2.0 because that's life."  # pylint: disable=line-too-long
+                    assert (
+                        str(warning.message)
+                        == "dummy_func is deprecated and will be removed in 2.0 because that's life."
+                    )
 
     def test_message_with_since_and_until(self):
         spy_func = Mock()

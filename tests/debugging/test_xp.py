@@ -1,5 +1,3 @@
-# pylint: disable=redefined-outer-name
-
 from io import StringIO
 
 import pytest
@@ -7,10 +5,10 @@ import regex
 
 from flashback.debugging import xp
 
-CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.I)  # pylint: disable=no-member
+CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.IGNORECASE)
 
 
-@pytest.fixture
+@pytest.fixture()
 def output():
     return StringIO()
 
@@ -19,10 +17,7 @@ class TestXp:
     def test_xp(self, output):
         xp(None, o=output)
 
-        assert CRE_ANSI.sub("", output.getvalue()) == (
-            "tests/debugging/test_xp.py:20\n"
-            "    None (NoneType)\n"
-        )
+        assert CRE_ANSI.sub("", output.getvalue()) == ("tests/debugging/test_xp.py:20\n    None (NoneType)\n")
 
     def test_xp_raw(self, output):
         xp(None, o=output)
@@ -35,10 +30,7 @@ class TestXp:
     def test_xp_flush(self, output):
         xp(None, o=output, f=False)
 
-        assert CRE_ANSI.sub("", output.getvalue()) == (
-            "tests/debugging/test_xp.py:36\n"
-            "    None (NoneType)\n"
-        )
+        assert CRE_ANSI.sub("", output.getvalue()) == ("tests/debugging/test_xp.py:36\n    None (NoneType)\n")
 
     def test_xp_width(self, output):
         xp("This string is longer than 40 chars.", o=output, w=40)
@@ -54,45 +46,30 @@ class TestXp:
     def test_xp_return(self, output):
         result = xp(1 + 1, o=output)
 
-        assert CRE_ANSI.sub("", output.getvalue()) == (
-            "tests/debugging/test_xp.py:55\n"
-            "  1 + 1:\n"
-            "    2 (int)\n"
-        )
+        assert CRE_ANSI.sub("", output.getvalue()) == ("tests/debugging/test_xp.py:55\n  1 + 1:\n    2 (int)\n")
         assert result == 2
 
     def test_xp_return_none(self, output):
         result = xp(o=output)
 
-        assert CRE_ANSI.sub("", output.getvalue()) == (
-            "tests/debugging/test_xp.py:65\n"
-        )
+        assert CRE_ANSI.sub("", output.getvalue()) == ("tests/debugging/test_xp.py:65\n")
         assert result is None
 
     def test_xp_return_multiple(self, output):
         result = xp(1, 2, 3, o=output)
 
         assert CRE_ANSI.sub("", output.getvalue()) == (
-            "tests/debugging/test_xp.py:73\n"
-            "    1 (int)\n"
-            "    2 (int)\n"
-            "    3 (int)\n"
+            "tests/debugging/test_xp.py:73\n    1 (int)\n    2 (int)\n    3 (int)\n"
         )
         assert result == (1, 2, 3)
 
     def test_xp_no_space(self, output):
-        xp(None,o=output)
+        xp(None, o=output)
 
-        assert CRE_ANSI.sub("", output.getvalue()) == (
-            "tests/debugging/test_xp.py:84\n"
-            "    None (NoneType)\n"
-        )
+        assert CRE_ANSI.sub("", output.getvalue()) == ("tests/debugging/test_xp.py:84\n    None (NoneType)\n")
 
     def test_xp_starred_kwargs(self, output):
         kwargs = {"o": output, "w": 256}
         xp(None, **kwargs)
 
-        assert CRE_ANSI.sub("", output.getvalue()) == (
-            "tests/debugging/test_xp.py:93\n"
-            "    None (NoneType)\n"
-        )
+        assert CRE_ANSI.sub("", output.getvalue()) == ("tests/debugging/test_xp.py:93\n    None (NoneType)\n")

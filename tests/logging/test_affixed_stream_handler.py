@@ -30,15 +30,15 @@ class TestAffixedStreamHandler:
                     "stream": stream,
                     "prefix": "__START__",
                     "suffix": "__END__",
-                    "level": "DEBUG"
-                }
+                    "level": "DEBUG",
+                },
             },
             "loggers": {
                 "test_dictconfig_usage": {
                     "handlers": ["stringio"],
-                    "level": "DEBUG"
-                }
-            }
+                    "level": "DEBUG",
+                },
+            },
         }
         logging.config.dictConfig(config)
         logger = logging.getLogger("test_dictconfig_usage")

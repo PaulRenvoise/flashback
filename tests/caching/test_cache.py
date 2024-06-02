@@ -1,15 +1,13 @@
-# pylint: disable=redefined-outer-name,too-many-public-methods
+from unittest.mock import patch
 
 import pytest
-
-from mock import patch
 from mockredis import mock_redis_client
 from pymemcache.test.utils import MockMemcacheClient
 
 from flashback.caching import Cache
 
 
-@pytest.fixture
+@pytest.fixture()
 def cache():
     return Cache()
 
@@ -74,7 +72,7 @@ class TestCache:
         assert cache.batch_set(["a", "b"], [1, 2], [1, 1])
 
     def test_batch_set_invalid(self, cache):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             cache.batch_set(["a"], [1, 2])
 
     def test_get_str(self, cache):

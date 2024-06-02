@@ -3,8 +3,13 @@ from flashback.formatting import truncate
 
 class TestTruncate:
     def test_long_text(self):
-        text = truncate("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare bibendum arcu vel accumsan. Ut vitae rhoncus leo, in lobortis dui.")  # pylint: disable=line-too-long
-        assert text == "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare bibendum arcu vel accumsan. Ut vitae rhoncus..."  # pylint: disable=line-too-long
+        text = truncate(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare bibendum arcu vel accumsan. Ut vitae rhoncus leo, in lobortis dui.",  # noqa: E501
+        )
+        assert (
+            text
+            == "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare bibendum arcu vel accumsan. Ut vitae rhoncus..."  # noqa: E501
+        )
 
     def test_short_text(self):
         text = truncate("Hello world")

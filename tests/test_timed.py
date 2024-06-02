@@ -1,8 +1,5 @@
-# pylint: disable=no-member,protected-access
-
 import time
-
-from mock import Mock
+from unittest.mock import Mock
 
 from flashback import timed
 

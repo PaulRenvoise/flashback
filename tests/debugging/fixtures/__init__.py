@@ -5,5 +5,5 @@ from .mock_abc import MockABC
 __all__ = (
     "MockClass",
     "mock_function",
-    "MockABC"
+    "MockABC",
 )

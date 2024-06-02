@@ -1,7 +1,3 @@
-# pylint: disable=redefined-outer-name
-
-import sys
-
 from flashback.debugging import get_frameinfo, get_call_context
 
 
@@ -10,9 +6,7 @@ def dummy_function():
 
 
 def dummy_function_multiline():  # Used for TestGetCallContext
-    return get_frameinfo(
-        depth=0
-    )
+    return get_frameinfo(depth=0)
 
 
 class TestGetCallContext:
@@ -39,18 +33,12 @@ class TestGetCallContext:
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
-        # Prior to python 3.8, the lineno for multiline calls is wrong
-        if sys.version_info >= (3, 8):
-            assert len(context) == 13
-            assert context_lineno == 8
-            assert call_boundaries == (5, 8)
-        else:
-            assert len(context) == 11
-            assert context_lineno == 9
-            assert call_boundaries == (5, 6)
+        assert len(context) == 13
+        assert context_lineno == 8
+        assert call_boundaries == (5, 8)
 
     def test_no_context(self):
-        frameinfo = eval("get_frameinfo()")  # pylint: disable=eval-used
+        frameinfo = eval("get_frameinfo()")
 
         context, context_lineno, call_boundaries = get_call_context(frameinfo)
 
