@@ -1,5 +1,8 @@
-import regex
+from __future__ import annotations
+
 from collections.abc import Iterable
+
+import regex
 
 from .snakeize import snakeize
 

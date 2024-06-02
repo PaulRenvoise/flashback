@@ -1,5 +1,7 @@
-from inspect import FrameInfo
+from __future__ import annotations
+
 from collections.abc import Callable
+from inspect import FrameInfo
 
 
 def get_callable(frameinfo: FrameInfo) -> Callable | None:

@@ -1,5 +1,7 @@
-import sys
+from __future__ import annotations
+
 from typing import Any, TextIO
+import sys
 
 from .parser import Parser
 from .formatter import Formatter

@@ -1,6 +1,9 @@
-import ast
-import os
+from __future__ import annotations
+
 from textwrap import dedent
+import ast
+import inspect
+import os
 
 import regex
 
@@ -79,7 +82,7 @@ class Parser:
         return filename, lineno, parsed_arguments, warning
 
     @staticmethod
-    def _parse_call(frameinfo, filename):
+    def _parse_call(frameinfo: inspect.FrameInfo, filename: str):
         context, _, boundaries = get_call_context(frameinfo)
         if not context:
             return None, None, "error parsing code, no code context found"
