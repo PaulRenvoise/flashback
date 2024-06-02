@@ -1,7 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Sequence
 from typing import Any
-
-import typing_extensions
 
 
 def dig(container: dict[Any, Any] | Sequence[Any], *keys: tuple[Any]) -> Any |None:

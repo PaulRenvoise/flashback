@@ -1,6 +1,6 @@
-from typing import Any, Callable, Sequence
+from __future__ import annotations
 
-import typing_extensions
+from typing import Any, Callable, Sequence
 
 from .flatten import flatten
 

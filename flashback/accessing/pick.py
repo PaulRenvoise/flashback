@@ -1,6 +1,6 @@
-from typing import Any
+from __future__ import annotations
 
-import typing_extensions
+from typing import Any
 
 
 def pick(dictionary: dict[Any, Any], *keys: tuple[Any]) -> dict[Any, Any]:

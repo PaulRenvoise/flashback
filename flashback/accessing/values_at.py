@@ -1,6 +1,6 @@
-from typing import Any
+from __future__ import annotations
 
-import typing_extensions
+from typing import Any
 
 
 def values_at(dictionary: dict[Any, Any], *keys: tuple[Any]) -> list[Any]:

@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from typing import Any, Iterable
+
 
 def uniq(iterable: Iterable[Any]) -> tuple[Any]:
     """

@@ -1,6 +1,6 @@
-from typing import Any, Callable, Iterable, Tuple
+from __future__ import annotations
 
-import typing_extensions
+from typing import Any, Callable, Iterable, Tuple
 
 
 def uniq_by(iterable: Iterable[Any], func: Callable[[Any], Any]) -> Tuple[Any, ...]:
