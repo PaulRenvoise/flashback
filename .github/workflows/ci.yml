@@ -23,7 +23,7 @@ jobs:
 
     - name: Lint
       run: |
-        pylint flashback tests
+        ruff check flashback tests
 
   test:
     runs-on: ${{ matrix.os }}
