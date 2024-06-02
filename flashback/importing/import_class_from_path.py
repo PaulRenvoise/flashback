@@ -1,12 +1,11 @@
 import inspect
-
 from importlib import util, import_module
 
 from ..debugging import get_frameinfo
 from ..formatting import pascalize
 
 
-def import_class_from_path(name, path):
+def import_class_from_path(name: str, path: str) -> type:
     """
     Imports a class from a relative or absolute path, and returns it.
 
@@ -22,11 +21,11 @@ def import_class_from_path(name, path):
         ```
 
     Paramss:
-        name (str): the name of the class to import
-        path (str): the relative path in which to find the class to import
+        name: the name of the class to import
+        path: the relative path in which to find the class to import
 
     Returns:
-        Callable: the class from the imported module
+        the class from the imported module
 
     Raises:
         ImportError: if the requested module is not found
