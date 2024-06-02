@@ -1,5 +1,7 @@
 from typing import Any
 
+import typing_extensions
+
 
 def values_at(dictionary: dict[Any, Any], *keys: tuple[Any]) -> list[Any]:
     """

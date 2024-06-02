@@ -1,5 +1,7 @@
 from typing import Any, Callable, Sequence
 
+import typing_extensions
+
 from .flatten import flatten
 
 

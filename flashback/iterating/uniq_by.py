@@ -1,5 +1,7 @@
 from typing import Any, Callable, Iterable, Tuple
 
+import typing_extensions
+
 
 def uniq_by(iterable: Iterable[Any], func: Callable[[Any], Any]) -> Tuple[Any, ...]:
     """

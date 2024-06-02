@@ -1,5 +1,7 @@
 from typing import Any
 
+import typing_extensions
+
 
 def pick(dictionary: dict[Any, Any], *keys: tuple[Any]) -> dict[Any, Any]:
     """

@@ -1,8 +1,10 @@
 from collections.abc import Sequence
-from typing import Any, Union
+from typing import Any
+
+import typing_extensions
 
 
-def dig(container: Union[dict[Any, Any], Sequence[Any]], *keys: tuple[Any]) -> Union[Any, None]:
+def dig(container: dict[Any, Any] | Sequence[Any], *keys: tuple[Any]) -> Any |None:
     """
     Retrieves the value corresponding to each `keys` repeatedly from `container`,
     supporting both dict and list indices.
