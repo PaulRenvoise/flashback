@@ -1,0 +1,52 @@
+[tool.ruff]
+
+line-length = 120
+
+target-version = 'py312'
+
+[tool.ruff.lint]
+select = [
+  "F",
+  "E",
+  "W",
+  "N",
+  "YTT",
+  "ASYNC",
+  "B",
+  "BLE",
+  "A",
+  "COM",
+  "C4",
+  "EXE",
+  "FA",
+  "ISC",
+  "ICN",
+  "LOG",
+  "G",
+  "INP",
+  "PIE",
+  "T20",
+  "PYI",
+  "Q",
+  "RSE",
+  "RET",
+  "SLF",
+  "SIM",
+  "TCH",
+  "INT",
+  "ARG",
+  "FLY",
+  "PERF",
+  "RUF",
+  "PL",
+  "PT",
+  "UP",
+]
+ignore = [
+]
+
+[tool.ruff.lint.pylint]
+allow-magic-value-types = ["str", "bytes", "int"]
+
+[tool.mypy]
+python_version = "3.12"
