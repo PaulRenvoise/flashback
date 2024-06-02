@@ -1,10 +1,11 @@
+from collections.abc import Callable
 import functools
 import inspect
 import logging
 import time
 
 
-def timed(func):
+def timed(func: Callable) -> Callable:
     """
     Logs the start and end of a function call, and records the time spent executing it.
 
@@ -23,10 +24,10 @@ def timed(func):
         ```
 
     Params:
-        func (Callable): the callable to time
+        func: the callable to time
 
     Returns:
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
     # `.getmodule().__name__` returns the same value as `__name__` called from the module we
     # decorate.
