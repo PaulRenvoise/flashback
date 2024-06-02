@@ -1,7 +1,9 @@
-from . import flatten
+from typing import Any, Callable, Sequence, Map
+
+from .flatten import flatten
 
 
-def flat_map(func, iterable):
+def flat_map(func: Callable[[Any], Any], iterable: Sequence[Any]) -> Map[Any, Any]:
     """
     Applies the function `func` to each item and nested item of `iterable`.
 
@@ -21,7 +23,8 @@ def flat_map(func, iterable):
         ```
 
     Params:
-        iterable (Iterable<Any>): the iterable to flatten and map
+        func: the callable to apply on each item of the iterable
+        iterable: the iterable to flatten and map
 
     Returns:
         map<Any>: the flattened and mapped iterable
