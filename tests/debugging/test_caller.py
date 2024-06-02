@@ -1,7 +1,6 @@
 # pylint: disable=redefined-outer-name
 
 from io import StringIO
-import sys
 
 import pytest
 from mock import patch
