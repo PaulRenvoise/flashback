@@ -1,4 +1,13 @@
-def oxford_join(iterable, sep=", ", couple_sep=" and ", last_sep=", and ", quotes=False):
+from collections.abc import Iterable
+
+
+def oxford_join(
+    iterable: Iterable[str],
+    sep: str = ", ",
+    couple_sep: str = " and ",
+    last_sep: str = ", and ",
+    quotes: bool = False,
+):
     """
     Joins a list of string to a comma-separated sentence in a more english fashion than the
     builtin `.join()`.
@@ -18,20 +27,20 @@ def oxford_join(iterable, sep=", ", couple_sep=" and ", last_sep=", and ", quote
         ```
 
     Params:
-        iterable (Iterable<Any>): the sequence holding the items to join
-        sep (str): the separator used when there is more than two items in the iterable
-        couple_sep (str): the separator to use if there is only two items in the iterable
-        last_sep (str): the separator to use for the last two items of the iterable
-        quotes (bool): whether or not to add quotes around each item of the iterable
+        iterable: the sequence holding the items to join
+        sep: the separator used when there is more than two items in the iterable
+        couple_sep: the separator to use if there is only two items in the iterable
+        last_sep: the separator to use for the last two items of the iterable
+        quotes: whether or not to add quotes around each item of the iterable
 
     Returns:
         str: the joined strings
     """
-    if len(iterable) == 0:
+    if not iterable:
         return ""
 
     if quotes:
-        iterable = [f"\"{item}\"" for item in iterable]
+        iterable = [f'"{item}"' for item in iterable]
     else:
         iterable = [str(item) for item in iterable]
 

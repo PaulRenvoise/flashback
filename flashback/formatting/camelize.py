@@ -1,11 +1,16 @@
-import regex
+import re
+from collections.abc import Iterable
 
 from .snakeize import snakeize
 
 
-CRE_CAMELIZE = regex.compile(r"(?<!(?:^|-|_))[\-_](?![\-_])(.)", flags=regex.I)  # pylint: disable=no-member
+CRE_CAMELIZE = re.compile(
+    r"(?<!(?:^|-|_))[\-_](?![\-_])(.)",
+    flags=re.IGNORECASE,
+)
 
-def camelize(text, acronyms=None):
+
+def camelize(text: str, acronyms: Iterable[str] | None = None) -> str:
     """
     Transforms a text in any case to camelCase.
 
@@ -32,11 +37,11 @@ def camelize(text, acronyms=None):
         ```
 
     Params:
-        text (str): the text to transform into camelCase
-        acronyms (Iterable): a list of correctly cased acronyms to retain and case correctly
+        text: the text to transform into camelCase
+        acronyms: a list of correctly cased acronyms to retain and case correctly
 
     Returns:
-        str: the camel cased text
+        the camel cased text
     """
     text = snakeize(text, acronyms=acronyms)
 
@@ -48,13 +53,11 @@ def camelize(text, acronyms=None):
         lower2upper = {acronym.lower(): acronym for acronym in acronyms}
         acronyms_pattern = "|".join(sorted(acronyms, key=len, reverse=True))
 
-    acronyms_camelize_pattern = fr"({acronyms_pattern})(.|$)"
+    acronyms_camelize_pattern = rf"({acronyms_pattern})(.|$)"
 
     text = CRE_CAMELIZE.sub(lambda m: m.group()[1:].upper(), text)
 
     def replace(m):
         return lower2upper[m.group(1).lower()] + m.group(2).upper()
 
-    text = regex.sub(acronyms_camelize_pattern, replace, text, flags=regex.I)  # pylint: disable=no-member
-
-    return text
+    return re.sub(acronyms_camelize_pattern, replace, text, flags=re.IGNORECASE)

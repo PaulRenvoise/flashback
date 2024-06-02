@@ -2,7 +2,7 @@ from ..i16g import Locale
 from ._inflect import _inflect
 
 
-def singularize(word, language="en"):
+def singularize(word: str, language: str = "en") -> str:
     """
     Returns the singular form of the given word.
 
@@ -30,16 +30,15 @@ def singularize(word, language="en"):
     locale = Locale.load(language, path=".locales")
 
     # TODO: find a way to put that in _inflect
-    if language == "en":
-        if word.endswith(("'", "'s")):
-            sub_word = word.rstrip("s")
-            sub_word = sub_word.rstrip("'")
-            sub_word = singularize(sub_word)
+    if language == "en" and word.endswith(("'", "'s")):
+        sub_word = word.rstrip("s")
+        sub_word = sub_word.rstrip("'")
+        sub_word = singularize(sub_word)
 
-            if sub_word.endswith("s"):
-                return f"{sub_word}'"
+        if sub_word.endswith("s"):
+            return f"{sub_word}'"
 
-            return f"{sub_word}'s"
+        return f"{sub_word}'s"
 
     base_case = str.lower if language != "de" else str.capitalize
 

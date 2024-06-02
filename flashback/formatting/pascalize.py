@@ -1,11 +1,13 @@
 import regex
+from collections.abc import Iterable
 
 from .camelize import camelize
 
 
 CRE_PASCALIZE = regex.compile(r"^(?:_{1,2}|)([a-z\d])(?:[a-z\d]+)")
 
-def pascalize(text, acronyms=None):
+
+def pascalize(text: str, acronyms: Iterable[str] | None = None) -> str:
     """
     Transforms a text in any case to PascalCase.
 
@@ -32,11 +34,11 @@ def pascalize(text, acronyms=None):
         ```
 
     Params:
-        text (str): the text to transform into PascalCase
-        acronyms (Iterable): a list of correctly cased acronyms to retain and case correctly
+        text: the text to transform into PascalCase
+        acronyms: a list of correctly cased acronyms to retain and case correctly
 
     Returns:
-        str: the pascal cased text
+        the pascal cased text
     """
     text = camelize(text, acronyms=acronyms)
 

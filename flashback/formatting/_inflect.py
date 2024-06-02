@@ -1,7 +1,8 @@
 import regex
 
 
-CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)  # pylint: disable=no-member
+CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
+
 
 def _inflect(word, rules, categories, prepositions, base_case=str.lower):
     word = base_case(str(word))
@@ -24,9 +25,8 @@ def _inflect(word, rules, categories, prepositions, base_case=str.lower):
             if category is None:
                 if suffix.search(word) is not None:
                     return suffix.sub(inflection, word)
-            else:
-                if word in categories[category]:
-                    return suffix.sub(inflection, word)
+            elif word in categories[category]:
+                return suffix.sub(inflection, word)
 
     # Should never be reached, but just in case
     return word
