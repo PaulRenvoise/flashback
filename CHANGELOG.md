@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.1.0 (06/02/2024)
+
+- Added `iterating/uniq_by` to remove duplicates from an iterable while keeping the items' order with a user-supplied callable
+- Added `accessing/pick` to fetch key/value pairs with given keys from a dictionary
+- Added `accessing/values_at` to retrieves values from each given keys in dictionary
+- Updated `accessing/dig` to support sequences and their indices
+- Fixed `iterating/flat_map` to correctly load flatten method
+- Typed the methods listed above
+
 ## 2.0.0 (05/10/2023)
 
 - Dropped support for Python 3.7
