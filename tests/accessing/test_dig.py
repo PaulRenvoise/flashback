@@ -33,7 +33,7 @@ class TestDig:
         def test_error(self) -> None:
             container = {"key1": {"key2": 123}}
             with pytest.raises(AttributeError):
-                value = dig(container, "key1", "key2", "key3")
+                dig(container, "key1", "key2", "key3")
 
     class TestList:
         def test_one_index(self) -> None:
@@ -64,7 +64,7 @@ class TestDig:
         def test_error(self) -> None:
             container = [[1], 2]
             with pytest.raises(AttributeError):
-                value = dig(container, 0, 0, 0)
+                dig(container, 0, 0, 0)
 
     class TestMixed:
         def test_one_key_index(self) -> None:
@@ -100,4 +100,4 @@ class TestDig:
         def test_error(self) -> None:
             container = {"key1": [{"key2": 123}]}
             with pytest.raises(AttributeError):
-                value = dig(container, "key1", 0, "key2", 0)
+                dig(container, "key1", 0, "key2", 0)

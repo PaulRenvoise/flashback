@@ -51,5 +51,4 @@ class CallHighlightFilter(Filter):
 
             stack.append((ttype, value))
 
-        for items in stack:
-            yield items
+        yield from stack

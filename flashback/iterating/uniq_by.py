@@ -37,7 +37,7 @@ def uniq_by(iterable: Iterable[Any], func: Callable[[Any], Any]) -> Tuple[Any, .
     seen = set()
 
     for item in iterable:
-        repr_item = repr(criterion(item))
+        repr_item = repr(func(item))
         if repr_item in seen:
             continue
 
