@@ -1,9 +1,12 @@
 from __future__ import annotations
 
-from typing import Any
+from collections.abc import Hashable
+from typing import TypeVar
+
+T = TypeVar("T")
 
 
-def pick(dictionary: dict[Any, Any], *keys: tuple[Any]) -> dict[Any, Any]:
+def pick(dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> dict[Hashable, T]:
     """
     Fetches key/value pairs from `dictionary` corresponding to `keys`.
 

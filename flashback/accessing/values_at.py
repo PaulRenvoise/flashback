@@ -1,9 +1,12 @@
 from __future__ import annotations
 
-from typing import Any
+from collections.abc import Hashable
+from typing import TypeVar
+
+T = TypeVar("T")
 
 
-def values_at(dictionary: dict[Any, Any], *keys: tuple[Any]) -> list[Any]:
+def values_at(dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> list[T]:
     """
     Retrieves the values corresponding to each `keys` in `dictionary`.
 

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Any
+from collections.abc import Sequence, Hashable
+from typing import TypeVar
+
+T = TypeVar("T")
 
 
-def dig(container: dict[Any, Any] | Sequence[Any], *keys: tuple[Any]) -> Any |None:
+def dig(container: dict[Hashable, T] | Sequence[T], *keys: tuple[Hashable, ...]) -> T | None:
     """
     Retrieves the value corresponding to each `keys` repeatedly from `container`,
     supporting both dict and list indices.
