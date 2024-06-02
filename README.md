@@ -30,7 +30,9 @@ python setup.py install
 Flashback's helpers are currently organised within 7 modules, and global helpers:
 
 - `accessing/`
-    - `dig()` recursively fetch keys in a nested dict
+    - `dig()` recursively fetch keys and indices in a nested dict or sequence
+    - `values_at()` retrieves values from each given keys in dictionary
+    - `pick()` fetches key/value pairs with given keys from a dictionary
 - `caching/`
     - `Cache` supports several cache stores: in-memory, disk, Redis, and Memcached
     - `@cached` caches a callable's return value based on its arguments
@@ -59,6 +61,7 @@ Flashback's helpers are currently organised within 7 modules, and global helpers
     - `chunks()` splits an iterable into smaller chunks, padding them if requested
     - `partition()` splits an iterable into items validating a predicate and the ones that don't
     - `uniq()` removes duplicates from an iterable while keeping the items' order
+    - `uniq_by()` removes duplicates defined via a user-supplied callable from an iterable while keeping the items' order
     - `compact()` removes None values from an iterable
     - `flatten()` unpacks nested iterable into the given iterable
     - `flat_map()` applies a function to every item and nested item of the given iterable
