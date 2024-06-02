@@ -1,11 +1,12 @@
-import inspect
+from collections.abc import Callable
 import functools
+import inspect
 import logging
 
 from .cache import Cache
 
 
-def cached(adapter="memory", **kwargs):
+def cached(adapter: str = "memory", **kwargs) -> Callable:
     """
     Caches the return of a callable under a type-aware key built with its arguments.
 
@@ -39,11 +40,11 @@ def cached(adapter="memory", **kwargs):
         ```
 
     Params:
-        adapter (str): the cache storage adapter to use
-        kwargs (dict): every keyword argument, forwarded to the cache adapter
+        adapter: the cache storage adapter to use
+        kwargs: every keyword argument, forwarded to the cache adapter
 
     Returns:
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
     cache = Cache(adapter, **kwargs)
 
