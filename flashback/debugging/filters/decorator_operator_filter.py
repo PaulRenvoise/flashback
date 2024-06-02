@@ -1,5 +1,10 @@
+from __future__ import annotations
+
+from collections.abc import Generator
+
 from pygments.filters import Filter
-from pygments.token import Name, Operator
+from pygments.token import Name, Operator, _TokenType
+from pygments.lexer import Lexer
 
 
 class DecoratorOperatorFilter(Filter):
@@ -15,7 +20,7 @@ class DecoratorOperatorFilter(Filter):
         """
         Filter.__init__(self, **kwargs)
 
-    def filter(self, _lexer, stream):
+    def filter(self, _lexer: Lexer, stream: Generator) -> Generator[tuple[_TokenType, str], None, None]:
         """
         Iterates over the stream of tokens and splits a `pygments.token.Name.Decorator: into two
         components.
@@ -24,11 +29,11 @@ class DecoratorOperatorFilter(Filter):
         but pygments treat the whole thing as a decorator. This filter fixes this behaviour.
 
         Params:
-            lexer (pygments.lexer.Lexer): the lexer instance
-            stream (generator): the stream of couples tokentype-value
+            lexer: the lexer instance
+            stream: the stream of couples tokentype-value
 
         Yields:
-            tuple<pygments.token._TokenType, str>: the token type and token value
+            the token type and token value
         """
         for ttype, value in stream:
             if ttype is Name.Decorator:
