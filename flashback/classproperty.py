@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 class ClassPropertyMetaclass(type):
     """
     Defines a metaclass to ensure the property is settable, to use as `flashback.classproperty.meta`.
