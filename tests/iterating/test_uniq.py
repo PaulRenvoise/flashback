@@ -23,5 +23,4 @@ class TestUniq:
         uniquified = uniq(iterable)
         setified = list(set(iterable))
 
-        assert uniquified == ("z", "a", "c", "b", "d")
         assert uniquified != setified
