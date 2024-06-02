@@ -1,8 +1,8 @@
+from unittest.mock import Mock
 import math
 import time
 
 import pytest
-from unittest.mock import Mock
 
 from flashback import retryable
 

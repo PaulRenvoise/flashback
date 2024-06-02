@@ -1,6 +1,6 @@
-import time
 from types import MethodType
 from unittest.mock import patch
+import time
 
 import pytest
 from pymemcache.client.base import Client

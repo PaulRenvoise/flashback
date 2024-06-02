@@ -1,8 +1,8 @@
 import time
+from unittest.mock import patch
 
 import pytest
 
-from unittest.mock import patch
 from mockredis import mock_redis_client
 
 from flashback.caching.adapters import RedisAdapter
