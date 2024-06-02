@@ -1,28 +1,41 @@
-def dig(dictionary, *keys):
+from collections.abc import Sequence
+from typing import Any
+
+
+def dig(container: dict[Any, Any] | Sequence[Any], *keys: tuple[Any]) -> Any|None:
     """
-    Retrieves the value corresponding to each `keys` repeatedly from `dictionary`.
+    Retrieves the value corresponding to each `keys` repeatedly from `container`,
+    supporting both dict and list indices.
 
     Examples:
         ```python
         from flashback.accessing import dig
 
         # Without dig
-        dictionary.get("key1", {}).get("key2", {}).get("key3")
+        dictionary.get("key1", {}).get("key2", {})[0].get("key3")
 
         # With dig
-        dig(dictionary, "key1", "key2", "key3")
+        dig(dictionary, "key1", "key2", 0, "key3")
         ```
 
     Params:
-        dictionary (dict): the dict to fetch the value from
-        keys (tuple<str>): the consecutive keys to access
+        dictionary: the dict or list to fetch the value from
+        keys: the consecutive keys or indices to access
 
     Returns:
-        Any|None: the final value
+        the final value
     """
     for key in keys[:-1]:
-        # Handles when key does not exist
-        # and when value is None
-        dictionary = dictionary.get(key, {}) or {}
+        if isinstance(container, Sequence) and isinstance(key, int):
+            if 0 <= key < len(container):
+                container = container[key] or []
+            else:
+                container = [{}]
+        else:
+            container = container.get(key, {}) or {}
 
-    return dictionary.get(keys[-1])
+    last_key = keys[-1]
+    if isinstance(container, Sequence) and isinstance(last_key, int):
+        return container[last_key] if 0 <= last_key < len(container) else None
+
+    return container.get(last_key)
