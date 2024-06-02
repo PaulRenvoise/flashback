@@ -1,9 +1,13 @@
+from __future__ import annotations
+
+from collections.abc import Iterable, Callable
+
 import functools
 import logging
 from logging import getLogger, Logger
 
 
-def muted(loggers=None):
+def muted(loggers: Iterable[str | Logger] | None = None) -> Callable:
     """
     Mutes all (or selected) loggers while executing a callable.
 
@@ -51,10 +55,10 @@ def muted(loggers=None):
         ```
 
     Params:
-        loggers (Iterable<str|logging.Logger>): the list of logger names or instances to mute
+        loggers: the list of logger names or instances to mute
 
     Returns:
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
 
     def wrapper(func):

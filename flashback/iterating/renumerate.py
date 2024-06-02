@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Sized, Reversible
 from typing import Protocol, TypeVar
 
@@ -8,7 +10,7 @@ class SizedReversible(Protocol[T_co], Sized, Reversible[T_co]):
     pass
 
 
-def renumerate(iterable: SizedReversible):
+def renumerate(iterable: SizedReversible) -> zip:
     """
     Enumerates an `iterable` starting from the end.
 
