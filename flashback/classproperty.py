@@ -91,7 +91,7 @@ class classproperty:  # noqa: N801
         return self.func_set.__get__(obj, cls)(value)
 
     def setter(self, func):
-        if not isinstance(func, classmethod | staticmethod):
+        if not isinstance(func, (classmethod, staticmethod)):  # noqa: UP038
             func = classmethod(func)
 
         self.func_set = func
