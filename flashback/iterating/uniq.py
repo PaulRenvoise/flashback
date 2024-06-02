@@ -1,9 +1,13 @@
 from __future__ import annotations
 
-from typing import Any, Iterable
+from collections.abc import Iterable
+
+from typing import TypeVar
+
+T = TypeVar("T")
 
 
-def uniq(iterable: Iterable[Any]) -> tuple[Any]:
+def uniq(iterable: Iterable[T]) -> tuple[T, ...]:
     """
     Removes duplicates items from `iterable` while keeping their order.
 

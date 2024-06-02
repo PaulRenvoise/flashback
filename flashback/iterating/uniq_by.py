@@ -1,9 +1,13 @@
 from __future__ import annotations
 
-from typing import Any, Callable, Iterable, Tuple
+from collections.abc import Callable, Iterable
+
+from typing import Any, TypeVar
+
+T = TypeVar("T")
 
 
-def uniq_by(iterable: Iterable[Any], func: Callable[[Any], Any]) -> Tuple[Any, ...]:
+def uniq_by(func: Callable[[T], Any], iterable: Iterable[T]) -> tuple[T, ...]:
     """
     Removes duplicates items from `iterable` based on a callable `func`, while keeping their order.
 

@@ -1,9 +1,13 @@
+from collections.abc import Iterable, Generator
 from itertools import islice
+from typing import Any, TypeVar
 
 from ..sentinel import Sentinel
 
+T = TypeVar("T")
 
-def chunks(iterable, size=2, pad=Sentinel):
+
+def chunks(iterable: Iterable[T], size: int = 2, pad: Any = Sentinel) -> Generator[tuple[T, ...], None, None]:
     """
     Iterates over an `iterable` by chunks of `size`.
 
@@ -31,11 +35,11 @@ def chunks(iterable, size=2, pad=Sentinel):
         ```
 
     Params:
-        iterable (Iterable<Any>): the iterable to chunk
-        size (int): the size of the chunks to produce
+        iterable: the iterable to chunk
+        size: the size of the chunks to produce
 
     Yields:
-        tuple<Any>: the extracted chunk
+        the extracted chunk
     """
     iterable = iter(iterable)
     chunk_generator = iter(lambda: tuple(islice(iterable, size)), ())
@@ -45,6 +49,6 @@ def chunks(iterable, size=2, pad=Sentinel):
         for chunk in chunk_generator:
             len_diff = size - len(chunk)
             if len_diff > 0:
-                chunk += (pad,) * len_diff
-
-            yield chunk
+                yield chunk + (pad,) * len_diff
+            else:
+                yield chunk
