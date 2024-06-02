@@ -43,6 +43,8 @@ select = [
   "UP",
 ]
 ignore = [
+  "SIM108",
+  "TCH003",
 ]
 
 [tool.ruff.lint.pylint]
