@@ -6,7 +6,7 @@ from typing import Protocol, TypeVar
 T_co = TypeVar("T_co", covariant=True)
 
 
-class SizedReversible(Protocol[T_co], Sized, Reversible[T_co]):
+class SizedReversible(Protocol[T_co], Sized, Reversible):
     pass
 
 

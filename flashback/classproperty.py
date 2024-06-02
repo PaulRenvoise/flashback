@@ -63,11 +63,11 @@ class classproperty:  # noqa: N801
             func_get (Callable): the getter to decorate
             func_set (Callable): the setter to decorate
         """
-        if not isinstance(func_get, classmethod | staticmethod):
+        if not isinstance(func_get, (classmethod, staticmethod)):  # noqa: UP038
             func_get = classmethod(func_get)
 
         # Explicitly checks against None to avoid converting it to a classmethod
-        if func_set is not None and not isinstance(func_set, classmethod | staticmethod):
+        if func_set is not None and not isinstance(func_set, (classmethod, staticmethod)):  # noqa: UP038
             func_set = classmethod(func_set)
 
         self.func_get = func_get
