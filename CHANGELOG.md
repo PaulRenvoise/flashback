@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0 (06/03/2024)
+
+- Added WIP typing
+
 ## 2.1.0 (06/02/2024)
 
 - Added `iterating/uniq_by` to remove duplicates from an iterable while keeping the items' order with a user-supplied callable
