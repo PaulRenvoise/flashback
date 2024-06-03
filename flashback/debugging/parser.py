@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
 from textwrap import dedent
+from typing import TypeVar
 import ast
 import inspect
 import os
@@ -9,6 +11,8 @@ import regex
 
 from .get_call_context import get_call_context
 from .get_frameinfo import get_frameinfo
+
+T = TypeVar("T")
 
 
 class Parser:
@@ -43,7 +47,7 @@ class Parser:
         # This is useful for tests or direct call to `Parser.parse` (in that case use 1)
         self._offset = _offset
 
-    def parse(self, *arguments):
+    def parse(self, *arguments: T) -> tuple[str, int, Sequence[tuple[str | None, T]], str | None]:
         """
         Parses the arguments received from the code context in which `flashback.debugging.xp` has
         been called, and enriches the arguments values with their names (or representation).
@@ -52,13 +56,13 @@ class Parser:
         `flashback.debugging.xp`, as we call directly this method when testing.
 
         Params:
-            arguments (tuple<Any>): every positional arguments
+            arguments: every positional arguments
 
         Returns:
-            str: the filename from where `flashback.debugging.xp` has been called
-            int: the line number from where `flashback.debugging.xp` has been called
-            list<tuple>: the arguments parsed, as name-value couples
-            str: the error encountered when parsing the code or None
+            the filename from where `flashback.debugging.xp` has been called
+            the line number from where `flashback.debugging.xp` has been called
+            the arguments parsed, as name-value couples
+            the error encountered when parsing the code or None
         """
         try:
             # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)
@@ -82,7 +86,10 @@ class Parser:
         return filename, lineno, parsed_arguments, warning
 
     @staticmethod
-    def _parse_call(frameinfo: inspect.FrameInfo, filename: str):
+    def _parse_call(
+        frameinfo: inspect.FrameInfo,
+        filename: str,
+    ) -> tuple[ast.Call | None, list[str] | None, str | None]:
         context, _, boundaries = get_call_context(frameinfo)
         if not context:
             return None, None, "error parsing code, no code context found"
@@ -97,7 +104,12 @@ class Parser:
 
         return node, call_statement_lines, None
 
-    def _parse_arguments(self, call_node, code_lines, arguments):
+    def _parse_arguments(
+        self,
+        call_node: ast.Call,
+        code_lines: Sequence[str],
+        arguments: tuple[T, ...],
+    ) -> Sequence[tuple[str | None, T]]:
         parsed_arguments = []
 
         arguments_positions = self._get_arguments_positions(call_node, code_lines)
@@ -133,7 +145,7 @@ class Parser:
         return parsed_arguments
 
     @staticmethod
-    def _get_arguments_positions(call_node, code_lines):
+    def _get_arguments_positions(call_node: ast.Call, code_lines: Sequence[str]) -> list[dict[str, int]]:
         arguments_positions = []
 
         for arg_node in call_node.args:
@@ -141,8 +153,8 @@ class Parser:
                 {
                     "start_line": arg_node.lineno - 1,
                     "start_col": arg_node.col_offset,
-                    "end_line": arg_node.end_lineno - 1,
-                    "end_col": arg_node.end_col_offset,
+                    "end_line": (arg_node.end_lineno or arg_node.lineno) - 1,
+                    "end_col": arg_node.end_col_offset or arg_node.col_offset,
                 },
             )
 
@@ -164,5 +176,5 @@ class Parser:
         return arguments_positions
 
     @staticmethod
-    def _default_arguments_parsing(arguments):
+    def _default_arguments_parsing(arguments: tuple[T, ...]) -> Sequence[tuple[None, T]]:
         return [(None, argument) for argument in arguments]

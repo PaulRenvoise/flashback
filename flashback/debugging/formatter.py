@@ -5,7 +5,7 @@ from collections.abc import Sized, Iterable, Generator, Mapping
 from io import StringIO
 from textwrap import wrap
 from types import ModuleType, MethodType, FunctionType
-from typing import Any, ClassVar
+from typing import Any, ClassVar, TypeVar
 import inspect
 
 import pygments
@@ -14,6 +14,8 @@ from pygments.lexers.python import PythonLexer
 
 from .filters import CallHighlightFilter, DecoratorOperatorFilter, TypeHighlightFilter
 from .styles import Jellybeans
+
+T = TypeVar("T")
 
 
 class Formatter:
@@ -88,22 +90,22 @@ class Formatter:
         self,
         filename: str,
         lineno: int,
-        arguments: list[tuple[str, Any]],
-        warning: str,
+        arguments: list[tuple[str, T]],
+        warning: str | None,
         width: int = 120,
     ) -> str:
         """
         Formats the output of `Parser.parse` following the given style and width.
 
         Params:
-            filename (str): the filename from where `flashback.debugging.xp` has been called
-            lineno (int): the line number from where `flashback.debugging.xp` has been called
-            arguments (list<tuple>): the arguments to format, as name-value couples
-            warning (str): the error encountered when parsing the code or None
-            width (int): the maximum width before wrapping the output
+            filename: the filename from where `flashback.debugging.xp` has been called
+            lineno: the line number from where `flashback.debugging.xp` has been called
+            arguments: the arguments to format, as name-value couples
+            warning: the error encountered when parsing the code or None
+            width: the maximum width before wrapping the output
 
         Returns:
-            str: the formatted arguments, and location of the call to `flashback.debugging.xp`
+            the formatted arguments, and location of the call to `flashback.debugging.xp`
         """
         self._width = width
 
@@ -178,7 +180,7 @@ class Formatter:
 
         return self._highlight("".join(lines_with_linenos))
 
-    def _format(self, value: Any, current_indent: int = 1, force_indent: bool = True):
+    def _format(self, value: T, current_indent: int = 1, force_indent: bool = True) -> None:
         if force_indent:
             self._buffer.write(current_indent * self._indent_str)
 

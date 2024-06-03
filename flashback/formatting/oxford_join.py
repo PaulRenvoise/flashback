@@ -9,7 +9,7 @@ def oxford_join(
     couple_sep: str = " and ",
     last_sep: str = ", and ",
     quotes: bool = False,
-):
+) -> str:
     """
     Joins a list of string to a comma-separated sentence in a more english fashion than the
     builtin `.join()`.

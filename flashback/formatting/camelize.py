@@ -60,7 +60,7 @@ def camelize(text: str, acronyms: Iterable[str] | None = None) -> str:
 
     text = CRE_CAMELIZE.sub(lambda m: m.group()[1:].upper(), text)
 
-    def replace(m):
+    def replace(m: regex.Match) -> str:
         return lower2upper[m.group(1).lower()] + m.group(2).upper()
 
     return regex.sub(acronyms_camelize_pattern, replace, text, flags=regex.IGNORECASE)

@@ -45,7 +45,7 @@ def pascalize(text: str, acronyms: Iterable[str] | None = None) -> str:
     """
     text = camelize(text, acronyms=acronyms)
 
-    def replace(m):
+    def replace(m: regex.Match) -> str:
         group = m.group()
 
         if "_" in group:
