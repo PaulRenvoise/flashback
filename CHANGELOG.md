@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1 (06/03/2024)
+
+- Fixed `iterating/flatten` to only flatten list, tuple, range, set, and frozenset
+
 ## 2.2.0 (06/03/2024)
 
 - Added WIP typing
