@@ -21,3 +21,8 @@ class TestFlatten:
         flattened = flatten([1, (2,), {3, 4}, range(5, 6)])
 
         assert flattened == (1, 2, 3, 4, 5)
+
+    def test_nested_dicts(self):
+        flattened = flatten([[{"key1": 1}], [{"key2": 2}, {"key3": 3}]])
+
+        assert flattened == ({"key1": 1}, {"key2": 2}, {"key3": 3})

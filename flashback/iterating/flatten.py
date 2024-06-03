@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
 from typing import TypeVar
 
 T = TypeVar("T")
 
 
-def flatten(iterable: Iterable[T]) -> tuple[T, ...]:
+def flatten(iterable: list[T] | tuple[T, ...] | set[T] | frozenset[T] | range) -> tuple[T, ...]:
     """
     Unpacks nested iterables into the root `iterable`.
 
@@ -33,7 +32,7 @@ def flatten(iterable: Iterable[T]) -> tuple[T, ...]:
     """
     items = []
     for item in iterable:
-        if isinstance(item, Iterable) and not isinstance(item, str):
+        if isinstance(item, (list, tuple, set, frozenset, range)):  # noqa: UP038
             for nested_item in flatten(item):
                 items.append(nested_item)  # noqa: PERF402
         else:
