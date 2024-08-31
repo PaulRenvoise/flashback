@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.2 (31/08/2024)
+
+- Update dependency version for regex
+
 ## 2.2.1 (06/03/2024)
 
 - Fixed `iterating/flatten` to only flatten list, tuple, range, set, and frozenset
