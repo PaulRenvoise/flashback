@@ -2,6 +2,7 @@ from collections.abc import Sequence
 import typing as t
 
 from redis import Redis
+from redis.exceptions import *  # noqa: F403
 from redis.exceptions import ResponseError as RedisResponseError
 from redis.exceptions import ConnectionError as RedisConnectionError
 from redis.exceptions import TimeoutError as RedisTimeoutError

@@ -2,6 +2,7 @@ from collections.abc import Sequence
 import typing as t
 
 from pymemcache.client.base import Client
+from pymemcache.exceptions import *  # noqa: F403
 from pymemcache.exceptions import MemcacheUnexpectedCloseError, MemcacheServerError, MemcacheUnknownError
 
 from .base import BaseAdapter
