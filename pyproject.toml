@@ -24,7 +24,7 @@ dev = [
     "pytest-cov==5.0.0",
     "pytest-randomly==3.15.0",
     "ruff==0.4.4",
-    "mypy==1.10.0",
+    "pyrefly>=0.42.1",
 ]
 
 [tool.ruff]
