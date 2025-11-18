@@ -19,7 +19,7 @@ def _clean_up_loggers():
             logger.removeHandler(handler)
 
 
-@pytest.fixture()
+@pytest.fixture
 def stream():
     stream = io.StringIO()
 
@@ -30,7 +30,7 @@ def stream():
 
 
 def dummy_func():
-    logging.info("root")
+    logging.info("root")  # noqa: LOG015
     LOGGER_1.info("logger_1")
     LOGGER_2.info("logger_2")
     LOGGER_3.info("logger_3")

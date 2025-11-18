@@ -7,7 +7,7 @@ from pymemcache.test.utils import MockMemcacheClient
 from flashback.caching import Cache
 
 
-@pytest.fixture()
+@pytest.fixture
 def cache():
     return Cache()
 

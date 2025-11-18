@@ -10,7 +10,7 @@ def dummy_func(spy):
     spy()
 
 
-@pytest.fixture()
+@pytest.fixture
 def spy_func():
     return Mock()
 

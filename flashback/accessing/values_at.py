@@ -6,7 +6,7 @@ from typing import TypeVar
 T = TypeVar("T")
 
 
-def values_at(dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> list[T]:
+def values_at[T](dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> list[T]:
     """
     Retrieves the values corresponding to each `keys` in `dictionary`.
 

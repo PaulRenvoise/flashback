@@ -39,7 +39,7 @@ class TestDeprecated:
             decorated_func(spy_func)
 
             for warning in caught_warnings:
-                if warning.category == DeprecationWarning:
+                if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated."
 
     def test_message_with_since_and_until_and_reason(self):
@@ -54,7 +54,7 @@ class TestDeprecated:
             decorated_func(spy_func)
 
             for warning in caught_warnings:
-                if warning.category == DeprecationWarning:
+                if warning.category is DeprecationWarning:
                     assert (
                         str(warning.message)
                         == "dummy_func is deprecated since 1.0 and will be removed in 2.0 because that's life."
@@ -72,7 +72,7 @@ class TestDeprecated:
             decorated_func(spy_func)
 
             for warning in caught_warnings:
-                if warning.category == DeprecationWarning:
+                if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated since 1.0 because that's life."
 
     def test_message_with_until_and_reason(self):
@@ -87,7 +87,7 @@ class TestDeprecated:
             decorated_func(spy_func)
 
             for warning in caught_warnings:
-                if warning.category == DeprecationWarning:
+                if warning.category is DeprecationWarning:
                     assert (
                         str(warning.message)
                         == "dummy_func is deprecated and will be removed in 2.0 because that's life."
@@ -105,7 +105,7 @@ class TestDeprecated:
             decorated_func(spy_func)
 
             for warning in caught_warnings:
-                if warning.category == DeprecationWarning:
+                if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated since 1.0 and will be removed in 2.0."
 
     def test_message_with_since(self):
@@ -120,7 +120,7 @@ class TestDeprecated:
             decorated_func(spy_func)
 
             for warning in caught_warnings:
-                if warning.category == DeprecationWarning:
+                if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated since 1.0."
 
     def test_message_with_until(self):
@@ -135,7 +135,7 @@ class TestDeprecated:
             decorated_func(spy_func)
 
             for warning in caught_warnings:
-                if warning.category == DeprecationWarning:
+                if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated and will be removed in 2.0."
 
     def test_message_with_reason(self):
@@ -150,7 +150,7 @@ class TestDeprecated:
             decorated_func(spy_func)
 
             for warning in caught_warnings:
-                if warning.category == DeprecationWarning:
+                if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated because that's life."
 
     def test_doc(self):

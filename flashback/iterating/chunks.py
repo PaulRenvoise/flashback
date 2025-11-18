@@ -9,7 +9,7 @@ from ..sentinel import Sentinel
 T = TypeVar("T")
 
 
-def chunks(iterable: Iterable[T], size: int = 2, pad: Any = Sentinel) -> Generator[tuple[T, ...], None, None]:
+def chunks[T](iterable: Iterable[T], size: int = 2, pad: Any = Sentinel) -> Generator[tuple[T, ...], None, None]:
     """
     Iterates over an `iterable` by chunks of `size`.
 

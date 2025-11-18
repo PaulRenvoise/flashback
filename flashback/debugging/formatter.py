@@ -86,7 +86,7 @@ class Formatter:
         )
         self._code_formatter = Terminal256Formatter(style=Jellybeans)
 
-    def format(  # noqa: PLR0913
+    def format(
         self,
         filename: str,
         lineno: int,

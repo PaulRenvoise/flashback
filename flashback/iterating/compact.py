@@ -6,7 +6,7 @@ from typing import TypeVar
 T = TypeVar("T")
 
 
-def compact(iterable: Iterable[T]) -> tuple[T, ...]:
+def compact[T](iterable: Iterable[T]) -> tuple[T, ...]:
     """
     Removes None items from `iterable`.
 

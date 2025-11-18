@@ -32,7 +32,7 @@ def flatten(iterable: list[T] | tuple[T, ...] | set[T] | frozenset[T] | range) -
     """
     items = []
     for item in iterable:
-        if isinstance(item, (list, tuple, set, frozenset, range)):  # noqa: UP038
+        if isinstance(item, (list, tuple, set, frozenset, range)):
             for nested_item in flatten(item):
                 items.append(nested_item)  # noqa: PERF402
         else:

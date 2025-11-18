@@ -6,7 +6,7 @@ from typing import TypeVar
 T = TypeVar("T")
 
 
-def pick(dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> dict[Hashable, T]:
+def pick[T](dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> dict[Hashable, T]:
     """
     Fetches key/value pairs from `dictionary` corresponding to `keys`.
 

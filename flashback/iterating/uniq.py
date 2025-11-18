@@ -7,7 +7,7 @@ from typing import TypeVar
 T = TypeVar("T")
 
 
-def uniq(iterable: Iterable[T]) -> tuple[T, ...]:
+def uniq[T](iterable: Iterable[T]) -> tuple[T, ...]:
     """
     Removes duplicates items from `iterable` while keeping their order.
 

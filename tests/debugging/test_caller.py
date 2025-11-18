@@ -6,7 +6,7 @@ from unittest.mock import patch
 from flashback.debugging import caller
 
 
-@pytest.fixture()
+@pytest.fixture
 def output():
     return StringIO()
 
