@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from collections import Counter, defaultdict, OrderedDict, deque
 from collections.abc import Sized, Iterable, Generator, Mapping
 from io import StringIO

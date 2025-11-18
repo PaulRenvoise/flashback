@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from collections.abc import Sequence, Generator
 from contextlib import contextmanager
 from datetime import datetime, timedelta

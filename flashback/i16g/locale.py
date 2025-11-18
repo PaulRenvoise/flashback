@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from importlib import util, import_module
 from types import ModuleType
 from typing import ClassVar
