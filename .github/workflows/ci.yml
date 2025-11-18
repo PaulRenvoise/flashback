@@ -17,7 +17,7 @@ jobs:
 
     - name: Lint
       run: |
-        uv run --frozen ruff check flashback tests
+        uv run --frozen --group dev ruff check flashback tests
 
   typecheck:
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
     - name: Typecheck
       continue-on-error: true
       run: |
-        uv run --frozen pyrefly check --summarize-errors
+        uv run --frozen --group dev pyrefly check --summarize-errors
 
   test:
     runs-on: ${{ matrix.os }}
@@ -54,4 +54,4 @@ jobs:
 
     - name: Test
       run: |
-        uv run --frozen pytest tests/
+        uv run --frozen --group test pytest tests/
