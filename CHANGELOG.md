@@ -5,6 +5,8 @@
 - Switched to uv for project management
 - Replaced mypy by pyrefly, and added a always-true typecheck ci step until full typing coverage is achieved
 - Upgraded dev and test dependencies
+- Dropped support for Python 3.8 and 3.9
+- Added Python 3.13 and 3.14 in the CI tests
 
 ## 2.2.2 (31/08/2024)
 
