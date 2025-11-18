@@ -1,9 +1,9 @@
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Iterator
 
 from .flatten import flatten
 
 
-def flat_map[T, U](func: Callable[[T], U], iterable: Iterable[T]) -> map[U]:
+def flat_map[T, U](func: Callable[[T], U], iterable: Iterable[T]) -> Iterator[U]:
     """
     Applies the function `func` to each item and nested item of `iterable`.
 

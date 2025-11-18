@@ -1,4 +1,7 @@
-def flatten[T](iterable: list[T] | tuple[T, ...] | set[T] | frozenset[T] | range) -> tuple[T, ...]:
+from collections.abc import Iterable
+
+
+def flatten[T](iterable: Iterable[T]) -> tuple[T, ...]:
     """
     Unpacks nested iterables into the root `iterable`.
 
