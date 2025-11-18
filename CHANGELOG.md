@@ -1,5 +1,9 @@
 # Changelog
 
+## TBD ()
+
+- Switched to uv for project management
+
 ## 2.2.2 (31/08/2024)
 
 - Update dependency version for regex
