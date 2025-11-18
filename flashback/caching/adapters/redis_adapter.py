@@ -1,8 +1,8 @@
 from collections.abc import Sequence
-from typing import Any
+import typing as t
 
 from redis import Redis
-from redis.exceptions import *  # noqa: F403
+from redis.exceptions import ResponseError as RedisResponseError
 from redis.exceptions import ConnectionError as RedisConnectionError
 from redis.exceptions import TimeoutError as RedisTimeoutError
 
@@ -19,14 +19,12 @@ class RedisAdapter(BaseAdapter):
     """
 
     def __init__(self, host="localhost", port=6379, db="0", encoding="utf-8", **kwargs):
-        super().__init__()
-
         # We would pass `decode_responses=True` to redis to avoid decoding in `get` and `batch_get`
         # but mockredis does not support it as of 2020-04-24
         self._encoding = encoding
         self.store = Redis(host=host, port=port, db=db, encoding=encoding, **kwargs)
 
-    def set(self, key: str, value: Any, ttl: int) -> bool:
+    def set(self, key: str, value: t.Any, ttl: int) -> bool:
         if ttl == -1:
             converted_ttl = None
         else:
@@ -34,7 +32,7 @@ class RedisAdapter(BaseAdapter):
 
         return self.store.set(key, value, ex=converted_ttl)
 
-    def batch_set(self, keys: Sequence[str], values: Sequence[Any], ttls: Sequence[int]) -> bool:
+    def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int]) -> bool:
         converted_ttls = [None if ttl == -1 else ttl for ttl in ttls]
 
         pipe = self.store.pipeline()
@@ -46,12 +44,12 @@ class RedisAdapter(BaseAdapter):
 
         return pipe.execute()
 
-    def get(self, key: str) -> Any | None:
+    def get(self, key: str) -> t.Any | None:
         value = self.store.get(key)
 
         return value.decode(self._encoding) if value is not None else None
 
-    def batch_get(self, keys: Sequence[str]) -> Sequence[Any | None]:
+    def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
         values = self.store.mget(keys)
 
         return [value.decode(self._encoding) if value is not None else None for value in values]
@@ -75,4 +73,4 @@ class RedisAdapter(BaseAdapter):
 
     @property
     def connection_exceptions(self) -> tuple[Exception, ...]:
-        return (RedisConnectionError, RedisTimeoutError, ResponseError)  # noqa: F405
+        return (RedisConnectionError, RedisTimeoutError, RedisResponseError)

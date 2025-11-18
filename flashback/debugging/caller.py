@@ -1,8 +1,8 @@
 from collections.abc import Callable
-from typing import TextIO
 import inspect
 import os
 import sys
+import typing as t
 
 from .formatter import Formatter
 from .get_call_context import get_call_context
@@ -14,7 +14,7 @@ ANSI_DIM_START = "\x1b[2m"
 ANSI_DIM_END = "\x1b[0m"
 
 
-def caller(depth: int = 2, context: int = 5, output: TextIO = sys.stderr) -> Callable | None:
+def caller(depth: int = 2, context: int = 5, output: t.TextIO = sys.stderr) -> Callable | None:
     """
     Prints debug information about the caller of the current callable being executed, and returns
     the caller object if found.

@@ -3,8 +3,8 @@ from collections.abc import Sized, Iterable, Generator, Mapping
 from io import StringIO
 from textwrap import wrap
 from types import ModuleType, MethodType, FunctionType
-from typing import Any, ClassVar
 import inspect
+import typing as t
 
 import pygments
 from pygments.formatters.terminal256 import Terminal256Formatter
@@ -31,7 +31,7 @@ class Formatter[T]:
     Formats all other types via their __repr__ method.
     """
 
-    TYPE_TO_SYMBOLS: ClassVar[dict[str, tuple[str, str]]] = {
+    TYPE_TO_SYMBOLS: t.ClassVar[dict[str, tuple[str, str]]] = {
         "deque": ("deque([\n", "])"),
         "frozenset": ("frozenset({\n", "})"),
         "list": ("[\n", "]"),
@@ -135,7 +135,7 @@ class Formatter[T]:
 
         return content
 
-    def format_code(self, lines: Sized, start_lineno: int = 1, highlight: tuple[int, int] | None = None) -> str:
+    def format_code(self, lines: Sized, start_lineno: int | None = 1, highlight: tuple[int, int] | None = None) -> str:
         """
         Formats code with syntax highlighting and line numbers, with optional highlighting of
         specific range of lines.
@@ -148,6 +148,7 @@ class Formatter[T]:
         Returns:
             the formatted and highlighted code
         """
+        start_lineno = start_lineno or 1
         linenos = list(range(start_lineno, start_lineno + len(lines) + 2))
 
         pad_len = len(str(max(linenos)))
@@ -316,7 +317,7 @@ class Formatter[T]:
             self._buffer.write(suffix)
         self._buffer.write(current_indent * self._indent_str + end)
 
-    def _format_raw(self, value: Any, current_indent: int, next_indent: int) -> None:
+    def _format_raw(self, value: t.Any, current_indent: int, next_indent: int) -> None:
         representation = repr(value)
         lines = representation.splitlines(True)
 

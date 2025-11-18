@@ -1,4 +1,4 @@
-from typing import Any, TextIO
+import typing as t
 import sys
 
 from .parser import Parser
@@ -9,7 +9,12 @@ PARSER = Parser()
 FORMATTER = Formatter()
 
 
-def xp(*arguments: tuple[Any, ...], o: TextIO = sys.stderr, f: bool = True, w: int = 120) -> tuple[Any, ...] | None:
+def xp(
+    *arguments: tuple[t.Any, ...],
+    o: t.TextIO = sys.stderr,
+    f: bool = True,
+    w: int = 120,
+) -> tuple[t.Any, ...] | None:
     """
     Provides a simple and concise way of printing for debugging purposes.
 

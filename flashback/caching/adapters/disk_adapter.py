@@ -2,10 +2,10 @@ from collections.abc import Sequence, Generator
 from contextlib import contextmanager
 from datetime import datetime, timedelta
 from fcntl import flock, LOCK_SH, LOCK_EX, LOCK_UN
-from typing import Any
-import shelve
 from shelve import Shelf
+import shelve
 import tempfile
+import typing as t
 import uuid
 
 from .base import BaseAdapter
@@ -19,11 +19,9 @@ class DiskAdapter(BaseAdapter):
     """
 
     def __init__(self, **_kwargs) -> None:
-        super().__init__()
-
         self._store_path = f"{tempfile.gettempdir()}/{uuid.uuid4()}"
 
-    def set(self, key: str, value: Any, ttl: int) -> bool:
+    def set(self, key: str, value: t.Any, ttl: int) -> bool:
         if ttl == -1:
             expiry = None
         else:
@@ -34,7 +32,7 @@ class DiskAdapter(BaseAdapter):
 
         return True
 
-    def batch_set(self, keys: Sequence[str], values: Sequence[Any], ttls: Sequence[int]) -> bool:
+    def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int]) -> bool:
         now = datetime.now()
         # TODO: use relativedelta
         expiries = [None if ttl == -1 else datetime.timestamp(now + timedelta(seconds=ttl)) for ttl in ttls]
@@ -46,13 +44,13 @@ class DiskAdapter(BaseAdapter):
 
         return True
 
-    def get(self, key: str) -> Any | None:
+    def get(self, key: str) -> t.Any | None:
         self._evict()
 
         with self._open_locked_store(LOCK_SH) as store:
             return store.get(key, (None,))[0]
 
-    def batch_get(self, keys: Sequence[str]) -> Sequence[Any | None]:
+    def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
         self._evict()
 
         with self._open_locked_store(LOCK_SH) as store:
@@ -92,7 +90,7 @@ class DiskAdapter(BaseAdapter):
         return ()
 
     @contextmanager
-    def _open_locked_store(self, mode: int) -> Generator[Shelf[Any], None, None]:
+    def _open_locked_store(self, mode: int) -> Generator[Shelf[t.Any], None, None]:
         with open(f"{self._store_path}.lock", "w", encoding="utf-8") as lock:
             flock(lock.fileno(), mode)  # blocking until lock is acquired
 

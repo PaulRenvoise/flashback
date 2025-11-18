@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import Any
+import typing as t
 
 
 class BaseAdapter(ABC):
@@ -18,7 +18,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def set(self, key: str, value: Any, ttl: int) -> bool:
+    def set(self, key: str, value: t.Any, ttl: int) -> bool:
         """
         Caches a `value` under a given `key`.
 
@@ -35,7 +35,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def batch_set(self, keys: Sequence[str], values: Sequence[Any], ttls: Sequence[int]) -> bool:
+    def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int]) -> bool:
         """
         Caches each value from a list of `values` to its respective key in a list of `keys`.
 
@@ -52,7 +52,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def get(self, key: str) -> Any | None:
+    def get(self, key: str) -> t.Any | None:
         """
         Fetches the value stored under `key`.
 
@@ -67,7 +67,7 @@ class BaseAdapter(ABC):
         """
 
     @abstractmethod
-    def batch_get(self, keys: Sequence[str]) -> Sequence[Any | None]:
+    def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
         """
         Fetches each value stored under its respective key in a list of `keys`.
 

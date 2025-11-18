@@ -1,11 +1,11 @@
 from collections.abc import Iterable, Generator
 from itertools import islice
-from typing import Any
+import typing as t
 
 from ..sentinel import Sentinel
 
 
-def chunks[T](iterable: Iterable[T], size: int = 2, pad: Any = Sentinel) -> Generator[tuple[T, ...], None, None]:
+def chunks[T](iterable: Iterable[T], size: int = 2, pad: t.Any = Sentinel) -> Generator[tuple[T, ...], None, None]:
     """
     Iterates over an `iterable` by chunks of `size`.
 

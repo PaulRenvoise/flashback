@@ -1,8 +1,8 @@
 from collections.abc import Sequence
-from typing import Any
+import typing as t
 
 from pymemcache.client.base import Client
-from pymemcache.exceptions import *  # noqa: F403
+from pymemcache.exceptions import MemcacheUnexpectedCloseError, MemcacheServerError, MemcacheUnknownError
 
 from .base import BaseAdapter
 
@@ -15,17 +15,15 @@ class MemcachedAdapter(BaseAdapter):
     """
 
     def __init__(self, host: str = "localhost", port: int = 11211, **kwargs) -> None:
-        super().__init__()
-
         self.store = Client((host, port), **kwargs)
 
-    def set(self, key: str, value: Any, ttl: int) -> bool:
+    def set(self, key: str, value: t.Any, ttl: int) -> bool:
         if ttl == -1:
             ttl = 0
 
         return self.store.set(key, value, expire=ttl)
 
-    def batch_set(self, keys: Sequence[str], values: Sequence[Any], ttls: Sequence[int]) -> bool:
+    def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int]) -> bool:
         # There's two reasons to recode pymemcache.set_multi():
         # - It returns a list of keys that failed to be inserted, and the base expects a boolean
         # - It only allows a unique ttl for all keys
@@ -48,10 +46,10 @@ class MemcachedAdapter(BaseAdapter):
 
         return all(line != b"NOT_STORED" for line in results)
 
-    def get(self, key: str) -> Any | None:
+    def get(self, key: str) -> t.Any | None:
         return self.store.get(key)
 
-    def batch_get(self, keys: Sequence[str]) -> Sequence[Any | None]:
+    def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
         key_to_value = self.store.get_multi(keys)
         return [key_to_value.get(key, None) for key in keys]
 
@@ -84,4 +82,4 @@ class MemcachedAdapter(BaseAdapter):
 
     @property
     def connection_exceptions(self) -> tuple[Exception, ...]:
-        return (MemcacheUnexpectedCloseError, MemcacheServerError, MemcacheUnknownError)  # noqa: F405
+        return (MemcacheUnexpectedCloseError, MemcacheServerError, MemcacheUnknownError)
