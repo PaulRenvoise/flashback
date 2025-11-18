@@ -1,7 +1,4 @@
 from collections.abc import Iterable
-from typing import TypeVar
-
-T = TypeVar("T")
 
 
 def compact[T](iterable: Iterable[T]) -> tuple[T, ...]:

@@ -1,7 +1,4 @@
 from collections.abc import Hashable
-from typing import TypeVar
-
-T = TypeVar("T")
 
 
 def pick[T](dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> dict[Hashable, T]:

@@ -1,10 +1,7 @@
 from collections.abc import Sequence, Hashable
-from typing import TypeVar
-
-T = TypeVar("T")
 
 
-def dig(container: dict[Hashable, T] | Sequence[T], *keys: tuple[Hashable, ...]) -> T | None:
+def dig[T](container: dict[Hashable, T] | Sequence[T], *keys: tuple[Hashable, ...]) -> T | None:
     """
     Retrieves the value corresponding to each `keys` repeatedly from `container`,
     supporting both dict and list indices.

@@ -1,10 +1,8 @@
 from collections.abc import Iterable, Generator
 from itertools import islice
-from typing import Any, TypeVar
+from typing import Any
 
 from ..sentinel import Sentinel
-
-T = TypeVar("T")
 
 
 def chunks[T](iterable: Iterable[T], size: int = 2, pad: Any = Sentinel) -> Generator[tuple[T, ...], None, None]:

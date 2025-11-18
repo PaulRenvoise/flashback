@@ -1,9 +1,4 @@
-from typing import TypeVar
-
-T = TypeVar("T")
-
-
-def flatten(iterable: list[T] | tuple[T, ...] | set[T] | frozenset[T] | range) -> tuple[T, ...]:
+def flatten[T](iterable: list[T] | tuple[T, ...] | set[T] | frozenset[T] | range) -> tuple[T, ...]:
     """
     Unpacks nested iterables into the root `iterable`.
 

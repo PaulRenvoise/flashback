@@ -3,7 +3,7 @@ from collections.abc import Sized, Iterable, Generator, Mapping
 from io import StringIO
 from textwrap import wrap
 from types import ModuleType, MethodType, FunctionType
-from typing import Any, ClassVar, TypeVar
+from typing import Any, ClassVar
 import inspect
 
 import pygments
@@ -13,10 +13,8 @@ from pygments.lexers.python import PythonLexer
 from .filters import CallHighlightFilter, DecoratorOperatorFilter, TypeHighlightFilter
 from .styles import Jellybeans
 
-T = TypeVar("T")
 
-
-class Formatter:
+class Formatter[T]:
     """
     Implements a formatter to prettify arguments received by `flashback.debugging.xp` and parsed
     by `flashback.debugging.parser`.

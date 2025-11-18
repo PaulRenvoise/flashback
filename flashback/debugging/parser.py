@@ -1,6 +1,5 @@
 from collections.abc import Sequence
 from textwrap import dedent
-from typing import TypeVar
 import ast
 import inspect
 import os
@@ -10,10 +9,8 @@ import regex
 from .get_call_context import get_call_context
 from .get_frameinfo import get_frameinfo
 
-T = TypeVar("T")
 
-
-class Parser:
+class Parser[T]:
     """
     Implements a parser to extract the code context from which `flashback.debugging.xp` is called.
 
