@@ -3,6 +3,7 @@ from flashback.iterating import uniq_by
 
 class TestUniqBy:
     def test_zero_items(self) -> None:
+        # Yes, it exists: https://en.wiktionary.org/wiki/uniquified
         uniquified = uniq_by(lambda x: x, [])
         assert not uniquified
 
