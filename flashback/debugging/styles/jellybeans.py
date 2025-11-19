@@ -27,7 +27,7 @@ class Jellybeans(Style):
 
     background_color = "#151515"
 
-    styles: t.ClassVar[dict[_TokenType, str]] = {
+    styles: t.ClassVar[dict[_TokenType, str]] = {  # type: ignore because base class is not typed
         Comment: "#888888",
         Comment.Hashbang: "",
         Comment.Multiline: "",
