@@ -10,8 +10,8 @@ FORMATTER = Formatter()
 
 
 def xp(
-    *arguments: tuple[t.Any, ...],
-    o: t.TextIO = sys.stderr,
+    *arguments: t.Any,
+    o: t.IO[str] = sys.stderr,
     f: bool = True,
     w: int = 120,
 ) -> tuple[t.Any, ...] | None:
