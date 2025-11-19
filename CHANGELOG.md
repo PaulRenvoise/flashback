@@ -7,6 +7,7 @@
 - Upgraded dev and test dependencies
 - Dropped support for Python 3.8, 3.9, 3.10, 3.11
 - Added Python 3.13 and 3.14 in the CI tests
+- Updated `accessing/dig` to return None when no keys are given
 
 ## 2.2.2 (31/08/2024)
 
