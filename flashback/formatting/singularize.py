@@ -42,4 +42,10 @@ def singularize(word: str, language: str = "en") -> str:
 
     base_case = str.lower if language != "de" else str.capitalize
 
-    return _inflect(word, locale.SINGULAR_RULES, locale.SINGULAR_CATEGORIES, locale.PREPOSITIONS, base_case=base_case)
+    return _inflect(
+        word,
+        locale.COMPILED_SINGULAR_RULES,
+        locale.SINGULAR_CATEGORIES,
+        locale.PREPOSITIONS,
+        base_case=base_case,
+    )

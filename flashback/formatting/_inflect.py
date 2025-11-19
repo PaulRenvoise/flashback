@@ -8,7 +8,7 @@ CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=re
 
 def _inflect(
     word: str,
-    rules: list[tuple[str, str, str | None]],
+    rules: list[list[tuple[regex.Pattern, str, str | None]]],
     categories: dict[str, set[str]],
     prepositions: set[str],
     base_case: Callable[[str], str] = str.lower,
