@@ -82,5 +82,5 @@ class MemcachedAdapter(BaseAdapter):
         return bool(self.store.stats())
 
     @property
-    def connection_exceptions(self) -> tuple[Exception, ...]:
+    def connection_exceptions(self) -> tuple[type[Exception], ...]:
         return (MemcacheUnexpectedCloseError, MemcacheServerError, MemcacheUnknownError)

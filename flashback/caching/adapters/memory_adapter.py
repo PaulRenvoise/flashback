@@ -78,7 +78,7 @@ class MemoryAdapter(BaseAdapter):
         return True
 
     @property
-    def connection_exceptions(self) -> tuple[Exception, ...]:
+    def connection_exceptions(self) -> tuple[type[Exception], ...]:
         return ()
 
     def _evict(self) -> None:

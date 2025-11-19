@@ -152,7 +152,7 @@ class BaseAdapter(ABC):
 
     @property
     @abstractmethod
-    def connection_exceptions(self) -> tuple[Exception, ...]:
+    def connection_exceptions(self) -> tuple[type[Exception], ...]:
         """
         Lists the exceptions raised by the adapter when a faulty/invalid connection is detected.
 

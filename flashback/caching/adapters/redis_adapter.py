@@ -19,7 +19,14 @@ class RedisAdapter(BaseAdapter):
     to avoid conflicts with builtin exceptions.
     """
 
-    def __init__(self, host="localhost", port=6379, db="0", encoding="utf-8", **kwargs):
+    def __init__(
+        self,
+        host: str = "localhost",
+        port: int = 6379,
+        db: int = 0,
+        encoding: str = "utf-8",
+        **kwargs,
+    ) -> None:
         # We would pass `decode_responses=True` to redis to avoid decoding in `get` and `batch_get`
         # but mockredis does not support it as of 2020-04-24
         self._encoding = encoding
@@ -73,5 +80,5 @@ class RedisAdapter(BaseAdapter):
         return self.store.ping()
 
     @property
-    def connection_exceptions(self) -> tuple[Exception, ...]:
+    def connection_exceptions(self) -> tuple[type[Exception], ...]:
         return (RedisConnectionError, RedisTimeoutError, RedisResponseError)
