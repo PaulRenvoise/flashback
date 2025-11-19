@@ -31,10 +31,10 @@ class MemoryAdapter(BaseAdapter):
         now = datetime.now()
         expiries = [None if ttl == -1 else datetime.timestamp(now + timedelta(seconds=ttl)) for ttl in ttls]
 
-        values = zip(values, expiries)
+        values_and_expiries = zip(values, expiries)
 
         with self._lock:
-            self.store.update(dict(zip(keys, values)))
+            self.store.update(dict(zip(keys, values_and_expiries)))
 
         return True
 
