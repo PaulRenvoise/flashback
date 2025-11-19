@@ -11,7 +11,7 @@ import regex
 
 
 # Prepositions are used in compound words
-PREPOSITIONS = {
+PREPOSITIONS: set[str] = {
     "about",
     "before",
     "during",
@@ -56,7 +56,7 @@ PREPOSITIONS = {
     "by",
 }
 
-PLURAL_RULES = [
+PLURAL_RULES: list[tuple[tuple[str, str, str | None], ...]] = [
     # Indefinite articles and demonstratives
     (
         (r"^a$|^an$", "some", None),
@@ -195,10 +195,12 @@ PLURAL_RULES = [
 ]
 
 # For performance, compile the regular expressions once:
-PLURAL_RULES = [[(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in PLURAL_RULES]
+COMPILED_PLURAL_RULES: list[list[tuple[regex.Pattern, str, str | None]]] = [
+    [(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in PLURAL_RULES
+]
 
 # Suffix categories
-PLURAL_CATEGORIES = {
+PLURAL_CATEGORIES: dict[str, set[str]] = {
     "uninflected": {
         "the",
         "yes",
@@ -489,7 +491,7 @@ PLURAL_CATEGORIES = {
     },
 }
 
-SINGULAR_RULES = [
+SINGULAR_RULES: list[tuple[tuple[str, str, str | None], ...]] = [
     # Indefinite articles and demonstratives
     ((r"^some$", "a", None), (r"^these$", "this", None), (r"^those$", "that", None), (r"^all$", "any", None)),
     # Possessive adjectives
@@ -613,10 +615,12 @@ SINGULAR_RULES = [
 ]
 
 # For performance, compile the regular expressions only once:
-SINGULAR_RULES = [[(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in SINGULAR_RULES]
+COMPILED_SINGULAR_RULES: list[list[tuple[regex.Pattern, str, str | None]]] = [
+    [(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in SINGULAR_RULES
+]
 
 # Suffix categories
-SINGULAR_CATEGORIES = {
+SINGULAR_CATEGORIES: dict[str, set[str]] = {
     "uninflected": PLURAL_CATEGORIES["uninflected"],
     "uncountable": PLURAL_CATEGORIES["uncountable"],
     "nationalities": PLURAL_CATEGORIES["nationalities"],
