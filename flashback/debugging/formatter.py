@@ -1,5 +1,5 @@
 from collections import Counter, defaultdict, OrderedDict, deque
-from collections.abc import Sized, Iterable, Generator, Mapping
+from collections.abc import Iterable, Generator, Mapping
 from io import StringIO
 from textwrap import wrap
 from types import ModuleType, MethodType, FunctionType
@@ -86,7 +86,7 @@ class Formatter[T]:
         self,
         filename: str,
         lineno: int,
-        arguments: list[tuple[str, T]],
+        arguments: list[tuple[str | None, T]],
         warning: str | None,
         width: int = 120,
     ) -> str:
@@ -114,7 +114,7 @@ class Formatter[T]:
         if len(arguments) == 0:
             return content[:-1]  # Remove the last newline
 
-        arguments_content = []
+        arguments_content: list[str] = []
         for name, value in arguments:
             argument_content = f"  {name}:\n" if name is not None else ""
 
@@ -135,7 +135,12 @@ class Formatter[T]:
 
         return content
 
-    def format_code(self, lines: Sized, start_lineno: int | None = 1, highlight: tuple[int, int] | None = None) -> str:
+    def format_code(
+        self,
+        lines: list[str],
+        start_lineno: int | None = 1,
+        highlight: tuple[int, int] | None = None,
+    ) -> str:
         """
         Formats code with syntax highlighting and line numbers, with optional highlighting of
         specific range of lines.
@@ -152,7 +157,7 @@ class Formatter[T]:
         linenos = list(range(start_lineno, start_lineno + len(lines) + 2))
 
         pad_len = len(str(max(linenos)))
-        lines_with_linenos = []
+        lines_with_linenos: list[str] = []
         for lineno, line in zip(linenos, lines):
             lines_with_linenos.append(f"{lineno:{pad_len}} {line}")
 
@@ -241,7 +246,7 @@ class Formatter[T]:
 
         # We're be processing a defaultdict
         if "_TYPE_" in start:
-            start = start.replace("_TYPE_", repr(mapping.default_factory))
+            start = start.replace("_TYPE_", repr(mapping.default_factory))  # type: ignore
 
         self._buffer.write(start)
         for key, value in mapping.items():
@@ -338,4 +343,4 @@ class Formatter[T]:
             self._buffer.write(representation)
 
     def _highlight(self, value: str) -> str:
-        return pygments.highlight(value, lexer=self._code_lexer, formatter=self._code_formatter)
+        return pygments.highlight(value, lexer=self._code_lexer, formatter=self._code_formatter)  # type: ignore because pygments is not typed

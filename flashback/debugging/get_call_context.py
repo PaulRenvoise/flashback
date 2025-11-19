@@ -6,7 +6,7 @@ from textwrap import dedent
 def get_call_context(
     frameinfo: inspect.FrameInfo,
     size: int = 5,
-) -> tuple[list[str], int | None, tuple[int, int] | tuple[()]]:
+) -> tuple[list[str], int | None, tuple[int, int] | None]:
     """
     Extracts the context surrounding the call statement of the given `frameinfo`, and returns its
     code, its first line number, and the boundaries of the call statement.
@@ -50,12 +50,12 @@ def get_call_context(
         the start and end of the call statement, as indices of the returned context
     """
     if not frameinfo.code_context:
-        return [], None, ()
+        return [], None, None
 
     try:
         source, _ = inspect.findsource(frameinfo.frame)
     except OSError:
-        return [], None, ()
+        return [], None, None
 
     # Prior to python 3.8, the frameinfo.lineno is sometimes wrong (lower than it actually is),
     # especially with nested function calls having newlines.
@@ -69,7 +69,10 @@ def get_call_context(
         call_line = dedent("".join(source[index_start:index_end]))
 
         try:
-            ast.parse(call_line, filename=frameinfo.filename).body[0].value  # noqa: B018
+            # ast.parse is always called on the statement of the call to get_call_context,
+            # where there is an assignment for its result.
+            # So body[0] is always an Assign node, which has a 'value' attribute
+            ast.parse(call_line, filename=frameinfo.filename).body[0].value  # noqa: B018 # type: ignore
 
             break
         except (SyntaxError, AttributeError):

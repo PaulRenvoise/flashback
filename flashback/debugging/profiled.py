@@ -4,7 +4,7 @@ import cProfile
 import functools
 
 
-def profiled(output: t.TextIO | None = None) -> Callable:
+def profiled(output: str | None = None) -> Callable:
     """
     Profiles a call made to a callable and dump the stats to a file for further analysis.
 
