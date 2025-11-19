@@ -26,7 +26,7 @@ def dig(container: Mapping[t.Any, t.Any] | Sequence[t.Any], *keys: Hashable) -> 
         the final value
     """
     if not keys:
-        return container
+        return None
 
     current: t.Any = container
 

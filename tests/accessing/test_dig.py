@@ -7,7 +7,7 @@ class TestDig:
     def test_no_keys(self) -> None:
         container = {}
         value = dig(container)
-        assert value == container
+        assert value is None
 
     class TestDict:
         def test_one_key(self) -> None:
