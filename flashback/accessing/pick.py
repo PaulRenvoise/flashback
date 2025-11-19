@@ -1,7 +1,8 @@
-from collections.abc import Hashable
+from collections.abc import Hashable, Mapping
+import typing as t
 
 
-def pick[T](dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> dict[Hashable, T]:
+def pick[T](dictionary: Mapping[t.Any, T], *keys: Hashable) -> dict[Hashable, T]:
     """
     Fetches key/value pairs from `dictionary` corresponding to `keys`.
 

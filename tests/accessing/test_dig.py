@@ -4,6 +4,11 @@ from flashback.accessing import dig
 
 
 class TestDig:
+    def test_no_keys(self) -> None:
+        container = {}
+        value = dig(container)
+        assert value == container
+
     class TestDict:
         def test_one_key(self) -> None:
             container = {"key1": 1}

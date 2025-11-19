@@ -1,7 +1,8 @@
-from collections.abc import Hashable
+from collections.abc import Hashable, Mapping
+import typing as t
 
 
-def values_at[T](dictionary: dict[Hashable, T], *keys: tuple[Hashable, ...]) -> list[T]:
+def values_at[T](dictionary: Mapping[t.Any, T], *keys: Hashable) -> list[T]:
     """
     Retrieves the values corresponding to each `keys` in `dictionary`.
 
