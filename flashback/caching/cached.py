@@ -54,7 +54,8 @@ def cached(adapter: str = "memory", **kwargs) -> Callable:
         # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
         # name, we receive the same logger, which "hides" this decorator as if the logging was
         # made from within the callable we decorate
-        logger = logging.getLogger(inspect.getmodule(func).__name__)
+        module = inspect.getmodule(func)
+        logger = logging.getLogger(None if module is None else module.__name__)
 
         @functools.wraps(func)
         def inner(*args, **kwargs):

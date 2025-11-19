@@ -12,7 +12,7 @@ def retryable(
     max_retries: int = -1,
     plateau_after: int = 10,
     reset_after: int = 3600,
-    exceptions: tuple[Exception, ...] = (),
+    exceptions: tuple[type[Exception], ...] = (),
 ) -> Callable:
     """
     Retries to call a callable when a given exception is raised.
@@ -68,15 +68,16 @@ def retryable(
         # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
         # name, we receive the same logger, which "hides" this decorator as if the logging was
         # made from within the callable we decorate
-        logger = logging.getLogger(inspect.getmodule(func).__name__)
+        module = inspect.getmodule(func)
+        logger = logging.getLogger(None if module is None else module.__name__)
 
         @functools.wraps(func)
         def inner(*args, **kwargs):
             retry_count = 0
             current_try = 1
 
-            retry_delay = 0
-            time_waited = 0
+            retry_delay = 0.0
+            time_waited = 0.0
 
             while True:
                 try:
@@ -97,8 +98,8 @@ def retryable(
                         logger.warning("Reached the maximum number of retries, raising")
 
                         # Add a few debug info to the exception
-                        caught_exception.retry_count = retry_count
-                        caught_exception.time_waited = time_waited
+                        setattr(caught_exception, "retry_count", retry_count)  # noqa: B010
+                        setattr(caught_exception, "time_waited", time_waited)  # noqa: B010
 
                         raise caught_exception
 
