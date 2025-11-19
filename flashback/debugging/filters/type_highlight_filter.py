@@ -20,7 +20,7 @@ class TypeHighlightFilter(Filter):
 
         self.names = set(names)
 
-    def filter(self, _lexer: Lexer, stream: Generator) -> Generator[tuple[_TokenType, str], None, None]:
+    def filter(self, _lexer: Lexer, stream: Generator) -> Generator[tuple[_TokenType, str], None, None]:  # type: ignore because filter is not typed
         """
         Iterates over the stream of tokens and modifies a token's type if its value appears in a
         list of names.
