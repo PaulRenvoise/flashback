@@ -1,23 +1,32 @@
-from unittest.mock import patch
+from unittest.mock import patch, Mock
+import typing as t
 
 from mockredis import mock_redis_client
 
 from flashback.caching import cached
 
 
-def dummy_func(left, right):
+@t.overload
+def dummy_func(left: int, right: int) -> int: ...
+
+
+@t.overload
+def dummy_func(left: str, right: str) -> str: ...
+
+
+def dummy_func(left: t.Any, right: t.Any) -> t.Any:
     return left + right
 
 
 class TestCached:
     @patch("flashback.caching.adapters.redis_adapter.Redis", mock_redis_client)
-    def test_execution(self):
+    def test_execution(self) -> None:
         assert callable(cached())
         assert callable(cached(adapter="redis"))
 
     @patch("flashback.caching.Cache.set")
     @patch("flashback.caching.Cache.get")
-    def test_cache_miss(self, mocked_cache_get, mocked_cache_set):
+    def test_cache_miss(self, mocked_cache_get: Mock, mocked_cache_set: Mock) -> None:
         mocked_cache_get.side_effect = [None]
         mocked_cache_set.side_effect = [True]
 
@@ -31,7 +40,7 @@ class TestCached:
 
     @patch("flashback.caching.Cache.set")
     @patch("flashback.caching.Cache.get")
-    def test_cache_miss_with_type(self, mocked_cache_get, mocked_cache_set):
+    def test_cache_miss_with_type(self, mocked_cache_get: Mock, mocked_cache_set: Mock) -> None:
         mocked_cache_get.side_effect = [None, None, None]
         mocked_cache_set.side_effect = [True, True, True]
 
@@ -55,7 +64,7 @@ class TestCached:
 
     @patch("flashback.caching.Cache.set")
     @patch("flashback.caching.Cache.get")
-    def test_cache_miss_with_order(self, mocked_cache_get, mocked_cache_set):
+    def test_cache_miss_with_order(self, mocked_cache_get: Mock, mocked_cache_set: Mock) -> None:
         mocked_cache_get.side_effect = [None, None]
         mocked_cache_set.side_effect = [True, True]
 
@@ -74,7 +83,7 @@ class TestCached:
 
     @patch("flashback.caching.Cache.set")
     @patch("flashback.caching.Cache.get")
-    def test_cache_hit(self, mocked_cache_get, mocked_cache_set):
+    def test_cache_hit(self, mocked_cache_get: Mock, mocked_cache_set: Mock) -> None:
         mocked_cache_get.side_effect = [None, 3]
         mocked_cache_set.side_effect = [True]
 

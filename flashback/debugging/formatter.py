@@ -1,5 +1,5 @@
 from collections import Counter, defaultdict, OrderedDict, deque
-from collections.abc import Iterable, Generator, Mapping
+from collections.abc import Iterable, Generator, Mapping, Sequence
 from io import StringIO
 from textwrap import wrap
 from types import ModuleType, MethodType, FunctionType
@@ -14,7 +14,7 @@ from .filters import CallHighlightFilter, DecoratorOperatorFilter, TypeHighlight
 from .styles import Jellybeans
 
 
-class Formatter[T]:
+class Formatter:
     """
     Implements a formatter to prettify arguments received by `flashback.debugging.xp` and parsed
     by `flashback.debugging.parser`.
@@ -86,7 +86,7 @@ class Formatter[T]:
         self,
         filename: str,
         lineno: int,
-        arguments: list[tuple[str | None, T]],
+        arguments: Sequence[tuple[str | None, t.Any]],
         warning: str | None,
         width: int = 120,
     ) -> str:
@@ -182,7 +182,7 @@ class Formatter[T]:
 
         return self._highlight("".join(lines_with_linenos))
 
-    def _format(self, value: T, current_indent: int = 1, force_indent: bool = True) -> None:
+    def _format(self, value: t.Any, current_indent: int = 1, force_indent: bool = True) -> None:
         if force_indent:
             self._buffer.write(current_indent * self._indent_str)
 

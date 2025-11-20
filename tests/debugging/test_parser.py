@@ -8,12 +8,12 @@ from .fixtures import mock_function
 
 
 @pytest.fixture(scope="class")
-def parser():
+def parser() -> Parser:
     return Parser(_offset=1)
 
 
 class TestParser:
-    def test_parse(self, parser):
+    def test_parse(self, parser: Parser) -> None:
         filename, lineno, parsed_arguments, warning = parser.parse(None)
 
         assert filename == "tests/debugging/test_parser.py"
@@ -21,7 +21,7 @@ class TestParser:
         assert parsed_arguments == [(None, None)]
         assert warning is None
 
-    def test_parse_no_context(self, parser):  # noqa: ARG002
+    def test_parse_no_context(self, parser: Parser) -> None:  # noqa: ARG002
         filename, lineno, parsed_arguments, warning = eval("parser.parse(None)")
 
         assert filename == "<string>"
@@ -30,7 +30,7 @@ class TestParser:
         assert warning == "error parsing code, no code context found"
 
     @patch("flashback.debugging.parser.get_frameinfo")
-    def test_parse_exception(self, mocked_get_frameinfo, parser):
+    def test_parse_exception(self, mocked_get_frameinfo, parser: Parser) -> None:
         mocked_get_frameinfo.side_effect = ValueError("call stack is not deep enough")
 
         filename, lineno, parsed_arguments, warning = parser.parse(None)
@@ -40,14 +40,14 @@ class TestParser:
         assert parsed_arguments == [(None, None)]
         assert warning == "error parsing code, call stack is not deep enough (ValueError)"
 
-    def test_parse_simple(self, parser):
+    def test_parse_simple(self, parser: Parser) -> None:
         a = 1
 
         _, _, parsed_arguments, _ = parser.parse(a)
 
         assert parsed_arguments == [("a", 1)]
 
-    def test_parse_multiple(self, parser):
+    def test_parse_multiple(self, parser: Parser) -> None:
         a = 1
         b = [1, 2, 3]
         c = {"a": 1, "b": 2, "c": 3}
@@ -63,7 +63,7 @@ class TestParser:
             (None, False),
         ]
 
-    def test_parse_complex(self, parser):
+    def test_parse_complex(self, parser: Parser) -> None:
         a = {"a": 1, "b": 2, "c": 3}
         b = [i + 1 for i in range(3)]
 
@@ -77,7 +77,7 @@ class TestParser:
             ("1 != 0", True),
         ]
 
-    def test_parse_no_space(self, parser):
+    def test_parse_no_space(self, parser: Parser) -> None:
         a = 1
         b = [1, 2, 3]
         c = {"a": 1, "b": 2, "c": 3}
@@ -86,16 +86,16 @@ class TestParser:
 
         assert parsed_arguments == [("a", 1), ("b", [1, 2, 3]), ("c", {"a": 1, "b": 2, "c": 3})]
 
-    def test_parse_newline(self, parser):
+    def test_parse_newline(self, parser: Parser) -> None:
         _, _, parsed_arguments, _ = parser.parse(1)
         assert parsed_arguments == [(None, 1)]
 
-    def test_parse_newlines(self, parser):
+    def test_parse_newlines(self, parser: Parser) -> None:
         _, _, parsed_arguments, warning = parser.parse(mock_function(1, 2))
         assert parsed_arguments == [("mock_function(1, 2)", 3)]
         assert warning is None
 
-    def test_parse_nested_newlines(self, parser):
+    def test_parse_nested_newlines(self, parser: Parser) -> None:
         _, _, parsed_arguments, warning = parser.parse(
             mock_function(mock_function(mock_function(mock_function(1, 2), 3), 4), 5),
         )

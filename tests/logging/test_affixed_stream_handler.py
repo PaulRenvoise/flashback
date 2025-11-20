@@ -6,7 +6,7 @@ from flashback.logging import AffixedStreamHandler
 
 
 class TestAffixedStreamHandler:
-    def test_instance_usage(self):
+    def test_instance_usage(self) -> None:
         stream = io.StringIO()
         handler = AffixedStreamHandler(stream, prefix="__PREFIX__", suffix="__SUFFIX__")
         logger = logging.getLogger("test_instance_usage")
@@ -16,7 +16,7 @@ class TestAffixedStreamHandler:
 
         assert stream.getvalue() == "__PREFIX__error message__SUFFIX__"
 
-    def test_dictconfig_usage(self):
+    def test_dictconfig_usage(self) -> None:
         stream = io.StringIO()
         config = {
             "version": 1,
