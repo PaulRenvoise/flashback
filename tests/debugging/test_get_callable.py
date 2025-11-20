@@ -88,5 +88,4 @@ class TestGetCallable:
 
         callable_instance = get_callable(frameinfo)
 
-        assert callable_instance is not None
         assert callable_instance is None
