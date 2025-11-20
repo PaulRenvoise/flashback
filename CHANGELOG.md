@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.2 (20/11/2025)
+
+- Improved docs
+- Improved package description
+- Improved python version coverage in CI
+
 ## 3.1.1 (20/11/2025)
 
 - Fixed build
