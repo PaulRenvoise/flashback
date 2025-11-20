@@ -9,6 +9,7 @@
 - Added Python 3.13 and 3.14 in the CI tests
 - Updated `accessing/dig` to return None when no keys are given
 - Updated `caching/cached` to expose `hash_keys: bool` and use custom key building/hashing
+- Updated `iterating/uniq`, `iterating/uniq_by`, `iterating/flatten`, `iterating/compact` to return lists instead of tuples
 - Updated typing:
     - added `py.typed` file
     - `accessing/dig`: replace T with Any, change container type from dict[Hashable, T] | Sequence[T] to Mapping[Any, Any] | Sequence[Any]
