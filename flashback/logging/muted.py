@@ -5,7 +5,7 @@ import logging
 from logging import getLogger, Logger
 
 
-def muted(loggers: Iterable[str | Logger] | None = None) -> Callable:
+def muted(loggers: Iterable[str | Logger | None] | None = None) -> Callable:
     """
     Mutes all (or selected) loggers while executing a callable.
 

@@ -1,5 +1,5 @@
-from io import TextIOWrapper
 import logging
+import typing as t
 
 
 class AffixedStreamHandler(logging.StreamHandler):
@@ -61,7 +61,7 @@ class AffixedStreamHandler(logging.StreamHandler):
         ```
     """
 
-    def __init__(self, stream: TextIOWrapper | None = None, prefix: str = "", suffix: str = "\n") -> None:
+    def __init__(self, stream: t.IO[str] | None = None, prefix: str = "", suffix: str = "\n") -> None:
         """
         If stream is not specified, sys.stderr is used.
 
