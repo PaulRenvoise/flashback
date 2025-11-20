@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 
 
-def flatten[T](iterable: Iterable[T]) -> tuple[T, ...]:
+def flatten[T](iterable: Iterable[T]) -> list[T]:
     """
     Unpacks nested iterables into the root `iterable`.
 
@@ -34,4 +34,4 @@ def flatten[T](iterable: Iterable[T]) -> tuple[T, ...]:
         else:
             items.append(item)
 
-    return tuple(items)
+    return items
