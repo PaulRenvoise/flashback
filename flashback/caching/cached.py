@@ -1,12 +1,14 @@
 from collections.abc import Callable
 import functools
+import hashlib
 import inspect
 import logging
+import typing as t
 
 from .cache import Cache
 
 
-def cached(adapter: str = "memory", **kwargs) -> Callable:
+def cached(adapter: str = "memory", hash_keys: bool = False, **kwargs) -> Callable[..., Callable[..., t.Any]]:
     """
     Caches the return of a callable under a type-aware key built with its arguments.
 
@@ -48,7 +50,35 @@ def cached(adapter: str = "memory", **kwargs) -> Callable:
     """
     cache = Cache(adapter, **kwargs)
 
-    def wrapper(func):
+    def _build_key(func: Callable[..., t.Any], *args, **kwargs) -> str:
+        name = getattr(func, "__qualname__", getattr(func, "__name__", repr(func)))
+
+        def _format_argument(v: t.Any) -> str:
+            return f"{v!r}<{type(v).__name__}>"
+
+        positional = [_format_argument(a) for a in args]
+        keyword = [f"{k}={_format_argument(v)}" for k, v in sorted(kwargs.items())]
+
+        if positional and keyword:
+            inner = ", ".join([*positional, "*", *keyword])
+        elif positional:
+            inner = ", ".join(positional)
+        else:
+            inner = ", ".join(keyword)
+
+        return f"{name}({inner})"
+
+    if hash_keys:
+
+        def _make_key(func, *args, **kwargs) -> str:
+            key = _build_key(func, *args, **kwargs)
+            return hashlib.md5(key.encode()).hexdigest()
+    else:
+
+        def _make_key(func, *args, **kwargs) -> str:
+            return _build_key(func, *args, **kwargs)
+
+    def wrapper(func: Callable[..., t.Any]) -> Callable[..., t.Any]:
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we
         # decorate.
         # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
@@ -58,8 +88,8 @@ def cached(adapter: str = "memory", **kwargs) -> Callable:
         logger = logging.getLogger(None if module is None else module.__name__)
 
         @functools.wraps(func)
-        def inner(*args, **kwargs):
-            key = functools._make_key(args, kwargs, True)  # noqa: SLF001
+        def inner(*args, **kwargs) -> t.Any:
+            key = _make_key(func, *args, **kwargs)
             value = cache.get(key)
 
             if value is not None:
