@@ -3,6 +3,7 @@ from textwrap import dedent
 import ast
 import inspect
 import os
+import typing as t
 
 import regex
 
@@ -10,7 +11,7 @@ from .get_call_context import get_call_context
 from .get_frameinfo import get_frameinfo
 
 
-class Parser[T]:
+class Parser:
     """
     Implements a parser to extract the code context from which `flashback.debugging.xp` is called.
 
@@ -42,7 +43,7 @@ class Parser[T]:
         # This is useful for tests or direct call to `Parser.parse` (in that case use 1)
         self._offset = _offset
 
-    def parse(self, *arguments: T) -> tuple[str, int, list[tuple[str | None, T]], str | None]:
+    def parse(self, *arguments: t.Any) -> tuple[str, int, list[tuple[str | None, t.Any]], str | None]:
         """
         Parses the arguments received from the code context in which `flashback.debugging.xp` has
         been called, and enriches the arguments values with their names (or representation).
@@ -106,8 +107,8 @@ class Parser[T]:
         self,
         call_node: ast.Call,
         code_lines: Sequence[str],
-        arguments: tuple[T, ...],
-    ) -> list[tuple[str | None, T]]:
+        arguments: tuple[t.Any, ...],
+    ) -> list[tuple[str | None, t.Any]]:
         parsed_arguments = []
 
         arguments_positions = self._get_arguments_positions(call_node, code_lines)
@@ -174,5 +175,5 @@ class Parser[T]:
         return arguments_positions
 
     @staticmethod
-    def _default_arguments_parsing(arguments: tuple[T, ...]) -> list[tuple[str | None, T]]:
+    def _default_arguments_parsing(arguments: tuple[t.Any, ...]) -> list[tuple[str | None, t.Any]]:
         return [(None, argument) for argument in arguments]

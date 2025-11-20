@@ -6,33 +6,33 @@ from flashback.i16g import Locale
 
 
 class TestLocale:
-    def test_valid_locale(self):
+    def test_valid_locale(self) -> None:
         locale = Locale.load("en", path=".dummy_locales")
 
         assert locale.ID == "en"
 
-    def test_valid_locale_with_territory(self):
+    def test_valid_locale_with_territory(self) -> None:
         locale = Locale.load("fr_FR", path=".dummy_locales")
 
         assert locale.ID == "fr_fr"
 
-    def test_inexistant_locale(self):
+    def test_inexistant_locale(self) -> None:
         with pytest.raises(NotImplementedError):
             Locale.load("zh_ZH.UTF-8", path=".dummy_locales")
 
-    def test_invalid_locale(self):
+    def test_invalid_locale(self) -> None:
         with pytest.raises(NotImplementedError):
             Locale.load("q", path=".dummy_locales")
 
-    def test_incomplete_locale(self):
+    def test_incomplete_locale(self) -> None:
         with pytest.raises(NotImplementedError):
             Locale.load(".encoding@modifier", path=".dummy_locales")
 
-    def test_invalid_folder(self):
+    def test_invalid_folder(self) -> None:
         with pytest.raises(NotImplementedError):
             Locale.load("en", path=".")
 
-    def test_cached_locale(self):
+    def test_cached_locale(self) -> None:
         with patch("flashback.i16g.locale.import_module") as mock:
             mock.return_value = True
 

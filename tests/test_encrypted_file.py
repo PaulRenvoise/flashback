@@ -1,5 +1,7 @@
 import os
 import pickle
+import typing as t
+from collections.abc import Generator
 
 import pytest
 
@@ -10,7 +12,7 @@ KEY_PATH = "/tmp/secrets.key"
 
 
 @pytest.fixture(autouse=True)
-def _cleanup_test():
+def _cleanup_test() -> Generator[None, t.Any, None]:
     yield
 
     if os.path.exists(FILE_PATH):
@@ -23,7 +25,7 @@ def _cleanup_test():
 
 
 class TestEncryptedFile:
-    def test_init(self):
+    def test_init(self) -> None:
         encrypted_file = EncryptedFile(
             FILE_PATH,
             KEY_PATH,
@@ -35,7 +37,7 @@ class TestEncryptedFile:
         assert os.path.exists(FILE_PATH)
         assert os.path.exists(KEY_PATH)
 
-    def test_read_and_write(self):
+    def test_read_and_write(self) -> None:
         encrypted_file = EncryptedFile(
             FILE_PATH,
             KEY_PATH,
@@ -47,7 +49,7 @@ class TestEncryptedFile:
 
         assert write_contents == read_contents
 
-    def test_read_and_write_with_custom_serializer(self):
+    def test_read_and_write_with_custom_serializer(self) -> None:
         encrypted_file = EncryptedFile(
             FILE_PATH,
             KEY_PATH,
@@ -59,7 +61,7 @@ class TestEncryptedFile:
 
         assert write_contents == read_contents
 
-    def test_read_and_write_with_no_serializer(self):
+    def test_read_and_write_with_no_serializer(self) -> None:
         encrypted_file = EncryptedFile(
             FILE_PATH,
             KEY_PATH,
@@ -71,7 +73,7 @@ class TestEncryptedFile:
 
         assert write_contents == read_contents
 
-    def test_read_and_write_with_key_in_env(self):
+    def test_read_and_write_with_key_in_env(self) -> None:
         encrypted_file = EncryptedFile(
             FILE_PATH,
             KEY_PATH,
@@ -86,7 +88,7 @@ class TestEncryptedFile:
 
         assert write_contents == read_contents
 
-    def test_read_without_key(self):
+    def test_read_without_key(self) -> None:
         encrypted_file = EncryptedFile(
             FILE_PATH,
             KEY_PATH,
@@ -97,7 +99,7 @@ class TestEncryptedFile:
         with pytest.raises(RuntimeError):
             encrypted_file.read()
 
-    def test_read_without_file(self):
+    def test_read_without_file(self) -> None:
         encrypted_file = EncryptedFile(
             FILE_PATH,
             KEY_PATH,

@@ -6,17 +6,17 @@ import pytest
 from flashback import deprecated
 
 
-def dummy_func(spy):
+def dummy_func(spy) -> None:
     spy()
 
 
 @pytest.fixture(autouse=True)
-def _clean_up_dummy_func_doc():
+def _clean_up_dummy_func_doc() -> None:
     dummy_func.__doc__ = None
 
 
 class TestDeprecated:
-    def test_execution(self):
+    def test_execution(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated(since="1.0", until="2.0", reason="that's life")
@@ -27,7 +27,7 @@ class TestDeprecated:
 
             assert spy_func.called
 
-    def test_message(self):
+    def test_message(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated()
@@ -42,7 +42,7 @@ class TestDeprecated:
                 if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated."
 
-    def test_message_with_since_and_until_and_reason(self):
+    def test_message_with_since_and_until_and_reason(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated(since="1.0", until="2.0", reason="that's life")
@@ -60,7 +60,7 @@ class TestDeprecated:
                         == "dummy_func is deprecated since 1.0 and will be removed in 2.0 because that's life."
                     )
 
-    def test_message_with_since_and_reason(self):
+    def test_message_with_since_and_reason(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated(since="1.0", reason="that's life")
@@ -75,7 +75,7 @@ class TestDeprecated:
                 if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated since 1.0 because that's life."
 
-    def test_message_with_until_and_reason(self):
+    def test_message_with_until_and_reason(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated(until="2.0", reason="that's life")
@@ -93,7 +93,7 @@ class TestDeprecated:
                         == "dummy_func is deprecated and will be removed in 2.0 because that's life."
                     )
 
-    def test_message_with_since_and_until(self):
+    def test_message_with_since_and_until(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated(since="1.0", until="2.0")
@@ -108,7 +108,7 @@ class TestDeprecated:
                 if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated since 1.0 and will be removed in 2.0."
 
-    def test_message_with_since(self):
+    def test_message_with_since(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated(since="1.0")
@@ -123,7 +123,7 @@ class TestDeprecated:
                 if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated since 1.0."
 
-    def test_message_with_until(self):
+    def test_message_with_until(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated(until="2.0")
@@ -138,7 +138,7 @@ class TestDeprecated:
                 if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated and will be removed in 2.0."
 
-    def test_message_with_reason(self):
+    def test_message_with_reason(self) -> None:
         spy_func = Mock()
 
         make_deprecated = deprecated(reason="that's life")
@@ -153,13 +153,13 @@ class TestDeprecated:
                 if warning.category is DeprecationWarning:
                     assert str(warning.message) == "dummy_func is deprecated because that's life."
 
-    def test_doc(self):
+    def test_doc(self) -> None:
         make_deprecated = deprecated(since="1.0")
         make_deprecated(dummy_func)
 
         assert dummy_func.__doc__ == ".. deprecated:: dummy_func is deprecated since 1.0."
 
-    def test_doc_append(self):
+    def test_doc_append(self) -> None:
         dummy_func.__doc__ = "Initial doc"
 
         make_deprecated = deprecated(since="1.0")
