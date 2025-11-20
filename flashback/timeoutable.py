@@ -43,7 +43,7 @@ def timeoutable[T](seconds: int = 5, message: str = "execution timed out") -> Ca
     """
 
     def wrapper(func: Callable[..., T]) -> Callable[..., T]:
-        def _sigalrm_handler(_signum: int, _frame: signal.FrameType | None):
+        def _sigalrm_handler(_signum, _frame):
             raise TimeoutError(message)
 
         @functools.wraps(func)
