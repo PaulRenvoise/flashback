@@ -17,7 +17,7 @@ def flatten[T](iterable: Iterable[T]) -> list[T]:
         #=> "d"
         #=> "e"
 
-        assert flatten([1, {2, 3}, (4,), range(5, 6)]) == (1, 2, 3, 4, 5)
+        assert flatten([1, {2, 3}, (4,), range(5, 6)]) == [1, 2, 3, 4, 5]
         ```
 
     Params:

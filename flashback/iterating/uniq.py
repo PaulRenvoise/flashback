@@ -17,7 +17,7 @@ def uniq[T](iterable: Iterable[T]) -> list[T]:
         #=> 19475
 
         # Keeps order
-        assert set([1, 1, 3, 4, 5, 5]) != uniq([1, 1, 3, 4, 5, 5])
+        assert list(set([1, 1, 3, 4, 5, 5])) != uniq([1, 1, 3, 4, 5, 5])
         ```
 
     Params:
