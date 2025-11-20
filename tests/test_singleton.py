@@ -5,9 +5,11 @@ class Logger(metaclass=Singleton):
     def __init__(self, name):
         self.name = name
 
+
 class LooseLogger(metaclass=Singleton, strict=False):
     def __init__(self, name):
         self.name = name
+
 
 class TestSingleton:
     def test_singleton(self):

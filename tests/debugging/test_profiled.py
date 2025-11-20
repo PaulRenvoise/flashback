@@ -17,7 +17,6 @@ class TestProfiled:
 
         self.assert_output_valid(output_name)
 
-
     def test_profiled_with_name(self):
         output_name = "output.cprofile"
         make_profiled = profiled(output_name)

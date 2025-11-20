@@ -27,15 +27,12 @@ class TestFormatter:
         arguments = [(None, "a" * 150)]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert (
-            CRE_ANSI.sub("", content)
-            == (
-                "<filename>:<lineno>\n"
-                "    (\n"
-                "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"  # noqa: E501
-                "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"
-                "    ) (str)"
-            )
+        assert CRE_ANSI.sub("", content) == (
+            "<filename>:<lineno>\n"
+            "    (\n"
+            "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"  # noqa: E501
+            "        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'\n"
+            "    ) (str)"
         )
 
     def test_format_empty(self, formatter):
@@ -132,12 +129,7 @@ class TestFormatter:
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    frozenset({\n"
-            "        1,\n"
-            "        2,\n"
-            "        3,\n"
-            "    }) (frozenset)"
+            "<filename>:<lineno>\n    frozenset({\n        1,\n        2,\n        3,\n    }) (frozenset)"
         )
 
     def test_deque(self, formatter):
@@ -187,12 +179,7 @@ class TestFormatter:
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
         assert CRE_ANSI.sub("", content) == (
-            "<filename>:<lineno>\n"
-            "    Counter({\n"
-            "        'a': 1,\n"
-            "        'b': 2,\n"
-            "        'c': 3,\n"
-            "    }) (Counter)"
+            "<filename>:<lineno>\n    Counter({\n        'a': 1,\n        'b': 2,\n        'c': 3,\n    }) (Counter)"
         )
 
     def test_generator(self, formatter):
@@ -272,15 +259,12 @@ class TestFormatter:
         ]
         content = formatter.format("<filename>", "<lineno>", arguments, None)
 
-        assert (
-            CRE_ANSI.sub("", content)
-            == (
-                "<filename>:<lineno>\n"
-                "    (\n"
-                "        'This is a very long string that needs to be formatted, and since it contains more than 120 characters, it wil'\n"  # noqa: E501
-                "        'l be first wrapped, and then formatted.'\n"
-                "    ) (str)"
-            )
+        assert CRE_ANSI.sub("", content) == (
+            "<filename>:<lineno>\n"
+            "    (\n"
+            "        'This is a very long string that needs to be formatted, and since it contains more than 120 characters, it wil'\n"  # noqa: E501
+            "        'l be first wrapped, and then formatted.'\n"
+            "    ) (str)"
         )
 
     def test_mixed_iterable(self, formatter):
