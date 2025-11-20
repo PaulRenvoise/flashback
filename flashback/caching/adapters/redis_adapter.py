@@ -38,7 +38,7 @@ class RedisAdapter(BaseAdapter):
         else:
             converted_ttl = ttl
 
-        return self.store.set(key, value, ex=converted_ttl)
+        return self.store.set(key, value, ex=converted_ttl)  # type: ignore because redis command's return type is Awaitable[Any] | Any
 
     def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int]) -> bool:
         converted_ttls = [None if ttl == -1 else ttl for ttl in ttls]
@@ -50,17 +50,17 @@ class RedisAdapter(BaseAdapter):
             if ttl is not None:
                 pipe.expire(key, ttl)
 
-        return pipe.execute()
+        return pipe.execute()  # type: ignore because redis command's return type is Awaitable[Any] | Any
 
     def get(self, key: str) -> t.Any | None:
         value = self.store.get(key)
 
-        return value.decode(self._encoding) if value is not None else None
+        return value.decode(self._encoding) if value is not None else None  # type: ignore because redis command's return type is Awaitable[Any] | Any
 
     def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
         values = self.store.mget(keys)
 
-        return [value.decode(self._encoding) if value is not None else None for value in values]
+        return [value.decode(self._encoding) if value is not None else None for value in values]  # type: ignore because redis command's return type is Awaitable[Any] | Any
 
     def delete(self, key: str) -> bool:
         return bool(self.store.delete(key))
@@ -71,13 +71,13 @@ class RedisAdapter(BaseAdapter):
         return res == len(keys)
 
     def exists(self, key: str) -> bool:
-        return self.store.exists(key)
+        return self.store.exists(key)  # type: ignore because redis command's return type is Awaitable[Any] | Any
 
     def flush(self) -> bool:
-        return self.store.flushdb()
+        return self.store.flushdb()  # type: ignore because redis command's return type is Awaitable[Any] | Any
 
     def ping(self) -> bool:
-        return self.store.ping()
+        return self.store.ping()  # type: ignore because redis command's return type is Awaitable[Any] | Any
 
     @property
     def connection_exceptions(self) -> tuple[type[Exception], ...]:
