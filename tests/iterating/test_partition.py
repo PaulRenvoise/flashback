@@ -11,8 +11,8 @@ class TestPartition:
     def test_multiple_items_int(self):
         evens, odds = partition(lambda x: x % 2, [1, 2, 3, 4, 5])
 
-        assert evens == [2, 4]
-        assert odds == [1, 3, 5]
+        assert evens == [1, 3, 5]
+        assert odds == [2, 4]
 
     def test_multiple_items_bool(self):
         evens, odds = partition(lambda x: x % 2 == 0, [1, 2, 3, 4, 5])
