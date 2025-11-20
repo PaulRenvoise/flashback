@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.1.0 (20/11/2025)
+## 3.1.1 (20/11/2025)
 
 - Switched to uv for project management
 - Replaced mypy by pyrefly, and added a typecheck ci step
