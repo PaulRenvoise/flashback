@@ -1,12 +1,12 @@
-from __future__ import annotations
-
 from collections.abc import Callable, Iterable
-from typing import TypeVar
-
-T = TypeVar("T")
+import typing as t
 
 
-def partition(predicate: Callable[[T], bool], iterable: Iterable[T]) -> tuple[tuple[T, ...], tuple[T, ...]]:
+class SupportsBool(t.Protocol):
+    def __bool__(self) -> bool: ...
+
+
+def partition[T](predicate: Callable[[T], SupportsBool], iterable: Iterable[T]) -> tuple[list[T], list[T]]:
     """
     Splits an `iterable` into two lists containing items that validate or not the given
     `predicate`.
@@ -39,4 +39,4 @@ def partition(predicate: Callable[[T], bool], iterable: Iterable[T]) -> tuple[tu
         else:
             falses.append(item)
 
-    return (tuple(trues), tuple(falses))
+    return (trues, falses)

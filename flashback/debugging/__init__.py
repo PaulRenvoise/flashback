@@ -8,8 +8,8 @@ from .xp import xp
 
 __all__ = (
     "caller",
-    "get_callable",
     "get_call_context",
+    "get_callable",
     "get_frameinfo",
     "profiled",
     "xp",

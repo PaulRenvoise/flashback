@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from collections.abc import Callable
 from queue import Queue
 import functools
@@ -79,6 +77,8 @@ class sampled:  # noqa: N801
             strategy (str): the sampling strategy to use
             rate (int|float): the parameter to fine-tune the sampling strategy
         """
+        self._rate: float = 0.0
+
         if strategy == self.STRATEGY_CONSTANT:
             if rate is None:
                 rate = 1
@@ -111,15 +111,18 @@ class sampled:  # noqa: N801
             strategies_choices = oxford_join(self.STRATEGIES, last_sep=", or ")
             raise ValueError(f"invalid strategy {strategy!r}, expecting {strategies_choices}")
 
-    def __call__(self, func: Callable) -> Callable:
+    def __call__[T](self, func: Callable[..., T]) -> Callable[..., T | None]:
         @functools.wraps(func)
-        def inner(*args, **kwargs):
-            return func(*args, **kwargs) if self.should_sample() else None
+        def inner(*args, **kwargs) -> T | None:
+            if not self.should_sample():
+                return None
+
+            return func(*args, **kwargs)
 
         return inner
 
-    def _sample_constant(self) -> float | None:
-        return self._rate
+    def _sample_constant(self) -> bool:
+        return self._rate > 0
 
     def _sample_probabilistic(self) -> bool:
         return random.random() < self._rate

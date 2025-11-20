@@ -48,5 +48,5 @@ def get_frameinfo(depth: int = 0, context: int = 1) -> inspect.FrameInfo:
     if frame is None:
         raise ValueError("call stack is not deep enough")
 
-    frameinfo = (frame,) + inspect.getframeinfo(frame, context)  # noqa: RUF005
+    frameinfo = (frame,) + inspect.getframeinfo(frame, context)  # noqa: RUF005 # type: ignore because Traceback is a namedtuple
     return inspect.FrameInfo(*frameinfo)

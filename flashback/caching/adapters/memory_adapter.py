@@ -1,9 +1,7 @@
-from __future__ import annotations
-
 from collections.abc import Sequence
 from datetime import datetime, timedelta
 from threading import RLock
-from typing import Any
+import typing as t
 
 from .base import BaseAdapter
 
@@ -14,12 +12,10 @@ class MemoryAdapter(BaseAdapter):
     """
 
     def __init__(self, **_kwargs) -> None:
-        super().__init__()
-
         self._lock = RLock()
         self.store = {}
 
-    def set(self, key: str, value: Any, ttl: int) -> bool:
+    def set(self, key: str, value: t.Any, ttl: int) -> bool:
         if ttl == -1:
             expiry = None
         else:
@@ -31,23 +27,23 @@ class MemoryAdapter(BaseAdapter):
 
         return True
 
-    def batch_set(self, keys: Sequence[str], values: Sequence[Any], ttls: Sequence[int]) -> bool:
+    def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int]) -> bool:
         now = datetime.now()
         expiries = [None if ttl == -1 else datetime.timestamp(now + timedelta(seconds=ttl)) for ttl in ttls]
 
-        values = zip(values, expiries)
+        values_and_expiries = zip(values, expiries)
 
         with self._lock:
-            self.store.update(dict(zip(keys, values)))
+            self.store.update(dict(zip(keys, values_and_expiries)))
 
         return True
 
-    def get(self, key: str) -> Any | None:
+    def get(self, key: str) -> t.Any | None:
         self._evict()
 
         return self.store.get(key, (None,))[0]
 
-    def batch_get(self, keys: Sequence[str]) -> Sequence[Any | None]:
+    def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
         self._evict()
 
         return [self.store.get(key, (None,))[0] for key in keys]
@@ -82,7 +78,7 @@ class MemoryAdapter(BaseAdapter):
         return True
 
     @property
-    def connection_exceptions(self) -> tuple[Exception, ...]:
+    def connection_exceptions(self) -> tuple[type[Exception], ...]:
         return ()
 
     def _evict(self) -> None:

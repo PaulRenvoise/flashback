@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 from collections.abc import Sequence
-from typing import Any
+import typing as t
 
 import json
 
@@ -81,7 +79,7 @@ class Cache:
         # Notifies that we have a new connection
         self.ping()
 
-    def set(self, key: str, value: Any, ttl: int | None = None) -> bool:
+    def set(self, key: str, value: t.Any, ttl: int | None = None) -> bool:
         """
         Sets `key` to `value`.
 
@@ -112,7 +110,7 @@ class Cache:
 
         return res
 
-    def batch_set(self, keys: Sequence[str], values: Sequence[Any], ttls: Sequence[int] | None = None) -> bool:
+    def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int] | None = None) -> bool:
         """
         Sets a batch of `keys` to their respective `values`.
 
@@ -152,7 +150,7 @@ class Cache:
 
         return res
 
-    def get(self, key: str) -> Any | None:
+    def get(self, key: str) -> t.Any | None:
         """
         Fetches the value stored under `key`.
 
@@ -184,7 +182,7 @@ class Cache:
 
         return value
 
-    def batch_get(self, keys: Sequence[str]) -> Sequence[Any | None]:
+    def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
         """
         Fetches the values stored under `keys`.
 
@@ -352,7 +350,7 @@ class Cache:
         return self.adapter.ping()
 
     @staticmethod
-    def _decode_json(json_value: str) -> Any:
+    def _decode_json(json_value: str) -> t.Any:
         try:
             return json.loads(json_value)
         except TypeError:  # non-strings (e.g. None)

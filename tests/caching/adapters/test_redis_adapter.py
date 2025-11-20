@@ -8,37 +8,37 @@ from mockredis import mock_redis_client
 from flashback.caching.adapters import RedisAdapter
 
 
-@pytest.fixture()
+@pytest.fixture
 @patch("flashback.caching.adapters.redis_adapter.Redis", mock_redis_client)
-def adapter():
+def adapter() -> RedisAdapter:
     return RedisAdapter()
 
 
 class TestRedisAdapter:
-    def test_set(self, adapter):
+    def test_set(self, adapter: RedisAdapter) -> None:
         assert adapter.set("a", "1", -1)
 
-    def test_batch_set(self, adapter):
+    def test_batch_set(self, adapter: RedisAdapter) -> None:
         assert adapter.batch_set(["a", "b", "c"], ["1", "2", "3"], [-1, -1, -1])
 
-    def test_get(self, adapter):
+    def test_get(self, adapter: RedisAdapter) -> None:
         adapter.set("a", "1", -1)
 
         item = adapter.get("a")
 
         assert item == "1"
 
-    def test_get_expired(self, adapter):
+    def test_get_expired(self, adapter: RedisAdapter) -> None:
         adapter.set("a", "1", 1)
 
         time.sleep(1)
-        adapter.store.do_expire()
+        adapter.store.do_expire()  # type: ignore because store is a MockRedis
 
         item = adapter.get("a")
 
         assert item is None
 
-    def test_batch_get(self, adapter):
+    def test_batch_get(self, adapter: RedisAdapter) -> None:
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, -1])
 
         items = adapter.batch_get(["a", "b"])
@@ -46,57 +46,57 @@ class TestRedisAdapter:
         assert len(items) == 2
         assert items == ["1", "2"]
 
-    def test_batch_get_expired(self, adapter):
+    def test_batch_get_expired(self, adapter: RedisAdapter) -> None:
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, 1])
 
         time.sleep(1)
-        adapter.store.do_expire()
+        adapter.store.do_expire()  # type: ignore because store is a MockRedis
 
         items = adapter.batch_get(["a", "b"])
 
         assert len(items) == 2
         assert items == ["1", None]
 
-    def test_delete(self, adapter):
+    def test_delete(self, adapter: RedisAdapter) -> None:
         adapter.set("a", "1", -1)
 
         assert adapter.delete("a")
 
-    def test_delete_expired(self, adapter):
+    def test_delete_expired(self, adapter: RedisAdapter) -> None:
         adapter.set("a", "1", 1)
 
         time.sleep(1)
-        adapter.store.do_expire()
+        adapter.store.do_expire()  # type: ignore because store is a MockRedis
 
         assert not adapter.delete("a")
 
-    def test_batch_delete(self, adapter):
+    def test_batch_delete(self, adapter: RedisAdapter) -> None:
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, -1])
 
         assert adapter.batch_delete(["a", "b"])
 
-    def test_batch_delete_expired(self, adapter):
+    def test_batch_delete_expired(self, adapter: RedisAdapter) -> None:
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, 1])
 
         time.sleep(1)
-        adapter.store.do_expire()
+        adapter.store.do_expire()  # type: ignore because store is a MockRedis
 
         assert not adapter.batch_delete(["a", "b"])
 
-    def test_exists(self, adapter):
+    def test_exists(self, adapter: RedisAdapter) -> None:
         adapter.set("a", "1", -1)
 
         assert adapter.exists("a")
 
-    def test_exists_expired(self, adapter):
+    def test_exists_expired(self, adapter: RedisAdapter) -> None:
         adapter.set("a", "1", 1)
 
         time.sleep(1)
-        adapter.store.do_expire()
+        adapter.store.do_expire()  # type: ignore because store is a MockRedis
 
         assert not adapter.exists("a")
 
-    def test_flush(self, adapter):
+    def test_flush(self, adapter: RedisAdapter) -> None:
         adapter.set("a", "1", -1)
         adapter.flush()
 
@@ -104,8 +104,8 @@ class TestRedisAdapter:
 
         assert item is None
 
-    def test_ping(self, adapter):
+    def test_ping(self, adapter: RedisAdapter) -> None:
         assert adapter.ping()
 
-    def test_exposed_exceptions(self):
-        from flashback.caching.adapters.redis_adapter import RedisError  # noqa: F401
+    def test_exposed_exceptions(self) -> None:
+        from flashback.caching.adapters.redis_adapter import RedisError  # noqa: F401, PLC0415

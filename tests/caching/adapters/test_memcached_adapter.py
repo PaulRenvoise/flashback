@@ -9,20 +9,20 @@ from pymemcache.test.utils import MockMemcacheClient
 from flashback.caching.adapters import MemcachedAdapter
 
 
-@pytest.fixture()
+@pytest.fixture
 @patch("flashback.caching.adapters.memcached_adapter.Client", MockMemcacheClient)
-def adapter():
+def adapter() -> MemcachedAdapter:
     MockMemcacheClient._check_integer = Client._check_integer  # noqa: SLF001
 
     return MemcachedAdapter()
 
 
 class TestMemcachedAdapter:
-    def test_set(self, adapter):
+    def test_set(self, adapter: MemcachedAdapter) -> None:
         assert adapter.set("a", "1", -1)
 
-    def test_batch_set(self, adapter):
-        def mocked_misc_cmd(self, commands, _name, _noreply):
+    def test_batch_set(self, adapter: MemcachedAdapter) -> None:
+        def mocked_misc_cmd(self, commands, _name, _noreply) -> list[bytes]:
             results = []
             for command in commands:
                 prefix, value = command.splitlines()
@@ -38,14 +38,14 @@ class TestMemcachedAdapter:
 
         assert adapter.batch_set(["a", "b", "c"], ["1", "2", "3"], [-1, -1, -1])
 
-    def test_get(self, adapter):
+    def test_get(self, adapter: MemcachedAdapter) -> None:
         adapter.set("a", "1", -1)
 
         item = adapter.get("a")
 
         assert item == b"1"
 
-    def test_get_expired(self, adapter):
+    def test_get_expired(self, adapter: MemcachedAdapter) -> None:
         adapter.set("a", "1", 1)
 
         time.sleep(1)
@@ -54,8 +54,8 @@ class TestMemcachedAdapter:
 
         assert item is None
 
-    def test_batch_get(self, adapter):
-        def mocked_misc_cmd(self, commands, _name, _noreply):
+    def test_batch_get(self, adapter: MemcachedAdapter) -> None:
+        def mocked_misc_cmd(self, commands, _name, _noreply) -> list[bytes]:
             results = []
             for command in commands:
                 prefix, value = command.splitlines()
@@ -76,8 +76,8 @@ class TestMemcachedAdapter:
         assert len(items) == 2
         assert items == [b"1", b"2"]
 
-    def test_batch_get_expired(self, adapter):
-        def mocked_misc_cmd(self, commands, _name, _noreply):
+    def test_batch_get_expired(self, adapter: MemcachedAdapter) -> None:
+        def mocked_misc_cmd(self, commands, _name, _noreply) -> list[bytes]:
             results = []
             for command in commands:
                 prefix, value = command.splitlines()
@@ -100,20 +100,20 @@ class TestMemcachedAdapter:
         assert len(items) == 2
         assert items == [b"1", None]
 
-    def test_delete(self, adapter):
+    def test_delete(self, adapter: MemcachedAdapter) -> None:
         adapter.set("a", "1", -1)
 
         assert adapter.delete("a")
 
-    def test_delete_expired(self, adapter):
+    def test_delete_expired(self, adapter: MemcachedAdapter) -> None:
         adapter.set("a", "1", 1)
 
         time.sleep(1)
 
         assert adapter.delete("a")
 
-    def test_batch_delete(self, adapter):
-        def mocked_misc_cmd(self, commands, name, _noreply):
+    def test_batch_delete(self, adapter: MemcachedAdapter) -> None:
+        def mocked_misc_cmd(self, commands, name, _noreply) -> list[bytes]:
             results = []
             for command in commands:
                 prefix, *value = command.splitlines()
@@ -136,8 +136,8 @@ class TestMemcachedAdapter:
 
         assert adapter.batch_delete(["a", "b"])
 
-    def test_batch_delete_expired(self, adapter):
-        def mocked_misc_cmd(self, commands, name, _noreply):
+    def test_batch_delete_expired(self, adapter: MemcachedAdapter) -> None:
+        def mocked_misc_cmd(self, commands, name, _noreply) -> list[bytes]:
             results = []
             for command in commands:
                 prefix, *value = command.splitlines()
@@ -163,19 +163,19 @@ class TestMemcachedAdapter:
         assert adapter.batch_get(["a", "b"]) == [b"1", None]
         assert not adapter.batch_delete(["a", "b"])
 
-    def test_exists(self, adapter):
+    def test_exists(self, adapter: MemcachedAdapter) -> None:
         adapter.set("a", "1", -1)
 
         assert adapter.exists("a")
 
-    def test_exists_expired(self, adapter):
+    def test_exists_expired(self, adapter: MemcachedAdapter) -> None:
         adapter.set("a", "1", 1)
 
         time.sleep(1)
 
         assert not adapter.exists("a")
 
-    def test_flush(self, adapter):
+    def test_flush(self, adapter: MemcachedAdapter) -> None:
         adapter.set("a", "1", -1)
         adapter.flush()
 
@@ -183,8 +183,8 @@ class TestMemcachedAdapter:
 
         assert item is None
 
-    def test_ping(self, adapter):
+    def test_ping(self, adapter: MemcachedAdapter) -> None:
         assert adapter.ping()
 
-    def test_exposed_exceptions(self):
-        from flashback.caching.adapters.memcached_adapter import MemcacheError  # noqa: F401
+    def test_exposed_exceptions(self) -> None:
+        from flashback.caching.adapters.memcached_adapter import MemcacheError  # noqa: F401, PLC0415

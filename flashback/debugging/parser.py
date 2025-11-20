@@ -1,18 +1,14 @@
-from __future__ import annotations
-
 from collections.abc import Sequence
 from textwrap import dedent
-from typing import TypeVar
 import ast
 import inspect
 import os
+import typing as t
 
 import regex
 
 from .get_call_context import get_call_context
 from .get_frameinfo import get_frameinfo
-
-T = TypeVar("T")
 
 
 class Parser:
@@ -47,7 +43,7 @@ class Parser:
         # This is useful for tests or direct call to `Parser.parse` (in that case use 1)
         self._offset = _offset
 
-    def parse(self, *arguments: T) -> tuple[str, int, Sequence[tuple[str | None, T]], str | None]:
+    def parse(self, *arguments: t.Any) -> tuple[str, int, list[tuple[str | None, t.Any]], str | None]:
         """
         Parses the arguments received from the code context in which `flashback.debugging.xp` has
         been called, and enriches the arguments values with their names (or representation).
@@ -91,12 +87,15 @@ class Parser:
         filename: str,
     ) -> tuple[ast.Call | None, list[str] | None, str | None]:
         context, _, boundaries = get_call_context(frameinfo)
-        if not context:
+        if not context or not boundaries:
             return None, None, "error parsing code, no code context found"
 
         call_statement = dedent("".join(context[slice(*boundaries)]))
 
-        node = ast.parse(call_statement, filename=filename).body[0].value
+        # ast.parse is always called on the statement of the call to Parser.parse,
+        # where there is an assignment for its result.
+        # So body[0] is always an Assign node, which has a 'value' attribute
+        node = ast.parse(call_statement, filename=filename).body[0].value  # type: ignore
         if not isinstance(node, ast.Call):
             return None, None, f"error parsing code, found ast.{node.__class__.__name__} instead of ast.Call"
 
@@ -108,8 +107,8 @@ class Parser:
         self,
         call_node: ast.Call,
         code_lines: Sequence[str],
-        arguments: tuple[T, ...],
-    ) -> Sequence[tuple[str | None, T]]:
+        arguments: tuple[t.Any, ...],
+    ) -> list[tuple[str | None, t.Any]]:
         parsed_arguments = []
 
         arguments_positions = self._get_arguments_positions(call_node, code_lines)
@@ -126,7 +125,7 @@ class Parser:
             elif isinstance(arg_node, self.COMPLEX_NODES):
                 position = arguments_positions[i]
 
-                name_lines = []
+                name_lines: list[str] = []
                 # We do end_line + 1 to have the range contain the actual end_line defined above
                 for current_line in range(position["start_line"], position["end_line"] + 1):
                     start = position["start_col"] if current_line == position["start_line"] else None
@@ -176,5 +175,5 @@ class Parser:
         return arguments_positions
 
     @staticmethod
-    def _default_arguments_parsing(arguments: tuple[T, ...]) -> Sequence[tuple[None, T]]:
+    def _default_arguments_parsing(arguments: tuple[t.Any, ...]) -> list[tuple[str | None, t.Any]]:
         return [(None, argument) for argument in arguments]

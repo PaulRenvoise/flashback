@@ -2,22 +2,22 @@ from flashback import Sentinel
 
 
 class TestSentinel:
-    def test_instance_equality(self):
+    def test_instance_equality(self) -> None:
         sentinel = Sentinel()
 
         assert sentinel == Sentinel()
 
-    def test_instance_identity(self):
+    def test_instance_identity(self) -> None:
         sentinel = Sentinel()
 
         assert sentinel is Sentinel()
 
-    def test_class_equality(self):
+    def test_class_equality(self) -> None:
         sentinel = Sentinel()
 
         assert sentinel == Sentinel
 
-    def test_class_identity(self):
+    def test_class_identity(self) -> None:
         sentinel = Sentinel()
 
         assert sentinel is Sentinel

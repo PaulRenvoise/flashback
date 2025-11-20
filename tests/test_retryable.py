@@ -8,14 +8,14 @@ from flashback import retryable
 
 
 class TestRetryable:
-    def test_without_exception(self):
+    def test_without_exception(self) -> None:
         mock_without_exception = Mock()
 
         make_retryable = retryable()
         decorated_function = make_retryable(mock_without_exception)
         decorated_function()
 
-    def test_with_exception(self):
+    def test_with_exception(self) -> None:
         mock_with_exception = Mock(side_effect=[Exception, None])
 
         before = time.time()
@@ -30,7 +30,7 @@ class TestRetryable:
         # 0.15 (first retry)
         assert math.isclose(after, 0.15, rel_tol=0.5)
 
-    def test_with_plateau_after(self):
+    def test_with_plateau_after(self) -> None:
         mock_with_exception = Mock(side_effect=[Exception, Exception, None])
 
         before = time.time()
@@ -45,7 +45,7 @@ class TestRetryable:
         # 0.15 (first retry) + 0.15 (second retry)
         assert math.isclose(after, 0.30, rel_tol=0.5)
 
-    def test_with_reset_after(self):
+    def test_with_reset_after(self) -> None:
         mock_with_exception = Mock(side_effect=[Exception] * 4 + [None])
 
         before = time.time()
@@ -60,7 +60,7 @@ class TestRetryable:
         # 0.15 (first retry) + 0.70 (second retry) + 1.65 (third retry) + 0.15 (fourth retry)
         assert math.isclose(after, 2.65, rel_tol=0.5)
 
-    def test_with_max_retries(self):
+    def test_with_max_retries(self) -> None:
         mock_with_exception = Mock(side_effect=[AttributeError, AttributeError, None])
 
         make_retryable = retryable(max_retries=1, exceptions=(AttributeError,))
