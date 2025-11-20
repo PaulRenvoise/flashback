@@ -24,4 +24,4 @@ __all__ = (
     "timeoutable",
 )
 
-__version__ = "3.1.0"
+__version__ = "3.1.2"
