@@ -41,6 +41,7 @@ class TestGetCallable:
 
         callable_instance = get_callable(frameinfo)
 
+        assert callable_instance is not None
         assert callable_instance.__name__ == "dummy_function"
 
     def test_closure(self):
@@ -70,6 +71,7 @@ class TestGetCallable:
 
         callable_instance = get_callable(frameinfo)
 
+        assert callable_instance is not None
         assert callable_instance.__name__ == "dummy_method"
 
     def test_classmethod(self):
@@ -77,6 +79,7 @@ class TestGetCallable:
 
         callable_instance = get_callable(frameinfo)
 
+        assert callable_instance is not None
         assert callable_instance.__name__ == "dummy_classmethod"
 
     def test_staticmethod(self):

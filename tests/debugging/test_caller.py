@@ -6,7 +6,7 @@ from unittest.mock import patch
 from flashback.debugging import caller
 
 
-@pytest.fixture()
+@pytest.fixture
 def output():
     return StringIO()
 
@@ -16,6 +16,7 @@ class TestCaller:
         caller_instance = caller(output=output)
         captured = output.getvalue()
 
+        assert caller_instance is not None
         assert caller_instance.__name__ == "pytest_pyfunc_call"
         assert len(captured.splitlines()) == 12
 
@@ -23,6 +24,7 @@ class TestCaller:
         caller_instance = caller(depth=30, output=output)
         captured = output.getvalue()
 
+        assert caller_instance is not None
         assert caller_instance.__name__ == "console_main"
         assert len(captured.splitlines()) == 12
 
@@ -30,6 +32,7 @@ class TestCaller:
         caller_instance = caller(context=10, output=output)
         captured = output.getvalue()
 
+        assert caller_instance is not None
         assert caller_instance.__name__ == "pytest_pyfunc_call"
         assert len(captured.splitlines()) == 22
 
@@ -51,6 +54,7 @@ class TestCaller:
         caller_instance = caller(depth=3, output=output)  # depth=3 because we have a decorator
         captured = output.getvalue()
 
+        assert caller_instance is not None
         assert caller_instance.__name__ == "pytest_pyfunc_call"
         assert len(captured.splitlines()) == 2
 

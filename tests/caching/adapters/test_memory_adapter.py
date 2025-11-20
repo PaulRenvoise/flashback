@@ -5,7 +5,7 @@ import pytest
 from flashback.caching.adapters import MemoryAdapter
 
 
-@pytest.fixture()
+@pytest.fixture
 def adapter():
     return MemoryAdapter()
 

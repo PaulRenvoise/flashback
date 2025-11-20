@@ -25,7 +25,7 @@ class ReadOnly(metaclass=classproperty.meta):
 
 @pytest.fixture(autouse=True)
 def _clean_up_class_attribute():
-    ReadWrite.attribute = 0
+    ReadWrite.attribute = 0  # type: ignore because we use metaprog magic
 
 
 class TestClassProperty:
@@ -47,7 +47,7 @@ class TestClassProperty:
     def test_readwrite_set_via_class(self):
         read_write = ReadWrite()
 
-        ReadWrite.attribute = 1
+        ReadWrite.attribute = 1  # type: ignore because we use metaprog magic
 
         assert read_write.attribute == 1
 
@@ -67,4 +67,4 @@ class TestClassProperty:
 
     def test_readonly_set_via_class(self):
         with pytest.raises(AttributeError):
-            ReadOnly.attribute = 1
+            ReadOnly.attribute = 1  # type: ignore because we use metaprog magic

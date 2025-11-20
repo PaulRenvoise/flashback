@@ -1,12 +1,8 @@
-from __future__ import annotations
-
-from collections.abc import Sequence, Hashable
-from typing import TypeVar
-
-T = TypeVar("T")
+from collections.abc import Sequence, Hashable, Mapping
+import typing as t
 
 
-def dig(container: dict[Hashable, T] | Sequence[T], *keys: tuple[Hashable, ...]) -> T | None:
+def dig(container: Mapping[t.Any, t.Any] | Sequence[t.Any], *keys: Hashable) -> t.Any | None:
     """
     Retrieves the value corresponding to each `keys` repeatedly from `container`,
     supporting both dict and list indices.
@@ -29,17 +25,22 @@ def dig(container: dict[Hashable, T] | Sequence[T], *keys: tuple[Hashable, ...])
     Returns:
         the final value
     """
+    if not keys:
+        return None
+
+    current: t.Any = container
+
     for key in keys[:-1]:
-        if isinstance(container, Sequence) and isinstance(key, int):
-            if 0 <= key < len(container):
-                container = container[key] or []
+        if isinstance(current, Sequence) and isinstance(key, int):
+            if 0 <= key < len(current):
+                current = current[key] or {}
             else:
-                container = [{}]
+                current = {}
         else:
-            container = container.get(key, {}) or {}
+            current = current.get(key, {}) or {}
 
     last_key = keys[-1]
-    if isinstance(container, Sequence) and isinstance(last_key, int):
-        return container[last_key] if 0 <= last_key < len(container) else None
+    if isinstance(current, Sequence) and isinstance(last_key, int):
+        return current[last_key] if 0 <= last_key < len(current) else None
 
-    return container.get(last_key)
+    return current.get(last_key)

@@ -1,12 +1,10 @@
-from __future__ import annotations
-
 from collections import Counter, defaultdict, OrderedDict, deque
-from collections.abc import Sized, Iterable, Generator, Mapping
+from collections.abc import Iterable, Generator, Mapping
 from io import StringIO
 from textwrap import wrap
 from types import ModuleType, MethodType, FunctionType
-from typing import Any, ClassVar, TypeVar
 import inspect
+import typing as t
 
 import pygments
 from pygments.formatters.terminal256 import Terminal256Formatter
@@ -15,10 +13,8 @@ from pygments.lexers.python import PythonLexer
 from .filters import CallHighlightFilter, DecoratorOperatorFilter, TypeHighlightFilter
 from .styles import Jellybeans
 
-T = TypeVar("T")
 
-
-class Formatter:
+class Formatter[T]:
     """
     Implements a formatter to prettify arguments received by `flashback.debugging.xp` and parsed
     by `flashback.debugging.parser`.
@@ -35,7 +31,7 @@ class Formatter:
     Formats all other types via their __repr__ method.
     """
 
-    TYPE_TO_SYMBOLS: ClassVar[dict[str, tuple[str, str]]] = {
+    TYPE_TO_SYMBOLS: t.ClassVar[dict[str, tuple[str, str]]] = {
         "deque": ("deque([\n", "])"),
         "frozenset": ("frozenset({\n", "})"),
         "list": ("[\n", "]"),
@@ -86,11 +82,11 @@ class Formatter:
         )
         self._code_formatter = Terminal256Formatter(style=Jellybeans)
 
-    def format(  # noqa: PLR0913
+    def format(
         self,
         filename: str,
         lineno: int,
-        arguments: list[tuple[str, T]],
+        arguments: list[tuple[str | None, T]],
         warning: str | None,
         width: int = 120,
     ) -> str:
@@ -118,7 +114,7 @@ class Formatter:
         if len(arguments) == 0:
             return content[:-1]  # Remove the last newline
 
-        arguments_content = []
+        arguments_content: list[str] = []
         for name, value in arguments:
             argument_content = f"  {name}:\n" if name is not None else ""
 
@@ -139,7 +135,12 @@ class Formatter:
 
         return content
 
-    def format_code(self, lines: Sized, start_lineno: int = 1, highlight: tuple[int, int] | None = None) -> str:
+    def format_code(
+        self,
+        lines: list[str],
+        start_lineno: int | None = 1,
+        highlight: tuple[int, int] | None = None,
+    ) -> str:
         """
         Formats code with syntax highlighting and line numbers, with optional highlighting of
         specific range of lines.
@@ -152,10 +153,11 @@ class Formatter:
         Returns:
             the formatted and highlighted code
         """
+        start_lineno = start_lineno or 1
         linenos = list(range(start_lineno, start_lineno + len(lines) + 2))
 
         pad_len = len(str(max(linenos)))
-        lines_with_linenos = []
+        lines_with_linenos: list[str] = []
         for lineno, line in zip(linenos, lines):
             lines_with_linenos.append(f"{lineno:{pad_len}} {line}")
 
@@ -244,7 +246,7 @@ class Formatter:
 
         # We're be processing a defaultdict
         if "_TYPE_" in start:
-            start = start.replace("_TYPE_", repr(mapping.default_factory))
+            start = start.replace("_TYPE_", repr(mapping.default_factory))  # type: ignore
 
         self._buffer.write(start)
         for key, value in mapping.items():
@@ -320,7 +322,7 @@ class Formatter:
             self._buffer.write(suffix)
         self._buffer.write(current_indent * self._indent_str + end)
 
-    def _format_raw(self, value: Any, current_indent: int, next_indent: int) -> None:
+    def _format_raw(self, value: t.Any, current_indent: int, next_indent: int) -> None:
         representation = repr(value)
         lines = representation.splitlines(True)
 
@@ -341,4 +343,4 @@ class Formatter:
             self._buffer.write(representation)
 
     def _highlight(self, value: str) -> str:
-        return pygments.highlight(value, lexer=self._code_lexer, formatter=self._code_formatter)
+        return pygments.highlight(value, lexer=self._code_lexer, formatter=self._code_formatter)  # type: ignore because pygments is not typed

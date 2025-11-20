@@ -1,15 +1,9 @@
-from __future__ import annotations
-
-from collections.abc import Callable, Iterable
-from typing import TypeVar
+from collections.abc import Callable, Iterable, Iterator
 
 from .flatten import flatten
 
-T = TypeVar("T")
-U = TypeVar("U")
 
-
-def flat_map(func: Callable[[T], U], iterable: Iterable[T]) -> map[U]:
+def flat_map[T, U](func: Callable[[T], U], iterable: Iterable[T]) -> Iterator[U]:
     """
     Applies the function `func` to each item and nested item of `iterable`.
 

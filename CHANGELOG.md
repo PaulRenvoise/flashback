@@ -1,5 +1,40 @@
 # Changelog
 
+## TBD ()
+
+- Switched to uv for project management
+- Replaced mypy by pyrefly, and added a typecheck ci step
+- Upgraded all dependencies
+- Dropped support for Python 3.8, 3.9, 3.10, 3.11
+- Added Python 3.13 and 3.14 in the CI tests
+- Updated `accessing/dig` to return None when no keys are given
+- Updated `caching/cached` to expose `hash_keys: bool` and use custom key building/hashing
+- Updated `iterating/uniq`, `iterating/uniq_by`, `iterating/flatten`, `iterating/compact` to return lists instead of tuples
+- Updated typing:
+    - added `py.typed` file
+    - `accessing/dig`: replace T with Any, change container type from dict[Hashable, T] | Sequence[T] to Mapping[Any, Any] | Sequence[Any]
+    - `accessing/pick`: change dictionary: dict[Hashable, T] to mapping: Mapping[Any, T]
+    - `accessing/values_at`: change dictionary: dict[Hashable, T] to mapping: Mapping[Any, T]
+    - `caching/adapters/redis_adapter`: added types to __init__
+    - `caching/adapters`: changed the return of connection_exceptions from tuple[Exception, ...] to tuple[type[Exception], ...]
+    - `caching/cached`: update typing
+    - `debugging/profiled`: output type changed from TextIO to str
+    - `debugging/xp`: change o type from TextIO to IO[str]
+    - `formatting/locales`: added types for all constants
+    - `iterating/compact`: return value will not have None explicitly
+    - `iterating/partition`: return value of the predicate must be SupportsBool instead of bool, returns `tuple[list[T], list[T]]` instead of tuple[tuple[T, ...], tuple[T, ...]]`
+    - `iterating/uniq_by`: returns list[T] instead of tuple[t, ...]
+    - `iterating/uniq`: returns list[T] instead of tuple[t, ...]
+    - `logging/affixed_stream_handler`: change __init__ stream type from TextIOWarpper to IO[str]
+    - `logging/muted`: add None type option to loggers' Iterable type
+    - `borg`: add return type Self to __new__, add __getattr__ to make typechecker happy
+    - `deprecated`: add typing
+    - `encrypted_file`: better read/write typing via overload
+    - `retryable`: add typing
+    - `sampled`: add typing
+    - `timed`: add typing
+    - `timeoutabe`: add typing
+
 ## 2.2.2 (31/08/2024)
 
 - Update dependency version for regex

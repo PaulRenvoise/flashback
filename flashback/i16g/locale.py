@@ -1,10 +1,8 @@
-from __future__ import annotations
-
 from importlib import util, import_module
 from types import ModuleType
-from typing import ClassVar
 import inspect
 import re
+import typing as t
 
 from ..debugging import get_frameinfo
 
@@ -28,7 +26,7 @@ class Locale:
         ```
     """
 
-    __cache: ClassVar[dict[str, ModuleType]] = {}
+    __cache: t.ClassVar[dict[str, ModuleType]] = {}
     CRE_LOCALE = re.compile(
         r"""
             ^
@@ -105,7 +103,10 @@ class Locale:
 
         if path.startswith("."):
             caller_module = inspect.getmodule(get_frameinfo(1).frame)
-            caller_package = caller_module.__package__
+            if caller_module is not None:
+                caller_package = caller_module.__package__
+            else:
+                caller_package = ""
 
             module_path = util.resolve_name(path, caller_package)
         else:

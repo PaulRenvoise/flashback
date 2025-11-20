@@ -8,7 +8,7 @@ from mockredis import mock_redis_client
 from flashback.caching.adapters import RedisAdapter
 
 
-@pytest.fixture()
+@pytest.fixture
 @patch("flashback.caching.adapters.redis_adapter.Redis", mock_redis_client)
 def adapter():
     return RedisAdapter()
@@ -108,4 +108,4 @@ class TestRedisAdapter:
         assert adapter.ping()
 
     def test_exposed_exceptions(self):
-        from flashback.caching.adapters.redis_adapter import RedisError  # noqa: F401
+        from flashback.caching.adapters.redis_adapter import RedisError  # noqa: F401, PLC0415

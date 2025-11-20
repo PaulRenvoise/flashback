@@ -1,13 +1,7 @@
-from __future__ import annotations
-
 from collections.abc import Iterable
 
-from typing import TypeVar
 
-T = TypeVar("T")
-
-
-def uniq(iterable: Iterable[T]) -> tuple[T, ...]:
+def uniq[T](iterable: Iterable[T]) -> list[T]:
     """
     Removes duplicates items from `iterable` while keeping their order.
 
@@ -36,11 +30,11 @@ def uniq(iterable: Iterable[T]) -> tuple[T, ...]:
     seen = set()
 
     for item in iterable:
-        repr_item = repr(item)
-        if repr_item in seen:
+        item_repr = repr(item)
+        if item_repr in seen:
             continue
 
         unique.append(item)
-        seen.add(repr_item)
+        seen.add(item_repr)
 
-    return tuple(unique)
+    return unique

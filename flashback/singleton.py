@@ -43,7 +43,7 @@ class Singleton(type):
         ```
     """
 
-    def __new__(mcs, name, bases, namespace, **_kwargs):  # noqa: N804 mcs = metaclass
+    def __new__(mcs, name, bases, namespace, **_kwargs):
         return super().__new__(mcs, name, bases, namespace)
 
     def __init__(cls, name, bases, attributes, strict=True):

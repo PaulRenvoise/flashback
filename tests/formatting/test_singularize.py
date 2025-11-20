@@ -3,7 +3,7 @@ import pytest
 from flashback.formatting import singularize
 
 
-@pytest.fixture()
+@pytest.fixture
 def all_words():
     return (
         ("search", "searches"),
@@ -86,7 +86,7 @@ def all_words():
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def compound_words():
     return (
         ("asian-american", "asian-americans"),
@@ -98,7 +98,7 @@ def compound_words():
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def possessive_words():
     return (
         ("dog's", "dogs'"),

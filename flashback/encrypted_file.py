@@ -1,9 +1,8 @@
-from __future__ import annotations
-
 from collections.abc import Callable
 import base64
 import os
 import secrets
+import typing as t
 
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
@@ -56,7 +55,7 @@ class EncryptedFile:
 
         self.env_key_name = env_key_name
 
-        self.key = None
+        self.key: bytes | None = None
 
     def init(self) -> tuple[str, str]:
         """
@@ -83,7 +82,13 @@ class EncryptedFile:
 
         return key, contents
 
-    def read(self, deserializer: Callable[[bytes], str] | None = None) -> str:
+    @t.overload
+    def read(self, deserializer: None = None) -> str: ...
+
+    @t.overload
+    def read[T](self, deserializer: Callable[[bytes], T]) -> T: ...
+
+    def read(self, deserializer: Callable[[bytes], object] | None = None) -> object:
         """
         Reads the contents (possibly deserialized with `deserializer`) of the file_path
         given at init, and decrypt them with the encryption key.
@@ -110,7 +115,13 @@ class EncryptedFile:
 
             return deserializer(contents)
 
-    def write(self, contents: str, serializer: Callable[[str], bytes] | None = None) -> None:
+    @t.overload
+    def write(self, contents: str, serializer: None = None) -> None: ...
+
+    @t.overload
+    def write[T](self, contents: T, serializer: Callable[[T], bytes]) -> None: ...
+
+    def write(self, contents: object, serializer: Callable[[object], bytes] | None = None) -> None:
         """
         Writes the given `contents` (possibly serialized with `serializer`)
         after encrypting them with the encryption key to the file_path given at init.
@@ -125,6 +136,8 @@ class EncryptedFile:
         key = self.get_key()
 
         if serializer is None:
+            assert isinstance(contents, str)
+
             serialized_contents = contents.encode("utf-8")
         else:
             serialized_contents = serializer(contents)

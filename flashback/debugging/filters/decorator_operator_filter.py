@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from collections.abc import Generator
 
 from pygments.filters import Filter
@@ -20,7 +18,7 @@ class DecoratorOperatorFilter(Filter):
         """
         Filter.__init__(self, **kwargs)
 
-    def filter(self, _lexer: Lexer, stream: Generator) -> Generator[tuple[_TokenType, str], None, None]:
+    def filter(self, _lexer: Lexer, stream: Generator) -> Generator[tuple[_TokenType, str], None, None]:  # type: ignore because filter is not typed
         """
         Iterates over the stream of tokens and splits a `pygments.token.Name.Decorator: into two
         components.

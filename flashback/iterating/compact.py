@@ -1,12 +1,7 @@
-from __future__ import annotations
-
 from collections.abc import Iterable
-from typing import TypeVar
-
-T = TypeVar("T")
 
 
-def compact(iterable: Iterable[T]) -> tuple[T, ...]:
+def compact[T](iterable: Iterable[T | None]) -> list[T]:
     """
     Removes None items from `iterable`.
 
@@ -26,6 +21,6 @@ def compact(iterable: Iterable[T]) -> tuple[T, ...]:
         iterable: the iterable to remove None from
 
     Returns:
-        the iterable without duplicates
+        the iterable without None values
     """
-    return tuple(item for item in iterable if item is not None)
+    return [item for item in iterable if item is not None]

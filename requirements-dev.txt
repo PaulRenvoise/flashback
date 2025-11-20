@@ -1,8 +1,0 @@
-# Documentation
-mkdocs-material==9.5.25
-mkdocstrings==0.25.1
-mkdocs-coverage==1.0.0
-
-mypy==1.10.0
-
--r requirements-test.txt

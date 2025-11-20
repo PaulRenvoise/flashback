@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-from typing import ClassVar
+import typing as t
 
 from pygments.style import Style
 from pygments.token import (
@@ -29,7 +27,7 @@ class Jellybeans(Style):
 
     background_color = "#151515"
 
-    styles: ClassVar[dict[_TokenType, str]] = {
+    styles: t.ClassVar[dict[_TokenType, str]] = {  # type: ignore because base class is not typed
         Comment: "#888888",
         Comment.Hashbang: "",
         Comment.Multiline: "",

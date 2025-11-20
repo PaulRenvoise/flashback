@@ -42,4 +42,10 @@ def pluralize(word: str, language: str = "en") -> str:
 
     base_case = str.lower if language != "de" else str.capitalize
 
-    return _inflect(word, locale.PLURAL_RULES, locale.PLURAL_CATEGORIES, locale.PREPOSITIONS, base_case=base_case)
+    return _inflect(
+        word,
+        locale.COMPILED_PLURAL_RULES,
+        locale.PLURAL_CATEGORIES,
+        locale.PREPOSITIONS,
+        base_case=base_case,
+    )

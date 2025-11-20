@@ -5,7 +5,7 @@ import logging
 import time
 
 
-def timed(func: Callable) -> Callable:
+def timed[T](func: Callable[..., T]) -> Callable[..., T]:
     """
     Logs the start and end of a function call, and records the time spent executing it.
 
@@ -34,10 +34,11 @@ def timed(func: Callable) -> Callable:
     # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
     # name, we receive the same logger, which "hides" this decorator as if the logging was
     # made from within the callable we decorate
-    logger = logging.getLogger(inspect.getmodule(func).__name__)
+    module = inspect.getmodule(func)
+    logger = logging.getLogger(None if module is None else module.__name__)
 
     @functools.wraps(func)
-    def inner(*args, **kwargs):
+    def inner(*args, **kwargs) -> T:
         logger.info("Started execution of %s", func.__name__)
         before = time.time()
 

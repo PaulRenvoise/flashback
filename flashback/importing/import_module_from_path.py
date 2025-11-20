@@ -31,9 +31,8 @@ def import_module_from_path(name: str, path: str) -> None:
     """
     if path.startswith("."):
         caller_module = inspect.getmodule(get_frameinfo(1).frame)
-        caller_package = caller_module.__package__
 
-        module_path = util.resolve_name(path, caller_package)
+        module_path = util.resolve_name(path, None if caller_module is None else caller_module.__package__)
     else:
         module_path = path
 

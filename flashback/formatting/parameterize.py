@@ -47,7 +47,7 @@ def parameterize(text: str, sep: str = "-", keep_case: bool = False) -> str:
     text = CRE_PARAMETERIZE_NON_ALPHANUM.sub(sep, text)
 
     if sep:
-        sep = regex.escape(sep)
+        sep = regex.escape(sep)  # type: ignore because regex is not typed
 
         # No more than one separator in a row
         text = regex.sub(rf"{sep}{{2,}}", sep, text)

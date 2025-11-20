@@ -9,7 +9,7 @@ from pymemcache.test.utils import MockMemcacheClient
 from flashback.caching.adapters import MemcachedAdapter
 
 
-@pytest.fixture()
+@pytest.fixture
 @patch("flashback.caching.adapters.memcached_adapter.Client", MockMemcacheClient)
 def adapter():
     MockMemcacheClient._check_integer = Client._check_integer  # noqa: SLF001
@@ -187,4 +187,4 @@ class TestMemcachedAdapter:
         assert adapter.ping()
 
     def test_exposed_exceptions(self):
-        from flashback.caching.adapters.memcached_adapter import MemcacheError  # noqa: F401
+        from flashback.caching.adapters.memcached_adapter import MemcacheError  # noqa: F401, PLC0415
