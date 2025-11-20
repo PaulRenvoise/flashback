@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 
 
-def compact[T](iterable: Iterable[T | None]) -> tuple[T, ...]:
+def compact[T](iterable: Iterable[T | None]) -> list[T]:
     """
     Removes None items from `iterable`.
 
@@ -23,4 +23,4 @@ def compact[T](iterable: Iterable[T | None]) -> tuple[T, ...]:
     Returns:
         the iterable without None values
     """
-    return tuple(item for item in iterable if item is not None)
+    return [item for item in iterable if item is not None]
