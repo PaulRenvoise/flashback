@@ -11,18 +11,23 @@ functions, constants, etc. that you might have written a couple times already.
 
 ## Installing
 
-Flashback supports python 3.7+.
+Flashback supports python 3.11+.
 
 Pip:
 ```bash
 pip install flashback
 ```
 
+Uv:
+```bash
+uv pip install flashback
+```
+
 Build from sources:
 ```bash
 git clone git@github.com:PaulRenvoise/flashback.git
 cd flashback
-python setup.py install
+uv build
 ```
 
 ## Contents
@@ -30,7 +35,7 @@ python setup.py install
 Flashback's helpers are currently organised within 7 modules, and global helpers:
 
 - `accessing/`
-    - `dig()` recursively fetch keys and indices in a nested dict or sequence
+    - `dig()` recursively fetch keys and indices in a nested mapping or sequence
     - `values_at()` retrieves values from each given keys in dictionary
     - `pick()` fetches key/value pairs with given keys from a dictionary
 - `caching/`
@@ -93,14 +98,24 @@ Flashback's helpers are currently organised within 7 modules, and global helpers
 
 The Pull Request template has a checklist containing everything you need to submit a new PR.
 
-Run the tests with `pytest`:
+Run the tests with:
 ```bash
-pytest tests
+uv run pytest tests
 ```
 
-Run the lint with `ruff`:
+Run the typechecker with:
 ```bash
-ruff check flashback tests
+uv run pyrefly check flashback tests
+```
+
+Run the lint with:
+```bash
+uv run ruff check flashback tests
+```
+
+Run the formatter with:
+```bash
+uv run ruff format flashback tests
 ```
 
 ## License
