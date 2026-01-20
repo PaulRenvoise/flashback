@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.3 (20/01/2026)
+
+- Fixed build to include all modules
+
 ## 3.1.2 (20/11/2025)
 
 - Improved docs
