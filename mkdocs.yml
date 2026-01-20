@@ -31,14 +31,17 @@ plugins:
   - search
   - mkdocstrings
   - autorefs
-  - coverage:
-    html_report_dir: build/coverage
+  - coverage
+  - minify:
+      minify_html: true
+      minify_js: true
 
 nav:
   - Overview: index.md
   - Features: features.md
   - Installation: installation.md
   - Changelog: changelog.md
+  - Coverage: coverage.md
   - Reference: reference.md
   - License: license.md
 
