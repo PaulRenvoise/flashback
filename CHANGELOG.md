@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.5 (20/01/2026)
+
+- Split the release workflow in two: publish package and publish docs
+
 ## 3.1.4 (20/01/2026)
 
 - Fixed the upload of docs to Github Pages
