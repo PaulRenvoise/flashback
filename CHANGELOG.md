@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.4 (20/01/2026)
+
+- Fixed the upload of docs to Github Pages
+
 ## 3.1.3 (20/01/2026)
 
 - Fixed build to include all modules
