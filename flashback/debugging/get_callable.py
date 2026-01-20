@@ -1,4 +1,8 @@
-def get_callable(frameinfo):
+from collections.abc import Callable
+from inspect import FrameInfo
+
+
+def get_callable(frameinfo: FrameInfo) -> Callable | None:
     """
     Finds the callable being executed during the given `frameinfo`.
 
@@ -42,10 +46,10 @@ def get_callable(frameinfo):
         ```
 
     Params:
-        frameinfo (inspect.FrameInfo): the frameinfo to extract the callable from
+        frameinfo: the frameinfo to extract the callable from
 
     Returns:
-        Callable|None: the callable instance if found
+        the callable instance if found
     """
     frame = frameinfo.frame
 

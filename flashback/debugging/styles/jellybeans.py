@@ -1,6 +1,19 @@
+import typing as t
+
 from pygments.style import Style
-from pygments.token import Comment, Generic, Keyword, Name, Number, \
-                           Operator, Punctuation, Literal, String, Token
+from pygments.token import (
+    Comment,
+    Generic,
+    Keyword,
+    Name,
+    Number,
+    Operator,
+    Punctuation,
+    Literal,
+    String,
+    Token,
+    _TokenType,
+)
 
 
 class Jellybeans(Style):
@@ -11,16 +24,16 @@ class Jellybeans(Style):
 
     - https://github.com/cstrahan/pygments-styles/blob/master/themes/jellybeans.py
     """
+
     background_color = "#151515"
 
-    styles = {
+    styles: t.ClassVar[dict[_TokenType, str]] = {  # type: ignore because base class is not typed
         Comment: "#888888",
         Comment.Hashbang: "",
         Comment.Multiline: "",
         Comment.Preproc: "#8fbfdc",
         Comment.Single: "",
         Comment.Special: "",
-
         Generic.Deleted: "#220000 bg:#220000",
         Generic.Error: "bg:#902020",
         Generic.Heading: "#70b950 bold",
@@ -28,12 +41,10 @@ class Jellybeans(Style):
         Generic.Output: "#808080 bg:#151515",
         Generic.Subheading: "#70b950 bold",
         Generic.Traceback: "bg:#902020",
-
         Keyword: "#8197bf",
         Keyword.Constant: "#cf6a4c",
         Keyword.Namespace: "#8fbfdc",
         Keyword.Type: "#8fbfdc",
-
         Name.Attribute: "#fad07a",
         Name.Builtin.Pseudo: "#c6b6ee",
         Name.Builtin: "#fad07a",
@@ -48,7 +59,6 @@ class Jellybeans(Style):
         Name.Other: "",
         Name.Tag: "#8197bf",
         Name.Variable: "",
-
         Number: "#cf6a4c",
         Number.Bin: "",
         Number.Float: "",
@@ -56,15 +66,11 @@ class Jellybeans(Style):
         Number.Integer.Long: "",
         Number.Integer: "",
         Number.Oct: "",
-
         Operator: "#8197bf",
         Operator.Word: "",
-
         Punctuation: "",
-
         Literal: "",
         Literal.Date: "",
-
         String: "#99ad6a",
         String.Affix: "",
         String.Backtick: "",
@@ -79,6 +85,5 @@ class Jellybeans(Style):
         String.Regex: "",
         String.Single: "",
         String.Symbol: "",
-
         Token: "#e8e8d3",
     }

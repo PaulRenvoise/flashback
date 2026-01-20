@@ -1,5 +1,8 @@
+from collections.abc import Generator
+
 from pygments.filters import Filter
-from pygments.token import Name, Operator
+from pygments.token import Name, Operator, _TokenType
+from pygments.lexer import Lexer
 
 
 class DecoratorOperatorFilter(Filter):
@@ -7,6 +10,7 @@ class DecoratorOperatorFilter(Filter):
     Extracts the '@' from a `pygments.token.Name.Decorator` to be a standalone
     `pygments.token.Operator`.
     """
+
     def __init__(self, **kwargs):
         """
         Params:
@@ -14,7 +18,7 @@ class DecoratorOperatorFilter(Filter):
         """
         Filter.__init__(self, **kwargs)
 
-    def filter(self, lexer, stream):
+    def filter(self, _lexer: Lexer, stream: Generator) -> Generator[tuple[_TokenType, str], None, None]:  # type: ignore because filter is not typed
         """
         Iterates over the stream of tokens and splits a `pygments.token.Name.Decorator: into two
         components.
@@ -23,15 +27,15 @@ class DecoratorOperatorFilter(Filter):
         but pygments treat the whole thing as a decorator. This filter fixes this behaviour.
 
         Params:
-            lexer (pygments.lexer.Lexer): the lexer instance
-            stream (generator): the stream of couples tokentype-value
+            lexer: the lexer instance
+            stream: the stream of couples tokentype-value
 
         Yields:
-            tuple<pygments.token._TokenType, str>: the token type and token value
+            the token type and token value
         """
         for ttype, value in stream:
             if ttype is Name.Decorator:
-                yield Operator, '@'
+                yield Operator, "@"
                 yield Name.Decorator, value[1:]
             else:
                 yield ttype, value

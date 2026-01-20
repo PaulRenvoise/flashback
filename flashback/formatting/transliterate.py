@@ -1,7 +1,7 @@
 from unidecode import unidecode
 
 
-def transliterate(text, keep_case=True):
+def transliterate(text: str, keep_case: bool = True) -> str:
     """
     Replaces unicode characters with their ASCII equivalent using unidecode
     (https://pypi.org/project/Unidecode/).
@@ -21,11 +21,11 @@ def transliterate(text, keep_case=True):
         ```
 
     Params:
-        text (str): the text to transform from unicode to ASCII
-        keep_case (bool): whether or not to keep the input case
+        text: the text to transform from unicode to ASCII
+        keep_case: whether or not to keep the input case
 
     Returns:
-        str: the text using only ASCII characters
+        the text using only ASCII characters
     """
     text = str(text)
     text = unidecode(text)

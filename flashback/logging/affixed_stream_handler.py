@@ -1,4 +1,5 @@
 import logging
+import typing as t
 
 
 class AffixedStreamHandler(logging.StreamHandler):
@@ -59,21 +60,22 @@ class AffixedStreamHandler(logging.StreamHandler):
         #=> "_START_info message_END_"
         ```
     """
-    def __init__(self, stream=None, prefix="", suffix="\n"):
+
+    def __init__(self, stream: t.IO[str] | None = None, prefix: str = "", suffix: str = "\n") -> None:
         """
         If stream is not specified, sys.stderr is used.
 
         Params:
-            stream (TextIOWrapper): the stream to write to
-            prefix (str): the prefix to prepend to the record
-            suffix (str): the suffix to append to the record
+            stream: the stream to write to
+            prefix: the prefix to prepend to the record
+            suffix: the suffix to append to the record
         """
         super().__init__(stream=stream)
 
         self.prefix = prefix
         self.suffix = suffix
 
-    def emit(self, record):
+    def emit(self, record: logging.LogRecord) -> None:
         """
         Writes a record to the stream after formatting it and affixing it with the configured
         prefix and suffix.
@@ -83,7 +85,7 @@ class AffixedStreamHandler(logging.StreamHandler):
         determine how to do the output to the stream.
 
         Params:
-            record (logging.LogRecord): the record to format and write
+            record: the record to format and write
 
         Raises:
             RecursionError: if the maximum recursion depth is reached
@@ -96,5 +98,5 @@ class AffixedStreamHandler(logging.StreamHandler):
             self.flush()
         except RecursionError:  # See issue 36272
             raise
-        except Exception:  # pylint: disable=broad-except
+        except Exception:  # noqa: BLE001
             self.handleError(record)

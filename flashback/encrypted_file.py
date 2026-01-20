@@ -1,6 +1,8 @@
+from collections.abc import Callable
 import base64
 import os
 import secrets
+import typing as t
 
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
@@ -40,27 +42,28 @@ class EncryptedFile:
         ```
 
     Params:
-        file_path (str): the path the file to encrypt
-        key_path (str): the path of the key used to encrypt the file
-        env_key_name (str): the name of the env var from which to fetch the encryption key (default: "ENCRYPTION_KEY")
+        file_path: the path the file to encrypt
+        key_path: the path of the key used to encrypt the file
+        env_key_name: the name of the env var from which to fetch the encryption key (default: "ENCRYPTION_KEY")
     """
+
     DEFAULT_ENV_KEY_NAME = "ENCRYPTION_KEY"
 
-    def __init__(self, file_path, key_path, env_key_name = DEFAULT_ENV_KEY_NAME):
+    def __init__(self, file_path: str, key_path: str, env_key_name: str = DEFAULT_ENV_KEY_NAME) -> None:
         self.file_path = os.path.realpath(os.path.expanduser(os.path.abspath(file_path)))
         self.key_path = os.path.realpath(os.path.expanduser(os.path.abspath(key_path)))
 
         self.env_key_name = env_key_name
 
-        self.key = None
+        self.key: bytes | None = None
 
-    def init(self):
+    def init(self) -> tuple[str, str]:
         """
         Initializes the encryption key and encrypted file, and writes them
         to the `key_path` and `file_path` given at init.
 
         Returns:
-            Tuple<str, str>:
+            the key and contents
         """
         # Inits the key
         key = secrets.token_hex(16)
@@ -79,16 +82,22 @@ class EncryptedFile:
 
         return key, contents
 
-    def read(self, deserializer = lambda x: x.decode("utf-8")):
+    @t.overload
+    def read(self, deserializer: None = None) -> str: ...
+
+    @t.overload
+    def read[T](self, deserializer: Callable[[bytes], T]) -> T: ...
+
+    def read(self, deserializer: Callable[[bytes], object] | None = None) -> object:
         """
         Reads the contents (possibly deserialized with `deserializer`) of the file_path
         given at init, and decrypt them with the encryption key.
 
         Params:
-            deserializer (Callable): the deserializer to use on the contents (default: .decode("utf-8"))
+            deserializer: the deserializer to use on the contents (default: .decode("utf-8"))
 
         Returns:
-            Any:
+            the deserialized contents
 
         Raises:
             RuntimeError: if the file is not found at file_path
@@ -101,47 +110,54 @@ class EncryptedFile:
         with open(self.file_path, "rb") as infile:
             contents = self._decrypt(infile.read(), key)
 
-            if deserializer:
-                return deserializer(contents)
+            if deserializer is None:
+                return contents.decode("utf-8")
 
-            return contents
+            return deserializer(contents)
 
-    def write(self, contents, serializer = lambda x: x.encode("utf-8")):
+    @t.overload
+    def write(self, contents: str, serializer: None = None) -> None: ...
+
+    @t.overload
+    def write[T](self, contents: T, serializer: Callable[[T], bytes]) -> None: ...
+
+    def write(self, contents: object, serializer: Callable[[object], bytes] | None = None) -> None:
         """
         Writes the given `contents` (possibly serialized with `serializer`)
         after encrypting them with the encryption key to the file_path given at init.
 
         Params:
-            contents (str|bytes): the contents to write
-            serializer (Callable): the serializer to use on the contents (default: .encode("utf-8"))
+            contents: the contents to write
+            serializer: the serializer to use on the contents (default: .encode("utf-8"))
 
         Raises:
             RuntimeError: if the file is not found at file_path
         """
         key = self.get_key()
 
-        if serializer:
-            contents = serializer(contents)
+        if serializer is None:
+            assert isinstance(contents, str)
 
-        if not isinstance(contents, bytes):
-            contents = bytes(contents, encoding="utf-8")
+            serialized_contents = contents.encode("utf-8")
+        else:
+            serialized_contents = serializer(contents)
 
         # Write on a temp file to avoid corrupting the
         # original file if an error happens
         tmp_path = f"{self.file_path}.tmp"
         with open(tmp_path, "wb") as outfile:
-            outfile.write(self._encrypt(contents, key))
+            outfile.write(self._encrypt(serialized_contents, key))
 
         os.rename(tmp_path, self.file_path)
 
-    def get_key(self):
+    def get_key(self) -> bytes:
         """
         Fetches the encryption key.
         First, checks if it has already been read, then checks in the environment,
         and finally, tries to read the file that should contain it.
 
         Returns:
-            bytes:
+            the encryption key
 
         Raises:
             RuntimeError: if the encryption key is not found in the env, and the the file
@@ -154,7 +170,7 @@ class EncryptedFile:
             if not os.path.exists(self.key_path):
                 raise RuntimeError(f"Missing encryption key in {self.key_path}")
 
-            with open(self.key_path, "r", encoding="utf-8") as infile:
+            with open(self.key_path, encoding="utf-8") as infile:
                 key = infile.read().strip()
 
         self.key = bytes.fromhex(key)
@@ -162,7 +178,7 @@ class EncryptedFile:
         return self.key
 
     @staticmethod
-    def _encrypt(value, key):
+    def _encrypt(value: bytes, key: bytes) -> bytes:
         # Constructs an AES-GCM Cipher object with the given key
         # and a randomly generated init_vector
         init_vector = os.urandom(12)
@@ -178,13 +194,11 @@ class EncryptedFile:
         # Gives the tag
         encrypted_value += encryptor.finalize()
 
-        obfuscated_value = b"--".join([base64.b64encode(v) for v in [encrypted_value, init_vector, encryptor.tag]])
-
-        return obfuscated_value
+        return b"--".join([base64.b64encode(v) for v in [encrypted_value, init_vector, encryptor.tag]])
 
     @staticmethod
-    def _decrypt(obfuscated_value, key):
-        encrypted_value, init_vector, tag =  [base64.b64decode(v) for v in obfuscated_value.split(b"--")]
+    def _decrypt(obfuscated_value: bytes, key: bytes) -> bytes:
+        encrypted_value, init_vector, tag = (base64.b64decode(v) for v in obfuscated_value.split(b"--"))
 
         # Constructs a Cipher object with the key, init_vector, and the GCM tag
         # used to authenticate the message

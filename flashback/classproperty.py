@@ -2,6 +2,7 @@ class ClassPropertyMetaclass(type):
     """
     Defines a metaclass to ensure the property is settable, to use as `flashback.classproperty.meta`.
     """
+
     def __setattr__(cls, key, value):
         obj = cls.__dict__.get(key, None)
         if isinstance(obj, classproperty):
@@ -10,7 +11,7 @@ class ClassPropertyMetaclass(type):
         return super().__setattr__(key, value)
 
 
-class classproperty:  # pylint: disable=invalid-name
+class classproperty:  # noqa: N801
     """
     Combines @classmethod and @property to define getters and setters on classes attributes.
 
@@ -50,6 +51,7 @@ class classproperty:  # pylint: disable=invalid-name
         assert static_2.var == 3
         ```
     """
+
     meta = ClassPropertyMetaclass
 
     def __init__(self, func_get, func_set=None):

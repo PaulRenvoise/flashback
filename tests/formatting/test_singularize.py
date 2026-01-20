@@ -1,13 +1,11 @@
-# pylint: disable=no-self-use,redefined-outer-name
-
 import pytest
 
 from flashback.formatting import singularize
 
 
 @pytest.fixture
-def all_words():
-    items = (
+def all_words() -> tuple[tuple[str, str], ...]:
+    return (
         ("search", "searches"),
         ("switch", "switches"),
         ("fix", "fixes"),
@@ -74,7 +72,7 @@ def all_words():
         ("vertex", "vertices"),
         ("matrix", "matrices"),
         ("axe", "axes"),
-        ("taxi", "taxis"), # prevents regression
+        ("taxi", "taxis"),  # prevents regression
         ("testis", "testes"),
         ("crisis", "crises"),
         ("rice", "rice"),
@@ -87,12 +85,10 @@ def all_words():
         ("police", "police"),
     )
 
-    return items
-
 
 @pytest.fixture
-def compound_words():
-    items = (
+def compound_words() -> tuple[tuple[str, str], ...]:
+    return (
         ("asian-american", "asian-americans"),
         ("vice-president", "vice-presidents"),
         ("dry-cleaning", "dry-cleanings"),
@@ -101,52 +97,49 @@ def compound_words():
         ("mother-in-law", "mothers-in-law"),
     )
 
-    return items
-
 
 @pytest.fixture
-def possessive_words():
-    items = (
+def possessive_words() -> tuple[tuple[str, str], ...]:
+    return (
         ("dog's", "dogs'"),
         ("sheep's", "sheep's"),
         ("class'", "classes'"),
     )
 
-    return items
 
 class TestSingularize:
-    def test_languages(self):
+    def test_languages(self) -> None:
         assert singularize("nights", language="en") == "night"
         assert singularize("nuits", language="fr") == "nuit"
 
-    def test_invalid_language(self):
+    def test_invalid_language(self) -> None:
         with pytest.raises(NotImplementedError):
             singularize("", language="hu")
 
-    def test_only_punctuation(self):
+    def test_only_punctuation(self) -> None:
         assert singularize("??") == "??"
 
-    def test_only_symbol(self):
+    def test_only_symbol(self) -> None:
         assert singularize("@#$%") == "@#$%"
 
-    def test_only_numbers(self):
+    def test_only_numbers(self) -> None:
         assert singularize("123") == "123"
 
-    def test_only_accents(self):
+    def test_only_accents(self) -> None:
         assert singularize("é") == "é"
 
-    def test_mixed_punctuation_symbol_number(self):
+    def test_mixed_punctuation_symbol_number(self) -> None:
         assert singularize("!.:123$%") == "!.:123$%"
 
     class TestEnglish:
-        def test_all_words(self, all_words):
+        def test_all_words(self, all_words) -> None:
             for singular, plural in all_words:
                 assert singularize(plural, language="en") == singular
 
-        def test_compound_words(self, compound_words):
+        def test_compound_words(self, compound_words) -> None:
             for singular, plural in compound_words:
                 assert singularize(plural, language="en") == singular
 
-        def test_exceptions(self, possessive_words):
+        def test_exceptions(self, possessive_words) -> None:
             for singular, plural in possessive_words:
                 assert singularize(plural, language="en") == singular

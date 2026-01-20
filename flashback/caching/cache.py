@@ -1,4 +1,5 @@
-# pylint: disable=no-member
+from collections.abc import Sequence
+import typing as t
 
 import json
 
@@ -52,14 +53,18 @@ class Cache:
         #=> True
         ```
     """
-    def __init__(self, adapter="memory", flush=False, **kwargs):
+
+    def __init__(self, adapter: str = "memory", ttl: int = -1, flush: bool = False, **kwargs) -> None:
         """
         Params:
-            adapter (str): the adapter to use for the storage
-            flush (bool): whether or not to flush the storage after connecting
-            kwargs (dict): every additional keyword arguments, forwarded to the adapter
+            adapter: the adapter to use for the storage
+            ttl: the number of seconds before expiring the keys (default: -1 (never))
+            flush: whether or not to flush the storage after connecting
+            kwargs: every additional keyword arguments, forwarded to the adapter
         """
         super().__init__()
+
+        self.ttl = ttl
 
         try:
             adapter_class = import_class_from_path(f"{adapter}_adapter", ".adapters")
@@ -74,7 +79,7 @@ class Cache:
         # Notifies that we have a new connection
         self.ping()
 
-    def set(self, key, value, ttl=-1):
+    def set(self, key: str, value: t.Any, ttl: int | None = None) -> bool:
         """
         Sets `key` to `value`.
 
@@ -89,23 +94,23 @@ class Cache:
             ```
 
         Params:
-            key (str): the key to set
-            value (str): the value to cache
-            ttl (int): the number of seconds before expiring the key
+            key: the key to set
+            value: the value to cache
+            ttl: the number of seconds before expiring the key (default: init ttl)
 
         Returns:
-            bool: whether or not the operation succeeded
+            whether or not the operation succeeded
         """
         json_value = json.dumps(self._convert_numeric(value))
 
         try:
-            res = self.adapter.set(key, json_value, ttl=ttl)
+            res = self.adapter.set(key, json_value, ttl=ttl or self.ttl)
         except self.adapter.connection_exceptions:
             res = False
 
         return res
 
-    def batch_set(self, keys, values, ttls=None):
+    def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int] | None = None) -> bool:
         """
         Sets a batch of `keys` to their respective `values`.
 
@@ -120,18 +125,18 @@ class Cache:
             ```
 
         Params:
-            keys (Iterable<str>): the list of keys to set
-            values (Iterable<str>): the list of values to cache
-            ttls (Iterable<int>): the number of seconds before expiring the keys
+            keys: the list of keys to set
+            values: the list of values to cache
+            ttls: the number of seconds before expiring the keys (default: init ttl)
 
         Returns:
-            bool: whether or not the operation succeeded
+            whether or not the operation succeeded
 
         Raises:
             ValueError: if the lengths of the keys and values differ
         """
         if ttls is None:
-            ttls = [-1 for _ in range(len(keys))]
+            ttls = [self.ttl for _ in range(len(keys))]
 
         if len(set(map(len, [keys, values, ttls]))) > 1:
             raise ValueError("invalid arguments, length of 'keys', 'values', and 'ttls' must be equal")
@@ -145,7 +150,7 @@ class Cache:
 
         return res
 
-    def get(self, key):
+    def get(self, key: str) -> t.Any | None:
         """
         Fetches the value stored under `key`.
 
@@ -164,10 +169,10 @@ class Cache:
             ```
 
         Params:
-            key (str): the key to fetch the value from
+            key: the key to fetch the value from
 
         Returns:
-            str|None: the value read from the storage
+            the value read from the storage
         """
         try:
             json_value = self.adapter.get(key)
@@ -177,7 +182,7 @@ class Cache:
 
         return value
 
-    def batch_get(self, keys):
+    def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
         """
         Fetches the values stored under `keys`.
 
@@ -193,10 +198,10 @@ class Cache:
             ```
 
         Params:
-            keys (Iterable<str>): the keys to fetch the values from
+            keys: the keys to fetch the values from
 
         Returns:
-            list<str|None>: the values read from the storage
+            the values read from the storage
         """
         try:
             json_values = self.adapter.batch_get(keys)
@@ -206,7 +211,7 @@ class Cache:
 
         return values
 
-    def delete(self, key):
+    def delete(self, key: str) -> bool:
         """
         Deletes the given `key` from the storage.
 
@@ -225,10 +230,10 @@ class Cache:
             ```
 
         Params:
-            key (str): the key to remove
+            key: the key to remove
 
         Returns:
-            bool: whether or not the operation succeeded
+            whether or not the operation succeeded
         """
         try:
             res = self.adapter.delete(key)
@@ -237,7 +242,7 @@ class Cache:
 
         return res
 
-    def batch_delete(self, keys):
+    def batch_delete(self, keys: Sequence[str]) -> bool:
         """
         Deletes the given `keys` from the storage, ignoring non-existing keys.
 
@@ -256,10 +261,10 @@ class Cache:
             ```
 
         Params:
-            keys (Iterable<str>): the keys to remove from the cache
+            keys: the keys to remove from the cache
 
         Returns:
-            bool: whether or not the operation succeeded
+            whether or not the operation succeeded
         """
         try:
             res = self.adapter.batch_delete(keys)
@@ -268,7 +273,7 @@ class Cache:
 
         return res
 
-    def exists(self, key):
+    def exists(self, key: str) -> bool:
         """
         Checks whether or not the given `key` exists in the storage.
 
@@ -287,10 +292,10 @@ class Cache:
             ```
 
         Params:
-            key (str): the key to check the existence of
+            key: the key to check the existence of
 
         Returns:
-            bool: whether or not the key exists
+            whether or not the key exists
         """
         try:
             res = self.adapter.exists(key)
@@ -299,7 +304,7 @@ class Cache:
 
         return res
 
-    def flush(self):
+    def flush(self) -> bool:
         """
         Flushes all keys from the storage.
 
@@ -315,14 +320,14 @@ class Cache:
             ```
 
         Returns:
-            bool: always True
+            always True
 
         Raises:
             flashback.caching.adapters.base.BaseAdapter.connection_exceptions: if no connection with the storage
         """
         return self.adapter.flush()
 
-    def ping(self):
+    def ping(self) -> bool:
         """
         Checks if a valid connection exists with the storage.
 
@@ -337,7 +342,7 @@ class Cache:
             ```
 
         Returns:
-            bool: always True
+            always True
 
         Raises:
             flashback.caching.adapters.base.BaseAdapter.connection_exceptions: if no connection with the storage
@@ -345,7 +350,7 @@ class Cache:
         return self.adapter.ping()
 
     @staticmethod
-    def _decode_json(json_value):
+    def _decode_json(json_value: str) -> t.Any:
         try:
             return json.loads(json_value)
         except TypeError:  # non-strings (e.g. None)
@@ -354,7 +359,7 @@ class Cache:
     @staticmethod
     def _convert_numeric(value):
         # We do not check if isinstance since bool is a subclass of int
-        if type(value) in {int, float, complex}:  # pylint: disable=unidiomatic-typecheck
+        if type(value) in {int, float, complex}:
             value = repr(value)
 
         return value

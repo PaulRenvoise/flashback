@@ -1,3 +1,5 @@
+from collections.abc import Iterable
+
 import regex
 
 from .snakeize import snakeize
@@ -5,7 +7,8 @@ from .snakeize import snakeize
 
 CRE_KEBABIZE_UNDERSCORES = regex.compile(r"(?<!(?:^|_))_(?!(?:_|$))")
 
-def kebabize(text, acronyms=None):
+
+def kebabize(text: str, acronyms: Iterable[str] | None = None) -> str:
     """
     Transforms a text in any case to kebab-case.
 
@@ -33,10 +36,10 @@ def kebabize(text, acronyms=None):
         ```
 
     Params:
-        text (str): the text to transform into kebab-case
-        acronyms (Iterable): a list of acronyms to treat as non-delimited single lowercase words
+        text: the text to transform into kebab-case
+        acronyms: a list of acronyms to treat as non-delimited single lowercase words
 
     Returns:
-        str: the kebab cased text
+        the kebab cased text
     """
     return CRE_KEBABIZE_UNDERSCORES.sub("-", snakeize(text, acronyms=acronyms))

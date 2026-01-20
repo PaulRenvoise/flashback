@@ -11,19 +11,45 @@ import regex
 
 
 # Prepositions are used in compound words
-PREPOSITIONS = set((
-    "antes", "durante", "de", "para",
-    "en", "detrás", "delante", "adelante",
-    "través", "arriba", "bajo", "abajo",
-    "después", "dentro", "adentro", "fuera", "afuera", "cerca",
-    "entre", "además", "excepto", "alrededor",
-    "encima", "debajo", "por encima", "por debajo",
-    "espalda", "desde", "con", "sin", "como",
-    "hasta", "listo", "vía",
-    "por"
-))
+PREPOSITIONS: set[str] = {
+    "antes",
+    "durante",
+    "de",
+    "para",
+    "en",
+    "detrás",
+    "delante",
+    "adelante",
+    "través",
+    "arriba",
+    "bajo",
+    "abajo",
+    "después",
+    "dentro",
+    "adentro",
+    "fuera",
+    "afuera",
+    "cerca",
+    "entre",
+    "además",
+    "excepto",
+    "alrededor",
+    "encima",
+    "debajo",
+    "por encima",
+    "por debajo",
+    "espalda",
+    "desde",
+    "con",
+    "sin",
+    "como",
+    "hasta",
+    "listo",
+    "vía",
+    "por",
+}
 
-PLURAL_RULES = [
+PLURAL_RULES: list[tuple[tuple[str, str, str | None], ...]] = [
     # Indefinite articles and demonstratives
     (
         (r"^un$", "unos", None),
@@ -35,8 +61,7 @@ PLURAL_RULES = [
         (r"^(algun[oa])$", r"\1s", None),
     ),
     # Possessive adjectives
-    (
-    ),
+    (),
     # Possessive pronouns
     (
         (r"^(mí(s|[oa]))$", r"\1s", None),
@@ -81,28 +106,34 @@ PLURAL_RULES = [
         (r"z$", "ces", None),
     ),
     # Assume that the plural takes -es
-    (
-        (r"$", "es", None),
-    )
+    ((r"$", "es", None),),
 ]
 
 # For performance, compile the regular expressions once:
-PLURAL_RULES = [[(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in PLURAL_RULES]
+COMPILED_PLURAL_RULES: list[list[tuple[regex.Pattern, str, str | None]]] = [
+    [(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in PLURAL_RULES
+]
 
 # Suffix categories
-PLURAL_CATEGORIES = {
-    "uninflected": set((
-    )),
-    "uncountable": set((
-        "poesía", "vino", "café", "harina", "detergente",
-        "pimienta", "leche", "ketchup", "sangre", "política",
-    )),
-    "nationalities": set((
-    )),
+PLURAL_CATEGORIES: dict[str, set[str]] = {
+    "uninflected": set(),
+    "uncountable": {
+        "poesía",
+        "vino",
+        "café",
+        "harina",
+        "detergente",
+        "pimienta",
+        "leche",
+        "ketchup",
+        "sangre",
+        "política",
+    },
+    "nationalities": set(),
 }
 
 
-SINGULAR_RULES = [
+SINGULAR_RULES: list[tuple[tuple[str, str, str | None], ...]] = [
     # Indefinite articles and demonstratives
     (
         (r"^unos$", "un", None),
@@ -114,8 +145,7 @@ SINGULAR_RULES = [
         (r"^(algun[oa])s$", r"\1", None),
     ),
     # Possessive adjectives
-    (
-    ),
+    (),
     # Possessive pronouns
     (
         (r"^(mí(s|[oa]))s$", r"\1", None),
@@ -153,25 +183,22 @@ SINGULAR_RULES = [
         (r"(esis|isis|osis)$", r"\1", None),
     ),
     # Irregular inflections for common suffixes
-    (
-        (r"ces$", "z", None),
-    ),
+    ((r"ces$", "z", None),),
     # Assume that the plural takes -es
     (
         (r"es$", "", None),
         (r"s$", "", None),
-    )
+    ),
 ]
 
 # For performance, compile the regular expressions once:
-SINGULAR_RULES = [[(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in SINGULAR_RULES]
+COMPILED_SINGULAR_RULES: list[list[tuple[regex.Pattern, str, str | None]]] = [
+    [(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in SINGULAR_RULES
+]
 
 # Suffix categories
-SINGULAR_CATEGORIES = {
-    "uninflected": set((
-    )),
-    "uncountable": set((
-    )),
-    "nationalities": set((
-    ))
+SINGULAR_CATEGORIES: dict[str, set[str]] = {
+    "uninflected": set(),
+    "uncountable": set(),
+    "nationalities": set(),
 }

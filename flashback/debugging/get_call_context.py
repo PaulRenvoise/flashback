@@ -3,7 +3,10 @@ import inspect
 from textwrap import dedent
 
 
-def get_call_context(frameinfo, size=5):
+def get_call_context(
+    frameinfo: inspect.FrameInfo,
+    size: int = 5,
+) -> tuple[list[str], int | None, tuple[int, int] | None]:
     """
     Extracts the context surrounding the call statement of the given `frameinfo`, and returns its
     code, its first line number, and the boundaries of the call statement.
@@ -38,21 +41,21 @@ def get_call_context(frameinfo, size=5):
         ```
 
     Params:
-        frameinfo (inspect.FrameInfo): the frameinfo to extract the context from
-        size (int): the number of lines surrounding the call statement to take as context
+        frameinfo: the frameinfo to extract the context from
+        size: the number of lines surrounding the call statement to take as context
 
     Returns:
-        list<str>: the context extracted with at most `size` context lines before and after
-        int|None: the line number of the context's first line
-        typle<int>: the start and end of the call statement, as indices of the returned context
+        the context extracted with at most `size` context lines before and after
+        the line number of the context's first line
+        the start and end of the call statement, as indices of the returned context
     """
     if not frameinfo.code_context:
-        return [], None, ()
+        return [], None, None
 
     try:
         source, _ = inspect.findsource(frameinfo.frame)
     except OSError:
-        return [], None, ()
+        return [], None, None
 
     # Prior to python 3.8, the frameinfo.lineno is sometimes wrong (lower than it actually is),
     # especially with nested function calls having newlines.
@@ -66,7 +69,10 @@ def get_call_context(frameinfo, size=5):
         call_line = dedent("".join(source[index_start:index_end]))
 
         try:
-            ast.parse(call_line, filename=frameinfo.filename).body[0].value  # pylint: disable=expression-not-assigned
+            # ast.parse is always called on the statement of the call to get_call_context,
+            # where there is an assignment for its result.
+            # So body[0] is always an Assign node, which has a 'value' attribute
+            ast.parse(call_line, filename=frameinfo.filename).body[0].value  # noqa: B018 # type: ignore
 
             break
         except (SyntaxError, AttributeError):

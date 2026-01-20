@@ -1,4 +1,6 @@
-# pylint: disable=access-member-before-definition
+from collections.abc import Callable
+import typing as t
+
 
 class Borg:
     """
@@ -35,16 +37,17 @@ class Borg:
         assert borg_2.attr == 0
         ```
     """
-    def __new__(cls, *_args, **_kwargs):
+
+    def __new__(cls, *_args, **_kwargs) -> t.Self:
         if "_shared_state" not in cls.__dict__:
             cls._shared_state = {}
 
-        obj = object.__new__(cls)
+        obj = t.cast("t.Self", object.__new__(cls))
         obj.__dict__ = cls._shared_state
 
         return obj
 
-    def assign_attribute(self, attribute, value, *args, **kwargs):
+    def assign_attribute[T](self, attribute, value: T | Callable[..., T], *args, **kwargs) -> None:
         """
         Assigns a `value` to the `attribute` of the Borg, if it's not already defined.
 
@@ -93,7 +96,7 @@ class Borg:
         else:
             setattr(self, attribute, value)
 
-    def assign_attributes(self, **kwargs):
+    def assign_attributes(self, **kwargs) -> None:
         """
         Assigns multiple values to their respective attributes of the Borg if they're not already
         defined.
@@ -142,3 +145,7 @@ class Borg:
                     self.assign_attribute(attribute, value[0], *value[1:])
             else:
                 self.assign_attribute(attribute, value)
+
+    def __getattr__(self, name: str) -> t.Any:
+        # Called only if normal attribute lookup fails (helpful for type checkers).
+        raise AttributeError(name)

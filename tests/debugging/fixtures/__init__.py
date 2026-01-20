@@ -3,7 +3,7 @@ from .mock_function import mock_function
 from .mock_abc import MockABC
 
 __all__ = (
+    "MockABC",
     "MockClass",
     "mock_function",
-    "MockABC"
 )

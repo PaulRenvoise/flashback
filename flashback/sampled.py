@@ -1,12 +1,13 @@
-import functools
+from collections.abc import Callable
 from queue import Queue
+import functools
 import random
 import time
 
 from .formatting import oxford_join
 
 
-class sampled:  # pylint: disable=invalid-name
+class sampled:  # noqa: N801
     """
     Implements a way of sampling requests made to a callable.
 
@@ -60,6 +61,7 @@ class sampled:  # pylint: disable=invalid-name
         #=> Called
         ```
     """
+
     STRATEGY_CONSTANT = "constant"
     STRATEGY_PROBABILISTIC = "probabilistic"
     STRATEGY_RATELIMITING = "ratelimiting"
@@ -69,12 +71,14 @@ class sampled:  # pylint: disable=invalid-name
         STRATEGY_RATELIMITING,
     )
 
-    def __init__(self, strategy="constant", rate=None):
+    def __init__(self, strategy: str = "constant", rate: float | None = None) -> None:
         """
         Params:
             strategy (str): the sampling strategy to use
             rate (int|float): the parameter to fine-tune the sampling strategy
         """
+        self._rate: float = 0.0
+
         if strategy == self.STRATEGY_CONSTANT:
             if rate is None:
                 rate = 1
@@ -107,20 +111,23 @@ class sampled:  # pylint: disable=invalid-name
             strategies_choices = oxford_join(self.STRATEGIES, last_sep=", or ")
             raise ValueError(f"invalid strategy {strategy!r}, expecting {strategies_choices}")
 
-    def __call__(self, func):
+    def __call__[T](self, func: Callable[..., T]) -> Callable[..., T | None]:
         @functools.wraps(func)
-        def inner(*args, **kwargs):
-            return func(*args, **kwargs) if self.should_sample() else None
+        def inner(*args, **kwargs) -> T | None:
+            if not self.should_sample():
+                return None
+
+            return func(*args, **kwargs)
 
         return inner
 
-    def _sample_constant(self):
-        return self._rate
+    def _sample_constant(self) -> bool:
+        return self._rate > 0
 
-    def _sample_probabilistic(self):
+    def _sample_probabilistic(self) -> bool:
         return random.random() < self._rate
 
-    def _sample_ratelimiting(self):
+    def _sample_ratelimiting(self) -> bool:
         now = int(time.time())
 
         queue_size = self._queue.qsize()

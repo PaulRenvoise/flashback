@@ -1,15 +1,15 @@
 class MockClass:
-    def mock_method(self):
+    def mock_method(self) -> None:
         pass
 
     @staticmethod
-    def mock_staticmethod():
+    def mock_staticmethod() -> None:
         pass
 
     @classmethod
-    def mock_classmethod(cls):
+    def mock_classmethod(cls) -> None:
         pass
 
     @property
-    def mock_property(self):
+    def mock_property(self) -> int:
         return 1

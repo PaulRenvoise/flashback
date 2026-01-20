@@ -1,9 +1,18 @@
+from collections.abc import Callable
+
 import regex
 
 
 CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
 
-def _inflect(word, rules, categories, prepositions, base_case=str.lower):
+
+def _inflect(
+    word: str,
+    rules: list[list[tuple[regex.Pattern, str, str | None]]],
+    categories: dict[str, set[str]],
+    prepositions: set[str],
+    base_case: Callable[[str], str] = str.lower,
+) -> str:
     word = base_case(str(word))
 
     if CRE_INFLECT_ONLY_PUNCT_SYM_NUM.search(word):
@@ -24,9 +33,8 @@ def _inflect(word, rules, categories, prepositions, base_case=str.lower):
             if category is None:
                 if suffix.search(word) is not None:
                     return suffix.sub(inflection, word)
-            else:
-                if word in categories[category]:
-                    return suffix.sub(inflection, word)
+            elif word in categories[category]:
+                return suffix.sub(inflection, word)
 
     # Should never be reached, but just in case
     return word

@@ -1,6 +1,9 @@
-import ast
-import os
+from collections.abc import Sequence
 from textwrap import dedent
+import ast
+import inspect
+import os
+import typing as t
 
 import regex
 
@@ -19,6 +22,7 @@ class Parser:
     If needed, flattens the multi-line parameters to use them as argument names, using
     `CRE_OPENING_BRACKET` and `CRE_CLOSING_BRACKET`.
     """
+
     COMPLEX_NODES = (
         ast.Attribute,
         ast.BoolOp,
@@ -30,16 +34,16 @@ class Parser:
         ast.IfExp,
         ast.ListComp,
         ast.Subscript,
-        ast.SetComp
+        ast.SetComp,
     )
     CRE_OPENING_BRACKET = regex.compile(r"(\{|\[|\()\s")
     CRE_CLOSING_BRACKET = regex.compile(r"\s(\}|\]|\))")
 
-    def __init__(self, _offset=2):
+    def __init__(self, _offset: int = 2) -> None:
         # This is useful for tests or direct call to `Parser.parse` (in that case use 1)
         self._offset = _offset
 
-    def parse(self, *arguments):
+    def parse(self, *arguments: t.Any) -> tuple[str, int, list[tuple[str | None, t.Any]], str | None]:
         """
         Parses the arguments received from the code context in which `flashback.debugging.xp` has
         been called, and enriches the arguments values with their names (or representation).
@@ -48,13 +52,13 @@ class Parser:
         `flashback.debugging.xp`, as we call directly this method when testing.
 
         Params:
-            arguments (tuple<Any>): every positional arguments
+            arguments: every positional arguments
 
         Returns:
-            str: the filename from where `flashback.debugging.xp` has been called
-            int: the line number from where `flashback.debugging.xp` has been called
-            list<tuple>: the arguments parsed, as name-value couples
-            str: the error encountered when parsing the code or None
+            the filename from where `flashback.debugging.xp` has been called
+            the line number from where `flashback.debugging.xp` has been called
+            the arguments parsed, as name-value couples
+            the error encountered when parsing the code or None
         """
         try:
             # We access [2] because an end-user call to xp() calls this code (thus, two layers of calls)
@@ -69,7 +73,7 @@ class Parser:
                 parsed_arguments = self._parse_arguments(node, code, arguments)
             else:  # parsing failed
                 parsed_arguments = self._default_arguments_parsing(arguments)
-        except Exception as e:  # pylint: disable=broad-except
+        except Exception as e:  # noqa: BLE001
             filename = "<unknown>"
             lineno = 0
             parsed_arguments = self._default_arguments_parsing(arguments)
@@ -78,14 +82,20 @@ class Parser:
         return filename, lineno, parsed_arguments, warning
 
     @staticmethod
-    def _parse_call(frameinfo, filename):
+    def _parse_call(
+        frameinfo: inspect.FrameInfo,
+        filename: str,
+    ) -> tuple[ast.Call | None, list[str] | None, str | None]:
         context, _, boundaries = get_call_context(frameinfo)
-        if not context:
+        if not context or not boundaries:
             return None, None, "error parsing code, no code context found"
 
         call_statement = dedent("".join(context[slice(*boundaries)]))
 
-        node = ast.parse(call_statement, filename=filename).body[0].value
+        # ast.parse is always called on the statement of the call to Parser.parse,
+        # where there is an assignment for its result.
+        # So body[0] is always an Assign node, which has a 'value' attribute
+        node = ast.parse(call_statement, filename=filename).body[0].value  # type: ignore
         if not isinstance(node, ast.Call):
             return None, None, f"error parsing code, found ast.{node.__class__.__name__} instead of ast.Call"
 
@@ -93,7 +103,12 @@ class Parser:
 
         return node, call_statement_lines, None
 
-    def _parse_arguments(self, call_node, code_lines, arguments):  # pylint: disable=too-many-locals
+    def _parse_arguments(
+        self,
+        call_node: ast.Call,
+        code_lines: Sequence[str],
+        arguments: tuple[t.Any, ...],
+    ) -> list[tuple[str | None, t.Any]]:
         parsed_arguments = []
 
         arguments_positions = self._get_arguments_positions(call_node, code_lines)
@@ -110,7 +125,7 @@ class Parser:
             elif isinstance(arg_node, self.COMPLEX_NODES):
                 position = arguments_positions[i]
 
-                name_lines = []
+                name_lines: list[str] = []
                 # We do end_line + 1 to have the range contain the actual end_line defined above
                 for current_line in range(position["start_line"], position["end_line"] + 1):
                     start = position["start_col"] if current_line == position["start_line"] else None
@@ -129,43 +144,18 @@ class Parser:
         return parsed_arguments
 
     @staticmethod
-    def _get_arguments_positions(call_node, code_lines):
-        # This whole method exist only because before python 3.8.0, the
-        # end_lineno and end_col_offset attribute are not given for all ast nodes (https://bugs.python.org/issue33416),
-        # so finding the position of a given argument is dependent on the following ones.
-        # Since 3.8.0, it's as simple as:
-        #     start_line = arg_node.lineno - 1
-        #     start_col = arg_node.col_offset
-        #     end_line = arg_node.end_lineno - 1
-        #     end_col = arg_node.end_col_offset
+    def _get_arguments_positions(call_node: ast.Call, code_lines: Sequence[str]) -> list[dict[str, int]]:
         arguments_positions = []
 
-        default_end_line = len(code_lines) - 1
-        default_end_col = -1
-        for i, arg_node in enumerate(call_node.args):
-            positions = {
-                "start_line": arg_node.lineno - 1,
-                "start_col": arg_node.col_offset,
-                "end_line": default_end_line,
-                "end_col": default_end_col
-            }
-            if isinstance(arg_node, (ast.ListComp, ast.GeneratorExp)):
-                positions["start_col"] -= 1
-
-            if i > 0:
-                arguments_positions[-1]["end_line"] = positions["start_line"]
-
-                # Handles cases where there is no space after the comma
-                try:
-                    comma_index = code_lines[positions["start_line"]][:positions["start_col"]].rindex(",")
-                    separator_len = positions["start_col"] - comma_index
-                except ValueError:
-                    # No comma found on this line, meaning we're multiline: ",\r"
-                    separator_len = 2
-
-                arguments_positions[-1]["end_col"] = positions["start_col"] - separator_len
-
-            arguments_positions.append(positions)
+        for arg_node in call_node.args:
+            arguments_positions.append(  # noqa: PERF401
+                {
+                    "start_line": arg_node.lineno - 1,
+                    "start_col": arg_node.col_offset,
+                    "end_line": (arg_node.end_lineno or arg_node.lineno) - 1,
+                    "end_col": arg_node.end_col_offset or arg_node.col_offset,
+                },
+            )
 
         if arguments_positions and call_node.keywords:
             kwarg_node = call_node.keywords[0]
@@ -174,7 +164,7 @@ class Parser:
 
             # Handles cases where there is no space after the comma
             try:
-                comma_index = code_lines[kwarg_node.value.lineno - 1][:kwarg_node.value.col_offset].rindex(",")
+                comma_index = code_lines[kwarg_node.value.lineno - 1][: kwarg_node.value.col_offset].rindex(",")
                 separator_len = kwarg_node.value.col_offset - comma_index
             except ValueError:
                 # No comma found on this line, meaning we're multiline: ",\r"
@@ -185,5 +175,5 @@ class Parser:
         return arguments_positions
 
     @staticmethod
-    def _default_arguments_parsing(arguments):
+    def _default_arguments_parsing(arguments: tuple[t.Any, ...]) -> list[tuple[str | None, t.Any]]:
         return [(None, argument) for argument in arguments]

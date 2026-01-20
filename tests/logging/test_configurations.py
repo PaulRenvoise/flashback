@@ -1,7 +1,6 @@
-# pylint: disable=no-self-use
-
 import logging.config
 
+import pytest
 import regex
 
 from flashback.logging import DEFAULT_CONSOLE_CONFIGURATION
@@ -18,7 +17,7 @@ class TestConfigurations:
     CRE_PYRAMID_FORMAT = regex.compile(r"[\d- :,]{23} INFO  \[tests.logging:\d+\]\[[^\s]+\] message\n$")
     CRE_RAILS_FORMAT = regex.compile(r"I, \[[\d-T:\.]{23} #\d+\]     INFO -- : message\n$")
 
-    def test_default_console_configuration(self, capsys):
+    def test_default_console_configuration(self, capsys: pytest.CaptureFixture) -> None:
         logging.config.dictConfig(DEFAULT_CONSOLE_CONFIGURATION)
 
         logger = logging.getLogger("tests.logging")
@@ -31,7 +30,7 @@ class TestConfigurations:
         assert logger.level == 10
         assert len(logger.handlers) == 1
 
-    def test_django_console_configuration(self, capsys):
+    def test_django_console_configuration(self, capsys: pytest.CaptureFixture) -> None:
         logging.config.dictConfig(DJANGO_CONSOLE_CONFIGURATION)
 
         logger = logging.getLogger("tests.logging")
@@ -44,7 +43,7 @@ class TestConfigurations:
         assert logger.level == 10
         assert len(logger.handlers) == 1
 
-    def test_flask_console_configuration(self, capsys):
+    def test_flask_console_configuration(self, capsys: pytest.CaptureFixture) -> None:
         logging.config.dictConfig(FLASK_CONSOLE_CONFIGURATION)
 
         logger = logging.getLogger("tests.logging")
@@ -57,7 +56,7 @@ class TestConfigurations:
         assert logger.level == 10
         assert len(logger.handlers) == 1
 
-    def test_pyramid_console_configuration(self, capsys):
+    def test_pyramid_console_configuration(self, capsys: pytest.CaptureFixture) -> None:
         logging.config.dictConfig(PYRAMID_CONSOLE_CONFIGURATION)
 
         logger = logging.getLogger("tests.logging")
@@ -70,7 +69,7 @@ class TestConfigurations:
         assert logger.level == 10
         assert len(logger.handlers) == 1
 
-    def test_rails_console_configuration(self, capsys):
+    def test_rails_console_configuration(self, capsys: pytest.CaptureFixture) -> None:
         logging.config.dictConfig(RAILS_CONSOLE_CONFIGURATION)
 
         logger = logging.getLogger("tests.logging")

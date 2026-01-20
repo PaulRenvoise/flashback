@@ -1,3 +1,5 @@
+from collections.abc import Iterable
+
 import regex
 
 
@@ -5,7 +7,8 @@ CRE_SNAKEIZE_CAPITAL_WORDS = regex.compile(r"([A-Z\d]+)([A-Z][a-z])")
 CRE_SNAKEIZE_LOWER_WORDS = regex.compile(r"([a-z\d])([A-Z])")
 CRE_SNAKEIZE_UNDERSCORES = regex.compile(r"(?<!^)_(?=_.)")
 
-def snakeize(text, acronyms=None):
+
+def snakeize(text: str, acronyms: Iterable[str] | None = None) -> str:
     """
     Transforms a text in any case to snake_case.
 
@@ -33,27 +36,27 @@ def snakeize(text, acronyms=None):
         ```
 
     Params:
-        text (str): the text to transform into snake_case
-        acronyms (Iterable): a list of acronyms to treat as non-delimited single lowercase words
+        text: the text to transform into snake_case
+        acronyms: a list of acronyms to treat as non-delimited single lowercase words
 
     Returns:
-        str: the snake cased text
+        the snake cased text
     """
     text = str(text)
 
     acronyms_pattern = r"(?=$)^" if acronyms is None else "|".join(acronyms)
     acronyms_snakeize_pattern = rf"({acronyms_pattern})"
 
-    for match in regex.finditer(acronyms_snakeize_pattern, text, flags=regex.I):
+    for match in regex.finditer(acronyms_snakeize_pattern, text, flags=regex.IGNORECASE):
         parts = []
 
-        start = text[:match.start()]
+        start = text[: match.start()]
         if start:
             parts.append(start)
 
         parts.append(match.group(1))
 
-        end = text[match.end():]
+        end = text[match.end() :]
         if end:
             parts.append(end)
 

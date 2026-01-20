@@ -1,4 +1,7 @@
-def uniq(iterable):
+from collections.abc import Iterable
+
+
+def uniq[T](iterable: Iterable[T]) -> list[T]:
     """
     Removes duplicates items from `iterable` while keeping their order.
 
@@ -14,24 +17,24 @@ def uniq(iterable):
         #=> 19475
 
         # Keeps order
-        assert set([1, 1, 3, 4, 5, 5]) != uniq([1, 1, 3, 4, 5, 5])
+        assert list(set([1, 1, 3, 4, 5, 5])) != uniq([1, 1, 3, 4, 5, 5])
         ```
 
     Params:
-        iterable (Iterable<Any>): the iterable to remove duplicates from
+        iterable: the iterable to remove duplicates from
 
     Returns:
-        tuple<Any>: the iterable without duplicates
+        the iterable without duplicates
     """
     unique = []
     seen = set()
 
     for item in iterable:
-        repr_item = repr(item)
-        if repr_item in seen:
+        item_repr = repr(item)
+        if item_repr in seen:
             continue
 
         unique.append(item)
-        seen.add(repr_item)
+        seen.add(item_repr)
 
-    return tuple(unique)
+    return unique

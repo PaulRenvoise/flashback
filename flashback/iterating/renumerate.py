@@ -1,4 +1,14 @@
-def renumerate(iterable):
+from collections.abc import Sized, Reversible
+import typing as t
+
+T_co = t.TypeVar("T_co", covariant=True)
+
+
+class SizedReversible(t.Protocol[T_co], Sized, Reversible):
+    pass
+
+
+def renumerate(iterable: SizedReversible) -> zip:
     """
     Enumerates an `iterable` starting from the end.
 
@@ -20,9 +30,9 @@ def renumerate(iterable):
         ```
 
     Params:
-        iterable (Iterable<Any>): the list to reverse and enumerate
+        iterable: the list to reverse and enumerate
 
     Returns:
-        Iterator: the iterator containing the reversed enumeration
+        the iterator containing the reversed enumeration
     """
     return zip(range(len(iterable) - 1, -1, -1), reversed(iterable))

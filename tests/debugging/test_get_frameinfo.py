@@ -1,43 +1,43 @@
-# pylint: disable=no-self-use,redefined-outer-name
+from inspect import FrameInfo
+from unittest.mock import patch
 
 import pytest
-from mock import patch
 
 from flashback.debugging import get_frameinfo
 
 
 class TestGetFrameInfo:
-    def test_current(self):
+    def test_current(self) -> None:
         frameinfo = get_frameinfo()
 
         assert frameinfo.function == "test_current"
 
-    def test_previous(self):
-        def dummy_func(depth):
+    def test_previous(self) -> None:
+        def dummy_func(depth) -> FrameInfo:
             return get_frameinfo(depth)
 
         frameinfo = dummy_func(1)
 
         assert frameinfo.function == "test_previous"
 
-    def test_future(self):
+    def test_future(self) -> None:
         frameinfo = get_frameinfo(-1)
 
         assert frameinfo.function == "test_future"
 
-    def test_deep(self):
+    def test_deep(self) -> None:
         frameinfo = get_frameinfo(6)
 
         assert frameinfo.function == "pytest_runtest_call"
 
     @patch("inspect.currentframe")
-    def test_no_current_frame(self, mocked_currentframe):
+    def test_no_current_frame(self, mocked_currentframe) -> None:
         mocked_currentframe.side_effect = [None]
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             get_frameinfo(1)
 
-    def test_no_last_frame(self):
+    def test_no_last_frame(self) -> None:
         # TODO: remove magic index
         # How to make sure that the last call to frame.f_back returns None?
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             get_frameinfo(37)

@@ -30,5 +30,6 @@ class Sentinel:
         #=> StopIteration
         ```
     """
+
     def __new__(cls):
         return cls

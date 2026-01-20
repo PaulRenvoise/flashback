@@ -1,28 +1,25 @@
-# pylint: disable=no-self-use,no-member,protected-access
-
 import time
+from unittest.mock import Mock
 
 import pytest
-from mock import Mock
 
 from flashback import timeoutable
 
 
-def dummy_func(spy):
+def dummy_func(spy) -> None:
     time.sleep(2)
-    spy.__call__()
+    spy()
 
 
 class TestTimeoutable:
-    def test_timeoutable(self):
+    def test_timeoutable(self) -> None:
         make_timeoutable = timeoutable(1)
         decorated_func = make_timeoutable(dummy_func)
 
-        with pytest.raises(TimeoutError) as e:
+        with pytest.raises(TimeoutError, match="execution timed out"):
             decorated_func(None)
-            assert e.message == "execution timed out"
 
-    def test_timeoutable_without_timeout(self):
+    def test_timeoutable_without_timeout(self) -> None:
         spy_func = Mock()
         make_timeoutable = timeoutable(3)
         decorated_func = make_timeoutable(dummy_func)
@@ -31,9 +28,8 @@ class TestTimeoutable:
 
         assert spy_func.called
 
-    def test_timeoutable_with_message(self):
+    def test_timeoutable_with_message(self) -> None:
         make_timeoutable = timeoutable(1, message="dummy_func timed out")
         decorated_func = make_timeoutable(dummy_func)
-        with pytest.raises(TimeoutError) as e:
+        with pytest.raises(TimeoutError, match="dummy_func timed out"):
             decorated_func(None)
-            assert e.message == "dummy_func timed out"

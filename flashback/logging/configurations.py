@@ -16,12 +16,14 @@ from flashback.logging import DEFAULT_CONSOLE_CONFIGURATION
 `disable_existing_loggers` is set to false for each configuration because it breaks the loggers
 created after using the configuration (see: https://gist.github.com/alanbriolat/d5ffe608b56c948533c6).
 """
+
 import inspect
 
 from ..debugging import get_frameinfo
 
 try:
-    IMPORTER = inspect.getmodule(get_frameinfo(12).frame).__package__ or None
+    caller_module = inspect.getmodule(get_frameinfo(12).frame)
+    IMPORTER = None if caller_module is None else caller_module.__package__
 except (IndexError, AttributeError):
     IMPORTER = None
 
@@ -29,25 +31,21 @@ DEFAULT_CONSOLE_CONFIGURATION = {
     "version": 1,
     "disable_existing_loggers": False,
     "incremental": False,
-    "formatters": {
-        "default": {
-            "format": "%(asctime)s - %(name)s - %(processName)s - %(levelname)s - %(message)s"
-        }
-    },
+    "formatters": {"default": {"format": "%(asctime)s - %(name)s - %(processName)s - %(levelname)s - %(message)s"}},
     "filters": {},
     "handlers": {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-            "formatter": "default"
-        }
+            "formatter": "default",
+        },
     },
     "loggers": {
         IMPORTER: {
             "level": "DEBUG",
-            "handlers": ["console"]
-        }
-    }
+            "handlers": ["console"],
+        },
+    },
 }
 """
 A simple logger applicable for most logging context.
@@ -66,14 +64,9 @@ DJANGO_CONSOLE_CONFIGURATION = {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-        }
+        },
     },
-    "loggers": {
-        IMPORTER: {
-            "level": "DEBUG",
-            "handlers": ["console"]
-        }
-    }
+    "loggers": {IMPORTER: {"level": "DEBUG", "handlers": ["console"]}},
 }
 """
 A Django-like logger (which basically does nothing).
@@ -85,25 +78,10 @@ FLASK_CONSOLE_CONFIGURATION = {
     "version": 1,
     "disable_existing_loggers": False,
     "incremental": False,
-    "formatters": {
-        "default": {
-            "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"
-        }
-    },
+    "formatters": {"default": {"format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"}},
     "filters": {},
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "default"
-        }
-    },
-    "loggers": {
-        IMPORTER: {
-            "level": "DEBUG",
-            "handlers": ["console"]
-        }
-    }
+    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler", "formatter": "default"}},
+    "loggers": {IMPORTER: {"level": "DEBUG", "handlers": ["console"]}},
 }
 """
 A Flask-like logger.
@@ -117,24 +95,11 @@ PYRAMID_CONSOLE_CONFIGURATION = {
     "disable_existing_loggers": False,
     "incremental": False,
     "formatters": {
-        "default": {
-            "format": "%(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s"
-        }
+        "default": {"format": "%(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s"},
     },
     "filters": {},
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "default"
-        }
-    },
-    "loggers": {
-        IMPORTER: {
-            "level": "DEBUG",
-            "handlers": ["console"]
-        }
-    }
+    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler", "formatter": "default"}},
+    "loggers": {IMPORTER: {"level": "DEBUG", "handlers": ["console"]}},
 }
 """
 A Pyramid-like logger.
@@ -150,23 +115,12 @@ RAILS_CONSOLE_CONFIGURATION = {
     "formatters": {
         "default": {
             "format": "%(levelname)1.1s, [%(asctime)s.%(msecs)03d #%(process)d] %(levelname)8s -- : %(message)s",
-            "datefmt": "%Y-%m-%dT%H:%M:%S"
-        }
+            "datefmt": "%Y-%m-%dT%H:%M:%S",
+        },
     },
     "filters": {},
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "default"
-        }
-    },
-    "loggers": {
-        IMPORTER: {
-            "level": "DEBUG",
-            "handlers": ["console"]
-        }
-    }
+    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler", "formatter": "default"}},
+    "loggers": {IMPORTER: {"level": "DEBUG", "handlers": ["console"]}},
 }
 """
 A Ruby-on-Rails-like logger.

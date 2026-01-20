@@ -3,9 +3,13 @@ import regex
 from .transliterate import transliterate
 
 
-CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(r"[^a-z0-9\-_]+", flags=regex.I)
+CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(
+    r"[^a-z0-9\-_]+",
+    flags=regex.IGNORECASE,
+)
 
-def parameterize(text, sep="-", keep_case=False):
+
+def parameterize(text: str, sep: str = "-", keep_case: bool = False) -> str:
     """
     Replaces special characters in a text so that it may be used as part of an URL.
 
@@ -30,12 +34,12 @@ def parameterize(text, sep="-", keep_case=False):
         ```
 
     Params:
-        text (str): the text to transform
-        sep (str): the separator to use as replacement
-        keep_case (bool): whether or not to keep the input case
+        text: the text to transform
+        sep: the separator to use as replacement
+        keep_case: whether or not to keep the input case
 
     Returns:
-        str: the parameterized text
+        the parameterized text
     """
     text = transliterate(text)
 
@@ -43,7 +47,7 @@ def parameterize(text, sep="-", keep_case=False):
     text = CRE_PARAMETERIZE_NON_ALPHANUM.sub(sep, text)
 
     if sep:
-        sep = regex.escape(sep)
+        sep = regex.escape(sep)  # type: ignore because regex is not typed
 
         # No more than one separator in a row
         text = regex.sub(rf"{sep}{{2,}}", sep, text)

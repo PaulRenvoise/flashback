@@ -1,4 +1,4 @@
-def truncate(text, limit=120, suffix="..."):
+def truncate(text: str, limit: int = 120, suffix: str = "...") -> str:
     """
     Truncates the given text up to `limit` and fill its ending with `suffix`.
 
@@ -33,17 +33,17 @@ def truncate(text, limit=120, suffix="..."):
         ```
 
     Params:
-        text (str): the text to truncate
-        limit (int): the maximum length of the text
-        suffix (str): the suffix to append at the truncated text
+        text: the text to truncate
+        limit: the maximum length of the text
+        suffix: the suffix to append at the truncated text
 
     Returns
-        str: the truncated text
+        the truncated text
     """
     if len(text) <= limit:
         return text
 
-    truncated_text = text[:(limit - len(suffix))]
+    truncated_text = text[: (limit - len(suffix))]
     try:
         space_index = truncated_text.rindex(" ")
     except ValueError:

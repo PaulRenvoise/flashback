@@ -1,3 +1,4 @@
+from collections.abc import Callable
 import functools
 import inspect
 import logging
@@ -7,7 +8,12 @@ import time
 from .formatting import ordinalize
 
 
-def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=()):
+def retryable[T](
+    max_retries: int = -1,
+    plateau_after: int = 10,
+    reset_after: int = 3600,
+    exceptions: tuple[type[Exception], ...] = (),
+) -> Callable[..., Callable[..., T]]:
     """
     Retries to call a callable when a given exception is raised.
 
@@ -47,29 +53,31 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
         ```
 
     Params:
-        max_retries (int): the max number of retries before raising the initial error
-        plateau_after (int): the number of retries after which to plateau the delay
-        reset_after (int): the number of seconds after which to reset the delay
-        exceptions (tuple<Exception>): the exceptions to trigger a retry on
+        max_retries: the max number of retries before raising the initial error
+        plateau_after: the number of retries after which to plateau the delay
+        reset_after: the number of seconds after which to reset the delay
+        exceptions: the exceptions to trigger a retry on
 
     Returns :
-        Callable: a wrapper used to decorate a callable
+        a wrapper used to decorate a callable
     """
-    def wrapper(func):
+
+    def wrapper(func: Callable[..., T]) -> Callable[..., T]:
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we
         # decorate.
         # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
         # name, we receive the same logger, which "hides" this decorator as if the logging was
         # made from within the callable we decorate
-        logger = logging.getLogger(inspect.getmodule(func).__name__)
+        module = inspect.getmodule(func)
+        logger = logging.getLogger(None if module is None else module.__name__)
 
         @functools.wraps(func)
-        def inner(*args, **kwargs):
+        def inner(*args, **kwargs) -> T:
             retry_count = 0
             current_try = 1
 
-            retry_delay = 0
-            time_waited = 0
+            retry_delay = 0.0
+            time_waited = 0.0
 
             while True:
                 try:
@@ -90,8 +98,8 @@ def retryable(max_retries=-1, plateau_after=10, reset_after=3600, exceptions=())
                         logger.warning("Reached the maximum number of retries, raising")
 
                         # Add a few debug info to the exception
-                        caught_exception.retry_count = retry_count
-                        caught_exception.time_waited = time_waited
+                        setattr(caught_exception, "retry_count", retry_count)  # noqa: B010
+                        setattr(caught_exception, "time_waited", time_waited)  # noqa: B010
 
                         raise caught_exception
 

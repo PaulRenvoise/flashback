@@ -2,7 +2,7 @@ from ..i16g import Locale
 from ._inflect import _inflect
 
 
-def pluralize(word, language="en"):
+def pluralize(word: str, language: str = "en") -> str:
     """
     Returns the plural form of the given word.
 
@@ -21,26 +21,31 @@ def pluralize(word, language="en"):
         ```
 
     Params:
-        word (str): the word to pluralize
-        language (str): the language to use to pluralize the word (ISO 639-1)
+        word: the word to pluralize
+        language: the language to use to pluralize the word (ISO 639-1)
 
     Returns:
-        str: the pluralized word
+        the pluralized word
     """
     locale = Locale.load(language, path=".locales")
 
     # TODO: find a way to put that in _inflect
-    if language == "en":
-        if word.endswith(("'", "'s")):
-            sub_word = word.rstrip("s")
-            sub_word = sub_word.rstrip("'")
-            sub_word = pluralize(sub_word)
+    if language == "en" and word.endswith(("'", "'s")):
+        sub_word = word.rstrip("s")
+        sub_word = sub_word.rstrip("'")
+        sub_word = pluralize(sub_word)
 
-            if sub_word.endswith("s"):
-                return f"{sub_word}'"
+        if sub_word.endswith("s"):
+            return f"{sub_word}'"
 
-            return f"{sub_word}'s"
+        return f"{sub_word}'s"
 
     base_case = str.lower if language != "de" else str.capitalize
 
-    return _inflect(word, locale.PLURAL_RULES, locale.PLURAL_CATEGORIES, locale.PREPOSITIONS, base_case=base_case)
+    return _inflect(
+        word,
+        locale.COMPILED_PLURAL_RULES,
+        locale.PLURAL_CATEGORIES,
+        locale.PREPOSITIONS,
+        base_case=base_case,
+    )

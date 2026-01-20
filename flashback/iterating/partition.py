@@ -1,4 +1,12 @@
-def partition(predicate, iterable):
+from collections.abc import Callable, Iterable
+import typing as t
+
+
+class SupportsBool(t.Protocol):
+    def __bool__(self) -> bool: ...
+
+
+def partition[T](predicate: Callable[[T], SupportsBool], iterable: Iterable[T]) -> tuple[list[T], list[T]]:
     """
     Splits an `iterable` into two lists containing items that validate or not the given
     `predicate`.
@@ -16,11 +24,11 @@ def partition(predicate, iterable):
         ```
 
     Params:
-        predicate (lambda): the lambda to apply on each item of `iterable`
-        iterable (Iterable<Any>): the iterable to partition
+        predicate: the lambda to apply on each item of `iterable`
+        iterable: the iterable to partition
 
     Returns:
-        tuple<tuple<Any>>: the iterable's items separated depending on `predicate`
+        the iterable's items separated depending on `predicate`
     """
     trues = []
     falses = []
@@ -31,4 +39,4 @@ def partition(predicate, iterable):
         else:
             falses.append(item)
 
-    return (tuple(trues), tuple(falses))
+    return (trues, falses)

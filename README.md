@@ -11,18 +11,23 @@ functions, constants, etc. that you might have written a couple times already.
 
 ## Installing
 
-Flashback supports python 3.6+.
+Flashback supports python 3.12+.
 
 Pip:
 ```bash
 pip install flashback
 ```
 
+Uv:
+```bash
+uv pip install flashback
+```
+
 Build from sources:
 ```bash
 git clone git@github.com:PaulRenvoise/flashback.git
 cd flashback
-python setup.py install
+uv build
 ```
 
 ## Contents
@@ -30,7 +35,9 @@ python setup.py install
 Flashback's helpers are currently organised within 7 modules, and global helpers:
 
 - `accessing/`
-    - `dig()` recursively fetch keys in a nested dict
+    - `dig()` recursively fetch keys and indices in a nested mapping or sequence
+    - `values_at()` retrieves values from each given keys in dictionary
+    - `pick()` fetches key/value pairs with given keys from a dictionary
 - `caching/`
     - `Cache` supports several cache stores: in-memory, disk, Redis, and Memcached
     - `@cached` caches a callable's return value based on its arguments
@@ -59,6 +66,7 @@ Flashback's helpers are currently organised within 7 modules, and global helpers
     - `chunks()` splits an iterable into smaller chunks, padding them if requested
     - `partition()` splits an iterable into items validating a predicate and the ones that don't
     - `uniq()` removes duplicates from an iterable while keeping the items' order
+    - `uniq_by()` removes duplicates defined via a user-supplied callable from an iterable while keeping the items' order
     - `compact()` removes None values from an iterable
     - `flatten()` unpacks nested iterable into the given iterable
     - `flat_map()` applies a function to every item and nested item of the given iterable
@@ -90,14 +98,24 @@ Flashback's helpers are currently organised within 7 modules, and global helpers
 
 The Pull Request template has a checklist containing everything you need to submit a new PR.
 
-Run the tests with `pytest`:
+Run the tests with:
 ```bash
-pytest tests
+uv run pytest tests
 ```
 
-Run the lint with `pylint`:
+Run the typechecker with:
 ```bash
-pylint flashback/ tests/
+uv run pyrefly check flashback tests
+```
+
+Run the lint with:
+```bash
+uv run ruff check flashback tests
+```
+
+Run the formatter with:
+```bash
+uv run ruff format flashback tests
 ```
 
 ## License

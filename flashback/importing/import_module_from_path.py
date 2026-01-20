@@ -5,7 +5,7 @@ from importlib import util, import_module
 from ..debugging import get_frameinfo
 
 
-def import_module_from_path(name, path):
+def import_module_from_path(name: str, path: str) -> None:
     """
     Imports the contents of a module from a relative or absolute path and makes its content
     available for usage.
@@ -22,18 +22,17 @@ def import_module_from_path(name, path):
         ```
 
     Params:
-        name (str): the name of the module to import
-        path (str): the relative path in which to find the module to import
+        name: the name of the module to import
+        path: the relative path in which to find the module to import
 
     Raises:
         ImportError: if a relative import beyond the top-level package is attempted
-        ImportError: if the request module is not found
+        ImportError: if the requested module is not found
     """
     if path.startswith("."):
         caller_module = inspect.getmodule(get_frameinfo(1).frame)
-        caller_package = caller_module.__package__
 
-        module_path = util.resolve_name(path, caller_package)
+        module_path = util.resolve_name(path, None if caller_module is None else caller_module.__package__)
     else:
         module_path = path
 

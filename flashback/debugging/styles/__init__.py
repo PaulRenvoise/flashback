@@ -1,6 +1,4 @@
 from .jellybeans import Jellybeans
 
 
-__all__ = (
-    "Jellybeans",
-)
+__all__ = ("Jellybeans",)

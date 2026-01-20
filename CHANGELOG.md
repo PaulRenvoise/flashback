@@ -1,5 +1,108 @@
 # Changelog
 
+## 3.1.3 (20/01/2026)
+
+- Fixed build to include all modules
+
+## 3.1.2 (20/11/2025)
+
+- Improved docs
+- Improved package description
+- Improved python version coverage in CI
+
+## 3.1.1 (20/11/2025)
+
+- Fixed build
+
+## 3.1.0 (20/11/2025)
+
+- Switched to uv for project management
+- Replaced mypy by pyrefly, and added a typecheck ci step
+- Upgraded all dependencies
+- Dropped support for Python 3.8, 3.9, 3.10, 3.11
+- Added Python 3.13 and 3.14 in the CI tests
+- Updated `accessing/dig` to return None when no keys are given
+- Updated `caching/cached` to expose `hash_keys: bool` and use custom key building/hashing
+- Updated `iterating/uniq`, `iterating/uniq_by`, `iterating/flatten`, `iterating/compact` to return lists instead of tuples
+- Updated typing:
+    - added `py.typed` file
+    - `accessing/dig`: replace T with Any, change container type from dict[Hashable, T] | Sequence[T] to Mapping[Any, Any] | Sequence[Any]
+    - `accessing/pick`: change dictionary: dict[Hashable, T] to mapping: Mapping[Any, T]
+    - `accessing/values_at`: change dictionary: dict[Hashable, T] to mapping: Mapping[Any, T]
+    - `caching/adapters/redis_adapter`: added types to __init__
+    - `caching/adapters`: changed the return of connection_exceptions from tuple[Exception, ...] to tuple[type[Exception], ...]
+    - `caching/cached`: update typing
+    - `debugging/profiled`: output type changed from TextIO to str
+    - `debugging/xp`: change o type from TextIO to IO[str]
+    - `formatting/locales`: added types for all constants
+    - `iterating/compact`: return value will not have None explicitly
+    - `iterating/partition`: return value of the predicate must be SupportsBool instead of bool, returns `tuple[list[T], list[T]]` instead of tuple[tuple[T, ...], tuple[T, ...]]`
+    - `iterating/uniq_by`: returns list[T] instead of tuple[t, ...]
+    - `iterating/uniq`: returns list[T] instead of tuple[t, ...]
+    - `logging/affixed_stream_handler`: change __init__ stream type from TextIOWarpper to IO[str]
+    - `logging/muted`: add None type option to loggers' Iterable type
+    - `borg`: add return type Self to __new__, add __getattr__ to make typechecker happy
+    - `deprecated`: add typing
+    - `encrypted_file`: better read/write typing via overload
+    - `retryable`: add typing
+    - `sampled`: add typing
+    - `timed`: add typing
+    - `timeoutabe`: add typing
+
+## 2.2.2 (31/08/2024)
+
+- Update dependency version for regex
+
+## 2.2.1 (06/03/2024)
+
+- Fixed `iterating/flatten` to only flatten list, tuple, range, set, and frozenset
+
+## 2.2.0 (06/03/2024)
+
+- Added WIP typing
+
+## 2.1.0 (06/02/2024)
+
+- Added `iterating/uniq_by` to remove duplicates from an iterable while keeping the items' order with a user-supplied callable
+- Added `accessing/pick` to fetch key/value pairs with given keys from a dictionary
+- Added `accessing/values_at` to retrieves values from each given keys in dictionary
+- Updated `accessing/dig` to support sequences and their indices
+- Fixed `iterating/flat_map` to correctly load flatten method
+- Typed the methods listed above
+- Updated dependencies
+
+## 2.0.0 (05/10/2023)
+
+- Dropped support for Python 3.7
+- Added python 3.12 in the CI tests
+- Updated dependencies
+
+## 1.4.2 (04/07/2023)
+
+- Updated dependencies
+- Updated github actions
+- Updated pypi upload
+
+## 1.3.5 (27/02/2023)
+
+- Fix dependencies
+
+## 1.3.4 (27/02/2023)
+
+- Updated dependencies
+
+## 1.3.3 (08/11/2022)
+
+- Updated dependencies
+- Added python 3.11 in the CI tests
+
+## 1.3.2 (02/04/2022)
+
+- Fixed `accessing/dig` to handle cases where the value is `None`
+- Updated dependencies
+- Updated `caching/cache` to accept a global ttl at init
+- Dropped support for Python 3.6
+
 ## 1.3.1 (15/10/2021)
 
 - Fixed github actions to use python version as strings instead of floats to handle python 3.10

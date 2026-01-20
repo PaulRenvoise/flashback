@@ -1,8 +1,10 @@
+from collections.abc import Callable
+import typing as t
 import cProfile
 import functools
 
 
-def profiled(output=None):
+def profiled(output: str | None = None) -> Callable:
     """
     Profiles a call made to a callable and dump the stats to a file for further analysis.
 
@@ -56,9 +58,10 @@ def profiled(output=None):
     Returns:
         Callable: a wrapper used to decorate a callable
     """
-    def wrapper(func):
+
+    def wrapper(func: Callable) -> Callable:
         @functools.wraps(func)
-        def inner(*args, **kwargs):
+        def inner(*args, **kwargs) -> t.Any:
             profiler = cProfile.Profile()
 
             result = profiler.runcall(func, *args, **kwargs)
@@ -68,4 +71,5 @@ def profiled(output=None):
             return result
 
         return inner
+
     return wrapper
