@@ -39,9 +39,12 @@ dependencies = [
 ]
 
 [project.urls]
-
 homepage = "https://github.com/PaulRenvoise/flashback"
 repository = "https://github.com/PaulRenvoise/flashback"
+
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
@@ -119,7 +122,6 @@ allow-magic-value-types = ["str", "bytes", "int"]
 python-version = "3.12"
 ignore-missing-imports = ["*"]
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["assets", "flashback"]
-exclude = ["tests"]
+[tool.uv.build-backend]
+module-name = "flashback"
+module-root = ""
