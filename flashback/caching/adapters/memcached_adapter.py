@@ -22,7 +22,10 @@ class MemcachedAdapter(BaseAdapter):
         if ttl == -1:
             ttl = 0
 
-        return self.store.set(key, value, expire=ttl)
+        result = self.store.set(key, value, expire=ttl)
+
+        # Returns True if True, but False if False or None
+        return result is True
 
     def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int]) -> bool:
         # There's two reasons to recode pymemcache.set_multi():
@@ -33,7 +36,7 @@ class MemcachedAdapter(BaseAdapter):
         ttls = [0 if ttl == -1 else ttl for ttl in ttls]
         for key, value, ttl in zip(keys, values, ttls):
             stored_ttl = self.store._check_integer(ttl, "expire")  # noqa: SLF001
-            stored_key = self.store.check_key(key)
+            stored_key = self.store.check_key(key, b"")
             stored_value, stored_flags = self.store.serde.serialize(key, value)
 
             command = b"set " + stored_key
@@ -43,7 +46,7 @@ class MemcachedAdapter(BaseAdapter):
             command += stored_value.encode(self.store.encoding) + b"\r\n"
             commands.append(command)
 
-        results = self.store._misc_cmd(commands, "set", False)  # noqa: SLF001
+        results = self.store._misc_cmd(commands, b"set", False)  # noqa: SLF001
 
         return all(line != b"NOT_STORED" for line in results)
 
@@ -62,12 +65,12 @@ class MemcachedAdapter(BaseAdapter):
         commands = []
 
         for key in keys:
-            stored_key = self.store.check_key(key)
+            stored_key = self.store.check_key(key, b"")
 
             command = b"delete " + stored_key + b"\r\n"
             commands.append(command)
 
-        results = self.store._misc_cmd(commands, "delete", False)  # noqa: SLF001
+        results = self.store._misc_cmd(commands, b"delete", False)  # noqa: SLF001
 
         return all(line != b"NOT_FOUND" for line in results)
 

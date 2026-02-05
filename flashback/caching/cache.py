@@ -350,14 +350,14 @@ class Cache:
         return self.adapter.ping()
 
     @staticmethod
-    def _decode_json(json_value: str) -> t.Any:
+    def _decode_json(json_value: t.Any) -> t.Any:
         try:
             return json.loads(json_value)
         except TypeError:  # non-strings (e.g. None)
             return json_value
 
     @staticmethod
-    def _convert_numeric(value):
+    def _convert_numeric(value: t.Any) -> t.Any:
         # We do not check if isinstance since bool is a subclass of int
         if type(value) in {int, float, complex}:
             value = repr(value)
