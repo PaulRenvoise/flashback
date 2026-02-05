@@ -1,3 +1,6 @@
+import typing as t
+
+
 class Sentinel:
     """
     Implements a class useful to create a Sentinel design pattern.
@@ -31,5 +34,5 @@ class Sentinel:
         ```
     """
 
-    def __new__(cls):
+    def __new__(cls) -> type[t.Self]:
         return cls
