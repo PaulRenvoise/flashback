@@ -22,6 +22,11 @@ class TestFlatten:
 
         assert flattened == [1, 2, 3, 4, 5]
 
+    def test_mixed_final_types(self) -> None:
+        flattened = flatten(["one", (2,), {"three", "four"}, range(5, 6)])
+
+        assert flattened == ["one", 2, "three", "four", 5]
+
     def test_nested_dicts(self) -> None:
         flattened = flatten([[{"key1": 1}], [{"key2": 2}, {"key3": 3}]])
 
