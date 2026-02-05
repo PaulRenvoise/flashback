@@ -23,7 +23,6 @@ class TestFlatMap:
         assert list(flat_mapped) == [0.5, 1.0, 1.5, 2.0, 2.5]
 
     def test_mixed_flattenable_values_types(self) -> None:
-        flat_mapped = flat_map(lambda x: "_" + str(x), [1, ("abc",), {3, "def"}, range(5, 6)])
+        flat_mapped = flat_map(lambda x: "_" + str(x), [1, ("abc",), {2}, range(3, 4)])
 
-        # The order of the items from the set is not guaranteed, so we sort the result before asserting
-        assert sorted(flat_mapped) == sorted(["_1", "_abc", "_def", "_3", "_5"])
+        assert list(flat_mapped) == ["_1", "_abc", "_2", "_3"]
