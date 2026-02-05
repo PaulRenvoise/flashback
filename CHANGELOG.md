@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.0 (05/02/2026)
+
+- Upgrade dependencies
+
 ## 3.1.5 (20/01/2026)
 
 - Split the release workflow in two: publish package and publish docs
