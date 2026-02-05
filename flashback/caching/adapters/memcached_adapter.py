@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 import typing as t
 
-from pymemcache.client.base import Client
+from pymemcache.client.base import Client, check_key_helper
 from pymemcache.exceptions import *  # noqa: F403
 from pymemcache.exceptions import MemcacheUnexpectedCloseError, MemcacheServerError, MemcacheUnknownError
 
@@ -28,7 +28,7 @@ class MemcachedAdapter(BaseAdapter):
         return result is True
 
     def batch_set(self, keys: Sequence[str], values: Sequence[t.Any], ttls: Sequence[int]) -> bool:
-        # There's two reasons to recode pymemcache.set_multi():
+        # There's two reasons to recode pymemcache.set_many():
         # - It returns a list of keys that failed to be inserted, and the base expects a boolean
         # - It only allows a unique ttl for all keys
         commands = []
@@ -36,7 +36,7 @@ class MemcachedAdapter(BaseAdapter):
         ttls = [0 if ttl == -1 else ttl for ttl in ttls]
         for key, value, ttl in zip(keys, values, ttls):
             stored_ttl = self.store._check_integer(ttl, "expire")  # noqa: SLF001
-            stored_key = self.store.check_key(key, b"")
+            stored_key = check_key_helper(key, self.store.allow_unicode_keys)
             stored_value, stored_flags = self.store.serde.serialize(key, value)
 
             command = b"set " + stored_key
@@ -54,18 +54,18 @@ class MemcachedAdapter(BaseAdapter):
         return self.store.get(key)
 
     def batch_get(self, keys: Sequence[str]) -> Sequence[t.Any | None]:
-        key_to_value = self.store.get_multi(keys)
+        key_to_value = self.store.get_many(keys)
         return [key_to_value.get(key, None) for key in keys]
 
     def delete(self, key: str) -> bool:
         return self.store.delete(key, noreply=False)
 
     def batch_delete(self, keys: Sequence[str]) -> bool:
-        # Here as well, pymemcache.delete_multi() always returns True
+        # Here as well, pymemcache.delete_many() always returns True
         commands = []
 
         for key in keys:
-            stored_key = self.store.check_key(key, b"")
+            stored_key = check_key_helper(key, self.store.allow_unicode_keys)
 
             command = b"delete " + stored_key + b"\r\n"
             commands.append(command)
