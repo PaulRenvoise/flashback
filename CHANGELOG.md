@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.0.0 (TBD)
+
+- Improved typing for the whole library:
+    - `accessing/dig`: stricter parameters, replaced Mapping[Any, Any] | Sequence[Any] by SupportsGetItem protocol
+    - `accessing/pick`: stricter parameters, added generic K: Hashable instead of Hashable
+    - `accessing/values_at`: stricter parameters, added generic K: Hashable instead of Any/Hashable
+
+- Breaking changes:
+    - `accessing/dig`: Now raises TypeError instead of AttributeError when trying to index with str on a list
+
 ## 3.2.0 (05/02/2026)
 
 - Upgraded dependencies
