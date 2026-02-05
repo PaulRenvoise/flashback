@@ -25,7 +25,9 @@ class TestFlatten:
     def test_mixed_flattenable_values_types(self) -> None:
         flattened = flatten(["one", (2,), {"three", "four"}, range(5, 6)])
 
-        assert flattened == ["one", 2, "three", "four", 5]
+        # The order of the flattened items may not be preserved due to the use of sets,
+        # so we sort both lists before comparing.
+        assert sorted(flattened) == sorted(["one", 2, "three", "four", 5])
 
     def test_nested_dicts(self) -> None:
         flattened = flatten([[{"key1": 1}], [{"key2": 2}, {"key3": 3}]])
