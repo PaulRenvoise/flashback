@@ -1,4 +1,4 @@
-from collections.abc import Sized, Reversible
+from collections.abc import Iterator, Reversible, Sized
 import typing as t
 
 T_co = t.TypeVar("T_co", covariant=True)
@@ -8,7 +8,7 @@ class SizedReversible(t.Protocol[T_co], Sized, Reversible):
     pass
 
 
-def renumerate(iterable: SizedReversible) -> zip:
+def renumerate[T](iterable: SizedReversible[T]) -> Iterator[tuple[int, T]]:
     """
     Enumerates an `iterable` starting from the end.
 
