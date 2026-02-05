@@ -35,7 +35,7 @@ class DummyClass:
         return get_frameinfo()
 
 
-dummy_lambda = lambda: get_frameinfo()  # noqa: E731
+dummy_lambda = lambda: get_frameinfo()  # noqa: E731, PLW0108
 
 
 class TestGetCallable:
