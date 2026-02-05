@@ -1,9 +1,18 @@
 from collections.abc import Callable, Iterable, Iterator
+import typing as t
 
-from .flatten import flatten
+from .flatten import flatten, Flattenable
 
 
-def flat_map[T, R](func: Callable[[T], R], iterable: Iterable[T]) -> Iterator[R]:
+@t.overload
+def flat_map[T, R](func: Callable[[T], R], iterable: Iterable[Flattenable[T]]) -> Iterator[R]: ...
+
+
+@t.overload
+def flat_map[T, R](func: Callable[[T | int], R], iterable: Iterable[Flattenable[T] | range]) -> Iterator[R]: ...
+
+
+def flat_map[T, R](func: Callable[[t.Any], R], iterable: Iterable[t.Any]) -> Iterator[R]:
     """
     Applies the function `func` to each item and nested item of `iterable`.
 
@@ -19,7 +28,7 @@ def flat_map[T, R](func: Callable[[T], R], iterable: Iterable[T]) -> Iterator[R]
         #=> 8
         #=> 10
 
-        assert list(flat_map(lambda x: x / 2, [1, {2, 3}, (4,), range(5, 6)]) == [0.5, 1, 1.5, 2, 2.5, 3]
+        assert list(flat_map(lambda x: x / 2, [1, {2, 3}, (4,), range(5, 6)])) == [0.5, 1, 1.5, 2, 2.5, 3]
         ```
 
     Params:

@@ -11,10 +11,10 @@ def flatten[T](iterable: Iterable[Flattenable[T]]) -> list[T]: ...
 
 
 @t.overload
-def flatten[T](iterable: Iterable[Flattenable[T | int] | range]) -> list[T | int]: ...
+def flatten[T](iterable: Iterable[Flattenable[T] | range]) -> list[T | int]: ...
 
 
-def flatten(iterable: Iterable[Flattenable[t.Any]]) -> list[t.Any]:
+def flatten(iterable: Iterable[t.Any]) -> list[t.Any]:
     """
     Unpacks nested iterables into the root `iterable`.
 
@@ -44,7 +44,7 @@ def flatten(iterable: Iterable[Flattenable[t.Any]]) -> list[t.Any]:
     for item in iterable:
         if isinstance(item, range):
             items.extend(item)
-        if isinstance(item, (list, tuple, set, frozenset)):
+        elif isinstance(item, (list, tuple, set, frozenset)):
             items.extend(flatten(item))
         else:
             items.append(item)

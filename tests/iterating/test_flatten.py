@@ -17,12 +17,12 @@ class TestFlatten:
 
         assert flattened == ["abc", "def", "ghi", "jkl"]
 
-    def test_mixed_types(self) -> None:
+    def test_mixed_flattenable_types(self) -> None:
         flattened = flatten([1, (2,), {3, 4}, range(5, 6)])
 
         assert flattened == [1, 2, 3, 4, 5]
 
-    def test_mixed_final_types(self) -> None:
+    def test_mixed_flattenable_values_types(self) -> None:
         flattened = flatten(["one", (2,), {"three", "four"}, range(5, 6)])
 
         assert flattened == ["one", 2, "three", "four", 5]
