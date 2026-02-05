@@ -3,9 +3,23 @@
 ## 4.0.0 (TBD)
 
 - Improved typing for the whole library:
-    - `accessing/dig`: stricter parameters, replaced Mapping[Any, Any] | Sequence[Any] by SupportsGetItem protocol
-    - `accessing/pick`: stricter parameters, added generic K: Hashable instead of Hashable
-    - `accessing/values_at`: stricter parameters, added generic K: Hashable instead of Any/Hashable
+    - `accessing/dig`: stricter parameters, replaced `Mapping[Any, Any] | Sequence[Any]` by `SupportsGetItem` protocol
+    - `accessing/pick`: stricter parameters, added generic `K: Hashable` instead of `Hashable`
+    - `accessing/values_at`: stricter parameters, added generic `K: Hashable` instead of `Any`/`Hashable`
+    - `caching/cached`: added Generic and ParamSpec
+    - `caching/cache`: added internal typing
+    - `caching/adapters/memcached_adapter`: improved internal typing
+    - `debugging/parser`: improved internal typing
+    - `iterating/chunks`: added overloads to properly type return types with/without pad provided
+    - `iterating/flatten`: improved typing via overloads and type
+    - `iterating/flat_map`: improved typing via overloads and flatten type
+    - `iterating/renumerate`: made it Generic, change return type from `zip` to `Iterator[tuple[int, T]]`
+    - `borg`: improved internal typing
+    - `sampled`: added ParamSpec
+    - `deprecated`: added ParamSpec
+    - `timed`: added ParamSpec
+    - `timeoutable`: added ParamSpec
+    - `logging/muted`: added ParamSpec
 
 - Breaking changes:
     - `accessing/dig`: Now raises TypeError instead of AttributeError when trying to index with str on a list
