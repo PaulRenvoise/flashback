@@ -1,8 +1,13 @@
-from collections.abc import Sequence, Hashable, Mapping
+from collections.abc import Sequence, Hashable
 import typing as t
 
 
-def dig(container: Mapping[t.Any, t.Any] | Sequence[t.Any], *keys: Hashable) -> t.Any | None:
+class SupportsGetItem(t.Protocol):
+    def __getitem__(self: "SupportsGetItem", key: t.Any, /) -> t.Any:
+        pass
+
+
+def dig(container: SupportsGetItem, /, *keys: Hashable) -> t.Any | None:
     """
     Retrieves the value corresponding to each `keys` repeatedly from `container`,
     supporting both dict and list indices.
@@ -28,19 +33,16 @@ def dig(container: Mapping[t.Any, t.Any] | Sequence[t.Any], *keys: Hashable) -> 
     if not keys:
         return None
 
-    current: t.Any = container
+    current = container
 
     for key in keys[:-1]:
-        if isinstance(current, Sequence) and isinstance(key, int):
-            if 0 <= key < len(current):
-                current = current[key] or {}
-            else:
-                current = {}
-        else:
-            current = current.get(key, {}) or {}
+        try:
+            current = current[key] or {}
+        except (KeyError, IndexError):
+            current = {}
 
     last_key = keys[-1]
-    if isinstance(current, Sequence) and isinstance(last_key, int):
-        return current[last_key] if 0 <= last_key < len(current) else None
-
-    return current.get(last_key)
+    try:
+        return current[last_key]
+    except (KeyError, IndexError):
+        return None
