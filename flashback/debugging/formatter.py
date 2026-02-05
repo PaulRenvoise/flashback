@@ -197,7 +197,7 @@ class Formatter:
         except AttributeError:
             self._format_raw(value, current_indent, next_indent)
 
-    def _format_ABCMeta(self, meta, _current_indent: int, _next_indent: int) -> None:  # noqa: N802
+    def _format_ABCMeta(self, meta: type, _current_indent: int, _next_indent: int) -> None:  # noqa: N802
         self._format_type(meta, _current_indent, _next_indent)
 
     def _format_type(self, cls: type, _current_indent: int, _next_indent: int) -> None:
