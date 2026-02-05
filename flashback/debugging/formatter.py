@@ -48,7 +48,7 @@ class Formatter:
     def __init__(self, indent_str: str = "    ") -> None:
         """
         Params:
-            indent_str (str): the indentation string to use
+            indent_str: the indentation string to use
         """
         self._indent_str = indent_str
         self._indent_str_len = len(indent_str)

@@ -74,8 +74,8 @@ class sampled:  # noqa: N801
     def __init__(self, strategy: str = "constant", rate: float | None = None) -> None:
         """
         Params:
-            strategy (str): the sampling strategy to use
-            rate (int|float): the parameter to fine-tune the sampling strategy
+            strategy: the sampling strategy to use
+            rate: the parameter to fine-tune the sampling strategy
         """
         self._rate: float = 0.0
 

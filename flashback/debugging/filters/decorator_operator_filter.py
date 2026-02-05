@@ -15,7 +15,7 @@ class DecoratorOperatorFilter(Filter):
     def __init__(self, **kwargs: t.Any) -> None:
         """
         Params:
-            kwargs (dict): every additional keyword parameters
+            kwargs: every additional keyword parameters
         """
         Filter.__init__(self, **kwargs)
 

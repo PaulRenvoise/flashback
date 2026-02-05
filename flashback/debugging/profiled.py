@@ -53,7 +53,7 @@ def profiled[**P, R](output: str | None = None) -> Callable[[Callable[P, R]], Ca
         ```
 
     Params:
-        output (str): the output to write the stats to
+        output: the output to write the stats to
 
     Returns:
         Callable: a wrapper used to decorate a callable
