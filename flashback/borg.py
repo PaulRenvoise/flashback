@@ -38,7 +38,7 @@ class Borg:
         ```
     """
 
-    def __new__(cls, *_args, **_kwargs) -> t.Self:
+    def __new__(cls, *_args: t.Any, **_kwargs: t.Any) -> t.Self:
         if "_shared_state" not in cls.__dict__:
             cls._shared_state = {}
 
@@ -47,7 +47,13 @@ class Borg:
 
         return obj
 
-    def assign_attribute[T](self, attribute, value: T | Callable[..., T], *args, **kwargs) -> None:
+    def assign_attribute[**P, T](
+        self,
+        attribute: str,
+        value: T | Callable[P, T],
+        *args: P.args,
+        **kwargs: P.kwargs,
+    ) -> None:
         """
         Assigns a `value` to the `attribute` of the Borg, if it's not already defined.
 
@@ -83,10 +89,10 @@ class Borg:
             ```
 
         Params:
-            attribute (str): the name of the attribute to define
-            value (Any): the value to assign to the attribute
-            args (tuple): every additional positional arguments
-            kwargs (dict): every given keyword arguments
+            attribute: the name of the attribute to define
+            value: the value to assign to the attribute
+            args: every additional positional arguments
+            kwargs: every given keyword arguments
         """
         if hasattr(self, attribute):
             return
@@ -96,7 +102,7 @@ class Borg:
         else:
             setattr(self, attribute, value)
 
-    def assign_attributes(self, **kwargs) -> None:
+    def assign_attributes(self, **kwargs: t.Any) -> None:
         """
         Assigns multiple values to their respective attributes of the Borg if they're not already
         defined.
@@ -135,7 +141,7 @@ class Borg:
             ```
 
         Params:
-            kwargs (dict): every given keyword arguments
+            kwargs: every given keyword arguments
         """
         for attribute, value in kwargs.items():
             if isinstance(value, tuple) and callable(value[0]):
