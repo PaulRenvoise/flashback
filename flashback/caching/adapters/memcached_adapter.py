@@ -15,7 +15,7 @@ class MemcachedAdapter(BaseAdapter):
     Exposes `pymemcache`'s exceptions.
     """
 
-    def __init__(self, host: str = "localhost", port: int = 11211, **kwargs) -> None:
+    def __init__(self, host: str = "localhost", port: int = 11211, **kwargs: t.Any) -> None:
         self.store = Client((host, port), **kwargs)
 
     def set(self, key: str, value: t.Any, ttl: int) -> bool:

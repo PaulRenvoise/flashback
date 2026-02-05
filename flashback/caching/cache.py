@@ -54,7 +54,7 @@ class Cache:
         ```
     """
 
-    def __init__(self, adapter: str = "memory", ttl: int = -1, flush: bool = False, **kwargs) -> None:
+    def __init__(self, adapter: str = "memory", ttl: int = -1, flush: bool = False, **kwargs: t.Any) -> None:
         """
         Params:
             adapter: the adapter to use for the storage
