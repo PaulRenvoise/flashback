@@ -1,4 +1,5 @@
-from collections.abc import Generator
+from collections.abc import Iterable, Iterator
+import typing as t
 
 from pygments.filters import Filter
 from pygments.token import Name, Operator, _TokenType
@@ -11,14 +12,18 @@ class DecoratorOperatorFilter(Filter):
     `pygments.token.Operator`.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: t.Any) -> None:
         """
         Params:
             kwargs (dict): every additional keyword parameters
         """
         Filter.__init__(self, **kwargs)
 
-    def filter(self, _lexer: Lexer, stream: Generator) -> Generator[tuple[_TokenType, str], None, None]:  # type: ignore because filter is not typed
+    def filter(
+        self,
+        lexer: Lexer,  # noqa: ARG002
+        stream: Iterable[tuple[_TokenType, str]],
+    ) -> Iterator[tuple[_TokenType, str]]:
         """
         Iterates over the stream of tokens and splits a `pygments.token.Name.Decorator: into two
         components.
@@ -33,9 +38,9 @@ class DecoratorOperatorFilter(Filter):
         Yields:
             the token type and token value
         """
-        for ttype, value in stream:
-            if ttype is Name.Decorator:
+        for token_type, value in stream:
+            if token_type is Name.Decorator:
                 yield Operator, "@"
                 yield Name.Decorator, value[1:]
             else:
-                yield ttype, value
+                yield token_type, value

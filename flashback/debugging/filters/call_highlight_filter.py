@@ -1,4 +1,5 @@
-from collections.abc import Generator
+from collections.abc import Iterable, Iterator
+import typing as t
 
 from pygments.filters import Filter
 from pygments.token import Name, _TokenType
@@ -11,14 +12,18 @@ class CallHighlightFilter(Filter):
     parenthesis.
     """
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, **kwargs: t.Any) -> None:
         """
         Params:
             kwargs (dict): every additional keyword parameters
         """
         Filter.__init__(self, **kwargs)
 
-    def filter(self, _lexer: Lexer, stream: Generator) -> Generator[tuple[_TokenType, str], None, None]:  # type: ignore because filter is not typed
+    def filter(
+        self,
+        lexer: Lexer,  # noqa: ARG002
+        stream: Iterable[tuple[_TokenType, str]],
+    ) -> Iterator[tuple[_TokenType, str]]:
         """
         Iterates over the stream of tokens and searches for a name followed by an opening paren to
         change its type to Name.Function.
@@ -40,19 +45,20 @@ class CallHighlightFilter(Filter):
         Yields:
             the token type and token value
         """
+        iter_stream = iter(stream)
         try:
-            stack = [next(stream)]
+            stack = [next(iter_stream)]
         except StopIteration:
             stack = []
 
-        for ttype, value in stream:
-            previous_ttype, previous_value = stack.pop()
+        for token_type, value in iter_stream:
+            previous_token_type, previous_value = stack.pop()
 
-            if previous_ttype in Name and value == "(":
+            if previous_token_type in Name and value == "(":
                 stack.append((Name.Function, previous_value))
             else:
-                stack.append((previous_ttype, previous_value))
+                stack.append((previous_token_type, previous_value))
 
-            stack.append((ttype, value))
+            stack.append((token_type, value))
 
         yield from stack
