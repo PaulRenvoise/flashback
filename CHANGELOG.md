@@ -2,24 +2,31 @@
 
 ## 4.0.0 (TBD)
 
+- Removed types in all docstrings
 - Improved typing for the whole library:
     - `accessing/dig`: stricter parameters, replaced `Mapping[Any, Any] | Sequence[Any]` by `SupportsGetItem` protocol
     - `accessing/pick`: stricter parameters, added generic `K: Hashable` instead of `Hashable`
     - `accessing/values_at`: stricter parameters, added generic `K: Hashable` instead of `Any`/`Hashable`
-    - `caching/cached`: added Generic and ParamSpec
+    - `caching/adapters`: improved internal typing
     - `caching/cache`: added internal typing
-    - `caching/adapters/memcached_adapter`: improved internal typing
+    - `caching/cached`: added Generic and ParamSpec
+    - `debugging/filters`: improved internal typing
+    - `debugging/formatter`: improved internal typing
     - `debugging/parser`: improved internal typing
+    - `debugging/profiled`: added ParamSpec and return type
     - `iterating/chunks`: added overloads to properly type return types with/without pad provided
-    - `iterating/flatten`: improved typing via overloads and type
     - `iterating/flat_map`: improved typing via overloads and flatten type
+    - `iterating/flatten`: improved typing via overloads and type
     - `iterating/renumerate`: made it Generic, change return type from `zip` to `Iterator[tuple[int, T]]`
-    - `borg`: improved internal typing
-    - `sampled`: added ParamSpec
-    - `deprecated`: added ParamSpec
-    - `timed`: added ParamSpec
-    - `timeoutable`: added ParamSpec
-    - `logging/muted`: added ParamSpec
+    - `borg`: improved internal typing, added typing
+    - `classproperty`: added explicit typing for getter and setter
+    - `deprecated`: added ParamSpec and return type
+    - `logging/muted`: added ParamSpec and return type
+    - `sampled`: added ParamSpec and return type
+    - `sentinel`: __new__ now returns Self
+    - `timed`: added ParamSpec and return type
+    - `timeoutable`: added ParamSpec and return type
+    - `singleton`: added typing
 
 - Breaking changes:
     - `accessing/dig`: Now raises TypeError instead of AttributeError when trying to index with str on a list
