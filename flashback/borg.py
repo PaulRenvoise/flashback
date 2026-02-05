@@ -42,7 +42,7 @@ class Borg:
         if "_shared_state" not in cls.__dict__:
             cls._shared_state = {}
 
-        obj = t.cast("t.Self", object.__new__(cls))
+        obj = object.__new__(cls)
         obj.__dict__ = cls._shared_state
 
         return obj

@@ -109,7 +109,7 @@ class Parser:
         code_lines: Sequence[str],
         arguments: tuple[t.Any, ...],
     ) -> list[tuple[str | None, t.Any]]:
-        parsed_arguments = []
+        parsed_arguments: list[tuple[str | None, t.Any]] = []
 
         arguments_positions = self._get_arguments_positions(call_node, code_lines)
         for i, argument in enumerate(arguments):
