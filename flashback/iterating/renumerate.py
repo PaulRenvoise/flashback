@@ -1,10 +1,8 @@
 from collections.abc import Iterator, Reversible, Sized
 import typing as t
 
-T_co = t.TypeVar("T_co", covariant=True)
 
-
-class SizedReversible(t.Protocol[T_co], Sized, Reversible):
+class SizedReversible[T](t.Protocol, Sized, Reversible[T]):
     pass
 
 
