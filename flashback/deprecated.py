@@ -3,11 +3,11 @@ import functools
 import warnings
 
 
-def deprecated[T](
+def deprecated[**P, R](
     since: str | None = None,
     until: str | None = None,
     reason: str | None = None,
-) -> Callable[..., Callable[..., T]]:
+) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """
     Warns when a deprecated callable is used.
 
@@ -39,7 +39,7 @@ def deprecated[T](
         a wrapper used to decorate a callable
     """
 
-    def wrapper(func: Callable[..., T]) -> Callable[..., T]:
+    def wrapper(func: Callable[P, R]) -> Callable[P, R]:
         message = f"{func.__name__} is deprecated"
         if since:
             message += f" since {since}"
@@ -58,7 +58,7 @@ def deprecated[T](
         func.__doc__ = doc
 
         @functools.wraps(func)
-        def inner(*args, **kwargs) -> T:
+        def inner(*args: P.args, **kwargs: P.kwargs) -> R:
             warnings.warn(message, category=DeprecationWarning, stacklevel=2)
 
             return func(*args, **kwargs)

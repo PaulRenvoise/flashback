@@ -111,9 +111,9 @@ class sampled:  # noqa: N801
             strategies_choices = oxford_join(self.STRATEGIES, last_sep=", or ")
             raise ValueError(f"invalid strategy {strategy!r}, expecting {strategies_choices}")
 
-    def __call__[T](self, func: Callable[..., T]) -> Callable[..., T | None]:
+    def __call__[**P, R](self, func: Callable[P, R]) -> Callable[P, R | None]:
         @functools.wraps(func)
-        def inner(*args, **kwargs) -> T | None:
+        def inner(*args: P.args, **kwargs: P.kwargs) -> R | None:
             if not self.should_sample():
                 return None
 
