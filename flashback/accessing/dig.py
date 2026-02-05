@@ -1,4 +1,4 @@
-from collections.abc import Sequence, Hashable
+from collections.abc import Hashable
 import typing as t
 
 

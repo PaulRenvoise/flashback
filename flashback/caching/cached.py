@@ -99,7 +99,7 @@ def cached[**P, R](
             if value is not None:
                 logger.debug("Cache hit")
 
-                return t.cast(R, value)
+                return t.cast("R", value)
 
             logger.debug("Cache miss")
 
