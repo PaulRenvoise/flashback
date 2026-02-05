@@ -1,7 +1,7 @@
 from collections.abc import Mapping
 
 
-def values_at[K, V](mapping: Mapping[K, V], *keys: K) -> list[V]:
+def values_at[K, V](mapping: Mapping[K, V], /, *keys: K) -> list[V]:
     """
     Retrieves the values corresponding to each `keys` in `mapping`.
 
