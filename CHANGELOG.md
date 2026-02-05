@@ -2,7 +2,7 @@
 
 ## 3.2.0 (05/02/2026)
 
-- Upgrade dependencies
+- Upgraded dependencies
 
 ## 3.1.5 (20/01/2026)
 
