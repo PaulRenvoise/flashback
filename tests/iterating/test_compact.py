@@ -13,12 +13,12 @@ class TestCompact:
         assert compacted == [1, 2, 3, 4, 5]
 
     def test_multiple_types(self) -> None:
-        compacted = compact([1, None, "2", 3, None, 4, 5, None])
+        compacted: list[int | str] = compact([1, None, "2", 3, None, 4, 5, None])
 
         assert compacted == [1, "2", 3, 4, 5]
 
     def test_keep_falsy_values(self) -> None:
-        compacted = compact([0, None, "", False, None])
+        compacted: list[int | str | bool] = compact([0, None, "", False, None])
 
         assert compacted == [0, "", False]
 
