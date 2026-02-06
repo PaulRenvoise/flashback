@@ -11,7 +11,7 @@ class MemoryAdapter(BaseAdapter):
     Exposes a cache store using a in-memory dict.
     """
 
-    def __init__(self, **_kwargs) -> None:
+    def __init__(self, **_kwargs: t.Any) -> None:
         self._lock = RLock()
         self.store = {}
 

@@ -2,10 +2,10 @@ from collections.abc import Iterable, Callable
 
 import functools
 import logging
-from logging import getLogger, Logger
+from logging import getLogger, Logger, LogRecord
 
 
-def muted(loggers: Iterable[str | Logger | None] | None = None) -> Callable:
+def muted[**P, R](loggers: Iterable[str | Logger | None] | None = None) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """
     Mutes all (or selected) loggers while executing a callable.
 
@@ -59,12 +59,12 @@ def muted(loggers: Iterable[str | Logger | None] | None = None) -> Callable:
         a wrapper used to decorate a callable
     """
 
-    def wrapper(func):
-        def _filter(_record):
+    def wrapper(func: Callable[P, R]) -> Callable[P, R]:
+        def _filter(_record: LogRecord) -> bool:
             return False
 
         @functools.wraps(func)
-        def inner(*args, **kwargs):
+        def inner(*args: P.args, **kwargs: P.kwargs) -> R:
             # Selects all loggers at each call to func because loggers can be created between calls
             if loggers is None:
                 selected_loggers = [getLogger(logger) for logger in logging.root.manager.loggerDict] + [logging.root]

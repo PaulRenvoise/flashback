@@ -31,3 +31,8 @@ class TestPick:
         dictionary = {1: "one", 2: "two", 3: "three"}
         result = pick(dictionary, 1, 3)
         assert result == {1: "one", 3: "three"}
+
+    def test_mixed_keys(self) -> None:
+        dictionary = {1: "one", "two": 2.0, 3.0: 3}
+        result = pick(dictionary, 1, "two", 3.0)
+        assert result == {1: "one", "two": 2.0, 3.0: 3}

@@ -31,3 +31,8 @@ class TestValuesAt:
         dictionary = {1: "one", 2: "two", 3: "three"}
         values = values_at(dictionary, 1, 3)
         assert values == ["one", "three"]
+
+    def test_mixed_keys(self) -> None:
+        dictionary = {1: "one", "two": 2.0, 3.0: 3}
+        values = values_at(dictionary, 1, "two", 3.0)
+        assert values == ["one", 2.0, 3]

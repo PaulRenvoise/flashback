@@ -1,9 +1,16 @@
+from collections.abc import Callable
+import typing as t
+
+type Getter[T] = Callable[..., T] | classmethod | staticmethod
+type Setter[T] = Callable[..., t.Any] | classmethod | staticmethod
+
+
 class ClassPropertyMetaclass(type):
     """
     Defines a metaclass to ensure the property is settable, to use as `flashback.classproperty.meta`.
     """
 
-    def __setattr__(cls, key, value):
+    def __setattr__(cls, key: str, value: t.Any) -> t.Any:
         obj = cls.__dict__.get(key, None)
         if isinstance(obj, classproperty):
             return obj.__set__(cls, value)
@@ -11,7 +18,7 @@ class ClassPropertyMetaclass(type):
         return super().__setattr__(key, value)
 
 
-class classproperty:  # noqa: N801
+class classproperty[T]:  # noqa: N801
     """
     Combines @classmethod and @property to define getters and setters on classes attributes.
 
@@ -54,11 +61,11 @@ class classproperty:  # noqa: N801
 
     meta = ClassPropertyMetaclass
 
-    def __init__(self, func_get, func_set=None):
+    def __init__(self, func_get: Getter[T], func_set: Setter[T] | None = None) -> None:
         """
         Params:
-            func_get (Callable): the getter to decorate
-            func_set (Callable): the setter to decorate
+            func_get: the getter to decorate
+            func_set: the setter to decorate
         """
         if not isinstance(func_get, (classmethod, staticmethod)):
             func_get = classmethod(func_get)
@@ -70,13 +77,14 @@ class classproperty:  # noqa: N801
         self.func_get = func_get
         self.func_set = func_set
 
-    def __get__(self, obj, cls=None):
+    def __get__(self, obj: object, cls: type | None = None) -> T:
         if cls is None:
             cls = type(obj)
 
-        return self.func_get.__get__(obj, cls)()
+        getter = self.func_get.__get__(obj, cls)
+        return t.cast("Callable[[], T]", getter)()
 
-    def __set__(self, obj, value):
+    def __set__(self, obj: object, value: T) -> t.Any:
         if not self.func_set:
             raise AttributeError("can't set attribute")
         if not isinstance(obj, ClassPropertyMetaclass):
@@ -85,9 +93,10 @@ class classproperty:  # noqa: N801
             cls = obj
             obj = None
 
-        return self.func_set.__get__(obj, cls)(value)
+        setter = self.func_set.__get__(obj, cls)
+        return t.cast("Callable[[T], t.Any]", setter)(value)
 
-    def setter(self, func):
+    def setter(self, func: Setter[T]) -> "classproperty[T]":
         if not isinstance(func, (classmethod, staticmethod)):
             func = classmethod(func)
 

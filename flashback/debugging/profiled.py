@@ -4,7 +4,7 @@ import cProfile
 import functools
 
 
-def profiled(output: str | None = None) -> Callable:
+def profiled[**P, R](output: str | None = None) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """
     Profiles a call made to a callable and dump the stats to a file for further analysis.
 
@@ -53,18 +53,19 @@ def profiled(output: str | None = None) -> Callable:
         ```
 
     Params:
-        output (str): the output to write the stats to
+        output: the output to write the stats to
 
     Returns:
         Callable: a wrapper used to decorate a callable
     """
 
-    def wrapper(func: Callable) -> Callable:
+    def wrapper(func: Callable[P, R]) -> Callable[P, R]:
         @functools.wraps(func)
-        def inner(*args, **kwargs) -> t.Any:
+        def inner(*args: P.args, **kwargs: P.kwargs) -> R:
             profiler = cProfile.Profile()
 
-            result = profiler.runcall(func, *args, **kwargs)
+            runner = t.cast("Callable[..., R]", profiler.runcall)
+            result = runner(func, *args, **kwargs)
 
             profiler.dump_stats(output or f"{func.__name__}.pstats")
 
