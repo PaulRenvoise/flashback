@@ -1,7 +1,20 @@
 from collections.abc import Iterable
+import typing as t
+
+type Flattenable[T] = (
+    T | list[Flattenable[T]] | tuple[Flattenable[T], ...] | set[Flattenable[T]] | frozenset[Flattenable[T]]
+)
 
 
-def flatten[T](iterable: Iterable[T]) -> list[T]:
+@t.overload
+def flatten[T](iterable: Iterable[Flattenable[T]]) -> list[T]: ...
+
+
+@t.overload
+def flatten[T](iterable: Iterable[Flattenable[T] | range]) -> list[T | int]: ...
+
+
+def flatten(iterable: Iterable[t.Any]) -> list[t.Any]:
     """
     Unpacks nested iterables into the root `iterable`.
 
@@ -26,11 +39,13 @@ def flatten[T](iterable: Iterable[T]) -> list[T]:
     Returns:
         the flattened iterable
     """
-    items = []
+    items: list[t.Any] = []
+
     for item in iterable:
-        if isinstance(item, (list, tuple, set, frozenset, range)):
-            for nested_item in flatten(item):
-                items.append(nested_item)  # noqa: PERF402
+        if isinstance(item, range):
+            items.extend(item)
+        elif isinstance(item, (list, tuple, set, frozenset)):
+            items.extend(flatten(item))
         else:
             items.append(item)
 

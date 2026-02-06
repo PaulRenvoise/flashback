@@ -1,8 +1,7 @@
 from collections.abc import Hashable, Mapping
-import typing as t
 
 
-def values_at[T](mapping: Mapping[t.Any, T], *keys: Hashable) -> list[T]:
+def values_at[K: Hashable, V](mapping: Mapping[K, V], /, *keys: K) -> list[V]:
     """
     Retrieves the values corresponding to each `keys` in `mapping`.
 

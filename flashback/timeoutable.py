@@ -3,7 +3,10 @@ from collections.abc import Callable
 import signal
 
 
-def timeoutable[T](seconds: int = 5, message: str = "execution timed out") -> Callable[..., Callable[..., T]]:
+def timeoutable[**P, R](
+    seconds: int = 5,
+    message: str = "execution timed out",
+) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """
     Times out a callable's execution if its runtime exceeds `seconds`.
 
@@ -42,12 +45,12 @@ def timeoutable[T](seconds: int = 5, message: str = "execution timed out") -> Ca
         TimeoutError: if the callable's execution time is longer than `seconds`
     """
 
-    def wrapper(func: Callable[..., T]) -> Callable[..., T]:
+    def wrapper(func: Callable[P, R]) -> Callable[P, R]:
         def _sigalrm_handler(_signum, _frame):
             raise TimeoutError(message)
 
         @functools.wraps(func)
-        def inner(*args, **kwargs) -> T:
+        def inner(*args: P.args, **kwargs: P.kwargs) -> R:
             signal.signal(signal.SIGALRM, _sigalrm_handler)
             signal.alarm(seconds)
 

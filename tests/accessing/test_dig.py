@@ -35,9 +35,14 @@ class TestDig:
             value = dig(container, "key1", "key2", "key3")
             assert value is None
 
+        def test_empty(self) -> None:
+            container = {}
+            value = dig(container, "key1", "key2")
+            assert value is None
+
         def test_error(self) -> None:
             container = {"key1": {"key2": 123}}
-            with pytest.raises(AttributeError):
+            with pytest.raises(TypeError):
                 dig(container, "key1", "key2", "key3")
 
     class TestList:
@@ -66,9 +71,19 @@ class TestDig:
             value = dig(container, 0, 0, 0)
             assert value is None
 
+        def test_empty(self) -> None:
+            container = []
+            value = dig(container, 0, 0)
+            assert value is None
+
+        def test_empty_str(self) -> None:
+            container = []
+            with pytest.raises(TypeError):
+                dig(container, "0", "0")
+
         def test_error(self) -> None:
             container = [[1], 2]
-            with pytest.raises(AttributeError):
+            with pytest.raises(TypeError):
                 dig(container, 0, 0, 0)
 
     class TestMixed:
@@ -104,5 +119,5 @@ class TestDig:
 
         def test_error(self) -> None:
             container = {"key1": [{"key2": 123}]}
-            with pytest.raises(AttributeError):
+            with pytest.raises(TypeError):
                 dig(container, "key1", 0, "key2", 0)

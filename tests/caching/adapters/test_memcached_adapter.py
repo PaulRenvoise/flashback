@@ -1,4 +1,3 @@
-from types import MethodType
 from unittest.mock import patch
 import time
 
@@ -14,6 +13,26 @@ from flashback.caching.adapters import MemcachedAdapter
 def adapter() -> MemcachedAdapter:
     MockMemcacheClient._check_integer = Client._check_integer  # noqa: SLF001
 
+    # Custom implementation of _misc_cmd because MockMemcacheClient doesn't implement it
+    def mocked_misc_cmd(self, commands, name, _noreply) -> list[bytes]:
+        results = []
+        for command in commands:
+            prefix, *value = command.splitlines()
+            if name == b"set":
+                _, key, _, expire, _ = prefix.split(b" ")
+
+                self.set(key, value[0], int(expire))
+
+                results.append(b"STORED")
+            elif name == b"delete":
+                _, key = prefix.split(b" ")
+
+                results.append(b"DELETED" if self.delete(key, False) else b"NOT_FOUND")
+
+        return results
+
+    MockMemcacheClient._misc_cmd = mocked_misc_cmd  # noqa: SLF001
+
     return MemcachedAdapter()
 
 
@@ -22,20 +41,6 @@ class TestMemcachedAdapter:
         assert adapter.set("a", "1", -1)
 
     def test_batch_set(self, adapter: MemcachedAdapter) -> None:
-        def mocked_misc_cmd(self, commands, _name, _noreply) -> list[bytes]:
-            results = []
-            for command in commands:
-                prefix, value = command.splitlines()
-                _, key, _, expire, _ = prefix.split(b" ")
-
-                self.set(key, value, int(expire))
-
-                results.append(b"STORED")
-
-            return results
-
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
-
         assert adapter.batch_set(["a", "b", "c"], ["1", "2", "3"], [-1, -1, -1])
 
     def test_get(self, adapter: MemcachedAdapter) -> None:
@@ -55,20 +60,6 @@ class TestMemcachedAdapter:
         assert item is None
 
     def test_batch_get(self, adapter: MemcachedAdapter) -> None:
-        def mocked_misc_cmd(self, commands, _name, _noreply) -> list[bytes]:
-            results = []
-            for command in commands:
-                prefix, value = command.splitlines()
-                _, key, _, expire, _ = prefix.split(b" ")
-
-                self.set(key, value, int(expire))
-
-                results.append(b"STORED")
-
-            return results
-
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
-
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, -1])
 
         items = adapter.batch_get(["a", "b"])
@@ -77,20 +68,6 @@ class TestMemcachedAdapter:
         assert items == [b"1", b"2"]
 
     def test_batch_get_expired(self, adapter: MemcachedAdapter) -> None:
-        def mocked_misc_cmd(self, commands, _name, _noreply) -> list[bytes]:
-            results = []
-            for command in commands:
-                prefix, value = command.splitlines()
-                _, key, _, expire, _ = prefix.split(b" ")
-
-                self.set(key, value, int(expire))
-
-                results.append(b"STORED")
-
-            return results
-
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
-
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, 1])
 
         time.sleep(1)
@@ -113,49 +90,11 @@ class TestMemcachedAdapter:
         assert adapter.delete("a")
 
     def test_batch_delete(self, adapter: MemcachedAdapter) -> None:
-        def mocked_misc_cmd(self, commands, name, _noreply) -> list[bytes]:
-            results = []
-            for command in commands:
-                prefix, *value = command.splitlines()
-                if name == "set":
-                    _, key, _, expire, _ = prefix.split(b" ")
-
-                    self.set(key, value[0], int(expire))
-
-                    results.append(b"STORED")
-                elif name == "delete":
-                    _, key = prefix.split(b" ")
-
-                    results.append(b"DELETED" if self.delete(key, False) else b"NOT_FOUND")
-
-            return results
-
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
-
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, -1])
 
         assert adapter.batch_delete(["a", "b"])
 
     def test_batch_delete_expired(self, adapter: MemcachedAdapter) -> None:
-        def mocked_misc_cmd(self, commands, name, _noreply) -> list[bytes]:
-            results = []
-            for command in commands:
-                prefix, *value = command.splitlines()
-                if name == "set":
-                    _, key, _, expire, _ = prefix.split(b" ")
-
-                    self.set(key, value[0], int(expire))
-
-                    results.append(b"STORED")
-                elif name == "delete":
-                    _, key = prefix.split(b" ")
-
-                    results.append(b"DELETED" if self.delete(key, False) else b"NOT_FOUND")
-
-            return results
-
-        adapter.store._misc_cmd = MethodType(mocked_misc_cmd, adapter.store)  # noqa: SLF001
-
         adapter.batch_set(["a", "b"], ["1", "2"], [-1, 1])
 
         time.sleep(1)

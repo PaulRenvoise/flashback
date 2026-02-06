@@ -8,12 +8,12 @@ import time
 from .formatting import ordinalize
 
 
-def retryable[T](
+def retryable[**P, R](
     max_retries: int = -1,
     plateau_after: int = 10,
     reset_after: int = 3600,
     exceptions: tuple[type[Exception], ...] = (),
-) -> Callable[..., Callable[..., T]]:
+) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """
     Retries to call a callable when a given exception is raised.
 
@@ -62,7 +62,7 @@ def retryable[T](
         a wrapper used to decorate a callable
     """
 
-    def wrapper(func: Callable[..., T]) -> Callable[..., T]:
+    def wrapper(func: Callable[P, R]) -> Callable[P, R]:
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we
         # decorate.
         # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
@@ -72,7 +72,7 @@ def retryable[T](
         logger = logging.getLogger(None if module is None else module.__name__)
 
         @functools.wraps(func)
-        def inner(*args, **kwargs) -> T:
+        def inner(*args: P.args, **kwargs: P.kwargs) -> R:
             retry_count = 0
             current_try = 1
 

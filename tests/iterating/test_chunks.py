@@ -7,16 +7,28 @@ class TestChunks:
         assert not chunked
 
     def test_multiple_items(self) -> None:
-        chunked = list(chunks([1, 2, 3, 4]))
-        assert chunked == [(1, 2), (3, 4)]
-
-    def test_multiple_items_without_pad(self) -> None:
         chunked = list(chunks([1, 2, 3]))
         assert chunked == [(1, 2), (3,)]
+
+    def test_multiple_items_with_size(self) -> None:
+        chunked = list(chunks([1, 2, 3], size=1))
+        assert chunked == [(1,), (2,), (3,)]
+
+    def test_multiple_items_with_size_without_keyword(self) -> None:
+        chunked = list(chunks([1, 2, 3], 1))
+        assert chunked == [(1,), (2,), (3,)]
 
     def test_multiple_items_with_pad(self) -> None:
         chunked = list(chunks([1, 2, 3], pad=None))
         assert chunked == [(1, 2), (3, None)]
+
+    def test_multiple_items_with_size_and_pad(self) -> None:
+        chunked = list(chunks([1, 2, 3, 4, 5], size=3, pad=None))
+        assert chunked == [(1, 2, 3), (4, 5, None)]
+
+    def test_multiple_items_with_size_and_pad_without_keyword(self) -> None:
+        chunked = list(chunks([1, 2, 3, 4, 5], 3, None))
+        assert chunked == [(1, 2, 3), (4, 5, None)]
 
     def test_multiple_pad_items_with_pad(self) -> None:
         chunked = list(chunks([None, None, None], pad=None))

@@ -9,7 +9,7 @@ class BaseAdapter(ABC):
     """
 
     @abstractmethod
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, **kwargs: t.Any) -> None:
         """
         Instanciates the adapter, without testing the connection (ping is used for that).
 
@@ -117,7 +117,7 @@ class BaseAdapter(ABC):
         Checks the existence of a given `key` in the storage.
 
         Params:
-            key (str): the key to check the existence of
+            key: the key to check the existence of
 
         Returns:
             whether or not the key exists

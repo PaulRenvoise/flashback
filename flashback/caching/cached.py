@@ -8,7 +8,11 @@ import typing as t
 from .cache import Cache
 
 
-def cached(adapter: str = "memory", hash_keys: bool = False, **kwargs) -> Callable[..., Callable[..., t.Any]]:
+def cached[**P, R](
+    adapter: str = "memory",
+    hash_keys: bool = False,
+    **kwargs: t.Any,
+) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """
     Caches the return of a callable under a type-aware key built with its arguments.
 
@@ -50,7 +54,7 @@ def cached(adapter: str = "memory", hash_keys: bool = False, **kwargs) -> Callab
     """
     cache = Cache(adapter, **kwargs)
 
-    def _build_key(func: Callable[..., t.Any], *args, **kwargs) -> str:
+    def _build_key(func: Callable[P, R], *args: P.args, **kwargs: P.kwargs) -> str:
         name = getattr(func, "__qualname__", getattr(func, "__name__", repr(func)))
 
         def _format_argument(v: t.Any) -> str:
@@ -70,15 +74,15 @@ def cached(adapter: str = "memory", hash_keys: bool = False, **kwargs) -> Callab
 
     if hash_keys:
 
-        def _make_key(func, *args, **kwargs) -> str:
+        def _make_key(func: Callable[P, R], *args: P.args, **kwargs: P.kwargs) -> str:
             key = _build_key(func, *args, **kwargs)
             return hashlib.md5(key.encode()).hexdigest()
     else:
 
-        def _make_key(func, *args, **kwargs) -> str:
+        def _make_key(func: Callable[P, R], *args: P.args, **kwargs: P.kwargs) -> str:
             return _build_key(func, *args, **kwargs)
 
-    def wrapper(func: Callable[..., t.Any]) -> Callable[..., t.Any]:
+    def wrapper(func: Callable[P, R]) -> Callable[P, R]:
         # `.getmodule().__name__` returns the same value as `__name__` called from the module we
         # decorate.
         # Since `logging` is a singleton, everytime we call `logging.getLogger()` with the same
@@ -88,14 +92,14 @@ def cached(adapter: str = "memory", hash_keys: bool = False, **kwargs) -> Callab
         logger = logging.getLogger(None if module is None else module.__name__)
 
         @functools.wraps(func)
-        def inner(*args, **kwargs) -> t.Any:
+        def inner(*args: P.args, **kwargs: P.kwargs) -> R:
             key = _make_key(func, *args, **kwargs)
             value = cache.get(key)
 
             if value is not None:
                 logger.debug("Cache hit")
 
-                return value
+                return t.cast("R", value)
 
             logger.debug("Cache miss")
 

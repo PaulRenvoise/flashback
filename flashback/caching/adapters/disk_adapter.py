@@ -18,7 +18,7 @@ class DiskAdapter(BaseAdapter):
     See: https://docs.python.org/3/library/shelve.html.
     """
 
-    def __init__(self, **_kwargs) -> None:
+    def __init__(self, **_kwargs: t.Any) -> None:
         self._store_path = f"{tempfile.gettempdir()}/{uuid.uuid4()}"
 
     def set(self, key: str, value: t.Any, ttl: int) -> bool:

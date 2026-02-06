@@ -6,14 +6,6 @@ from mockredis import mock_redis_client
 from flashback.caching import cached
 
 
-@t.overload
-def dummy_func(left: int, right: int) -> int: ...
-
-
-@t.overload
-def dummy_func(left: str, right: str) -> str: ...
-
-
 def dummy_func(left: t.Any, right: t.Any) -> t.Any:
     return left + right
 

@@ -1,4 +1,10 @@
 import functools
+import typing as t
+
+
+class _SingletonClass[T](t.Protocol):
+    strict: bool
+    _instances: dict[object, T]
 
 
 class Singleton(type):
@@ -43,23 +49,35 @@ class Singleton(type):
         ```
     """
 
-    def __new__(mcs, name, bases, namespace, **_kwargs):
+    def __new__(
+        mcs,
+        name: str,
+        bases: tuple[type, ...],
+        namespace: dict[str, t.Any],
+        **_kwargs: t.Any,
+    ) -> type:
         return super().__new__(mcs, name, bases, namespace)
 
-    def __init__(cls, name, bases, attributes, strict=True):
+    def __init__(
+        cls,
+        name: str,
+        bases: tuple[type, ...],
+        attributes: dict[str, t.Any],
+        strict: bool = True,
+    ) -> None:
         """
         Params:
-            name (str): the name of the class to initialize
-            bases (tuple): the bases classes of the class
-            attributes (dict): the internal __dict__ of the class
-            strict (bool): whether or not to enforce the strict behavior for singleton creation
+            name: the name of the class to initialize
+            bases: the bases classes of the class
+            attributes: the internal __dict__ of the class
+            strict: whether or not to enforce the strict behavior for singleton creation
         """
         super().__init__(name, bases, attributes)
 
         cls.strict = strict
         cls._instances = {}
 
-    def __call__(cls, *args, **kwargs):
+    def __call__[T](cls: _SingletonClass[T], *args: t.Any, **kwargs: t.Any) -> T:
         if cls.strict:
             key = functools._make_key(args, kwargs, True)  # noqa: SLF001
         else:

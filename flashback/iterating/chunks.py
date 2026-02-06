@@ -5,7 +5,32 @@ import typing as t
 from ..sentinel import Sentinel
 
 
-def chunks[T](iterable: Iterable[T], size: int = 2, pad: t.Any = Sentinel) -> Generator[tuple[T, ...], None, None]:
+@t.overload
+def chunks[T](
+    iterable: Iterable[T],
+    size: int = 2,
+    pad: type[Sentinel] = Sentinel,
+) -> Generator[tuple[T, ...], None, None]: ...
+
+
+@t.overload
+def chunks[T, P](
+    iterable: Iterable[T],
+    size: int,
+    pad: P,
+) -> Generator[tuple[T | P, ...], None, None]: ...
+
+
+@t.overload
+def chunks[T, P](
+    iterable: Iterable[T],
+    *,
+    pad: P,
+    size: int = 2,
+) -> Generator[tuple[T | P, ...], None, None]: ...
+
+
+def chunks[T](iterable: Iterable[T], size: int = 2, pad: t.Any = Sentinel) -> Generator[tuple[t.Any, ...], None, None]:
     """
     Iterates over an `iterable` by chunks of `size`.
 

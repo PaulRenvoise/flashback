@@ -25,7 +25,7 @@ class RedisAdapter(BaseAdapter):
         port: int = 6379,
         db: int = 0,
         encoding: str = "utf-8",
-        **kwargs,
+        **kwargs: t.Any,
     ) -> None:
         # We would pass `decode_responses=True` to redis to avoid decoding in `get` and `batch_get`
         # but mockredis does not support it as of 2020-04-24

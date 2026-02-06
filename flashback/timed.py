@@ -5,7 +5,7 @@ import logging
 import time
 
 
-def timed[T](func: Callable[..., T]) -> Callable[..., T]:
+def timed[**P, R](func: Callable[P, R]) -> Callable[P, R]:
     """
     Logs the start and end of a function call, and records the time spent executing it.
 
@@ -38,7 +38,7 @@ def timed[T](func: Callable[..., T]) -> Callable[..., T]:
     logger = logging.getLogger(None if module is None else module.__name__)
 
     @functools.wraps(func)
-    def inner(*args, **kwargs) -> T:
+    def inner(*args: P.args, **kwargs: P.kwargs) -> R:
         logger.info("Started execution of %s", func.__name__)
         before = time.time()
 
