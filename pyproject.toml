@@ -73,47 +73,47 @@ target-version = 'py312'
 
 [tool.ruff.lint]
 select = [
-  "F",
-  "E",
-  "W",
-  "N",
-  "YTT",
-  "ASYNC",
-  "B",
-  "BLE",
-  "A",
-  "COM",
-  "C4",
-  "EXE",
-  "FA",
-  "ISC",
-  "ICN",
-  "LOG",
-  "G",
-  "INP",
-  "PIE",
-  "T20",
-  "PYI",
-  "Q",
-  "RSE",
-  "RET",
-  "SLF",
-  "SIM",
-  "TCH",
-  "INT",
-  "ARG",
-  "FLY",
-  "PERF",
-  "RUF",
-  "PL",
-  "PT",
-  "UP",
+    "F",
+    "E",
+    "W",
+    "N",
+    "YTT",
+    "ASYNC",
+    "B",
+    "BLE",
+    "A",
+    "COM",
+    "C4",
+    "EXE",
+    "FA",
+    "ISC",
+    "ICN",
+    "LOG",
+    "G",
+    "INP",
+    "PIE",
+    "T20",
+    "PYI",
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SIM",
+    "TCH",
+    "INT",
+    "ARG",
+    "FLY",
+    "PERF",
+    "RUF",
+    "PL",
+    "PT",
+    "UP",
 ]
 ignore = [
-  "SIM108",
-  "TC003",
-  "TC002",
-  "B905",
+    "SIM108",
+    "TC003",
+    "TC002",
+    "B905",
 ]
 
 [tool.ruff.lint.pylint]
@@ -122,6 +122,48 @@ allow-magic-value-types = ["str", "bytes", "int"]
 [tool.pyrefly]
 python-version = "3.12"
 ignore-missing-imports = ["*"]
+
+[tool.pytest]
+addopts = ["--cov=flashback", "--cov-report=term-missing", "--cov-report=html", "-vv", "--durations=5"]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+# Whether to measure branch coverage in addition to statement coverage
+branch = true
+parallel = true
+omit = [
+    "tests/*",
+    ".eggs/*",
+    ".tox/*",
+    "docs/*",
+    "setup.py",
+    "flashback/formatting/locales/*"
+]
+
+[tool.coverage.report]
+format = "text"
+
+exclude_also = [
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit abstract members:
+    "@abstractmethod",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+
+# When running a summary report, show missing lines. See Coverage summary for more information
+show_missing = true
+
+fail_under = 95
 
 [tool.uv.build-backend]
 module-name = "flashback"
