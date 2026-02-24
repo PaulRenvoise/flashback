@@ -69,7 +69,7 @@ dev = [
 
 line-length = 120
 
-target-version = 'py312'
+target-version = 'py313'
 
 [tool.ruff.lint]
 select = [
@@ -120,7 +120,7 @@ ignore = [
 allow-magic-value-types = ["str", "bytes", "int"]
 
 [tool.pyrefly]
-python-version = "3.12"
+python-version = "3.14"
 ignore-missing-imports = ["*"]
 
 [tool.pytest]
