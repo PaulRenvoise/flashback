@@ -30,7 +30,7 @@ license-files = [
 requires-python = ">=3.12"
 
 dependencies = [
-    "cryptography>=46.0.4,<47.0.0",
+    "cryptography>=46.0.5,<47.0.0",
     "pygments>=2.19.0",
     "pymemcache>=4.0.0,<5.0.0",
     "redis>=7.1.0,<8.0.0",
