@@ -60,6 +60,24 @@ class TestBorg:
         assert borg.attr_1 == "foo"
         assert borg.attr_2 == {"key": "value", "c": "d"}
 
+    def test_assign_attributes_empty(self) -> None:
+        borg = Borg()
+
+        borg.assign_attributes(
+            attr_1=(),
+        )
+
+        assert borg.attr_1 == ()
+
+    def test_assign_attributes_empty_callable_parameters(self) -> None:
+        borg = Borg()
+
+        borg.assign_attributes(
+            attr_1=(dict,),
+        )
+
+        assert borg.attr_1 == {}
+
     def test_assign_attributes(self) -> None:
         borg = Borg()
 
