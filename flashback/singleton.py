@@ -53,16 +53,19 @@ class Singleton(type):
         mcs,
         name: str,
         bases: tuple[type, ...],
-        namespace: dict[str, t.Any],
+        namespace: dict[str, t.Any] | None,
         **_kwargs: t.Any,
     ) -> type:
+        if namespace is None:
+            namespace = {}
+
         return super().__new__(mcs, name, bases, namespace)
 
     def __init__(
         cls,
         name: str,
         bases: tuple[type, ...],
-        attributes: dict[str, t.Any],
+        attributes: dict[str, t.Any] | None,
         strict: bool = True,
     ) -> None:
         """
@@ -72,6 +75,9 @@ class Singleton(type):
             attributes: the internal __dict__ of the class
             strict: whether or not to enforce the strict behavior for singleton creation
         """
+        if attributes is None:
+            attributes = {}
+
         super().__init__(name, bases, attributes)
 
         cls.strict = strict

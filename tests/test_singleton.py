@@ -30,3 +30,10 @@ class TestSingleton:
         assert logger_1 is logger_2
         assert logger_1 == logger_3
         assert logger_1 is logger_3
+
+    def test_metaclass_none_namespace_and_attributes(self) -> None:
+        cls = Singleton.__new__(Singleton, "MetaOnly", (object,), None)
+        Singleton.__init__(cls, "MetaOnly", (object,), None)
+
+        assert cls.strict is True
+        assert cls._instances == {}
