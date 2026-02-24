@@ -1,3 +1,5 @@
+import typing as t
+
 from flashback import Singleton
 
 
@@ -32,7 +34,7 @@ class SingletonTest:
         assert logger_1 is logger_3
 
     def metaclass_none_namespace_and_attributes_test(self) -> None:
-        cls = Singleton.__new__(Singleton, "MetaOnly", (object,), None)
+        cls = t.cast("Singleton", Singleton.__new__(Singleton, "MetaOnly", (object,), None))
         Singleton.__init__(cls, "MetaOnly", (object,), None)
 
         assert cls.strict is True
