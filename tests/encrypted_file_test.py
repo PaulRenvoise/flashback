@@ -12,7 +12,7 @@ KEY_PATH = "/tmp/secrets.key"
 
 
 @pytest.fixture(autouse=True)
-def _cleanup() -> Generator[None, t.Any, None]:
+def _cleanup() -> Generator[None, t.Any]:
     yield
 
     if os.path.exists(FILE_PATH):
