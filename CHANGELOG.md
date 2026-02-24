@@ -8,6 +8,8 @@
 - Fixed `debugging/formatter` to handle empty `module.__path__` and undefined symbols for Mapping class
 - Tested `iterating/compact` against a list containing different types, an against a list containing falsy values
     - Ensures that `iterating/compact` does not behave like `list(filter(None, items))` and keeps falsy values
+- Made the CI fail if the Typecheck step fails
+- Refactored the tests to use `*_test.py`, `*Test` and `*_test` as collection regexes
 
 ## 4.0.0 (06/02/2026)
 
