@@ -132,10 +132,10 @@ class Borg:
             assert borg.attr_2 == {"foo": "bar"}
 
             borg.assign_attributes(attr_3=(dict, {"foo": "bar"}))
-            # calls 'dict({"foo": 1})' if 'attr_3' is not set, then assigns its return to 'attr_3'
+            # calls 'dict({"foo": "bar"})' if 'attr_3' is not set, then assigns its return to 'attr_3'
             assert borg.attr_3 == {"foo": "bar"}
 
-            borg.assign_attributes(attr_5=(str, 0)
+            borg.assign_attributes(attr_5=(str, 0))
             # calls 'str(0)' if 'attr_5' is not set, then assigns its return to 'attr_5'
             assert borg.attr_5 == "0"
             ```
@@ -144,7 +144,7 @@ class Borg:
             kwargs: every given keyword arguments
         """
         for attribute, value in kwargs.items():
-            if isinstance(value, tuple) and callable(value[0]):
+            if isinstance(value, tuple) and value and callable(value[0]):
                 if isinstance(value[-1], dict):
                     self.assign_attribute(attribute, value[0], *value[1:-1], **value[-1])
                 else:

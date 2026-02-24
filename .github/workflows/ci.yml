@@ -46,7 +46,6 @@ jobs:
         enable-cache: true
 
     - name: Typecheck
-      continue-on-error: true
       run: |
         uv run --frozen --group dev pyrefly check --summarize-errors
 

@@ -10,7 +10,7 @@ def chunks[T](
     iterable: Iterable[T],
     size: int = 2,
     pad: type[Sentinel] = Sentinel,
-) -> Generator[tuple[T, ...], None, None]: ...
+) -> Generator[tuple[T, ...]]: ...
 
 
 @t.overload
@@ -18,7 +18,7 @@ def chunks[T, P](
     iterable: Iterable[T],
     size: int,
     pad: P,
-) -> Generator[tuple[T | P, ...], None, None]: ...
+) -> Generator[tuple[T | P, ...]]: ...
 
 
 @t.overload
@@ -27,10 +27,10 @@ def chunks[T, P](
     *,
     pad: P,
     size: int = 2,
-) -> Generator[tuple[T | P, ...], None, None]: ...
+) -> Generator[tuple[T | P, ...]]: ...
 
 
-def chunks[T](iterable: Iterable[T], size: int = 2, pad: t.Any = Sentinel) -> Generator[tuple[t.Any, ...], None, None]:
+def chunks[T](iterable: Iterable[T], size: int = 2, pad: t.Any = Sentinel) -> Generator[tuple[t.Any, ...]]:
     """
     Iterates over an `iterable` by chunks of `size`.
 

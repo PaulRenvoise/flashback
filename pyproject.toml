@@ -2,7 +2,7 @@
 name = "flashback"
 description = "A collection of python utilities you might have written a couple of times already"
 readme = "README.md"
-version = "4.0.0"
+version = "4.0.1"
 
 authors = [
     { name = "Paul Renvoisé", email = "renvoisepaul@gmail.com" },
@@ -30,7 +30,7 @@ license-files = [
 requires-python = ">=3.12"
 
 dependencies = [
-    "cryptography>=46.0.4,<47.0.0",
+    "cryptography>=46.0.5,<47.0.0",
     "pygments>=2.19.0",
     "pymemcache>=4.0.0,<5.0.0",
     "redis>=7.1.0,<8.0.0",
@@ -69,59 +69,105 @@ dev = [
 
 line-length = 120
 
-target-version = 'py312'
+target-version = 'py313'
 
 [tool.ruff.lint]
 select = [
-  "F",
-  "E",
-  "W",
-  "N",
-  "YTT",
-  "ASYNC",
-  "B",
-  "BLE",
-  "A",
-  "COM",
-  "C4",
-  "EXE",
-  "FA",
-  "ISC",
-  "ICN",
-  "LOG",
-  "G",
-  "INP",
-  "PIE",
-  "T20",
-  "PYI",
-  "Q",
-  "RSE",
-  "RET",
-  "SLF",
-  "SIM",
-  "TCH",
-  "INT",
-  "ARG",
-  "FLY",
-  "PERF",
-  "RUF",
-  "PL",
-  "PT",
-  "UP",
+    "F",
+    "E",
+    "W",
+    "N",
+    "YTT",
+    "ASYNC",
+    "B",
+    "BLE",
+    "A",
+    "COM",
+    "C4",
+    "EXE",
+    "FA",
+    "ISC",
+    "ICN",
+    "LOG",
+    "G",
+    "INP",
+    "PIE",
+    "T20",
+    "PYI",
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SIM",
+    "TCH",
+    "INT",
+    "ARG",
+    "FLY",
+    "PERF",
+    "RUF",
+    "PL",
+    "PT",
+    "UP",
 ]
 ignore = [
-  "SIM108",
-  "TC003",
-  "TC002",
-  "B905",
+    "SIM108",
+    "TC003",
+    "TC002",
+    "B905",
 ]
 
 [tool.ruff.lint.pylint]
 allow-magic-value-types = ["str", "bytes", "int"]
 
 [tool.pyrefly]
-python-version = "3.12"
+python-version = "3.14"
 ignore-missing-imports = ["*"]
+
+[tool.pytest]
+addopts = ["--cov=flashback", "--cov-report=term-missing", "--cov-report=html", "-vv", "--durations=5"]
+testpaths = ["tests"]
+
+python_files = ["*_test.py"]
+python_classes = ["*Test"]
+python_functions = ["*_test"]
+
+[tool.coverage.run]
+# Whether to measure branch coverage in addition to statement coverage
+branch = true
+parallel = true
+omit = [
+    "tests/*",
+    ".eggs/*",
+    ".tox/*",
+    "docs/*",
+    "setup.py",
+    "flashback/formatting/locales/*"
+]
+
+[tool.coverage.report]
+format = "text"
+
+exclude_also = [
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit abstract members:
+    "@abstractmethod",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+
+# When running a summary report, show missing lines. See Coverage summary for more information
+show_missing = true
+
+fail_under = 95
 
 [tool.uv.build-backend]
 module-name = "flashback"
