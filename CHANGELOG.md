@@ -11,6 +11,7 @@
 - Made the CI fail if the Typecheck step fails
 - Refactored the tests to use `*_test.py`, `*Test` and `*_test` as collection regexes
 - Changed project development python version from 3.12 to 3.13
+- Upgraded cryptography to 46.0.5
 
 ## 4.0.0 (06/02/2026)
 
