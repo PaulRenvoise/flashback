@@ -1,4 +1,5 @@
 import collections
+from types import ModuleType
 
 import pytest
 import regex
@@ -188,6 +189,18 @@ class TestFormatter:
         assert "Contents:" in content
         assert "OrderedDict (type)" in content
         assert "(module)" in content
+
+    def test_module_with_empty_path(self, formatter: Formatter) -> None:
+        module = ModuleType("mock_module")
+        module.__path__ = []  # type: ignore[attr-defined]
+
+        arguments = [(None, module)]
+        content = formatter.format("<filename>", 1, arguments, None)
+
+        content = CRE_ANSI.sub("", content)
+        assert "Name:" in content
+        assert "Location:" in content
+        assert "<unknown>" in content
 
     def test_abc_meta(self, formatter: Formatter) -> None:
         arguments = [(None, MockClass)]
