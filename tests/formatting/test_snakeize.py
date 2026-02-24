@@ -23,6 +23,9 @@ class TestSnakeize:
     def test_dunder_name(self) -> None:
         assert snakeize("__dunderName__") == "__dunder_name__"
 
+    def test_empty_acronyms(self) -> None:
+        assert snakeize("stringio", acronyms=[]) == "stringio"
+
     def test_lowercase_and_acronyms(self) -> None:
         assert snakeize("stringio", acronyms=["IO"]) == "string_io"
 

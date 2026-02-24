@@ -23,6 +23,9 @@ class TestCamelize:
     def test_dunder_name(self) -> None:
         assert camelize("__dunder_name__") == "__dunderName__"
 
+    def test_empty_acronyms(self) -> None:
+        assert camelize("stringio", acronyms=[]) == "stringio"
+
     def test_lowercase_and_acronyms(self) -> None:
         assert camelize("stringio", acronyms=["IO"]) == "stringIO"
 

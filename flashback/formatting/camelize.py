@@ -47,7 +47,7 @@ def camelize(text: str, acronyms: Iterable[str] | None = None) -> str:
     text = snakeize(text, acronyms=acronyms)
 
     # Builds the pattern to handle acronyms
-    if acronyms is None:
+    if not acronyms:
         lower2upper = {}
         acronyms_pattern = r"(?=$)^"
     else:

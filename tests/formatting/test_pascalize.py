@@ -23,6 +23,9 @@ class TestPascalize:
     def test_dunder_name(self) -> None:
         assert pascalize("__dunder_name__") == "__DunderName__"
 
+    def test_empty_acronyms(self) -> None:
+        assert pascalize("stringio", acronyms=[]) == "Stringio"
+
     def test_lowercase_and_acronyms(self) -> None:
         assert pascalize("stringio", acronyms=["IO"]) == "StringIO"
 

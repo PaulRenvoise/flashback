@@ -44,7 +44,7 @@ def snakeize(text: str, acronyms: Iterable[str] | None = None) -> str:
     """
     text = str(text)
 
-    acronyms_pattern = r"(?=$)^" if acronyms is None else "|".join(acronyms)
+    acronyms_pattern = r"(?=$)^" if not acronyms else "|".join(acronyms)
     acronyms_snakeize_pattern = rf"({acronyms_pattern})"
 
     for match in regex.finditer(acronyms_snakeize_pattern, text, flags=regex.IGNORECASE):

@@ -23,6 +23,9 @@ class TestKebabize:
     def test_dunder_name(self) -> None:
         assert kebabize("__dunderName__") == "__dunder-name__"
 
+    def test_empty_acronyms(self) -> None:
+        assert kebabize("stringio", acronyms=[]) == "stringio"
+
     def test_lowercase_and_acronyms(self) -> None:
         assert kebabize("stringio", acronyms=["IO"]) == "string-io"
 
