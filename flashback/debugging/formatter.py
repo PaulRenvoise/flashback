@@ -207,11 +207,15 @@ class Formatter:
         prefix = current_indent * self._indent_str
         nested_prefix = next_indent * self._indent_str
         suffix = "\n"
+        location = getattr(module, "__file__", "<unknown>")
+        module_path = getattr(module, "__path__", ())
+        if len(module_path) > 0:
+            location = module_path[0]
 
         self._buffer.write("Name:\n")
         self._buffer.write(nested_prefix + module.__name__ + suffix)
         self._buffer.write(prefix + "Location:\n")
-        self._buffer.write(nested_prefix + module.__path__[0] + suffix)
+        self._buffer.write(nested_prefix + str(location) + suffix)
         self._buffer.write(prefix + "Contents:\n")
         nested_prefix += "- "
         for key, value in module.__dict__.items():
@@ -242,7 +246,7 @@ class Formatter:
         prefix = next_indent * self._indent_str
         separator = ": "
         suffix = ",\n"
-        start, end = self.TYPE_TO_SYMBOLS[mapping.__class__.__name__]
+        start, end = self.TYPE_TO_SYMBOLS.get(mapping.__class__.__name__, self.TYPE_TO_SYMBOLS["dict"])
 
         # We're be processing a defaultdict
         if "_TYPE_" in start:
