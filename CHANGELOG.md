@@ -1,10 +1,10 @@
 # Changelog
 
-## 4.0.1 (TBD)
+## 4.0.1 (04/03/2026)
 
 - Fixed handling of empty acronyms iterables in `formatting/camelize` and `formatting/snakeize`
 - Fixed `singleton` to gracefully handle a `None` namespace in `__new__` and `None` attributes in `__init__`
-- Fixed `borg` to handle emtpy attributes and empty callable parameters in `assign_attributes`
+- Fixed `borg` to handle empty attributes and empty callable parameters in `assign_attributes`
 - Fixed `debugging/formatter` to handle empty `module.__path__` and undefined symbols for Mapping class
 - Tested `iterating/compact` against a list containing different types, an against a list containing falsy values
     - Ensures that `iterating/compact` does not behave like `list(filter(None, items))` and keeps falsy values
