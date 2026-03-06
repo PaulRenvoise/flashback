@@ -11,7 +11,7 @@ from .fixtures import MockClass, mock_function, MockABC
 
 CRE_ANSI = re.compile(
     r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]",
-    re.IGNORECASE,
+    flags=re.IGNORECASE,
 )
 
 

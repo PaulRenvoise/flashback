@@ -52,7 +52,7 @@ class Locale:
                 )?
             )?
         """,
-        re.IGNORECASE + re.VERBOSE,
+        flags=re.IGNORECASE + re.VERBOSE,
     )
 
     @classmethod
