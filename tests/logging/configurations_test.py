@@ -1,7 +1,7 @@
 import logging.config
 
 import pytest
-import regex
+import re
 
 from flashback.logging import DEFAULT_CONSOLE_CONFIGURATION
 from flashback.logging import DJANGO_CONSOLE_CONFIGURATION
@@ -11,11 +11,11 @@ from flashback.logging import RAILS_CONSOLE_CONFIGURATION
 
 
 class ConfigurationsTest:
-    CRE_DEFAULT_FORMAT = regex.compile(r"[\d- :,]{23} - tests.logging - [^\s]+ - INFO - message\n$")
-    CRE_DJANGO_FORMAT = regex.compile(r"message\n$")
-    CRE_FLASK_FORMAT = regex.compile(r"\[[\d- :,]{23}\] INFO in configurations_test: message\n$")
-    CRE_PYRAMID_FORMAT = regex.compile(r"[\d- :,]{23} INFO  \[tests.logging:\d+\]\[[^\s]+\] message\n$")
-    CRE_RAILS_FORMAT = regex.compile(r"I, \[[\d-T:\.]{23} #\d+\]     INFO -- : message\n$")
+    CRE_DEFAULT_FORMAT = re.compile(r"[\d\- :,]{23} - tests.logging - [^\s]+ - INFO - message\n$")
+    CRE_DJANGO_FORMAT = re.compile(r"message\n$")
+    CRE_FLASK_FORMAT = re.compile(r"\[[\d\- :,]{23}\] INFO in configurations_test: message\n$")
+    CRE_PYRAMID_FORMAT = re.compile(r"[\d\- :,]{23} INFO  \[tests.logging:\d+\]\[[^\s]+\] message\n$")
+    CRE_RAILS_FORMAT = re.compile(r"I, \[[\d\-T:\.]{23} #\d+\]     INFO -- : message\n$")
 
     def default_console_configuration_test(self, capsys: pytest.CaptureFixture) -> None:
         logging.config.dictConfig(DEFAULT_CONSOLE_CONFIGURATION)

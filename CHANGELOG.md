@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.1.0 (06/03/2026)
+
+- Removed `regex` dependency
+
 ## 4.0.1 (04/03/2026)
 
 - Fixed handling of empty acronyms iterables in `formatting/camelize` and `formatting/snakeize`

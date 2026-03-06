@@ -7,7 +7,7 @@ Inspired by:
 - https://github.com/clips/pattern/blob/master/pattern/text/es/inflect.py
 """
 
-import regex
+import re
 
 
 # Prepositions are used in compound words
@@ -110,8 +110,8 @@ PLURAL_RULES: list[tuple[tuple[str, str, str | None], ...]] = [
 ]
 
 # For performance, compile the regular expressions once:
-COMPILED_PLURAL_RULES: list[list[tuple[regex.Pattern, str, str | None]]] = [
-    [(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in PLURAL_RULES
+COMPILED_PLURAL_RULES: list[list[tuple[re.Pattern, str, str | None]]] = [
+    [(re.compile(r[0]), r[1], r[2]) for r in grp] for grp in PLURAL_RULES
 ]
 
 # Suffix categories
@@ -192,8 +192,8 @@ SINGULAR_RULES: list[tuple[tuple[str, str, str | None], ...]] = [
 ]
 
 # For performance, compile the regular expressions once:
-COMPILED_SINGULAR_RULES: list[list[tuple[regex.Pattern, str, str | None]]] = [
-    [(regex.compile(r[0]), r[1], r[2]) for r in grp] for grp in SINGULAR_RULES
+COMPILED_SINGULAR_RULES: list[list[tuple[re.Pattern, str, str | None]]] = [
+    [(re.compile(r[0]), r[1], r[2]) for r in grp] for grp in SINGULAR_RULES
 ]
 
 # Suffix categories

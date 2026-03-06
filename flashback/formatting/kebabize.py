@@ -1,11 +1,11 @@
 from collections.abc import Iterable
 
-import regex
+import re
 
 from .snakeize import snakeize
 
 
-CRE_KEBABIZE_UNDERSCORES = regex.compile(r"(?<!(?:^|_))_(?!(?:_|$))")
+CRE_KEBABIZE_UNDERSCORES = re.compile(r"(?<!^)(?<!_)(_)([^_])")
 
 
 def kebabize(text: str, acronyms: Iterable[str] | None = None) -> str:
@@ -42,4 +42,5 @@ def kebabize(text: str, acronyms: Iterable[str] | None = None) -> str:
     Returns:
         the kebab cased text
     """
-    return CRE_KEBABIZE_UNDERSCORES.sub("-", snakeize(text, acronyms=acronyms))
+    snakeized_text = snakeize(text, acronyms=acronyms)
+    return CRE_KEBABIZE_UNDERSCORES.sub(lambda m: f"-{m.group(2)}", snakeized_text)
