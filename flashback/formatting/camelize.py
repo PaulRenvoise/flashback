@@ -1,14 +1,11 @@
 from collections.abc import Iterable
 
-import regex
+import re
 
 from .snakeize import snakeize
 
 
-CRE_CAMELIZE = regex.compile(
-    r"(?<!(?:^|-|_))[\-_](?![\-_])(.)",
-    flags=regex.IGNORECASE,
-)
+CRE_CAMELIZE = re.compile(r"(?<!^)(?<![-_])[\-_](?![-_])(.)")
 
 
 def camelize(text: str, acronyms: Iterable[str] | None = None) -> str:
@@ -58,7 +55,7 @@ def camelize(text: str, acronyms: Iterable[str] | None = None) -> str:
 
     text = CRE_CAMELIZE.sub(lambda m: m.group()[1:].upper(), text)
 
-    def replace(m: regex.Match) -> str:
+    def replace(m: re.Match) -> str:
         return lower2upper[m.group(1).lower()] + m.group(2).upper()
 
-    return regex.sub(acronyms_camelize_pattern, replace, text, flags=regex.IGNORECASE)
+    return re.sub(acronyms_camelize_pattern, replace, text, flags=re.IGNORECASE)

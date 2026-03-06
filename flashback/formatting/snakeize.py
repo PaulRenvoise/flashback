@@ -1,11 +1,11 @@
 from collections.abc import Iterable
 
-import regex
+import re
 
 
-CRE_SNAKEIZE_CAPITAL_WORDS = regex.compile(r"([A-Z\d]+)([A-Z][a-z])")
-CRE_SNAKEIZE_LOWER_WORDS = regex.compile(r"([a-z\d])([A-Z])")
-CRE_SNAKEIZE_UNDERSCORES = regex.compile(r"(?<!^)_(?=_.)")
+CRE_SNAKEIZE_CAPITAL_WORDS = re.compile(r"([A-Z\d]+)([A-Z][a-z])")
+CRE_SNAKEIZE_LOWER_WORDS = re.compile(r"([a-z\d])([A-Z])")
+CRE_SNAKEIZE_UNDERSCORES = re.compile(r"(?<!^)_(?=_.)")
 
 
 def snakeize(text: str, acronyms: Iterable[str] | None = None) -> str:
@@ -47,7 +47,7 @@ def snakeize(text: str, acronyms: Iterable[str] | None = None) -> str:
     acronyms_pattern = r"(?=$)^" if not acronyms else "|".join(acronyms)
     acronyms_snakeize_pattern = rf"({acronyms_pattern})"
 
-    for match in regex.finditer(acronyms_snakeize_pattern, text, flags=regex.IGNORECASE):
+    for match in re.finditer(acronyms_snakeize_pattern, text, flags=re.IGNORECASE):
         parts = []
 
         start = text[: match.start()]

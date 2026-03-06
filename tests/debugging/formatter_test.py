@@ -2,14 +2,17 @@ import collections
 from types import ModuleType
 
 import pytest
-import regex
+import re
 
 from flashback.debugging.formatter import Formatter
 
 from .fixtures import MockClass, mock_function, MockABC
 
 
-CRE_ANSI = regex.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]", regex.IGNORECASE)
+CRE_ANSI = re.compile(
+    r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]",
+    flags=re.IGNORECASE,
+)
 
 
 @pytest.fixture(scope="class")
@@ -310,7 +313,7 @@ class FormatterTest:
 
     def complex_dict_test(self, formatter: Formatter) -> None:
         dictionary = {
-            "regex": regex.compile(r"abc", regex.IGNORECASE),
+            "regex": re.compile(r"abc", flags=re.IGNORECASE),
             "set": {1, 2, 3},
             "list": [{"a": i, "b": (i for i in range(3))} for i in range(3)],
             "str": "This is a not-so-long yet not-so-short sentence.\n" * 3,
@@ -321,7 +324,7 @@ class FormatterTest:
         assert CRE_ANSI.sub("", content) == (
             "<filename>:1\n"
             "    {\n"
-            "        'regex': regex.Regex('abc', flags=regex.I | regex.V0),\n"
+            "        'regex': re.compile('abc', re.IGNORECASE),\n"
             "        'set': {\n"
             "            1,\n"
             "            2,\n"

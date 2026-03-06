@@ -5,7 +5,7 @@ import inspect
 import os
 import typing as t
 
-import regex
+import re
 
 from .get_call_context import get_call_context
 from .get_frameinfo import get_frameinfo
@@ -36,8 +36,8 @@ class Parser:
         ast.Subscript,
         ast.SetComp,
     )
-    CRE_OPENING_BRACKET = regex.compile(r"(\{|\[|\()\s")
-    CRE_CLOSING_BRACKET = regex.compile(r"\s(\}|\]|\))")
+    CRE_OPENING_BRACKET = re.compile(r"(\{|\[|\()\s")
+    CRE_CLOSING_BRACKET = re.compile(r"\s(\}|\]|\))")
 
     def __init__(self, _offset: int = 2) -> None:
         # This is useful for tests or direct call to `Parser.parse` (in that case use 1)

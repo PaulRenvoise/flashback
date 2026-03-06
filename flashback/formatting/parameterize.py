@@ -1,11 +1,11 @@
-import regex
+import re
 
 from .transliterate import transliterate
 
 
-CRE_PARAMETERIZE_NON_ALPHANUM = regex.compile(
+CRE_PARAMETERIZE_NON_ALPHANUM = re.compile(
     r"[^a-z0-9\-_]+",
-    flags=regex.IGNORECASE,
+    flags=re.IGNORECASE,
 )
 
 
@@ -47,13 +47,13 @@ def parameterize(text: str, sep: str = "-", keep_case: bool = False) -> str:
     text = CRE_PARAMETERIZE_NON_ALPHANUM.sub(sep, text)
 
     if sep:
-        sep = regex.escape(sep)  # type: ignore because regex is not typed
+        sep = re.escape(sep)
 
         # No more than one separator in a row
-        text = regex.sub(rf"{sep}{{2,}}", sep, text)
+        text = re.sub(rf"{sep}{{2,}}", sep, text)
 
         # Remove leading and trailing separators
-        text = regex.sub(rf"^{sep}|{sep}$", "", text)
+        text = re.sub(rf"^{sep}|{sep}$", "", text)
 
     if keep_case:
         return text

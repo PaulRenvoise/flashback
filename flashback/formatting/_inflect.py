@@ -1,21 +1,23 @@
 from collections.abc import Callable
 
-import regex
+import re
+import unicodedata
 
 
-CRE_INFLECT_ONLY_PUNCT_SYM_NUM = regex.compile(r"^[\p{P}\p{S}\p{N}]+$", flags=regex.U)
+def _is_only_punctuation_symbol_number(text: str) -> bool:
+    return bool(text) and all(unicodedata.category(ch)[0] in {"P", "S", "N"} for ch in text)
 
 
 def _inflect(
     word: str,
-    rules: list[list[tuple[regex.Pattern, str, str | None]]],
+    rules: list[list[tuple[re.Pattern, str, str | None]]],
     categories: dict[str, set[str]],
     prepositions: set[str],
     base_case: Callable[[str], str] = str.lower,
 ) -> str:
     word = base_case(str(word))
 
-    if CRE_INFLECT_ONLY_PUNCT_SYM_NUM.search(word):
+    if _is_only_punctuation_symbol_number(word):
         return word
 
     # Recurses over compound words like mothers-in-law, eco-friendly, post-nap
